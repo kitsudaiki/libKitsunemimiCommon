@@ -1,5 +1,5 @@
 /**
- *  @file    ioBuffer.h
+ *  @file    commonDataBuffer.h
  *  @author  Tobias Anker
  *
  *  @section DESCRIPTION
@@ -35,7 +35,6 @@ public:
 
 private:
     uint32_t m_numberOfBlocks = 0;
-    uint32_t m_storagePosition = 0;
 
     void *m_buffer = nullptr;
 

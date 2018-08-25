@@ -1,5 +1,5 @@
 /**
- *  @file    ioBuffer.cpp
+ *  @file    commonDataBuffer.cpp
  *  @author  Tobias Anker
  *
  *  @section DESCRIPTION
