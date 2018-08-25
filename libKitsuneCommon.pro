@@ -28,8 +28,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/commonThread.cpp \
-    src/commonTest.cpp
+    src/commonTest.cpp \
+    src/commonDataBuffer.cpp
 
 HEADERS += \
     include/libKitsuneCommon/commonThread.h \
-    include/libKitsuneCommon/commonTest.h
+    include/libKitsuneCommon/commonTest.h \
+    include/libKitsuneCommon/commonDataBuffer.h
