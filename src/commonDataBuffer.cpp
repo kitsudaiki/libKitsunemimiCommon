@@ -15,12 +15,16 @@ namespace Kitsune
 {
 
 /**
- * @brief CommonDataBuffer::CommonDataBuffer creates and initialize a buffer with a file
+ * @brief CommonDataBuffer::CommonDataBuffer
+ * @param numberOfBlocks
  */
-CommonDataBuffer::CommonDataBuffer()
+CommonDataBuffer::CommonDataBuffer(const uint32_t numberOfBlocks)
 {
     assert(BLOCKSIZE % 512 == 0);
-    allocateBlocks(1);
+    if(numberOfBlocks < 1) {
+        allocateBlocks(1);
+    }
+    allocateBlocks(numberOfBlocks);
 }
 
 /**
@@ -66,6 +70,15 @@ uint32_t CommonDataBuffer::getBlockSize() const
 }
 
 /**
+ * @brief CommonDataBuffer::getTotalBufferSize
+ * @return
+ */
+uint64_t CommonDataBuffer::getTotalBufferSize() const
+{
+    return m_numberOfBlocks * BLOCKSIZE;
+}
+
+/**
  * @brief CommonDataBuffer::getBufferPointer
  * @return
  */
@@ -89,11 +102,11 @@ uint8_t* CommonDataBuffer::getBlock(const uint32_t blockNumber)
 }
 
 /**
- * @brief CommonDataBuffer::setNumberOfWrittenBytes
+ * @brief CommonDataBuffer::addNumberOfWrittenBytes
  */
-void CommonDataBuffer::setNumberOfWrittenBytes(const uint32_t numberOfWrittenBytes)
+void CommonDataBuffer::addNumberOfWrittenBytes(const uint64_t numberOfWrittenBytes)
 {
-    m_numberOfWrittenBytes = numberOfWrittenBytes;
+    m_numberOfWrittenBytes += numberOfWrittenBytes;
 }
 
 /**
