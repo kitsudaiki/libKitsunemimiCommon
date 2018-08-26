@@ -100,7 +100,7 @@ void CommonDataBuffer::setNumberOfWrittenBytes(const uint32_t numberOfWrittenByt
  * @brief CommonDataBuffer::getNumberOfWrittenBytes
  * @return
  */
-uint32_t CommonDataBuffer::getNumberOfWrittenBytes() const
+uint64_t CommonDataBuffer::getNumberOfWrittenBytes() const
 {
     return m_numberOfWrittenBytes;
 }

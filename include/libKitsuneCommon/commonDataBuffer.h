@@ -34,7 +34,7 @@ public:
     uint8_t *getBlock(const uint32_t blockNumber);
 
     void setNumberOfWrittenBytes(const uint32_t numberOfWrittenBytes);
-    uint32_t getNumberOfWrittenBytes() const;
+    uint64_t getNumberOfWrittenBytes() const;
 
 private:
     uint32_t m_numberOfBlocks = 0;
