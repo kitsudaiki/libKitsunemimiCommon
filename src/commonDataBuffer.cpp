@@ -89,6 +89,23 @@ uint8_t* CommonDataBuffer::getBlock(const uint32_t blockNumber)
 }
 
 /**
+ * @brief CommonDataBuffer::setNumberOfWrittenBytes
+ */
+void CommonDataBuffer::setNumberOfWrittenBytes(const uint32_t numberOfWrittenBytes)
+{
+    m_numberOfWrittenBytes = numberOfWrittenBytes;
+}
+
+/**
+ * @brief CommonDataBuffer::getNumberOfWrittenBytes
+ * @return
+ */
+uint32_t CommonDataBuffer::getNumberOfWrittenBytes() const
+{
+    return m_numberOfWrittenBytes;
+}
+
+/**
  * @brief CommonDataBuffer::allocateBlocks allocate more memory for the buffer
  * @param numberOfBlocks number of blocks to allocate
  * @return true, if successful, else false

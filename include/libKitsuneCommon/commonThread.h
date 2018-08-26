@@ -13,6 +13,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <pthread.h>
 
 namespace Kitsune
 {
@@ -27,7 +28,7 @@ class CommonThread
 
 public:
     CommonThread();
-    ~CommonThread();
+    virtual ~CommonThread();
 
     bool start();
     bool stop();
@@ -37,10 +38,10 @@ public:
 
     bool isActive() const;
 
-    virtual void run() = 0;
-
 protected:
     std::thread* m_thread = nullptr;
+    uint32_t m_coreId = 0xFFFFFFFF;
+
     bool m_abort = false;
     bool m_block = false;
     bool m_active = false;
@@ -50,10 +51,12 @@ protected:
     std::condition_variable m_cv;
 
     void blockThread();
-    void sleepThread(const uint32_t seconrs);
+    void sleepThread(const uint32_t uSeconds);
 
     void mutexLock();
     void mutexUnlock();
+
+    virtual void run() = 0;
 };
 
 }

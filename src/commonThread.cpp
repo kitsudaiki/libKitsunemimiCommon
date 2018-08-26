@@ -17,7 +17,6 @@ namespace Kitsune
  */
 CommonThread::CommonThread()
 {
-
 }
 
 /**
@@ -39,6 +38,15 @@ bool CommonThread::start()
     }
     m_abort = false;
     m_thread = new std::thread(&CommonThread::run, this);
+
+    /*if(m_coreId != 0xFFFFFFFF)
+    {
+        cpu_set_t cpuset;
+        CPU_ZERO(&cpuset);
+        CPU_SET(m_coreId, &cpuset);
+
+        //pthread_attr_setaffinity_np(m_thread->native_handle(), sizeof(cpu_set_t), &cpuset);
+    }*/
     return true;
 }
 
@@ -102,9 +110,10 @@ void CommonThread::blockThread()
 /**
  * @brief CommonThread::sleepThread
  */
-void CommonThread::sleepThread(const uint32_t seconrs)
+void CommonThread::sleepThread(const uint32_t uSeconds)
 {
-    std::this_thread::sleep_for(chronoSec(seconrs));
+    // TODO: check accuracy
+    std::this_thread::sleep_for(chronoMicroSec(uSeconds));
 }
 
 /**
