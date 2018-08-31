@@ -42,6 +42,7 @@ public:
 
     uint32_t getNumberOfBuffer();
     CommonDataBuffer* getCommonDataBuffer(const uint32_t pos);
+    bool clearBuffer();
 
 protected:
     std::thread* m_thread = nullptr;

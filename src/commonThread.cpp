@@ -166,4 +166,23 @@ CommonDataBuffer *CommonThread::getCommonDataBuffer(const uint32_t pos)
     return result;
 }
 
+/**
+ * @brief CommonThread::clearBuffer
+ * @return
+ */
+bool CommonThread::clearBuffer()
+{
+    bool result = false;
+    mutexLock();
+    if(m_dataBuffer.size() > 0) {
+        result = true;
+        for(uint32_t i = 0; i < m_dataBuffer.size(); i++) {
+            delete m_dataBuffer[i];
+        }
+    }
+    m_dataBuffer.clear();
+    mutexUnlock();
+    return result;
+}
+
 }
