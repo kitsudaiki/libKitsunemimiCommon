@@ -25,7 +25,10 @@ public:
     CommonDataBuffer(void* data, uint32_t size);
     ~CommonDataBuffer();
 
+    void addData(void* data, const uint64_t size);
+
     bool allocateBlocks(const uint32_t numberOfBlocks);
+    void resetBuffer();
 
     uint32_t getNumberOfBlocks() const;
     uint32_t getBlockSize() const;
@@ -37,11 +40,21 @@ public:
     void addNumberOfWrittenBytes(const uint64_t numberOfWrittenBytes);
     uint64_t getNumberOfWrittenBytes() const;
 
+    template <typename T>
+    bool addData(T *data)
+    {
+        if(data != nullptr && this != nullptr) {
+            addData((void*)data, sizeof(T));
+            return true;
+        }
+        return false;
+    }
+
 private:
     uint32_t m_numberOfBlocks = 0;
     uint64_t m_numberOfWrittenBytes = 0;
 
-    void *m_buffer = nullptr;
+    void* m_buffer = nullptr;
 
     void* aligned_malloc(const uint32_t numberOfBytes);
     bool aligned_free(void *ptr);

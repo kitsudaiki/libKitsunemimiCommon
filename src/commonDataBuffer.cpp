@@ -52,6 +52,20 @@ CommonDataBuffer::~CommonDataBuffer()
 }
 
 /**
+ * @brief CommonDataBuffer::addData
+ * @param data
+ * @param size
+ */
+void CommonDataBuffer::addData(void *data, const uint64_t size)
+{
+    if(m_numberOfWrittenBytes + size >= m_numberOfBlocks * BLOCKSIZE) {
+        allocateBlocks(1);
+    }
+    memcpy((uint8_t*)m_buffer + m_numberOfWrittenBytes, data, size);
+    m_numberOfWrittenBytes += size;
+}
+
+/**
  * @brief CommonDataBuffer::getNumberOfBlocks
  * @return number of current allocated blocks
  */
@@ -145,6 +159,15 @@ bool CommonDataBuffer::allocateBlocks(const uint32_t numberOfBlocks)
     m_buffer = newBuffer;
 
     return true;
+}
+
+/**
+ * @brief CommonDataBuffer::resetBuffer
+ */
+void CommonDataBuffer::resetBuffer()
+{
+    aligned_free(m_buffer);
+    m_buffer = aligned_malloc(1 * BLOCKSIZE);
 }
 
 /**
