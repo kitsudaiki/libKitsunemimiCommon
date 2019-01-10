@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       -= qt core gui
 
 TARGET = KitsuneCommon
 TEMPLATE = lib
