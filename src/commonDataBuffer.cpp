@@ -58,8 +58,10 @@ CommonDataBuffer::~CommonDataBuffer()
  */
 void CommonDataBuffer::addData(void *data, const uint64_t size)
 {
-    if(m_numberOfWrittenBytes + size >= m_numberOfBlocks * BLOCKSIZE) {
-        allocateBlocks(1);
+    if(m_numberOfWrittenBytes + size >= m_numberOfBlocks * BLOCKSIZE)
+    {
+        const uint32_t newBlockNum = (size / BLOCKSIZE) + 1;
+        allocateBlocks(newBlockNum);
     }
     memcpy((uint8_t*)m_buffer + m_numberOfWrittenBytes, data, size);
     m_numberOfWrittenBytes += size;
