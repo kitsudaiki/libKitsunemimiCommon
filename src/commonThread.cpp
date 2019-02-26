@@ -98,17 +98,6 @@ void CommonThread::mutexUnlock()
 }
 
 /**
- * @brief CommonThread::addDataBuffer
- * @param dataBuffer
- */
-void CommonThread::addDataBuffer(CommonDataBuffer *dataBuffer)
-{
-    mutexLock();
-    m_dataBuffer.push_back(dataBuffer);
-    mutexUnlock();
-}
-
-/**
  * @brief CommonThread::blockThread
  */
 void CommonThread::blockThread()
@@ -135,54 +124,6 @@ void CommonThread::sleepThread(const uint32_t uSeconds)
 bool CommonThread::isActive() const
 {
     return m_active;
-}
-
-/**
- * @brief CommonThread::getNumberOfBuffer
- * @return
- */
-uint32_t CommonThread::getNumberOfBuffer()
-{
-    uint32_t result = 0;
-    mutexLock();
-    result = m_dataBuffer.size();
-    mutexUnlock();
-    return result;
-}
-
-/**
- * @brief CommonThread::getCommonDataBuffer
- * @param pos
- * @return
- */
-CommonDataBuffer *CommonThread::getCommonDataBuffer(const uint32_t pos)
-{
-    CommonDataBuffer* result = nullptr;
-    mutexLock();
-    if(pos < m_dataBuffer.size()) {
-        result = m_dataBuffer.at(pos);
-    }
-    mutexUnlock();
-    return result;
-}
-
-/**
- * @brief CommonThread::clearBuffer
- * @return
- */
-bool CommonThread::clearBuffer()
-{
-    bool result = false;
-    mutexLock();
-    if(m_dataBuffer.size() > 0) {
-        result = true;
-        for(uint32_t i = 0; i < m_dataBuffer.size(); i++) {
-            delete m_dataBuffer[i];
-        }
-    }
-    m_dataBuffer.clear();
-    mutexUnlock();
-    return result;
 }
 
 }

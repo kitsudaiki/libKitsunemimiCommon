@@ -170,6 +170,8 @@ void CommonDataBuffer::resetBuffer()
 {
     aligned_free(m_buffer);
     m_buffer = aligned_malloc(1 * BLOCKSIZE);
+    m_numberOfWrittenBytes = 0;
+    m_numberOfBlocks = 1;
 }
 
 /**

@@ -40,10 +40,6 @@ public:
 
     bool isActive() const;
 
-    uint32_t getNumberOfBuffer();
-    CommonDataBuffer* getCommonDataBuffer(const uint32_t pos);
-    bool clearBuffer();
-
 protected:
     std::thread* m_thread = nullptr;
     uint32_t m_coreId = 0xFFFFFFFF;
@@ -56,15 +52,11 @@ protected:
     std::mutex m_cvMutex;
     std::condition_variable m_cv;
 
-    std::vector<CommonDataBuffer*> m_dataBuffer;
-
     void blockThread();
     void sleepThread(const uint32_t uSeconds);
 
     void mutexLock();
     void mutexUnlock();
-
-    void addDataBuffer(CommonDataBuffer* dataBuffer);
 
     virtual void run() = 0;
 };
