@@ -39,6 +39,7 @@ bool CommonThread::start()
     }
     m_abort = false;
     m_thread = new std::thread(&CommonThread::run, this);
+    m_active = true;
 
     /*if(m_coreId != 0xFFFFFFFF)
     {
@@ -57,11 +58,12 @@ bool CommonThread::start()
  */
 bool CommonThread::stop()
 {
-    if(!m_active) {
+    if(m_active == false) {
         return false;
     }
     m_abort = true;
     m_thread->join();
+    m_active = false;
     return true;
 }
 
