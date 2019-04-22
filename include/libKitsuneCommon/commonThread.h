@@ -29,7 +29,7 @@ class CommonThread
     typedef std::chrono::high_resolution_clock chronoClock;
 
 public:
-    CommonThread();
+    CommonThread(const int coreId = -1);
     virtual ~CommonThread();
 
     bool start();
@@ -39,10 +39,11 @@ public:
     void initBlockThread();
 
     bool isActive() const;
+    bool bindThreadToCore(const int coreId);
 
 protected:
     std::thread* m_thread = nullptr;
-    uint32_t m_coreId = 0xFFFFFFFF;
+    int m_coreId = -1;
 
     bool m_abort = false;
     bool m_block = false;
