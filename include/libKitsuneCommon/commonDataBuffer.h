@@ -29,6 +29,7 @@ public:
 
     bool allocateBlocks(const uint32_t numberOfBlocks);
     void resetBuffer();
+    void resetBufferPosition();
 
     uint32_t getNumberOfBlocks() const;
     uint32_t getBlockSize() const;

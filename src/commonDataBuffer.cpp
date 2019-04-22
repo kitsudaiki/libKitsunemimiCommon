@@ -56,7 +56,8 @@ CommonDataBuffer::~CommonDataBuffer()
  * @param data
  * @param size
  */
-void CommonDataBuffer::addData(void *data, const uint64_t size)
+void
+CommonDataBuffer::addData(void *data, const uint64_t size)
 {
     if(m_numberOfWrittenBytes + size >= m_numberOfBlocks * BLOCKSIZE)
     {
@@ -71,7 +72,8 @@ void CommonDataBuffer::addData(void *data, const uint64_t size)
  * @brief CommonDataBuffer::getNumberOfBlocks
  * @return number of current allocated blocks
  */
-uint32_t CommonDataBuffer::getNumberOfBlocks() const
+uint32_t
+CommonDataBuffer::getNumberOfBlocks() const
 {
     return m_numberOfBlocks;
 }
@@ -80,7 +82,8 @@ uint32_t CommonDataBuffer::getNumberOfBlocks() const
  * @brief CommonDataBuffer::getBlockSize
  * @return
  */
-uint32_t CommonDataBuffer::getBlockSize() const
+uint32_t
+CommonDataBuffer::getBlockSize() const
 {
     return BLOCKSIZE;
 }
@@ -89,7 +92,8 @@ uint32_t CommonDataBuffer::getBlockSize() const
  * @brief CommonDataBuffer::getTotalBufferSize
  * @return
  */
-uint64_t CommonDataBuffer::getTotalBufferSize() const
+uint64_t
+CommonDataBuffer::getTotalBufferSize() const
 {
     return m_numberOfBlocks * BLOCKSIZE;
 }
@@ -98,7 +102,8 @@ uint64_t CommonDataBuffer::getTotalBufferSize() const
  * @brief CommonDataBuffer::getBufferPointer
  * @return
  */
-uint8_t *CommonDataBuffer::getBufferPointer()
+uint8_t*
+CommonDataBuffer::getBufferPointer()
 {
     return (uint8_t*)m_buffer;
 }
@@ -108,7 +113,8 @@ uint8_t *CommonDataBuffer::getBufferPointer()
  * @param blockNumber
  * @return
  */
-uint8_t* CommonDataBuffer::getBlock(const uint32_t blockNumber)
+uint8_t*
+CommonDataBuffer::getBlock(const uint32_t blockNumber)
 {
     if(blockNumber >= m_numberOfBlocks) {
         return nullptr;
@@ -120,7 +126,8 @@ uint8_t* CommonDataBuffer::getBlock(const uint32_t blockNumber)
 /**
  * @brief CommonDataBuffer::addNumberOfWrittenBytes
  */
-void CommonDataBuffer::addNumberOfWrittenBytes(const uint64_t numberOfWrittenBytes)
+void
+CommonDataBuffer::addNumberOfWrittenBytes(const uint64_t numberOfWrittenBytes)
 {
     m_numberOfWrittenBytes += numberOfWrittenBytes;
 }
@@ -129,7 +136,8 @@ void CommonDataBuffer::addNumberOfWrittenBytes(const uint64_t numberOfWrittenByt
  * @brief CommonDataBuffer::getNumberOfWrittenBytes
  * @return
  */
-uint64_t CommonDataBuffer::getNumberOfWrittenBytes() const
+uint64_t
+CommonDataBuffer::getNumberOfWrittenBytes() const
 {
     return m_numberOfWrittenBytes;
 }
@@ -139,7 +147,8 @@ uint64_t CommonDataBuffer::getNumberOfWrittenBytes() const
  * @param numberOfBlocks number of blocks to allocate
  * @return true, if successful, else false
  */
-bool CommonDataBuffer::allocateBlocks(const uint32_t numberOfBlocks)
+bool
+CommonDataBuffer::allocateBlocks(const uint32_t numberOfBlocks)
 {
     if(numberOfBlocks == 0) {
         return true;
@@ -175,11 +184,21 @@ void CommonDataBuffer::resetBuffer()
 }
 
 /**
+ * @brief CommonDataBuffer::resetBufferPosition
+ */
+void
+CommonDataBuffer::resetBufferPosition()
+{
+     m_numberOfWrittenBytes = 0;
+}
+
+/**
  * @brief CommonDataBuffer::aligned_malloc allocate a number of aligned bytes
  * @param numberOfBytes bytes to allocate
  * @return pointer to the allocated memory
  */
-void* CommonDataBuffer::aligned_malloc(const uint32_t numberOfBytes)
+void*
+CommonDataBuffer::aligned_malloc(const uint32_t numberOfBytes)
 {
     void *mem = malloc(numberOfBytes+BLOCKSIZE+sizeof(void*));
     void **ptr = (void**)((uintptr_t)((uint8_t*)mem+BLOCKSIZE+sizeof(void*)) & ~(BLOCKSIZE-1));
@@ -193,7 +212,8 @@ void* CommonDataBuffer::aligned_malloc(const uint32_t numberOfBytes)
  * @param ptr pointer to the memory to free
  * @return true, if pointer not nullptr, else false
  */
-bool CommonDataBuffer::aligned_free(void *ptr)
+bool
+CommonDataBuffer::aligned_free(void *ptr)
 {
     if(ptr != nullptr) {
         free(((void**)ptr)[-1]);
