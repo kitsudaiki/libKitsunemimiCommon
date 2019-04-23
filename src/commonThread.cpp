@@ -16,8 +16,9 @@ namespace Kitsune
 /**
  * @brief CommonThread::CommonThread
  */
-CommonThread::CommonThread()
+CommonThread::CommonThread(int coreId)
 {
+    m_coreId = coreId;
 }
 
 /**
@@ -41,8 +42,9 @@ CommonThread::bindThreadToCore(const int coreId)
     CPU_ZERO(&cpuset);
     CPU_SET(coreId, &cpuset);
 
-    pthread_t current_thread = pthread_self();
-    int ret = pthread_setaffinity_np(current_thread, sizeof(cpu_set_t), &cpuset);
+    int ret = pthread_setaffinity_np(m_thread->native_handle(),
+                                     sizeof(cpu_set_t),
+                                     &cpuset);
 
     if(ret != 0) {
         return false;
@@ -63,6 +65,10 @@ CommonThread::start()
     m_abort = false;
     m_thread = new std::thread(&CommonThread::run, this);
     m_active = true;
+
+    if(m_coreId >= 0) {
+        bindThreadToCore(m_coreId);
+    }
 
     return true;
 }
