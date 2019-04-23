@@ -1,10 +1,8 @@
 /**
  *  @file    commonThread.h
+ *
  *  @author  Tobias Anker
- *
- *  @section DESCRIPTION
- *
- *  TODO: Description
+ *  Contact: tobias.anker@kitsunemimi.moe
  */
 
 #ifndef COMMONTHREAD_H
@@ -29,7 +27,7 @@ class CommonThread
     typedef std::chrono::high_resolution_clock chronoClock;
 
 public:
-    CommonThread();
+    CommonThread(int coreId = -1);
     virtual ~CommonThread();
 
     bool start();
@@ -39,14 +37,16 @@ public:
     void initBlockThread();
 
     bool isActive() const;
+    bool bindThreadToCore(const int coreId);
 
 protected:
     std::thread* m_thread = nullptr;
-    uint32_t m_coreId = 0xFFFFFFFF;
 
     bool m_abort = false;
     bool m_block = false;
     bool m_active = false;
+
+    int m_coreId = -1;
 
     std::mutex m_mutex;
     std::mutex m_cvMutex;
