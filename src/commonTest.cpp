@@ -1,3 +1,10 @@
+/**
+ *  @file    commonTest.cpp
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ */
+
 #include "commonTest.h"
 
 namespace Kitsune

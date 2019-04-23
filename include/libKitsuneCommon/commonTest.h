@@ -1,3 +1,10 @@
+/**
+ *  @file    commonTest.h
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ */
+
 #ifndef COMMONTEST_H
 #define COMMONTEST_H
 

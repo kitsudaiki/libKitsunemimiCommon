@@ -1,10 +1,8 @@
 /**
  *  @file    commonDataBuffer.h
+ *
  *  @author  Tobias Anker
- *
- *  @section DESCRIPTION
- *
- *  TODO: Description
+ *  Contact: tobias.anker@kitsunemimi.moe
  */
 
 #ifndef RAMMEMORY_H
