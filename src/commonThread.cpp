@@ -1,10 +1,8 @@
 /**
  *  @file    commonThread.cpp
+ *
  *  @author  Tobias Anker
- *
- *  @section DESCRIPTION
- *
- *  TODO: Description
+ *  Contact: tobias.anker@kitsunemimi.moe
  */
 
 #include "commonThread.h"
