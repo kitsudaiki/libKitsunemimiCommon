@@ -7,8 +7,6 @@
 
 #include <commonDataBuffer.h>
 
-#define BLOCKSIZE 4096
-
 namespace Kitsune
 {
 
@@ -18,7 +16,7 @@ namespace Kitsune
  */
 CommonDataBuffer::CommonDataBuffer(const uint32_t numberOfBlocks)
 {
-    assert(BLOCKSIZE % 512 == 0);
+    assert(BUFFER_BLOCKSIZE % 512 == 0);
     if(numberOfBlocks < 1) {
         allocateBlocks(1);
     }
@@ -33,7 +31,7 @@ CommonDataBuffer::CommonDataBuffer(void *data, uint32_t size)
 {
     if(m_buffer == nullptr && size > 0) {
         m_buffer = data;
-        m_numberOfBlocks = (size / BLOCKSIZE) + 1;
+        m_numberOfBlocks = (size / BUFFER_BLOCKSIZE) + 1;
     }
 }
 
@@ -57,9 +55,9 @@ CommonDataBuffer::~CommonDataBuffer()
 void
 CommonDataBuffer::addData(void *data, const uint64_t size)
 {
-    if(m_numberOfWrittenBytes + size >= m_numberOfBlocks * BLOCKSIZE)
+    if(m_numberOfWrittenBytes + size >= m_numberOfBlocks * BUFFER_BLOCKSIZE)
     {
-        const uint32_t newBlockNum = (size / BLOCKSIZE) + 1;
+        const uint32_t newBlockNum = (size / BUFFER_BLOCKSIZE) + 1;
         allocateBlocks(newBlockNum);
     }
     memcpy((uint8_t*)m_buffer + m_numberOfWrittenBytes, data, size);
@@ -83,7 +81,7 @@ CommonDataBuffer::getNumberOfBlocks() const
 uint32_t
 CommonDataBuffer::getBlockSize() const
 {
-    return BLOCKSIZE;
+    return BUFFER_BLOCKSIZE;
 }
 
 /**
@@ -93,7 +91,7 @@ CommonDataBuffer::getBlockSize() const
 uint64_t
 CommonDataBuffer::getTotalBufferSize() const
 {
-    return m_numberOfBlocks * BLOCKSIZE;
+    return m_numberOfBlocks * BUFFER_BLOCKSIZE;
 }
 
 /**
@@ -118,7 +116,7 @@ CommonDataBuffer::getBlock(const uint32_t blockNumber)
         return nullptr;
     }
 
-    return (uint8_t*)m_buffer+(blockNumber * BLOCKSIZE);
+    return (uint8_t*)m_buffer+(blockNumber * BUFFER_BLOCKSIZE);
 }
 
 /**
@@ -154,12 +152,12 @@ CommonDataBuffer::allocateBlocks(const uint32_t numberOfBlocks)
 
     // create the new buffer
     uint32_t newSize = m_numberOfBlocks + numberOfBlocks;
-    void* newBuffer = aligned_malloc(newSize * BLOCKSIZE);
-    memset(newBuffer, 0, newSize * BLOCKSIZE);
+    void* newBuffer = aligned_malloc(newSize * BUFFER_BLOCKSIZE);
+    memset(newBuffer, 0, newSize * BUFFER_BLOCKSIZE);
 
     // copy the content of the old buffer to the new and deallocate the old
     if(m_buffer != nullptr) {
-        memcpy(newBuffer, m_buffer, m_numberOfBlocks * BLOCKSIZE);
+        memcpy(newBuffer, m_buffer, m_numberOfBlocks * BUFFER_BLOCKSIZE);
         aligned_free(m_buffer);
     }
 
@@ -176,7 +174,7 @@ CommonDataBuffer::allocateBlocks(const uint32_t numberOfBlocks)
 void CommonDataBuffer::resetBuffer()
 {
     aligned_free(m_buffer);
-    m_buffer = aligned_malloc(1 * BLOCKSIZE);
+    m_buffer = aligned_malloc(1 * BUFFER_BLOCKSIZE);
     m_numberOfWrittenBytes = 0;
     m_numberOfBlocks = 1;
 }
@@ -198,8 +196,8 @@ CommonDataBuffer::resetBufferPosition()
 void*
 CommonDataBuffer::aligned_malloc(const uint32_t numberOfBytes)
 {
-    void *mem = malloc(numberOfBytes+BLOCKSIZE+sizeof(void*));
-    void **ptr = (void**)((uintptr_t)((uint8_t*)mem+BLOCKSIZE+sizeof(void*)) & ~(BLOCKSIZE-1));
+    void *mem = malloc(numberOfBytes+BUFFER_BLOCKSIZE+sizeof(void*));
+    void **ptr = (void**)((uintptr_t)((uint8_t*)mem+BUFFER_BLOCKSIZE+sizeof(void*)) & ~(BUFFER_BLOCKSIZE-1));
     ptr[-1] = mem;
     memset(ptr, 0, numberOfBytes);
     return ptr;

@@ -14,11 +14,18 @@
 #include <string>
 #include <assert.h>
 
+#define BUFFER_BLOCKSIZE 4096
+
 namespace Kitsune
 {
+
 class CommonDataBuffer
 {
 public:
+    uint32_t m_numberOfBlocks = 0;
+    uint64_t m_numberOfWrittenBytes = 0;
+    void* m_buffer = nullptr;
+
     CommonDataBuffer(const uint32_t numberOfBlocks = 1);
     CommonDataBuffer(void* data, uint32_t size);
     ~CommonDataBuffer();
@@ -50,11 +57,6 @@ public:
     }
 
 private:
-    uint32_t m_numberOfBlocks = 0;
-    uint64_t m_numberOfWrittenBytes = 0;
-
-    void* m_buffer = nullptr;
-
     void* aligned_malloc(const uint32_t numberOfBytes);
     bool aligned_free(void *ptr);
 };
