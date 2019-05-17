@@ -3,16 +3,20 @@
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
  */
 
 #ifndef RAMMEMORY_H
 #define RAMMEMORY_H
 
-#include <stdint.h>
 #include <string.h>
 #include <iostream>
-#include <string>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
 
 #include <buffering/commonDataBufferMethods.h>
 
@@ -23,7 +27,7 @@ struct CommonDataBuffer
 {
     uint32_t blockSize = 4096;
     uint32_t numberOfBlocks = 0;
-    uint64_t numberOfWrittenBytes = 0;
+    uint64_t bufferPosition = 0;
     uint64_t totalBufferSize = 0;
     uint8_t* data = nullptr;
 
@@ -48,8 +52,9 @@ struct CommonDataBuffer
     ~CommonDataBuffer()
     {
         // deallocate the buffer
-        if(aligned_free(data))
+        if(data != nullptr)
         {
+            free(data);
             data = nullptr;
             numberOfBlocks = 0;
         }

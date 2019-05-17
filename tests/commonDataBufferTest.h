@@ -21,10 +21,13 @@ public:
     CommonDataBufferTest();
 
 private:
-    void initTestCase();
-    void parserPositiveTest();
-    void parserNegativeTest();
-    void cleanupTestCase();
+    void testConstructor();
+    void testCopyConstructor();
+    void testAddData();
+    void testAddDataToBuffer();
+    void testGetBlock();
+    void testAllocateBlocks();
+    void testResetBuffer();
 };
 
 }

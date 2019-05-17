@@ -9,6 +9,9 @@
 
 #include <iostream>
 
+#include <commonDataBufferTest.h>
+
 int main()
 {
+    Kitsune::CommonDataBufferTest();
 }
