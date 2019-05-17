@@ -26,7 +26,7 @@ namespace Kitsune
 struct CommonDataBuffer
 {
     uint32_t blockSize = 4096;
-    uint32_t numberOfBlocks = 0;
+    uint64_t numberOfBlocks = 0;
     uint64_t bufferPosition = 0;
     uint64_t totalBufferSize = 0;
     uint8_t* data = nullptr;
@@ -61,13 +61,13 @@ struct CommonDataBuffer
     }
 
     uint8_t*
-    getBlock(const uint32_t position)
+    getBlock(const uint32_t blockPosition)
     {
-        if(position >= numberOfBlocks) {
+        if(blockPosition >= numberOfBlocks) {
             return nullptr;
         }
 
-        return &data[position * blockSize];
+        return &data[blockPosition * blockSize];
     }
 
     template <typename T>
@@ -81,8 +81,7 @@ struct CommonDataBuffer
         }
         return false;
     }
-};
-
+} __attribute__((packed));
 
 }
 

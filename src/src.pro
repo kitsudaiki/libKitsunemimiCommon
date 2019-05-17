@@ -11,7 +11,6 @@ INCLUDEPATH += $$PWD \
 SOURCES += \
     threading/commonThread.cpp \
     testing/commonTest.cpp \
-    buffering/commonDataBuffer.cpp \
     buffering/commonDataBufferMethods.cpp
 
 HEADERS += \

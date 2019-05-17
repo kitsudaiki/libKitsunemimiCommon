@@ -10,19 +10,23 @@ namespace Kitsune
  * @param data
  * @param size
  */
-void
+bool
 addDataToBuffer(CommonDataBuffer* buffer,
                 uint8_t* data,
                 const uint64_t size)
 {
+    if(size == 0 || data == nullptr) {
+        return false;
+    }
     if(buffer->bufferPosition + size
             >= buffer->numberOfBlocks * buffer->blockSize)
     {
-        const uint32_t newBlockNum = (size / buffer->blockSize) + 1;
+        const uint64_t newBlockNum = (size / buffer->blockSize) + 1;
         allocateBlocks(buffer, newBlockNum);
     }
-    memcpy((uint8_t*)buffer + buffer->bufferPosition, data, size);
+    memcpy(&buffer->data[buffer->bufferPosition], data, size);
     buffer->bufferPosition += size;
+    return true;
 }
 
 /**
@@ -32,14 +36,14 @@ addDataToBuffer(CommonDataBuffer* buffer,
  * @return true, if successful, else false
  */
 bool
-allocateBlocks(CommonDataBuffer* buffer, const uint32_t numberOfBlocks)
+allocateBlocks(CommonDataBuffer* buffer, const uint64_t numberOfBlocks)
 {
     if(numberOfBlocks == 0) {
         return true;
     }
 
     // create the new buffer
-    uint32_t newSize = numberOfBlocks + buffer->numberOfBlocks;
+    uint64_t newSize = numberOfBlocks + buffer->numberOfBlocks;
     uint8_t* newBuffer =  (uint8_t*)aligned_alloc(buffer->blockSize, newSize * buffer->blockSize);
     if(newBuffer == nullptr) {
         return false;
@@ -55,21 +59,30 @@ allocateBlocks(CommonDataBuffer* buffer, const uint32_t numberOfBlocks)
 
     // set the new values
     buffer->numberOfBlocks = newSize;
+    buffer->totalBufferSize = newSize * buffer->blockSize;
     buffer->data = newBuffer;
 
     return true;
 }
 
 /**
- * @brief CommonDataBuffer::resetBuffer
+ * @brief resetBuffer
+ * @param buffer
+ * @return
  */
-void
+bool
 resetBuffer(CommonDataBuffer *buffer)
 {
+    if(buffer->data == nullptr) {
+        return false;
+    }
     free(buffer->data);
     buffer->data = (uint8_t*)aligned_alloc(buffer->blockSize, buffer->blockSize);
+    memset(buffer->data, 0, buffer->blockSize);
     buffer->bufferPosition = 0;
+    buffer->totalBufferSize = buffer->blockSize;
     buffer->numberOfBlocks = 1;
+    return true;
 }
 
 }
