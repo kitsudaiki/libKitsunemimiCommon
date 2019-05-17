@@ -5,8 +5,8 @@
  *  Contact: tobias.anker@kitsunemimi.moe
  */
 
-#include "commonThread.h"
-#include <commonDataBuffer.h>
+#include <threading/commonThread.h>
+#include <buffering/commonDataBuffer.h>
 
 namespace Kitsune
 {
