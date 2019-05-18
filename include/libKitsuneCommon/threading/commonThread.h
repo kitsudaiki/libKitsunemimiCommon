@@ -53,7 +53,7 @@ protected:
     std::condition_variable m_cv;
 
     void blockThread();
-    void sleepThread(const uint32_t uSeconds);
+    bool sleepThread(const uint32_t uSeconds);
 
     void mutexLock();
     void mutexUnlock();
