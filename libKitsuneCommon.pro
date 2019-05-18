@@ -1,19 +1,8 @@
-QT       -= qt core gui
+TEMPLATE = subdirs
+CONFIG += ordered
 
-TARGET = KitsuneCommon
-TEMPLATE = lib
-CONFIG += c++14
-CONFIG += staticlib
+SUBDIRS = \
+   src \
+   tests
 
-INCLUDEPATH += $$PWD \
-            include/libKitsuneCommon
-
-SOURCES += \
-    src/commonThread.cpp \
-    src/commonTest.cpp \
-    src/commonDataBuffer.cpp
-
-HEADERS += \
-    include/libKitsuneCommon/commonThread.h \
-    include/libKitsuneCommon/commonTest.h \
-    include/libKitsuneCommon/commonDataBuffer.h
+tests.depends = src
