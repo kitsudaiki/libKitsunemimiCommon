@@ -118,7 +118,7 @@ void CommonDataBufferTest::testResetBuffer()
 
     UNITTEST(testBuffer.addData(&testStruct), true);
 
-    UNITTEST(resetBuffer(&testBuffer), true);
+    resetBuffer(&testBuffer);
 
     UNITTEST(testBuffer.numberOfBlocks, 1);
     UNITTEST(testBuffer.bufferPosition, 0);

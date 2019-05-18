@@ -31,6 +31,11 @@ struct CommonDataBuffer
     uint64_t totalBufferSize = 0;
     uint8_t* data = nullptr;
 
+    /**
+     * create and initialize a new buffer
+     *
+     * @param numberOfBlocks number of block of the initial allocation (at least one)
+     */
     CommonDataBuffer(const uint32_t numberOfBlocks=1)
     {
         assert(blockSize % 512 == 0);
@@ -40,15 +45,31 @@ struct CommonDataBuffer
         allocateBlocks(this, numberOfBlocks);
     }
 
-    CommonDataBuffer(uint8_t *data, const uint32_t size)
+    /**
+     * simple construct which use allready allocated memory.
+     * If this existing buffer is not a multiple of the blocksize,
+     * it allocate new memory with a valid size.
+     *
+     * @param data pointer to the already allocated memory
+     * @param size size of the allocated memory
+     */
+    CommonDataBuffer(uint8_t* data, const uint32_t size)
     {
         if(data == nullptr && size > 0)
         {
             this->data = data;
             numberOfBlocks = (size / blockSize) + 1;
+            totalBufferSize = blockSize * numberOfBlocks;
+
+            if(size % blockSize != 0) {
+                allocateBlocks(this, 1);
+            }
         }
     }
 
+    /**
+     * destructor to clear the allocated memory inside this object
+     */
     ~CommonDataBuffer()
     {
         // deallocate the buffer
@@ -60,6 +81,12 @@ struct CommonDataBuffer
         }
     }
 
+    /**
+     * get a pointer to a specific block inside the buffer
+     *
+     * @param blockPosition number of the block inside the buffer
+     * @return pointer to the buffer-position
+     */
     uint8_t*
     getBlock(const uint32_t blockPosition)
     {
@@ -70,6 +97,11 @@ struct CommonDataBuffer
         return &data[blockPosition * blockSize];
     }
 
+    /**
+     * add an object to the buffer
+     *
+     * @param data pointer to the object, which shoulb be written to the buffer
+     */
     template <typename T>
     bool
     addData(T *data)
@@ -81,6 +113,7 @@ struct CommonDataBuffer
         }
         return false;
     }
+
 } __attribute__((packed));
 
 }

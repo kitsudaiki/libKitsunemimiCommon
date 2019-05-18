@@ -6,9 +6,12 @@ namespace Kitsune
 {
 
 /**
- * @brief CommonDataBuffer::addData
+ * @brief addDataToBuffer
+ *
+ * @param buffer pointer to buffer-object
  * @param data
  * @param size
+ * @return
  */
 bool
 addDataToBuffer(CommonDataBuffer* buffer,
@@ -18,20 +21,27 @@ addDataToBuffer(CommonDataBuffer* buffer,
     if(size == 0 || data == nullptr) {
         return false;
     }
+
+    // check buffer-size and allocate more memory if necessary
     if(buffer->bufferPosition + size
             >= buffer->numberOfBlocks * buffer->blockSize)
     {
         const uint64_t newBlockNum = (size / buffer->blockSize) + 1;
         allocateBlocks(buffer, newBlockNum);
     }
+
+    // copy the new data into the buffer
     memcpy(&buffer->data[buffer->bufferPosition], data, size);
     buffer->bufferPosition += size;
+
     return true;
 }
 
 /**
- * allocate more memory for the buffer
+ * allocate more memory for the buffer.
+ * It allocates a bigger memory-block an copy the old buffer-content into the new.
  *
+ * @param buffer pointer to buffer-object
  * @param numberOfBlocks number of blocks to allocate
  * @return true, if successful, else false
  */
@@ -44,7 +54,10 @@ allocateBlocks(CommonDataBuffer* buffer, const uint64_t numberOfBlocks)
 
     // create the new buffer
     uint64_t newSize = numberOfBlocks + buffer->numberOfBlocks;
-    uint8_t* newBuffer =  (uint8_t*)aligned_alloc(buffer->blockSize, newSize * buffer->blockSize);
+    uint8_t* newBuffer =  static_cast<uint8_t*>(aligned_alloc(buffer->blockSize,
+                                                              newSize * buffer->blockSize));
+
+    // prepare new allocated memory
     if(newBuffer == nullptr) {
         return false;
     }
@@ -66,23 +79,27 @@ allocateBlocks(CommonDataBuffer* buffer, const uint64_t numberOfBlocks)
 }
 
 /**
- * @brief resetBuffer
- * @param buffer
- * @return
+ * reset a buffer and clears the data, so it is like the buffer is totally new
+ *
+ * @param buffer pointer to buffer-object
  */
-bool
+void
 resetBuffer(CommonDataBuffer *buffer)
 {
-    if(buffer->data == nullptr) {
-        return false;
+    // deallocate ald buffer if possible
+    if(buffer->data != nullptr) {
+        free(buffer->data);
     }
-    free(buffer->data);
-    buffer->data = (uint8_t*)aligned_alloc(buffer->blockSize, buffer->blockSize);
+
+    // allocate one single block as new buffer-data
+    buffer->data = static_cast<uint8_t*>(aligned_alloc(buffer->blockSize,
+                                                       buffer->blockSize));
     memset(buffer->data, 0, buffer->blockSize);
+
+    // reset metadata of the buffer
     buffer->bufferPosition = 0;
     buffer->totalBufferSize = buffer->blockSize;
     buffer->numberOfBlocks = 1;
-    return true;
 }
 
 }

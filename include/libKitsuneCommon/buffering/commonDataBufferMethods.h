@@ -16,7 +16,7 @@ bool addDataToBuffer(CommonDataBuffer *buffer,
                      const uint64_t size);
 bool allocateBlocks(CommonDataBuffer *buffer,
                     const uint64_t numberOfBlocks);
-bool resetBuffer(CommonDataBuffer *buffer);
+void resetBuffer(CommonDataBuffer *buffer);
 }
 
 #endif // COMMONDATABUFFERMETHODS_H
