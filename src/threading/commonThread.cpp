@@ -78,6 +78,8 @@ CommonThread::start()
 bool
 CommonThread::stop()
 {
+    // TODO: check that the thread doesn't typ to stop itself,
+    //       because it results into a deadlock
     if(m_active == false) {
         return false;
     }
@@ -138,11 +140,15 @@ CommonThread::blockThread()
 /**
  * @brief CommonThread::sleepThread
  */
-void
+bool
 CommonThread::sleepThread(const uint32_t uSeconds)
 {
-    // TODO: check accuracy
+    // less than 10 milliseconds doesn't make sense
+    if(uSeconds < 10) {
+        return false;
+    }
     std::this_thread::sleep_for(chronoMicroSec(uSeconds));
+    return true;
 }
 
 /**
