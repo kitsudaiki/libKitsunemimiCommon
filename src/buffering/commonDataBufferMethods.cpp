@@ -15,7 +15,7 @@ namespace Kitsune
  */
 bool
 addDataToBuffer(CommonDataBuffer* buffer,
-                uint8_t* data,
+                const uint8_t* data,
                 const uint64_t size)
 {
     if(size == 0 || data == nullptr) {

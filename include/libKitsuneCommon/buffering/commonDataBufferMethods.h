@@ -12,7 +12,7 @@ struct CommonDataBuffer;
 
 
 bool addDataToBuffer(CommonDataBuffer *buffer,
-                     uint8_t *data,
+                     const uint8_t *data,
                      const uint64_t size);
 bool allocateBlocks(CommonDataBuffer *buffer,
                     const uint64_t numberOfBlocks);
