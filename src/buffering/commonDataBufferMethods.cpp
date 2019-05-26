@@ -18,7 +18,9 @@ addDataToBuffer(CommonDataBuffer* buffer,
                 const uint8_t* data,
                 const uint64_t size)
 {
-    if(size == 0 || data == nullptr) {
+    if(size == 0 || data == nullptr
+            || buffer->bufferPosition + size > buffer->totalBufferSize)
+    {
         return false;
     }
 
@@ -82,9 +84,11 @@ allocateBlocks(CommonDataBuffer* buffer, const uint64_t numberOfBlocks)
  * reset a buffer and clears the data, so it is like the buffer is totally new
  *
  * @param buffer pointer to buffer-object
+ * @param numberOfBlocks
  */
 void
-resetBuffer(CommonDataBuffer *buffer)
+resetBuffer(CommonDataBuffer *buffer,
+            const uint32_t numberOfBlocks)
 {
     // deallocate ald buffer if possible
     if(buffer->data != nullptr) {
@@ -93,13 +97,13 @@ resetBuffer(CommonDataBuffer *buffer)
 
     // allocate one single block as new buffer-data
     buffer->data = static_cast<uint8_t*>(aligned_alloc(buffer->blockSize,
-                                                       buffer->blockSize));
+                                                       numberOfBlocks * buffer->blockSize));
     memset(buffer->data, 0, buffer->blockSize);
 
     // reset metadata of the buffer
     buffer->bufferPosition = 0;
-    buffer->totalBufferSize = buffer->blockSize;
-    buffer->numberOfBlocks = 1;
+    buffer->totalBufferSize = numberOfBlocks * buffer->blockSize;
+    buffer->numberOfBlocks = numberOfBlocks;
 }
 
 }
