@@ -30,6 +30,7 @@ struct CommonDataBuffer
     uint64_t bufferPosition = 0;
     uint64_t totalBufferSize = 0;
     uint8_t* data = nullptr;
+    uint8_t inUse = 0;
 
     /**
      * create and initialize a new buffer
@@ -73,9 +74,10 @@ struct CommonDataBuffer
     ~CommonDataBuffer()
     {
         // deallocate the buffer
-        if(data != nullptr)
+        if(data != nullptr && inUse == 1)
         {
-            free(data);
+            alignedFree(data);
+            inUse = 0;
             data = nullptr;
             numberOfBlocks = 0;
         }

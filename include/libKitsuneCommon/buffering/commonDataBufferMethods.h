@@ -18,6 +18,11 @@ bool allocateBlocks(CommonDataBuffer *buffer,
                     const uint64_t numberOfBlocks);
 void resetBuffer(CommonDataBuffer *buffer,
                  const uint32_t numberOfBlocks=1);
+
+void* alignedMalloc(const uint16_t blockSize,
+                     const uint32_t numberOfBytes);
+bool alignedFree(void *ptr);
+
 }
 
 #endif // COMMONDATABUFFERMETHODS_H

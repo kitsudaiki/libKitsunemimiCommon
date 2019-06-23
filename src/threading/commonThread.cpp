@@ -147,7 +147,7 @@ CommonThread::sleepThread(const uint32_t uSeconds)
     if(uSeconds < 10) {
         return false;
     }
-    std::this_thread::sleep_for(chronoMicroSec(uSeconds));
+    std::this_thread::sleep_for(std::chrono::microseconds(uSeconds));
     return true;
 }
 

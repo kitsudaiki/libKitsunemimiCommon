@@ -2,7 +2,7 @@ QT       -= qt core gui
 
 TARGET = KitsuneCommon
 TEMPLATE = lib
-CONFIG += c++14
+CONFIG += c++17
 CONFIG += staticlib
 
 INCLUDEPATH += $$PWD \
