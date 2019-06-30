@@ -1,0 +1,6 @@
+# LibKitsuneCommon
+
+## License
+
+MIT License
+
