@@ -10,7 +10,7 @@ build:
     - mkdir libKitsuneCommon
     - cd libKitsuneCommon
 
-    - /usr/lib/x86_64-linux-gnu/qt5/bin/qmake /builds/kitsune_libs/libKitsuneCommon/libKitsuneCommon.pro -spec linux-g++ CONFIG+=debug CONFIG+=c++14
+    - /usr/lib/x86_64-linux-gnu/qt5/bin/qmake /builds/kitsune_libs/libKitsuneCommon/libKitsuneCommon.pro -spec linux-g++
     - /usr/bin/make
 
     - cd tests
