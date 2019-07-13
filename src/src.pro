@@ -17,4 +17,6 @@ HEADERS += \
     ../include/libKitsuneCommon/threading/commonThread.h \
     ../include/libKitsuneCommon/testing/commonTest.h \
     ../include/libKitsuneCommon/buffering/commonDataBuffer.h \
-    ../include/libKitsuneCommon/buffering/commonDataBufferMethods.h
+    ../include/libKitsuneCommon/buffering/commonDataBufferMethods.h \
+    ../include/libKitsuneCommon/commonMethods/vectorMethods.h \
+    ../include/libKitsuneCommon/commonMethods/stringMethods.h

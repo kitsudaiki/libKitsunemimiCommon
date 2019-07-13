@@ -10,8 +10,12 @@ INCLUDEPATH += $$PWD
 LIBS += -L../src -lKitsuneCommon
 
 HEADERS += \
-    commonDataBufferTest.h
+    buffering/commonDataBufferTest.h \
+    commonMethods/stringMethodsTest.h \
+    commonMethods/vectorMethodsTest.h
 
 SOURCES += \
-    commonDataBufferTest.cpp \
-    main.cpp
+    buffering/commonDataBufferTest.cpp \
+    main.cpp \
+    commonMethods/stringMethodsTest.cpp \
+    commonMethods/vectorMethodsTest.cpp
