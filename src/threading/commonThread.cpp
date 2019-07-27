@@ -72,6 +72,22 @@ CommonThread::start()
 }
 
 /**
+ * @brief CommonThread::waitForFinish
+ * @return
+ */
+bool
+CommonThread::waitForFinish()
+{
+    if(m_active == false) {
+        return false;
+    }
+    if(m_thread->joinable()) {
+        m_thread->join();
+    }
+    return true;
+}
+
+/**
  * @brief CommonThread::stop
  * @return
  */
@@ -84,7 +100,9 @@ CommonThread::stop()
         return false;
     }
     m_abort = true;
-    m_thread->join();
+    if(m_thread->joinable()) {
+        m_thread->join();
+    }
     m_active = false;
     return true;
 }

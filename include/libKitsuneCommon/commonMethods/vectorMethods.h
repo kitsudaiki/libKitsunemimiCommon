@@ -12,7 +12,7 @@ namespace Kitsune
 /**
  * remove from a vector of strings all entries, which contains only a empty string
  */
-bool
+inline bool
 removeEmptyStrings(std::vector<std::string> *inputVector)
 {
     // precheck

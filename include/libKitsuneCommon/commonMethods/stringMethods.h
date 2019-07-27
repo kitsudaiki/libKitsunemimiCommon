@@ -14,7 +14,7 @@ namespace Kitsune
  *
  * @return vector with the string parts
  */
-std::vector<std::string>
+inline std::vector<std::string>
 splitString(const std::string &inputString,
             const char delim)
 {

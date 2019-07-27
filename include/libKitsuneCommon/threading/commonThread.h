@@ -26,6 +26,7 @@ public:
 
     bool start();
     bool stop();
+    bool waitForFinish();
 
     void continueThread();
     void initBlockThread();
