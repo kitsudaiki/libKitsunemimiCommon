@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef COMMONDATABUFFERMETHODS_H
-#define COMMONDATABUFFERMETHODS_H
+#ifndef COMMONDATABUFFERMETHODS_HPP
+#define COMMONDATABUFFERMETHODS_HPP
 
 #include <string.h>
 #include <stdio.h>
@@ -22,16 +22,16 @@ struct CommonDataBuffer;
 
 bool addDataToBuffer(CommonDataBuffer *buffer,
                      const void* data,
-                     const uint64_t size);
+                     const uint64_t dataSize);
 bool allocateBlocks(CommonDataBuffer* buffer,
                     const uint64_t numberOfBlocks);
-void resetBuffer(CommonDataBuffer* buffer,
+bool resetBuffer(CommonDataBuffer* buffer,
                  const uint64_t numberOfBlocks = 1);
 
 void* alignedMalloc(const uint16_t blockSize,
                     const uint64_t numberOfBytes);
 bool alignedFree(void *ptr);
 
-}
+} // namespace Kitsune
 
-#endif // COMMONDATABUFFERMETHODS_H
+#endif // COMMONDATABUFFERMETHODS_HPP

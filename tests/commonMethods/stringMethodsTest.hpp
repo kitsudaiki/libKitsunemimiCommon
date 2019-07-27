@@ -24,6 +24,6 @@ private:
     void testSplitString();
 };
 
-}
+} // namespace Kitsune
 
 #endif // STRINGMETHODSTEST_H

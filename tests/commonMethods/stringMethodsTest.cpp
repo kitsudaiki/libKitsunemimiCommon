@@ -14,7 +14,8 @@
 namespace Kitsune
 {
 
-StringMethodsTest::StringMethodsTest() : Kitsune::CommonTest("StringMethodsTest")
+StringMethodsTest::StringMethodsTest()
+    : Kitsune::CommonTest("StringMethodsTest")
 {
     testSplitString();
 }
@@ -34,4 +35,4 @@ void StringMethodsTest::testSplitString()
     UNITTEST(resultNeg.size(), 0);
 }
 
-}
+} // namespace Kitsune

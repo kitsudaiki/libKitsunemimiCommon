@@ -22,6 +22,7 @@ public:
 
 private:
     void testConstructor();
+    void testStructSize();
     void testCopyConstructor();
     void testAddData();
     void testAddDataToBuffer();
@@ -30,6 +31,6 @@ private:
     void testResetBuffer();
 };
 
-}
+} // namespace Kitsune
 
 #endif // COMMONDATABUFFERTEST_H

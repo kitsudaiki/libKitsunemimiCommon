@@ -40,6 +40,6 @@ removeEmptyStrings(std::vector<std::string> *inputVector)
     return true;
 }
 
-}
+} // namespace Kitsune
 
 #endif // VECTORMETHODS_H

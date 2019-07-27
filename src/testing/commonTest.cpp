@@ -29,4 +29,4 @@ CommonTest::~CommonTest()
     }
 }
 
-}
+} // namespace Kitsune

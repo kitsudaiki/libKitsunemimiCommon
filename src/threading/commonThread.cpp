@@ -188,4 +188,4 @@ CommonThread::isActive() const
     return m_active;
 }
 
-}
+} // namespace Kitsune

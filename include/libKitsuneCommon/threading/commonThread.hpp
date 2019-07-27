@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef COMMONTHREAD_H
-#define COMMONTHREAD_H
+#ifndef COMMONTHREAD_HPP
+#define COMMONTHREAD_HPP
 
 #include <mutex>
 #include <condition_variable>
@@ -58,6 +58,6 @@ protected:
     virtual void run() = 0;
 };
 
-}
+} // namespace Kitsune
 
-#endif // COMMONTHREAD_H
+#endif // COMMONTHREAD_HPP

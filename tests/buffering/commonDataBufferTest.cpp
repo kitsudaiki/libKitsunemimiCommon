@@ -21,10 +21,12 @@ struct TestStruct
     uint64_t c = 0;
 } __attribute__((packed));
 
-CommonDataBufferTest::CommonDataBufferTest() : Kitsune::CommonTest("CommonDataBufferTest")
+CommonDataBufferTest::CommonDataBufferTest()
+    : Kitsune::CommonTest("CommonDataBufferTest")
 {
     testConstructor();
     testCopyConstructor();
+    testStructSize();
     testAddDataToBuffer();
     testAddData();
     testGetBlock();
@@ -42,6 +44,12 @@ void CommonDataBufferTest::testConstructor()
     UNITTEST(testBuffer.numberOfBlocks, 10);
 }
 
+void CommonDataBufferTest::testStructSize()
+{
+    CommonDataBuffer testBuffer(10);
+    UNITTEST(sizeof(CommonDataBuffer) % 8, 0);
+}
+
 void CommonDataBufferTest::testCopyConstructor()
 {
     // TODO
@@ -56,7 +64,8 @@ void CommonDataBufferTest::testAddDataToBuffer()
 
     UNITTEST(testBuffer.bufferPosition, 0);
 
-    UNITTEST(addDataToBuffer(&testBuffer, static_cast<void*>(&testStruct), sizeof(TestStruct)), true);
+    void* testStructPtr = static_cast<void*>(&testStruct);
+    UNITTEST(addDataToBuffer(&testBuffer, testStructPtr, sizeof(TestStruct)), true);
 
     UNITTEST(testBuffer.bufferPosition, 10);
     uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
@@ -123,7 +132,7 @@ void CommonDataBufferTest::testResetBuffer()
 
     UNITTEST(testBuffer.addData(&testStruct), true);
 
-    resetBuffer(&testBuffer, 2);
+    UNITTEST(resetBuffer(&testBuffer, 2), true);
 
     UNITTEST(testBuffer.numberOfBlocks, 2);
     UNITTEST(testBuffer.bufferPosition, 0);
@@ -132,4 +141,4 @@ void CommonDataBufferTest::testResetBuffer()
     UNITTEST(static_cast<int>(dataByte[1]), 0);
 }
 
-}
+} // namespace Kitsune

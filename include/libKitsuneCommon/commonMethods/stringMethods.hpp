@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef STRINGMETHODS_H
-#define STRINGMETHODS_H
+#ifndef STRINGMETHODS_HPP
+#define STRINGMETHODS_HPP
 
 #include <string>
 #include <iostream>
@@ -46,6 +46,6 @@ splitString(const std::string &inputString,
     return result;
 }
 
-}
+} // namespace Kitsune
 
-#endif // STRINGMETHODS_H
+#endif // STRINGMETHODS_HPP

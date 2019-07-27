@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef COMMONTEST_H
-#define COMMONTEST_H
+#ifndef COMMONTEST_HPP
+#define COMMONTEST_HPP
 
 #include <string>
 #include <iostream>
@@ -58,6 +58,6 @@ protected:
     uint32_t m_failedTests = 0;
 };
 
-}
+} // namespace Kitsune
 
-#endif // COMMONTEST_H
+#endif // COMMONTEST_HPP

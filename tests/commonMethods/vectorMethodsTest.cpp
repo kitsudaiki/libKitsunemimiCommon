@@ -14,7 +14,8 @@
 namespace Kitsune
 {
 
-VectorMethodsTest::VectorMethodsTest() : Kitsune::CommonTest("VectorMethodsTest")
+VectorMethodsTest::VectorMethodsTest()
+    : Kitsune::CommonTest("VectorMethodsTest")
 {
     testRemoveEmptyStrings();
 }
@@ -33,4 +34,4 @@ void VectorMethodsTest::testRemoveEmptyStrings()
     UNITTEST(removeEmptyStrings(nullptr), false);
 }
 
-}
+} // namespace Kitsune

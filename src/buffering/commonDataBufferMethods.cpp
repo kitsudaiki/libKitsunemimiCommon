@@ -18,33 +18,34 @@ namespace Kitsune
  *
  * @param buffer pointer to buffer-object
  * @param data
- * @param size
+ * @param dataSize
+ *
  * @return
  */
 bool
 addDataToBuffer(CommonDataBuffer* buffer,
                 const void* data,
-                const uint64_t size)
+                const uint64_t dataSize)
 {
     // precheck
-    if(size == 0
+    if(dataSize == 0
             || data == nullptr
-            || buffer->bufferPosition + size > buffer->totalBufferSize)
+            || buffer->bufferPosition + dataSize > buffer->totalBufferSize)
     {
         return false;
     }
 
     // check buffer-size and allocate more memory if necessary
-    if(buffer->bufferPosition + size >= buffer->numberOfBlocks * buffer->blockSize)
+    if(buffer->bufferPosition + dataSize >= buffer->numberOfBlocks * buffer->blockSize)
     {
-        const uint64_t newBlockNum = (size / buffer->blockSize) + 1;
+        const uint64_t newBlockNum = (dataSize / buffer->blockSize) + 1;
         allocateBlocks(buffer, newBlockNum);
     }
 
     // copy the new data into the buffer
     uint8_t* dataByte = static_cast<uint8_t*>(buffer->data);
-    memcpy(&dataByte[buffer->bufferPosition], data, size);
-    buffer->bufferPosition += size;
+    memcpy(&dataByte[buffer->bufferPosition], data, dataSize);
+    buffer->bufferPosition += dataSize;
 
     return true;
 }
@@ -55,6 +56,7 @@ addDataToBuffer(CommonDataBuffer* buffer,
  *
  * @param buffer pointer to buffer-object
  * @param numberOfBlocks number of blocks to allocate
+ *
  * @return true, if successful, else false
  */
 bool
@@ -70,15 +72,13 @@ allocateBlocks(CommonDataBuffer* buffer,
     uint64_t newSize = numberOfBlocks + buffer->numberOfBlocks;
     void* newBuffer =  alignedMalloc(buffer->blockSize,
                                      newSize * buffer->blockSize);
-
-    // prepare new allocated memory
     if(newBuffer == nullptr) {
         return false;
     }
-    memset(newBuffer, 0, newSize * buffer->blockSize);
 
     // copy the content of the old buffer to the new and deallocate the old
-    if(buffer->data != nullptr && buffer->inUse == 1)
+    if(buffer->data != nullptr
+            && buffer->inUse == 1)
     {
         memcpy(newBuffer, buffer->data, numberOfBlocks * buffer->blockSize);
         alignedFree(buffer->data);
@@ -97,27 +97,42 @@ allocateBlocks(CommonDataBuffer* buffer,
  * reset a buffer and clears the data, so it is like the buffer is totally new
  *
  * @param buffer pointer to buffer-object
- * @param numberOfBlocks
+ * @param numberOfBlocks number of new allocated blocks after buffer-reset
+ *
+ * @return false if precheck or allocation failed, else true
  */
-void
+bool
 resetBuffer(CommonDataBuffer* buffer,
             const uint64_t numberOfBlocks)
 {
+    // precheck
+    if(buffer == nullptr
+            || numberOfBlocks == 0)
+    {
+        return false;
+    }
+
     // deallocate ald buffer if possible
-    if(buffer->data != nullptr && buffer->inUse == 1) {
+    if(buffer->data != nullptr
+            && buffer->inUse == 1)
+    {
         alignedFree(buffer->data);
     }
 
-    // allocate one single block as new buffer-data
-    buffer->data = static_cast<uint8_t*>(alignedMalloc(buffer->blockSize,
-                                                       numberOfBlocks * buffer->blockSize));
-    memset(buffer->data, 0, buffer->blockSize);
+    // allocate at least one single block as new buffer-data
+    void* newBuffer = alignedMalloc(buffer->blockSize,
+                                    numberOfBlocks * buffer->blockSize);
+    if(newBuffer == nullptr) {
+        return false;
+    }
 
     // reset metadata of the buffer
     buffer->inUse = 1;
     buffer->bufferPosition = 0;
     buffer->totalBufferSize = numberOfBlocks * buffer->blockSize;
     buffer->numberOfBlocks = numberOfBlocks;
+
+    return true;
 }
 
 
@@ -125,13 +140,17 @@ resetBuffer(CommonDataBuffer* buffer,
  * allocate a number of aligned bytes
  *
  * @param numberOfBytes bytes to allocate
- * @return pointer to the allocated memory
+ *
+ * @return pointer to the allocated memory or nullptr if blocksize is not a multiple of 512
+ *         or allocation failed
  */
 void*
 alignedMalloc(const uint16_t blockSize,
               const uint64_t numberOfBytes)
 {
     // precheck
+    // have to be a multiple of 512 to be able for direct write operations in
+    // the persistence library
     if(blockSize % 512 != 0) {
         return nullptr;
     }
@@ -151,8 +170,10 @@ alignedMalloc(const uint16_t blockSize,
 
 /**
  * free aligned memory
+ * this method is a bit useless, but I wanted a equivalent for the alignedMalloc-method
  *
  * @param ptr pointer to the memory to free
+ *
  * @return true, if pointer not nullptr, else false
  */
 bool
@@ -165,9 +186,8 @@ alignedFree(void* ptr)
 
     // free data
     free(ptr);
-    ptr = nullptr;
 
     return true;
 }
 
-}
+} // namespace Kitsune

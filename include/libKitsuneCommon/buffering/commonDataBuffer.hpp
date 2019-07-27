@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef RAMMEMORY_H
-#define RAMMEMORY_H
+#ifndef COMMONDATABUFFER_HPP
+#define COMMONDATABUFFER_HPP
 
 #include <string.h>
 #include <iostream>
@@ -25,12 +25,14 @@ namespace Kitsune
 
 struct CommonDataBuffer
 {
-    uint32_t blockSize = 4096;
+    uint16_t blockSize = 4096;
     uint64_t numberOfBlocks = 0;
     uint64_t bufferPosition = 0;
     uint64_t totalBufferSize = 0;
     void* data = nullptr;
     uint8_t inUse = 0;
+    // padding to expand the size of the struct to a multiple of 8
+    uint8_t padding[5];
 
     /**
      * create and initialize a new buffer
@@ -113,17 +115,21 @@ struct CommonDataBuffer
     bool
     addData(T* data)
     {
-        if(data != nullptr
-                && data != nullptr)
-        {
-            addDataToBuffer(this, data, sizeof(T));
-            return true;
-        }
-        return false;
+        return addDataToBuffer(this, data, sizeof(T));
+    }
+
+    /**
+     * @brief reset
+     * @return
+     */
+    bool
+    reset()
+    {
+        return resetBuffer(this);
     }
 
 } __attribute__((packed));
 
-}
+} // namespace Kitsune
 
-#endif // RAMMEMORY_H
+#endif // COMMONDATABUFFER_HPP
