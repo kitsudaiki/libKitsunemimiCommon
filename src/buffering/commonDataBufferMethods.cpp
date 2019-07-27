@@ -1,6 +1,14 @@
-#include <buffering/commonDataBufferMethods.h>
+/**
+ *  @file    commonTest.cpp
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
+ */
 
-#include <buffering/commonDataBuffer.h>
+#include <buffering/commonDataBufferMethods.hpp>
+#include <buffering/commonDataBuffer.hpp>
 
 namespace Kitsune
 {
@@ -15,10 +23,12 @@ namespace Kitsune
  */
 bool
 addDataToBuffer(CommonDataBuffer* buffer,
-                const uint8_t* data,
+                const void* data,
                 const uint64_t size)
 {
-    if(size == 0 || data == nullptr
+    // precheck
+    if(size == 0
+            || data == nullptr
             || buffer->bufferPosition + size > buffer->totalBufferSize)
     {
         return false;
@@ -32,7 +42,8 @@ addDataToBuffer(CommonDataBuffer* buffer,
     }
 
     // copy the new data into the buffer
-    memcpy(&buffer->data[buffer->bufferPosition], data, size);
+    uint8_t* dataByte = static_cast<uint8_t*>(buffer->data);
+    memcpy(&dataByte[buffer->bufferPosition], data, size);
     buffer->bufferPosition += size;
 
     return true;
@@ -47,16 +58,18 @@ addDataToBuffer(CommonDataBuffer* buffer,
  * @return true, if successful, else false
  */
 bool
-allocateBlocks(CommonDataBuffer* buffer, const uint64_t numberOfBlocks)
+allocateBlocks(CommonDataBuffer* buffer,
+               const uint64_t numberOfBlocks)
 {
+    // precheck
     if(numberOfBlocks == 0) {
         return true;
     }
 
     // create the new buffer
     uint64_t newSize = numberOfBlocks + buffer->numberOfBlocks;
-    uint8_t* newBuffer =  static_cast<uint8_t*>(alignedMalloc(buffer->blockSize,
-                                                              newSize * buffer->blockSize));
+    void* newBuffer =  alignedMalloc(buffer->blockSize,
+                                     newSize * buffer->blockSize);
 
     // prepare new allocated memory
     if(newBuffer == nullptr) {
@@ -87,8 +100,8 @@ allocateBlocks(CommonDataBuffer* buffer, const uint64_t numberOfBlocks)
  * @param numberOfBlocks
  */
 void
-resetBuffer(CommonDataBuffer *buffer,
-            const uint32_t numberOfBlocks)
+resetBuffer(CommonDataBuffer* buffer,
+            const uint64_t numberOfBlocks)
 {
     // deallocate ald buffer if possible
     if(buffer->data != nullptr && buffer->inUse == 1) {
@@ -116,12 +129,23 @@ resetBuffer(CommonDataBuffer *buffer,
  */
 void*
 alignedMalloc(const uint16_t blockSize,
-              const uint32_t numberOfBytes)
+              const uint64_t numberOfBytes)
 {
-    void *mem = malloc(numberOfBytes+blockSize+sizeof(void*));
-    void **ptr = (void**)((uintptr_t)((uint8_t*)mem+blockSize+sizeof(void*)) & ~(blockSize-1));
-    ptr[-1] = mem;
+    // precheck
+    if(blockSize % 512 != 0) {
+        return nullptr;
+    }
+
+    // allocate new memory
+    void* ptr = nullptr;
+    const int ret = posix_memalign(&ptr, blockSize, numberOfBytes);
+    if(ret != 0) {
+        return nullptr;
+    }
+
+    // init memory
     memset(ptr, 0, numberOfBytes);
+
     return ptr;
 }
 
@@ -132,15 +156,18 @@ alignedMalloc(const uint16_t blockSize,
  * @return true, if pointer not nullptr, else false
  */
 bool
-alignedFree(void *ptr)
+alignedFree(void* ptr)
 {
-    if(ptr != nullptr)
-    {
-        free(((void**)ptr)[-1]);
-        ptr = nullptr;
-        return true;
+    // precheck
+    if(ptr == nullptr) {
+        return false;
     }
-    return false;
+
+    // free data
+    free(ptr);
+    ptr = nullptr;
+
+    return true;
 }
 
 }

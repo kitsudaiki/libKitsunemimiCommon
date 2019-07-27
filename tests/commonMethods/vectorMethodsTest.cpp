@@ -7,9 +7,9 @@
  *  MIT License
  */
 
-#include "vectorMethodsTest.h"
+#include "vectorMethodsTest.hpp"
 
-#include <commonMethods/vectorMethods.h>
+#include <commonMethods/vectorMethods.hpp>
 
 namespace Kitsune
 {

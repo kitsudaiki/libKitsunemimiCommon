@@ -7,9 +7,9 @@
  *  MIT License
  */
 
-#include "stringMethodsTest.h"
+#include "stringMethodsTest.hpp"
 
-#include <commonMethods/stringMethods.h>
+#include <commonMethods/stringMethods.hpp>
 
 namespace Kitsune
 {

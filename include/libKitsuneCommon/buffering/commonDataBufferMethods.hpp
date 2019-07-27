@@ -1,3 +1,12 @@
+/**
+ *  @file    commonTest.h
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
+ */
+
 #ifndef COMMONDATABUFFERMETHODS_H
 #define COMMONDATABUFFERMETHODS_H
 
@@ -12,15 +21,15 @@ struct CommonDataBuffer;
 
 
 bool addDataToBuffer(CommonDataBuffer *buffer,
-                     const uint8_t *data,
+                     const void* data,
                      const uint64_t size);
-bool allocateBlocks(CommonDataBuffer *buffer,
+bool allocateBlocks(CommonDataBuffer* buffer,
                     const uint64_t numberOfBlocks);
-void resetBuffer(CommonDataBuffer *buffer,
-                 const uint32_t numberOfBlocks=1);
+void resetBuffer(CommonDataBuffer* buffer,
+                 const uint64_t numberOfBlocks = 1);
 
 void* alignedMalloc(const uint16_t blockSize,
-                     const uint32_t numberOfBytes);
+                    const uint64_t numberOfBytes);
 bool alignedFree(void *ptr);
 
 }

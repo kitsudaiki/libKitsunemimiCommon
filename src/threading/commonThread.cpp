@@ -3,10 +3,12 @@
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
  */
 
-#include <threading/commonThread.h>
-#include <buffering/commonDataBuffer.h>
+#include <threading/commonThread.hpp>
+#include <buffering/commonDataBuffer.hpp>
 
 namespace Kitsune
 {
@@ -27,12 +29,19 @@ CommonThread::~CommonThread()
     stop();
 }
 
+/**
+ * @brief CommonThread::bindThreadToCore
+ * @param coreId
+ * @return
+ */
 bool
 CommonThread::bindThreadToCore(const int coreId)
 {
     // TODO: get max-core-number of the system
     int num_cores = 4;
-    if(coreId < 0 || coreId >= num_cores) {
+    if(coreId < 0
+            || coreId >= num_cores)
+    {
         return false;
     }
 
@@ -40,9 +49,9 @@ CommonThread::bindThreadToCore(const int coreId)
     CPU_ZERO(&cpuset);
     CPU_SET(coreId, &cpuset);
 
-    int ret = pthread_setaffinity_np(m_thread->native_handle(),
-                                     sizeof(cpu_set_t),
-                                     &cpuset);
+    const int ret = pthread_setaffinity_np(m_thread->native_handle(),
+                                           sizeof(cpu_set_t),
+                                           &cpuset);
 
     if(ret != 0) {
         return false;

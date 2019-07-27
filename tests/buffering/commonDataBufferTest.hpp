@@ -10,7 +10,7 @@
 #ifndef COMMONDATABUFFERTEST_H
 #define COMMONDATABUFFERTEST_H
 
-#include <testing/commonTest.h>
+#include <testing/commonTest.hpp>
 
 namespace Kitsune
 {

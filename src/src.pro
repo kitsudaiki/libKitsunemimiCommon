@@ -3,7 +3,6 @@ QT       -= qt core gui
 TARGET = KitsuneCommon
 TEMPLATE = lib
 CONFIG += c++14
-CONFIG += staticlib
 
 INCLUDEPATH += $$PWD \
             ../include/libKitsuneCommon
@@ -14,9 +13,9 @@ SOURCES += \
     buffering/commonDataBufferMethods.cpp
 
 HEADERS += \
-    ../include/libKitsuneCommon/threading/commonThread.h \
-    ../include/libKitsuneCommon/testing/commonTest.h \
-    ../include/libKitsuneCommon/buffering/commonDataBuffer.h \
-    ../include/libKitsuneCommon/buffering/commonDataBufferMethods.h \
-    ../include/libKitsuneCommon/commonMethods/vectorMethods.h \
-    ../include/libKitsuneCommon/commonMethods/stringMethods.h
+    ../include/libKitsuneCommon/buffering/commonDataBuffer.hpp \
+    ../include/libKitsuneCommon/buffering/commonDataBufferMethods.hpp \
+    ../include/libKitsuneCommon/commonMethods/stringMethods.hpp \
+    ../include/libKitsuneCommon/commonMethods/vectorMethods.hpp \
+    ../include/libKitsuneCommon/testing/commonTest.hpp \
+    ../include/libKitsuneCommon/threading/commonThread.hpp

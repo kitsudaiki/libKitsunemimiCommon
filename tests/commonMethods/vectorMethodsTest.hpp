@@ -10,7 +10,7 @@
 #ifndef VECTORMETHODSTEST_H
 #define VECTORMETHODSTEST_H
 
-#include <testing/commonTest.h>
+#include <testing/commonTest.hpp>
 
 namespace Kitsune
 {

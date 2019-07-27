@@ -18,7 +18,7 @@
 #include <stdint.h>
 
 
-#include <buffering/commonDataBufferMethods.h>
+#include <buffering/commonDataBufferMethods.hpp>
 
 namespace Kitsune
 {
@@ -29,7 +29,7 @@ struct CommonDataBuffer
     uint64_t numberOfBlocks = 0;
     uint64_t bufferPosition = 0;
     uint64_t totalBufferSize = 0;
-    uint8_t* data = nullptr;
+    void* data = nullptr;
     uint8_t inUse = 0;
 
     /**
@@ -37,7 +37,7 @@ struct CommonDataBuffer
      *
      * @param numberOfBlocks number of block of the initial allocation (at least one)
      */
-    CommonDataBuffer(const uint32_t numberOfBlocks=1)
+    CommonDataBuffer(const uint32_t numberOfBlocks = 1)
     {
         assert(blockSize % 512 == 0);
         if(numberOfBlocks < 1) {
@@ -54,9 +54,10 @@ struct CommonDataBuffer
      * @param data pointer to the already allocated memory
      * @param size size of the allocated memory
      */
-    CommonDataBuffer(uint8_t* data, const uint32_t size)
+    CommonDataBuffer(void* data, const uint64_t size)
     {
-        if(data == nullptr && size > 0)
+        if(data == nullptr
+                && size > 0)
         {
             this->data = data;
             numberOfBlocks = (size / blockSize) + 1;
@@ -74,7 +75,8 @@ struct CommonDataBuffer
     ~CommonDataBuffer()
     {
         // deallocate the buffer
-        if(data != nullptr && inUse == 1)
+        if(data != nullptr
+                && inUse == 1)
         {
             alignedFree(data);
             inUse = 0;
@@ -92,11 +94,14 @@ struct CommonDataBuffer
     uint8_t*
     getBlock(const uint32_t blockPosition)
     {
+        // precheck
         if(blockPosition >= numberOfBlocks) {
             return nullptr;
         }
 
-        return &data[blockPosition * blockSize];
+        // get specific block of the data
+        uint8_t* dataByte = static_cast<uint8_t*>(data);
+        return &dataByte[blockPosition * blockSize];
     }
 
     /**
@@ -106,11 +111,12 @@ struct CommonDataBuffer
      */
     template <typename T>
     bool
-    addData(T *data)
+    addData(T* data)
     {
-        if(data != nullptr && data != nullptr)
+        if(data != nullptr
+                && data != nullptr)
         {
-            addDataToBuffer(this, (uint8_t*)data, sizeof(T));
+            addDataToBuffer(this, data, sizeof(T));
             return true;
         }
         return false;

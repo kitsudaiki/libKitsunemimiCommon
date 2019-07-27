@@ -7,9 +7,9 @@
  *  MIT License
  */
 
-#include "commonDataBufferTest.h"
+#include "commonDataBufferTest.hpp"
 
-#include <buffering/commonDataBuffer.h>
+#include <buffering/commonDataBuffer.hpp>
 
 namespace Kitsune
 {
@@ -56,10 +56,11 @@ void CommonDataBufferTest::testAddDataToBuffer()
 
     UNITTEST(testBuffer.bufferPosition, 0);
 
-    UNITTEST(addDataToBuffer(&testBuffer, (uint8_t*)&testStruct, sizeof(TestStruct)), true);
+    UNITTEST(addDataToBuffer(&testBuffer, static_cast<void*>(&testStruct), sizeof(TestStruct)), true);
 
     UNITTEST(testBuffer.bufferPosition, 10);
-    UNITTEST((int)testBuffer.data[1], 42);
+    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
+    UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
 void CommonDataBufferTest::testAddData()
@@ -72,7 +73,8 @@ void CommonDataBufferTest::testAddData()
     UNITTEST(testBuffer.addData(&testStruct), true);
 
     UNITTEST(testBuffer.bufferPosition, 10);
-    UNITTEST((int)testBuffer.data[1], 42);
+    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
+    UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
 void CommonDataBufferTest::testGetBlock()
@@ -82,9 +84,10 @@ void CommonDataBufferTest::testGetBlock()
     TestStruct testStruct;
     testStruct.b = 42;
 
-    memcpy(&testBuffer.data[4096], &testStruct, sizeof(TestStruct));
+    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
+    memcpy(&dataByte[4096], &testStruct, sizeof(TestStruct));
 
-    UNITTEST((int)testBuffer.getBlock(1)[1], 42);
+    UNITTEST(static_cast<int>(testBuffer.getBlock(1)[1]), 42);
 }
 
 void CommonDataBufferTest::testAllocateBlocks()
@@ -99,14 +102,16 @@ void CommonDataBufferTest::testAllocateBlocks()
     UNITTEST(testBuffer.numberOfBlocks, 10);
     UNITTEST(testBuffer.bufferPosition, 10);
     UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
-    UNITTEST((int)testBuffer.data[1], 42);
+    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
+    UNITTEST(static_cast<int>(dataByte[1]), 42);
 
     UNITTEST(allocateBlocks(&testBuffer, 1), true);
 
     UNITTEST(testBuffer.numberOfBlocks, 11);
     UNITTEST(testBuffer.bufferPosition, 10);
     UNITTEST(testBuffer.totalBufferSize, 11*testBuffer.blockSize);
-    UNITTEST((int)testBuffer.data[1], 42);
+    dataByte = static_cast<uint8_t*>(testBuffer.data);
+    UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
 void CommonDataBufferTest::testResetBuffer()
@@ -123,7 +128,8 @@ void CommonDataBufferTest::testResetBuffer()
     UNITTEST(testBuffer.numberOfBlocks, 2);
     UNITTEST(testBuffer.bufferPosition, 0);
     UNITTEST(testBuffer.totalBufferSize, 2*testBuffer.blockSize);
-    UNITTEST((int)testBuffer.data[1], 0);
+    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
+    UNITTEST(static_cast<int>(dataByte[1]), 0);
 }
 
 }

@@ -10,7 +10,7 @@
 #ifndef STRINGMETHODSTEST_H
 #define STRINGMETHODSTEST_H
 
-#include <testing/commonTest.h>
+#include <testing/commonTest.hpp>
 
 namespace Kitsune
 {

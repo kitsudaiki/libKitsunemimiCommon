@@ -1,3 +1,12 @@
+/**
+ *  @file    stringMethods.h
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
+ */
+
 #ifndef STRINGMETHODS_H
 #define STRINGMETHODS_H
 

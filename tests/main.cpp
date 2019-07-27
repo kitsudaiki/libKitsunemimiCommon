@@ -9,9 +9,9 @@
 
 #include <iostream>
 
-#include <buffering/commonDataBufferTest.h>
-#include <commonMethods/stringMethodsTest.h>
-#include <commonMethods/vectorMethodsTest.h>
+#include <buffering/commonDataBufferTest.hpp>
+#include <commonMethods/stringMethodsTest.hpp>
+#include <commonMethods/vectorMethodsTest.hpp>
 
 int main()
 {

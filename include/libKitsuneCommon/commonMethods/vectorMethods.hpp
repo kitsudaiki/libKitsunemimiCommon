@@ -1,3 +1,12 @@
+/**
+ *  @file    vectorMethods.h
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
+ */
+
 #ifndef VECTORMETHODS_H
 #define VECTORMETHODS_H
 
