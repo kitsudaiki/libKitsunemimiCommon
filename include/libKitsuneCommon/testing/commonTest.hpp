@@ -50,7 +50,7 @@ class CommonTest
     }
 
 public:
-    CommonTest(std::string testName);
+    CommonTest(const std::string testName);
     ~CommonTest();
 
 protected:

@@ -12,7 +12,7 @@
 namespace Kitsune
 {
 
-CommonTest::CommonTest(std::string testName)
+CommonTest::CommonTest(const std::string testName)
 {
     std::cout << "------------------------------" << std::endl;
     std::cout << "start " << testName << std::endl << std::endl;
