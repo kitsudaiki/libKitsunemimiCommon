@@ -14,13 +14,13 @@ namespace Kitsune
 {
 
 /**
- * @brief addDataToBuffer
+ * copy data into the buffer and resize the buffer in necessary
  *
  * @param buffer pointer to buffer-object
- * @param data
- * @param dataSize
+ * @param data pointer the the data, which should be written into the buffer
+ * @param dataSize number of bytes to write
  *
- * @return
+ * @return false if precheck or allocation failed, else true
  */
 bool
 addDataToBuffer(CommonDataBuffer* buffer,
@@ -39,7 +39,9 @@ addDataToBuffer(CommonDataBuffer* buffer,
     if(buffer->bufferPosition + dataSize >= buffer->numberOfBlocks * buffer->blockSize)
     {
         const uint64_t newBlockNum = (dataSize / buffer->blockSize) + 1;
-        allocateBlocks(buffer, newBlockNum);
+        if(allocateBlocks(buffer, newBlockNum) == false) {
+            return false;
+        }
     }
 
     // copy the new data into the buffer

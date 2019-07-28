@@ -25,12 +25,12 @@ struct TestStruct
 CommonDataBufferMethods_Test::CommonDataBufferMethods_Test()
     : Kitsune::CommonTest("CommonDataBufferMethods_Test")
 {
-    testAddDataToBuffer();
-    testAllocateBlocks();
-    testResetBuffer();
+    addDataToBuffer_test();
+    allocateBlocks_test();
+    resetBuffer_test();
 }
 
-void CommonDataBufferMethods_Test::testAddDataToBuffer()
+void CommonDataBufferMethods_Test::addDataToBuffer_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -54,7 +54,7 @@ void CommonDataBufferMethods_Test::testAddDataToBuffer()
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBufferMethods_Test::testAllocateBlocks()
+void CommonDataBufferMethods_Test::allocateBlocks_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -86,7 +86,7 @@ void CommonDataBufferMethods_Test::testAllocateBlocks()
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBufferMethods_Test::testResetBuffer()
+void CommonDataBufferMethods_Test::resetBuffer_test()
 {
     // init
     CommonDataBuffer testBuffer(10);

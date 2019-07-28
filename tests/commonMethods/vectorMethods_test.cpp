@@ -17,18 +17,24 @@ namespace Kitsune
 VectorMethods_Test::VectorMethods_Test()
     : Kitsune::CommonTest("VectorMethods_Test")
 {
-    testRemoveEmptyStrings();
+    removeEmptyStrings_test();
 }
 
-void VectorMethods_Test::testRemoveEmptyStrings()
+void VectorMethods_Test::removeEmptyStrings_test()
 {
+    // init
     std::vector<std::string> testVector{"x","","y","z",""};
+
+    // run task
     UNITTEST(removeEmptyStrings(&testVector), true);
+
+    // check result
     UNITTEST(testVector.size(), 3);
     UNITTEST(testVector[0], "x");
     UNITTEST(testVector[1], "y");
     UNITTEST(testVector[2], "z");
 
+    // make negative checks
     std::vector<std::string> emptyVector;
     UNITTEST(removeEmptyStrings(&emptyVector), false);
     UNITTEST(removeEmptyStrings(nullptr), false);

@@ -22,14 +22,9 @@ public:
     CommonDataBufferMethods_Test();
 
 private:
-    void testConstructor();
-    void testStructSize();
-    void testCopyConstructor();
-    void testAddData();
-    void testAddDataToBuffer();
-    void testGetBlock();
-    void testAllocateBlocks();
-    void testResetBuffer();
+    void addDataToBuffer_test();
+    void allocateBlocks_test();
+    void resetBuffer_test();
 };
 
 } // namespace Kitsune

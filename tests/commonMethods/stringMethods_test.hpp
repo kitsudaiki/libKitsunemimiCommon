@@ -22,7 +22,7 @@ public:
     StringMethods_Test();
 
 private:
-    void testSplitString();
+    void splitString_test();
 };
 
 } // namespace Kitsune

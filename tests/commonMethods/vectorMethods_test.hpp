@@ -22,7 +22,7 @@ public:
     VectorMethods_Test();
 
 private:
-    void testRemoveEmptyStrings();
+    void removeEmptyStrings_test();
 };
 
 } // namespace Kitsune

@@ -27,7 +27,7 @@ public:
     virtual ~CommonThread();
 
     bool start();
-    bool stop();
+    void stop();
     bool waitForFinish();
 
     void continueThread();
@@ -50,7 +50,7 @@ protected:
     std::condition_variable m_cv;
 
     void blockThread();
-    bool sleepThread(const uint32_t uSeconds);
+    void sleepThread(const uint32_t microSeconds);
 
     void mutexLock();
     void mutexUnlock();
