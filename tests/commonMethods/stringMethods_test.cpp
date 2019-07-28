@@ -1,5 +1,5 @@
 /**
- *  @file    stringMethodsTest.cpp
+ *  @file    stringMethods_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,20 +7,20 @@
  *  MIT License
  */
 
-#include "stringMethodsTest.hpp"
+#include "stringMethods_test.hpp"
 
 #include <commonMethods/stringMethods.hpp>
 
 namespace Kitsune
 {
 
-StringMethodsTest::StringMethodsTest()
-    : Kitsune::CommonTest("StringMethodsTest")
+StringMethods_Test::StringMethods_Test()
+    : Kitsune::CommonTest("StringMethods_Test")
 {
     testSplitString();
 }
 
-void StringMethodsTest::testSplitString()
+void StringMethods_Test::testSplitString()
 {
     std::string testString = "this is a test-string";
     std::vector<std::string> result = splitString(testString, ' ');

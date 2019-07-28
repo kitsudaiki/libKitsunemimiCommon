@@ -1,5 +1,5 @@
 /**
- *  @file    commonThread.h
+ *  @file    commonThread.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

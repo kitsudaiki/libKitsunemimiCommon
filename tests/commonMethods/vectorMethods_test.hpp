@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethodsTest.h
+ *  @file    vectorMethods_test.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,18 +7,19 @@
  *  MIT License
  */
 
-#ifndef VECTORMETHODSTEST_H
-#define VECTORMETHODSTEST_H
+#ifndef VECTORMETHODSTEST_HPP
+#define VECTORMETHODSTEST_HPP
 
 #include <testing/commonTest.hpp>
 
 namespace Kitsune
 {
 
-class VectorMethodsTest : public Kitsune::CommonTest
+class VectorMethods_Test
+        : public Kitsune::CommonTest
 {
 public:
-    VectorMethodsTest();
+    VectorMethods_Test();
 
 private:
     void testRemoveEmptyStrings();
@@ -26,4 +27,4 @@ private:
 
 } // namespace Kitsune
 
-#endif // VECTORMETHODSTEST_H
+#endif // VECTORMETHODSTEST_HPP

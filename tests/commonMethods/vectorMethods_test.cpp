@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethodsTest.cpp
+ *  @file    vectorMethods_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,20 +7,20 @@
  *  MIT License
  */
 
-#include "vectorMethodsTest.hpp"
+#include "vectorMethods_test.hpp"
 
 #include <commonMethods/vectorMethods.hpp>
 
 namespace Kitsune
 {
 
-VectorMethodsTest::VectorMethodsTest()
-    : Kitsune::CommonTest("VectorMethodsTest")
+VectorMethods_Test::VectorMethods_Test()
+    : Kitsune::CommonTest("VectorMethods_Test")
 {
     testRemoveEmptyStrings();
 }
 
-void VectorMethodsTest::testRemoveEmptyStrings()
+void VectorMethods_Test::testRemoveEmptyStrings()
 {
     std::vector<std::string> testVector{"x","","y","z",""};
     UNITTEST(removeEmptyStrings(&testVector), true);

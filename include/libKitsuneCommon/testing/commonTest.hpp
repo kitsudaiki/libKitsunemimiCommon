@@ -1,5 +1,5 @@
 /**
- *  @file    commonTest.h
+ *  @file    commonTest.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

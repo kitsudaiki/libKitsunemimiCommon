@@ -1,5 +1,5 @@
 /**
- *  @file    commonDataBufferTest.cpp
+ *  @file    commonDataBufferMethods_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,9 +7,10 @@
  *  MIT License
  */
 
-#include "commonDataBufferTest.hpp"
+#include "commonDataBufferMethods_test.hpp"
 
 #include <buffering/commonDataBuffer.hpp>
+#include <buffering/commonDataBufferMethods.hpp>
 
 namespace Kitsune
 {
@@ -21,122 +22,89 @@ struct TestStruct
     uint64_t c = 0;
 } __attribute__((packed));
 
-CommonDataBufferTest::CommonDataBufferTest()
-    : Kitsune::CommonTest("CommonDataBufferTest")
+CommonDataBufferMethods_Test::CommonDataBufferMethods_Test()
+    : Kitsune::CommonTest("CommonDataBufferMethods_Test")
 {
-    testConstructor();
-    testCopyConstructor();
-    testStructSize();
     testAddDataToBuffer();
-    testAddData();
-    testGetBlock();
     testAllocateBlocks();
     testResetBuffer();
 }
 
-void CommonDataBufferTest::testConstructor()
+void CommonDataBufferMethods_Test::testAddDataToBuffer()
 {
+    // init
     CommonDataBuffer testBuffer(10);
-
-    UNITTEST_NEG(testBuffer.data, nullptr);
-
-    UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
-    UNITTEST(testBuffer.numberOfBlocks, 10);
-}
-
-void CommonDataBufferTest::testStructSize()
-{
-    CommonDataBuffer testBuffer(10);
-    UNITTEST(sizeof(CommonDataBuffer) % 8, 0);
-}
-
-void CommonDataBufferTest::testCopyConstructor()
-{
-    // TODO
-}
-
-void CommonDataBufferTest::testAddDataToBuffer()
-{
-    CommonDataBuffer testBuffer(10);
-
     TestStruct testStruct;
     testStruct.b = 42;
 
+    // check metadata of the buffer
     UNITTEST(testBuffer.bufferPosition, 0);
 
+    // add data to buffer
     void* testStructPtr = static_cast<void*>(&testStruct);
     UNITTEST(addDataToBuffer(&testBuffer, testStructPtr, sizeof(TestStruct)), true);
 
-    UNITTEST(testBuffer.bufferPosition, 10);
-    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
-    UNITTEST(static_cast<int>(dataByte[1]), 42);
-}
-
-void CommonDataBufferTest::testAddData()
-{
-    CommonDataBuffer testBuffer(10);
-
-    TestStruct testStruct;
-    testStruct.b = 42;
-
-    UNITTEST(testBuffer.addData(&testStruct), true);
-
-    UNITTEST(testBuffer.bufferPosition, 10);
-    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
-    UNITTEST(static_cast<int>(dataByte[1]), 42);
-}
-
-void CommonDataBufferTest::testGetBlock()
-{
-    CommonDataBuffer testBuffer(10);
-
-    TestStruct testStruct;
-    testStruct.b = 42;
-
-    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
-    memcpy(&dataByte[4096], &testStruct, sizeof(TestStruct));
-
-    UNITTEST(static_cast<int>(testBuffer.getBlock(1)[1]), 42);
-}
-
-void CommonDataBufferTest::testAllocateBlocks()
-{
-    CommonDataBuffer testBuffer(10);
-
-    TestStruct testStruct;
-    testStruct.b = 42;
-
-    UNITTEST(testBuffer.addData(&testStruct), true);
-
+    // check metadata of the buffer
     UNITTEST(testBuffer.numberOfBlocks, 10);
     UNITTEST(testBuffer.bufferPosition, 10);
     UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
+
+    // check content of the buffer
+    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
+    UNITTEST(static_cast<int>(dataByte[1]), 42);
+}
+
+void CommonDataBufferMethods_Test::testAllocateBlocks()
+{
+    // init
+    CommonDataBuffer testBuffer(10);
+    TestStruct testStruct;
+    testStruct.b = 42;
+
+    // write data to buffer
+    UNITTEST(testBuffer.addData(&testStruct), true);
+
+    // check metadata of the buffer
+    UNITTEST(testBuffer.numberOfBlocks, 10);
+    UNITTEST(testBuffer.bufferPosition, 10);
+    UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
+
+    // check content of the buffer
     uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 
+    // resize
     UNITTEST(allocateBlocks(&testBuffer, 1), true);
 
+    // check metadata of the buffer
     UNITTEST(testBuffer.numberOfBlocks, 11);
     UNITTEST(testBuffer.bufferPosition, 10);
     UNITTEST(testBuffer.totalBufferSize, 11*testBuffer.blockSize);
+
+    // check content of the buffer
     dataByte = static_cast<uint8_t*>(testBuffer.data);
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBufferTest::testResetBuffer()
+void CommonDataBufferMethods_Test::testResetBuffer()
 {
+    // init
     CommonDataBuffer testBuffer(10);
-
     TestStruct testStruct;
     testStruct.b = 42;
 
+    // write data to buffer
     UNITTEST(testBuffer.addData(&testStruct), true);
 
+    // reset buffer
     UNITTEST(resetBuffer(&testBuffer, 2), true);
 
+    // check metadata of the buffer
     UNITTEST(testBuffer.numberOfBlocks, 2);
     UNITTEST(testBuffer.bufferPosition, 0);
     UNITTEST(testBuffer.totalBufferSize, 2*testBuffer.blockSize);
+
+    // check content of the buffer
     uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
     UNITTEST(static_cast<int>(dataByte[1]), 0);
 }

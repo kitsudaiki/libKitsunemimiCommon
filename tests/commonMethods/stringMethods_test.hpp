@@ -1,5 +1,5 @@
 /**
- *  @file    stringMethodsTest.h
+ *  @file    stringMethods_test.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,18 +7,19 @@
  *  MIT License
  */
 
-#ifndef STRINGMETHODSTEST_H
-#define STRINGMETHODSTEST_H
+#ifndef STRINGMETHODSTEST_HPP
+#define STRINGMETHODSTEST_HPP
 
 #include <testing/commonTest.hpp>
 
 namespace Kitsune
 {
 
-class StringMethodsTest : public Kitsune::CommonTest
+class StringMethods_Test
+        : public Kitsune::CommonTest
 {
 public:
-    StringMethodsTest();
+    StringMethods_Test();
 
 private:
     void testSplitString();
@@ -26,4 +27,4 @@ private:
 
 } // namespace Kitsune
 
-#endif // STRINGMETHODSTEST_H
+#endif // STRINGMETHODSTEST_HPP

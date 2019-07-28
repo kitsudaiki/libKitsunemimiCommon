@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethods.h
+ *  @file    vectorMethods.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -22,7 +22,7 @@ namespace Kitsune
  * remove from a vector of strings all entries, which contains only a empty string
  */
 inline bool
-removeEmptyStrings(std::vector<std::string> *inputVector)
+removeEmptyStrings(std::vector<std::string>* inputVector)
 {
     // precheck
     if(inputVector == nullptr

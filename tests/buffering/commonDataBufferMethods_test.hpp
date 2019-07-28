@@ -1,5 +1,5 @@
 /**
- *  @file    commonDataBufferTest.h
+ *  @file    commonDataBufferMethods_test.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,18 +7,19 @@
  *  MIT License
  */
 
-#ifndef COMMONDATABUFFERTEST_H
-#define COMMONDATABUFFERTEST_H
+#ifndef COMMONDATABUFFERMETHODS_TEST_HPP
+#define COMMONDATABUFFERMETHODS_TEST_HPP
 
 #include <testing/commonTest.hpp>
 
 namespace Kitsune
 {
 
-class CommonDataBufferTest : public Kitsune::CommonTest
+class CommonDataBufferMethods_Test
+        : public Kitsune::CommonTest
 {
 public:
-    CommonDataBufferTest();
+    CommonDataBufferMethods_Test();
 
 private:
     void testConstructor();
@@ -33,4 +34,4 @@ private:
 
 } // namespace Kitsune
 
-#endif // COMMONDATABUFFERTEST_H
+#endif // COMMONDATABUFFERMETHODS_TEST_HPP

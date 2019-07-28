@@ -1,5 +1,5 @@
 /**
- *  @file    commonDataBuffer.h
+ *  @file    commonDataBuffer.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -35,7 +35,7 @@ struct CommonDataBuffer
     uint8_t padding[5];
 
     /**
-     * create and initialize a new buffer
+     * constructor
      *
      * @param numberOfBlocks number of block of the initial allocation (at least one)
      */
@@ -49,7 +49,22 @@ struct CommonDataBuffer
     }
 
     /**
-     * simple construct which use allready allocated memory.
+     * copy-constructor
+     */
+    CommonDataBuffer(const CommonDataBuffer &other)
+    {
+        // copy blockSize first to make sure, that the reset reallocate the correct total memroy
+        blockSize = other.blockSize;
+        allocateBlocks(this, other.numberOfBlocks);
+        assert(totalBufferSize == other.totalBufferSize);
+
+        inUse = other.inUse;
+        bufferPosition = other.bufferPosition;
+        memcpy(data, other.data, bufferPosition);
+    }
+
+    /**
+     * simple additonal construct which use allready allocated memory.
      * If this existing buffer is not a multiple of the blocksize,
      * it allocate new memory with a valid size.
      *
@@ -91,6 +106,7 @@ struct CommonDataBuffer
      * get a pointer to a specific block inside the buffer
      *
      * @param blockPosition number of the block inside the buffer
+     *
      * @return pointer to the buffer-position
      */
     uint8_t*
@@ -119,8 +135,9 @@ struct CommonDataBuffer
     }
 
     /**
-     * @brief reset
-     * @return
+     * reset a buffer and clears the data, so it is like the buffer is totally new
+     *
+     * @return false if precheck or allocation failed, else true
      */
     bool
     reset()
