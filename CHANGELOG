@@ -2,18 +2,11 @@
 
 
 
-## [0.1.1] - 2019-06-30
-
-
-### Fixed
-- add some additional checks
-- remove chrono-typedef, because they produces conflict in other projects
-
-
-
-## [0.1.0] - 2019-05-26
+## [0.1.0] - 2019-xx-xx
 
 ### Added
 - simple thread-class with some common used stuff
 - simple buffer-class which use aligned-memory
 - UNIT_TEST-makro
+- method to split string
+- method to remove empty entries for a vector of strings

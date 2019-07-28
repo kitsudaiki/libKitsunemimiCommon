@@ -1,3 +1,12 @@
+/**
+ *  @file    vectorMethods.hpp
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
+ */
+
 #ifndef VECTORMETHODS_H
 #define VECTORMETHODS_H
 
@@ -12,8 +21,8 @@ namespace Kitsune
 /**
  * remove from a vector of strings all entries, which contains only a empty string
  */
-bool
-removeEmptyStrings(std::vector<std::string> *inputVector)
+inline bool
+removeEmptyStrings(std::vector<std::string>* inputVector)
 {
     // precheck
     if(inputVector == nullptr
@@ -31,6 +40,6 @@ removeEmptyStrings(std::vector<std::string> *inputVector)
     return true;
 }
 
-}
+} // namespace Kitsune
 
 #endif // VECTORMETHODS_H
