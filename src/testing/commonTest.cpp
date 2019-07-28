@@ -3,14 +3,16 @@
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
  */
 
-#include <testing/commonTest.h>
+#include <testing/commonTest.hpp>
 
 namespace Kitsune
 {
 
-CommonTest::CommonTest(std::string testName)
+CommonTest::CommonTest(const std::string testName)
 {
     std::cout << "------------------------------" << std::endl;
     std::cout << "start " << testName << std::endl << std::endl;
@@ -27,4 +29,4 @@ CommonTest::~CommonTest()
     }
 }
 
-}
+} // namespace Kitsune

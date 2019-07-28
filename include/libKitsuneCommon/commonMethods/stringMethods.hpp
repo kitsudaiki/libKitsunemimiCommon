@@ -1,5 +1,14 @@
-#ifndef STRINGMETHODS_H
-#define STRINGMETHODS_H
+/**
+ *  @file    stringMethods.hpp
+ *
+ *  @author  Tobias Anker
+ *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
+ */
+
+#ifndef STRINGMETHODS_HPP
+#define STRINGMETHODS_HPP
 
 #include <string>
 #include <iostream>
@@ -14,7 +23,7 @@ namespace Kitsune
  *
  * @return vector with the string parts
  */
-std::vector<std::string>
+inline std::vector<std::string>
 splitString(const std::string &inputString,
             const char delim)
 {
@@ -37,6 +46,6 @@ splitString(const std::string &inputString,
     return result;
 }
 
-}
+} // namespace Kitsune
 
-#endif // STRINGMETHODS_H
+#endif // STRINGMETHODS_HPP

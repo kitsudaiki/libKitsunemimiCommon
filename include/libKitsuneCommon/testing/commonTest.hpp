@@ -1,12 +1,14 @@
 /**
- *  @file    commonTest.h
+ *  @file    commonTest.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
  */
 
-#ifndef COMMONTEST_H
-#define COMMONTEST_H
+#ifndef COMMONTEST_HPP
+#define COMMONTEST_HPP
 
 #include <string>
 #include <iostream>
@@ -48,7 +50,7 @@ class CommonTest
     }
 
 public:
-    CommonTest(std::string testName);
+    CommonTest(const std::string testName);
     ~CommonTest();
 
 protected:
@@ -56,6 +58,6 @@ protected:
     uint32_t m_failedTests = 0;
 };
 
-}
+} // namespace Kitsune
 
-#endif // COMMONTEST_H
+#endif // COMMONTEST_HPP

@@ -1,12 +1,14 @@
 /**
- *  @file    commonThread.h
+ *  @file    commonThread.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
+ *
+ *  MIT License
  */
 
-#ifndef COMMONTHREAD_H
-#define COMMONTHREAD_H
+#ifndef COMMONTHREAD_HPP
+#define COMMONTHREAD_HPP
 
 #include <mutex>
 #include <condition_variable>
@@ -25,7 +27,8 @@ public:
     virtual ~CommonThread();
 
     bool start();
-    bool stop();
+    void stop();
+    bool waitForFinish();
 
     void continueThread();
     void initBlockThread();
@@ -47,7 +50,7 @@ protected:
     std::condition_variable m_cv;
 
     void blockThread();
-    bool sleepThread(const uint32_t uSeconds);
+    void sleepThread(const uint32_t microSeconds);
 
     void mutexLock();
     void mutexUnlock();
@@ -55,6 +58,6 @@ protected:
     virtual void run() = 0;
 };
 
-}
+} // namespace Kitsune
 
-#endif // COMMONTHREAD_H
+#endif // COMMONTHREAD_HPP
