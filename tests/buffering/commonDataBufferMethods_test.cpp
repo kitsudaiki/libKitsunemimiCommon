@@ -30,7 +30,11 @@ CommonDataBufferMethods_Test::CommonDataBufferMethods_Test()
     resetBuffer_test();
 }
 
-void CommonDataBufferMethods_Test::addDataToBuffer_test()
+/**
+ * addDataToBuffer_test
+ */
+void
+CommonDataBufferMethods_Test::addDataToBuffer_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -54,7 +58,11 @@ void CommonDataBufferMethods_Test::addDataToBuffer_test()
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBufferMethods_Test::allocateBlocks_test()
+/**
+ * allocateBlocks_test
+ */
+void
+CommonDataBufferMethods_Test::allocateBlocks_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -86,7 +94,11 @@ void CommonDataBufferMethods_Test::allocateBlocks_test()
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBufferMethods_Test::resetBuffer_test()
+/**
+ * resetBuffer_test
+ */
+void
+CommonDataBufferMethods_Test::resetBuffer_test()
 {
     // init
     CommonDataBuffer testBuffer(10);

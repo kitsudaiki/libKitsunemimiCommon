@@ -14,13 +14,17 @@
 namespace Kitsune
 {
 
-VectorMethods_Test::VectorMethods_Test()
+TextFile_Test::TextFile_Test()
     : Kitsune::CommonTest("VectorMethods_Test")
 {
     removeEmptyStrings_test();
 }
 
-void VectorMethods_Test::removeEmptyStrings_test()
+/**
+ * removeEmptyStrings_test
+ */
+void
+TextFile_Test::removeEmptyStrings_test()
 {
     // init
     std::vector<std::string> testVector{"x","","y","z",""};

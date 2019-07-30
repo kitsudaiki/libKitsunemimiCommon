@@ -20,7 +20,11 @@ StringMethods_Test::StringMethods_Test()
     splitString_test();
 }
 
-void StringMethods_Test::splitString_test()
+/**
+ * splitString_test
+ */
+void
+StringMethods_Test::splitString_test()
 {
     // init
     std::string testString = "this is a test-string";

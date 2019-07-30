@@ -21,5 +21,5 @@ int main()
     Kitsune::CommonDataBuffer_Test();
 
     Kitsune::StringMethods_Test();
-    Kitsune::VectorMethods_Test();
+    Kitsune::TextFile_Test();
 }

@@ -15,11 +15,11 @@
 namespace Kitsune
 {
 
-class VectorMethods_Test
+class TextFile_Test
         : public Kitsune::CommonTest
 {
 public:
-    VectorMethods_Test();
+    TextFile_Test();
 
 private:
     void removeEmptyStrings_test();

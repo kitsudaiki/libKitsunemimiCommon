@@ -32,14 +32,21 @@ CommonDataBuffer_Test::CommonDataBuffer_Test()
     reset_test();
 }
 
-
-void CommonDataBuffer_Test::structSize_test()
+/**
+ * structSize_test
+ */
+void
+CommonDataBuffer_Test::structSize_test()
 {
     CommonDataBuffer testBuffer(10);
     UNITTEST(sizeof(CommonDataBuffer) % 8, 0);
 }
 
-void CommonDataBuffer_Test::constructor_test()
+/**
+ * constructor_test
+ */
+void
+CommonDataBuffer_Test::constructor_test()
 {
     CommonDataBuffer testBuffer(10);
 
@@ -50,7 +57,11 @@ void CommonDataBuffer_Test::constructor_test()
     UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 }
 
-void CommonDataBuffer_Test::copyConstructor_test()
+/**
+ * copyConstructor_test
+ */
+void
+CommonDataBuffer_Test::copyConstructor_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -78,7 +89,11 @@ void CommonDataBuffer_Test::copyConstructor_test()
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBuffer_Test::addData_test()
+/**
+ * addData_test
+ */
+void
+CommonDataBuffer_Test::addData_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -98,7 +113,11 @@ void CommonDataBuffer_Test::addData_test()
     UNITTEST(static_cast<int>(dataByte[1]), 42);
 }
 
-void CommonDataBuffer_Test::getBlock_test()
+/**
+ * getBlock_test
+ */
+void
+CommonDataBuffer_Test::getBlock_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
@@ -112,7 +131,11 @@ void CommonDataBuffer_Test::getBlock_test()
     UNITTEST(static_cast<int>(testBuffer.getBlock(1)[1]), 42);
 }
 
-void CommonDataBuffer_Test::reset_test()
+/**
+ * reset_test
+ */
+void
+CommonDataBuffer_Test::reset_test()
 {
     // init
     CommonDataBuffer testBuffer(10);
