@@ -9,11 +9,11 @@
 
 #include <iostream>
 
-#include <buffering/commonDataBuffer_test.hpp>
-#include <buffering/commonDataBufferMethods_test.hpp>
+#include <libKitsuneCommon/buffering/commonDataBuffer_test.hpp>
+#include <libKitsuneCommon/buffering/commonDataBufferMethods_test.hpp>
 
-#include <commonMethods/stringMethods_test.hpp>
-#include <commonMethods/vectorMethods_test.hpp>
+#include <libKitsuneCommon/commonMethods/stringMethods_test.hpp>
+#include <libKitsuneCommon/commonMethods/vectorMethods_test.hpp>
 
 int main()
 {
