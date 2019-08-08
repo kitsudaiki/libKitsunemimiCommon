@@ -1,5 +1,5 @@
 /**
- *  @file    commonDataBuffer.hpp
+ *  @file    dataBuffer.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef COMMONDATABUFFER_HPP
-#define COMMONDATABUFFER_HPP
+#ifndef DATABUFFER_HPP
+#define DATABUFFER_HPP
 
 #include <string.h>
 #include <iostream>
@@ -18,12 +18,14 @@
 #include <stdint.h>
 
 
-#include <buffering/commonDataBufferMethods.hpp>
+#include <buffering/dataBufferMethods.hpp>
 
 namespace Kitsune
 {
+namespace Common
+{
 
-struct CommonDataBuffer
+struct DataBuffer
 {
     uint16_t blockSize = 4096;
     uint64_t numberOfBlocks = 0;
@@ -39,7 +41,7 @@ struct CommonDataBuffer
      *
      * @param numberOfBlocks number of block of the initial allocation (at least one)
      */
-    CommonDataBuffer(const uint32_t numberOfBlocks = 1)
+    DataBuffer(const uint32_t numberOfBlocks = 1)
     {
         assert(blockSize % 512 == 0);
         if(numberOfBlocks < 1) {
@@ -51,7 +53,7 @@ struct CommonDataBuffer
     /**
      * copy-constructor
      */
-    CommonDataBuffer(const CommonDataBuffer &other)
+    DataBuffer(const DataBuffer &other)
     {
         // copy blockSize first to make sure, that the reset reallocate the correct total memroy
         blockSize = other.blockSize;
@@ -71,7 +73,7 @@ struct CommonDataBuffer
      * @param data pointer to the already allocated memory
      * @param size size of the allocated memory
      */
-    CommonDataBuffer(void* data, const uint64_t size)
+    DataBuffer(void* data, const uint64_t size)
     {
         if(data == nullptr
                 && size > 0)
@@ -89,7 +91,7 @@ struct CommonDataBuffer
     /**
      * destructor to clear the allocated memory inside this object
      */
-    ~CommonDataBuffer()
+    ~DataBuffer()
     {
         // deallocate the buffer
         if(data != nullptr
@@ -147,6 +149,7 @@ struct CommonDataBuffer
 
 } __attribute__((packed));
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // COMMONDATABUFFER_HPP
+#endif // DATABUFFER_HPP

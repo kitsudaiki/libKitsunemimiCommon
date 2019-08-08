@@ -1,5 +1,5 @@
 /**
- *  @file    commonTest.hpp
+ *  @file    test.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,16 +7,18 @@
  *  MIT License
  */
 
-#ifndef COMMONTEST_HPP
-#define COMMONTEST_HPP
+#ifndef TEST_HPP
+#define TEST_HPP
 
 #include <string>
 #include <iostream>
 
 namespace Kitsune
 {
+namespace Common
+{
 
-class CommonTest
+class Test
 {
 #define UNITTEST(IS_VAL, SHOULD_VAL) if(IS_VAL != SHOULD_VAL) \
 {  \
@@ -50,14 +52,15 @@ class CommonTest
     }
 
 public:
-    CommonTest(const std::string testName);
-    ~CommonTest();
+    Test(const std::string testName);
+    ~Test();
 
 protected:
     uint32_t m_successfulTests = 0;
     uint32_t m_failedTests = 0;
 };
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // COMMONTEST_HPP
+#endif // TEST_HPP

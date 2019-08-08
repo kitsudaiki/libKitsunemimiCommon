@@ -9,17 +9,17 @@
 
 #include <iostream>
 
-#include <libKitsuneCommon/buffering/commonDataBuffer_test.hpp>
-#include <libKitsuneCommon/buffering/commonDataBufferMethods_test.hpp>
+#include <libKitsuneCommon/buffering/dataBuffer_test.hpp>
+#include <libKitsuneCommon/buffering/dataBufferMethods_test.hpp>
 
 #include <libKitsuneCommon/commonMethods/stringMethods_test.hpp>
 #include <libKitsuneCommon/commonMethods/vectorMethods_test.hpp>
 
 int main()
 {
-    Kitsune::CommonDataBufferMethods_Test();
-    Kitsune::CommonDataBuffer_Test();
+    Kitsune::Common::DataBufferMethods_Test();
+    Kitsune::Common::DataBuffer_Test();
 
-    Kitsune::StringMethods_Test();
-    Kitsune::TextFile_Test();
+    Kitsune::Common::StringMethods_Test();
+    Kitsune::Common::TextFile_Test();
 }

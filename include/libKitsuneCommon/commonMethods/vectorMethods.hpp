@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef VECTORMETHODS_H
-#define VECTORMETHODS_H
+#ifndef VECTORMETHODS_HPP
+#define VECTORMETHODS_HPP
 
 #include <string>
 #include <vector>
@@ -16,6 +16,8 @@
 #include <algorithm>
 
 namespace Kitsune
+{
+namespace Common
 {
 
 /**
@@ -40,6 +42,7 @@ removeEmptyStrings(std::vector<std::string>* inputVector)
     return true;
 }
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // VECTORMETHODS_H
+#endif // VECTORMETHODS_HPP

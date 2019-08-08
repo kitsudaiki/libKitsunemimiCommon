@@ -1,5 +1,5 @@
 /**
- *  @file    commonTest.cpp
+ *  @file    dataBufferMethods.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,10 +7,12 @@
  *  MIT License
  */
 
-#include <buffering/commonDataBufferMethods.hpp>
-#include <buffering/commonDataBuffer.hpp>
+#include <buffering/dataBufferMethods.hpp>
+#include <buffering/dataBuffer.hpp>
 
 namespace Kitsune
+{
+namespace Common
 {
 
 /**
@@ -23,7 +25,7 @@ namespace Kitsune
  * @return false if precheck or allocation failed, else true
  */
 bool
-addDataToBuffer(CommonDataBuffer* buffer,
+addDataToBuffer(DataBuffer* buffer,
                 const void* data,
                 const uint64_t dataSize)
 {
@@ -62,7 +64,7 @@ addDataToBuffer(CommonDataBuffer* buffer,
  * @return true, if successful, else false
  */
 bool
-allocateBlocks(CommonDataBuffer* buffer,
+allocateBlocks(DataBuffer* buffer,
                const uint64_t numberOfBlocks)
 {
     // precheck
@@ -104,7 +106,7 @@ allocateBlocks(CommonDataBuffer* buffer,
  * @return false if precheck or allocation failed, else true
  */
 bool
-resetBuffer(CommonDataBuffer* buffer,
+resetBuffer(DataBuffer* buffer,
             const uint64_t numberOfBlocks)
 {
     // precheck
@@ -192,4 +194,5 @@ alignedFree(void* ptr)
     return true;
 }
 
+} // namespace Common
 } // namespace Kitsune

@@ -12,6 +12,3 @@ MIT License
 
 - qmake
 
-## Requirements for using library
-
-- (no requirements)

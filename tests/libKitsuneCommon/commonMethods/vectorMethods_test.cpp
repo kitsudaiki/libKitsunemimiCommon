@@ -13,9 +13,11 @@
 
 namespace Kitsune
 {
+namespace Common
+{
 
 TextFile_Test::TextFile_Test()
-    : Kitsune::CommonTest("VectorMethods_Test")
+    : Kitsune::Common::Test("VectorMethods_Test")
 {
     removeEmptyStrings_test();
 }
@@ -44,4 +46,5 @@ TextFile_Test::removeEmptyStrings_test()
     UNITTEST(removeEmptyStrings(nullptr), false);
 }
 
+} // namespace Common
 } // namespace Kitsune
