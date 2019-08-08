@@ -9,14 +9,14 @@ INCLUDEPATH += $$PWD \
             ../include/libKitsuneCommon
 
 SOURCES += \
-    threading/commonThread.cpp \
-    testing/commonTest.cpp \
-    buffering/commonDataBufferMethods.cpp
+    buffering/dataBufferMethods.cpp \
+    testing/test.cpp \
+    threading/thread.cpp
 
 HEADERS += \
-    ../include/libKitsuneCommon/buffering/commonDataBuffer.hpp \
-    ../include/libKitsuneCommon/buffering/commonDataBufferMethods.hpp \
     ../include/libKitsuneCommon/commonMethods/stringMethods.hpp \
     ../include/libKitsuneCommon/commonMethods/vectorMethods.hpp \
-    ../include/libKitsuneCommon/testing/commonTest.hpp \
-    ../include/libKitsuneCommon/threading/commonThread.hpp
+    ../include/libKitsuneCommon/buffering/dataBuffer.hpp \
+    ../include/libKitsuneCommon/buffering/dataBufferMethods.hpp \
+    ../include/libKitsuneCommon/testing/test.hpp \
+    ../include/libKitsuneCommon/threading/thread.hpp

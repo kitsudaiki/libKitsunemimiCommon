@@ -7,16 +7,18 @@
  *  MIT License
  */
 
-#ifndef VECTORMETHODSTEST_HPP
-#define VECTORMETHODSTEST_HPP
+#ifndef VECTORMETHODS_TEST_HPP
+#define VECTORMETHODS_TEST_HPP
 
-#include <testing/commonTest.hpp>
+#include <testing/test.hpp>
 
 namespace Kitsune
 {
+namespace Common
+{
 
 class TextFile_Test
-        : public Kitsune::CommonTest
+        : public Kitsune::Common::Test
 {
 public:
     TextFile_Test();
@@ -25,6 +27,7 @@ private:
     void removeEmptyStrings_test();
 };
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // VECTORMETHODSTEST_HPP
+#endif // VECTORMETHODS_TEST_HPP

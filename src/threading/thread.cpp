@@ -1,5 +1,5 @@
 /**
- *  @file    commonThread.cpp
+ *  @file    thread.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,16 +7,18 @@
  *  MIT License
  */
 
-#include <threading/commonThread.hpp>
-#include <buffering/commonDataBuffer.hpp>
+#include <threading/thread.hpp>
+#include <buffering/dataBuffer.hpp>
 
 namespace Kitsune
+{
+namespace Common
 {
 
 /**
  * constructor
  */
-CommonThread::CommonThread(int coreId)
+Thread::Thread(int coreId)
 {
     m_coreId = coreId;
 }
@@ -24,7 +26,7 @@ CommonThread::CommonThread(int coreId)
 /**
  * destructor
  */
-CommonThread::~CommonThread()
+Thread::~Thread()
 {
     stop();
 }
@@ -37,7 +39,7 @@ CommonThread::~CommonThread()
  * @return false if precheck of bind failed, else true
  */
 bool
-CommonThread::bindThreadToCore(const int coreId)
+Thread::bindThreadToCore(const int coreId)
 {
     // precheck
     // TODO: get max-core-number of the system
@@ -68,7 +70,7 @@ CommonThread::bindThreadToCore(const int coreId)
  * @return false if already running, else true
  */
 bool
-CommonThread::start()
+Thread::start()
 {
     // precheck
     if(m_active) {
@@ -77,7 +79,7 @@ CommonThread::start()
 
     // init new thread
     m_abort = false;
-    m_thread = new std::thread(&CommonThread::run, this);
+    m_thread = new std::thread(&Thread::run, this);
     m_active = true;
 
     // bind thread to cpu-thread, if required
@@ -94,7 +96,7 @@ CommonThread::start()
  * @return false if not actire or not joinable, else true
  */
 bool
-CommonThread::waitForFinish()
+Thread::waitForFinish()
 {
     // TODO: check that the thread doesn't typ to stop itself,
     //       because it results into a deadlock
@@ -118,7 +120,7 @@ CommonThread::waitForFinish()
  * stop a thread without killing the thread
  */
 void
-CommonThread::stop()
+Thread::stop()
 {
     // TODO: check that the thread doesn't typ to stop itself,
     //       because it results into a deadlock
@@ -139,7 +141,7 @@ CommonThread::stop()
  * say the thread, he should wait at the next barrier
  */
 void
-CommonThread::initBlockThread()
+Thread::initBlockThread()
 {
     m_block = true;
 }
@@ -148,7 +150,7 @@ CommonThread::initBlockThread()
  * lets the thread continue if he waits at the barrier
  */
 void
-CommonThread::continueThread()
+Thread::continueThread()
 {
     m_cv.notify_one();
 }
@@ -157,7 +159,7 @@ CommonThread::continueThread()
  * simple mutex-lock
  */
 void
-CommonThread::mutexLock()
+Thread::mutexLock()
 {
     m_mutex.lock();
 }
@@ -166,7 +168,7 @@ CommonThread::mutexLock()
  * simple mutex-unlock
  */
 void
-CommonThread::mutexUnlock()
+Thread::mutexUnlock()
 {
     m_mutex.unlock();
 }
@@ -175,7 +177,7 @@ CommonThread::mutexUnlock()
  * lets the thread wait at a barrier
  */
 void
-CommonThread::blockThread()
+Thread::blockThread()
 {
     m_block = false;
     std::unique_lock<std::mutex> lock(m_cvMutex);
@@ -187,7 +189,7 @@ CommonThread::blockThread()
  * lets the thread sleep for a specific amount of microseconds
  */
 void
-CommonThread::sleepThread(const uint32_t microSeconds)
+Thread::sleepThread(const uint32_t microSeconds)
 {
     std::this_thread::sleep_for(std::chrono::microseconds(microSeconds));
 }
@@ -198,9 +200,10 @@ CommonThread::sleepThread(const uint32_t microSeconds)
  * @return true, if active, else false
  */
 bool
-CommonThread::isActive() const
+Thread::isActive() const
 {
     return m_active;
 }
 
+} // namespace Common
 } // namespace Kitsune
