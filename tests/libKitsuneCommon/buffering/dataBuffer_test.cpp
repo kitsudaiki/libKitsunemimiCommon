@@ -1,5 +1,5 @@
 /**
- *  @file    commonDataBuffer_test.cpp
+ *  @file    dataBuffer_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,11 +7,13 @@
  *  MIT License
  */
 
-#include "commonDataBuffer_test.hpp"
+#include "dataBuffer_test.hpp"
 
-#include <buffering/commonDataBuffer.hpp>
+#include <buffering/dataBuffer.hpp>
 
 namespace Kitsune
+{
+namespace Common
 {
 
 struct TestStruct
@@ -21,8 +23,8 @@ struct TestStruct
     uint64_t c = 0;
 } __attribute__((packed));
 
-CommonDataBuffer_Test::CommonDataBuffer_Test()
-    : Kitsune::CommonTest("CommonDataBuffer_Test")
+DataBuffer_Test::DataBuffer_Test()
+    : Kitsune::Common::Test("DataBuffer_Test")
 {
     structSize_test();
     constructor_test();
@@ -36,19 +38,19 @@ CommonDataBuffer_Test::CommonDataBuffer_Test()
  * structSize_test
  */
 void
-CommonDataBuffer_Test::structSize_test()
+DataBuffer_Test::structSize_test()
 {
-    CommonDataBuffer testBuffer(10);
-    UNITTEST(sizeof(CommonDataBuffer) % 8, 0);
+    DataBuffer testBuffer(10);
+    UNITTEST(sizeof(DataBuffer) % 8, 0);
 }
 
 /**
  * constructor_test
  */
 void
-CommonDataBuffer_Test::constructor_test()
+DataBuffer_Test::constructor_test()
 {
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
 
     // check metadata of the buffer
     UNITTEST_NEG(testBuffer.data, nullptr);
@@ -61,10 +63,10 @@ CommonDataBuffer_Test::constructor_test()
  * copyConstructor_test
  */
 void
-CommonDataBuffer_Test::copyConstructor_test()
+DataBuffer_Test::copyConstructor_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -77,7 +79,7 @@ CommonDataBuffer_Test::copyConstructor_test()
     UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // use copy contstructor
-    CommonDataBuffer bufferCopy(testBuffer);
+    DataBuffer bufferCopy(testBuffer);
 
     // check metadata of the new buffer
     UNITTEST(bufferCopy.numberOfBlocks, 10);
@@ -93,10 +95,10 @@ CommonDataBuffer_Test::copyConstructor_test()
  * addData_test
  */
 void
-CommonDataBuffer_Test::addData_test()
+DataBuffer_Test::addData_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -117,10 +119,10 @@ CommonDataBuffer_Test::addData_test()
  * getBlock_test
  */
 void
-CommonDataBuffer_Test::getBlock_test()
+DataBuffer_Test::getBlock_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -135,10 +137,10 @@ CommonDataBuffer_Test::getBlock_test()
  * reset_test
  */
 void
-CommonDataBuffer_Test::reset_test()
+DataBuffer_Test::reset_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -158,4 +160,5 @@ CommonDataBuffer_Test::reset_test()
     UNITTEST(static_cast<int>(dataByte[1]), 0);
 }
 
+} // namespace Common
 } // namespace Kitsune

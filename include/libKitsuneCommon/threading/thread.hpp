@@ -1,5 +1,5 @@
 /**
- *  @file    commonThread.hpp
+ *  @file    thread.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef COMMONTHREAD_HPP
-#define COMMONTHREAD_HPP
+#ifndef THREAD_HPP
+#define THREAD_HPP
 
 #include <mutex>
 #include <condition_variable>
@@ -18,13 +18,16 @@
 
 namespace Kitsune
 {
-class CommonDataBuffer;
+namespace Common
+{
 
-class CommonThread
+class DataBuffer;
+
+class Thread
 {
 public:
-    CommonThread(int coreId = -1);
-    virtual ~CommonThread();
+    Thread(int coreId = -1);
+    virtual ~Thread();
 
     bool start();
     void stop();
@@ -58,6 +61,7 @@ protected:
     virtual void run() = 0;
 };
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // COMMONTHREAD_HPP
+#endif // THREAD_HPP

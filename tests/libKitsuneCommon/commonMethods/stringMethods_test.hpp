@@ -7,16 +7,18 @@
  *  MIT License
  */
 
-#ifndef STRINGMETHODSTEST_HPP
-#define STRINGMETHODSTEST_HPP
+#ifndef STRINGMETHODS_TEST_HPP
+#define STRINGMETHODS_TEST_HPP
 
-#include <testing/commonTest.hpp>
+#include <testing/test.hpp>
 
 namespace Kitsune
 {
+namespace Common
+{
 
 class StringMethods_Test
-        : public Kitsune::CommonTest
+        : public Kitsune::Common::Test
 {
 public:
     StringMethods_Test();
@@ -25,6 +27,7 @@ private:
     void splitString_test();
 };
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // STRINGMETHODSTEST_HPP
+#endif // STRINGMETHODS_TEST_HPP

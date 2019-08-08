@@ -17,6 +17,8 @@
 
 namespace Kitsune
 {
+namespace Common
+{
 
 /**
  * sptrit a string at a specific delimiter
@@ -46,6 +48,7 @@ splitString(const std::string &inputString,
     return result;
 }
 
+} // namespace Common
 } // namespace Kitsune
 
 #endif // STRINGMETHODS_HPP

@@ -1,5 +1,5 @@
 /**
- *  @file    commonDataBufferMethods_test.cpp
+ *  @file    dataBufferMethods_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,12 +7,14 @@
  *  MIT License
  */
 
-#include "commonDataBufferMethods_test.hpp"
+#include "dataBufferMethods_test.hpp"
 
-#include <buffering/commonDataBuffer.hpp>
-#include <buffering/commonDataBufferMethods.hpp>
+#include <buffering/dataBuffer.hpp>
+#include <buffering/dataBufferMethods.hpp>
 
 namespace Kitsune
+{
+namespace Common
 {
 
 struct TestStruct
@@ -22,8 +24,8 @@ struct TestStruct
     uint64_t c = 0;
 } __attribute__((packed));
 
-CommonDataBufferMethods_Test::CommonDataBufferMethods_Test()
-    : Kitsune::CommonTest("CommonDataBufferMethods_Test")
+DataBufferMethods_Test::DataBufferMethods_Test()
+    : Kitsune::Common::Test("DataBufferMethods_Test")
 {
     addDataToBuffer_test();
     allocateBlocks_test();
@@ -34,10 +36,10 @@ CommonDataBufferMethods_Test::CommonDataBufferMethods_Test()
  * addDataToBuffer_test
  */
 void
-CommonDataBufferMethods_Test::addDataToBuffer_test()
+DataBufferMethods_Test::addDataToBuffer_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -62,10 +64,10 @@ CommonDataBufferMethods_Test::addDataToBuffer_test()
  * allocateBlocks_test
  */
 void
-CommonDataBufferMethods_Test::allocateBlocks_test()
+DataBufferMethods_Test::allocateBlocks_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -98,10 +100,10 @@ CommonDataBufferMethods_Test::allocateBlocks_test()
  * resetBuffer_test
  */
 void
-CommonDataBufferMethods_Test::resetBuffer_test()
+DataBufferMethods_Test::resetBuffer_test()
 {
     // init
-    CommonDataBuffer testBuffer(10);
+    DataBuffer testBuffer(10);
     TestStruct testStruct;
     testStruct.b = 42;
 
@@ -121,4 +123,5 @@ CommonDataBufferMethods_Test::resetBuffer_test()
     UNITTEST(static_cast<int>(dataByte[1]), 0);
 }
 
+} // namespace Common
 } // namespace Kitsune

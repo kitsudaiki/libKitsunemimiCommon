@@ -1,5 +1,5 @@
 /**
- *  @file    commonTest.hpp
+ *  @file    dataBufferMethods.hpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef COMMONDATABUFFERMETHODS_HPP
-#define COMMONDATABUFFERMETHODS_HPP
+#ifndef DATABUFFERMETHODS_HPP
+#define DATABUFFERMETHODS_HPP
 
 #include <string.h>
 #include <stdio.h>
@@ -17,21 +17,25 @@
 
 namespace Kitsune
 {
-struct CommonDataBuffer;
+namespace Common
+{
+
+struct DataBuffer;
 
 
-bool addDataToBuffer(CommonDataBuffer *buffer,
+bool addDataToBuffer(DataBuffer *buffer,
                      const void* data,
                      const uint64_t dataSize);
-bool allocateBlocks(CommonDataBuffer* buffer,
+bool allocateBlocks(DataBuffer* buffer,
                     const uint64_t numberOfBlocks);
-bool resetBuffer(CommonDataBuffer* buffer,
+bool resetBuffer(DataBuffer* buffer,
                  const uint64_t numberOfBlocks = 1);
 
 void* alignedMalloc(const uint16_t blockSize,
                     const uint64_t numberOfBytes);
 bool alignedFree(void *ptr);
 
+} // namespace Common
 } // namespace Kitsune
 
-#endif // COMMONDATABUFFERMETHODS_HPP
+#endif // DATABUFFERMETHODS_HPP
