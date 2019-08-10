@@ -11,7 +11,8 @@ INCLUDEPATH += $$PWD \
 SOURCES += \
     buffering/dataBufferMethods.cpp \
     testing/test.cpp \
-    threading/thread.cpp
+    threading/thread.cpp \
+    statemachine/statemachine.cpp
 
 HEADERS += \
     ../include/libKitsuneCommon/commonMethods/stringMethods.hpp \
@@ -19,4 +20,6 @@ HEADERS += \
     ../include/libKitsuneCommon/buffering/dataBuffer.hpp \
     ../include/libKitsuneCommon/buffering/dataBufferMethods.hpp \
     ../include/libKitsuneCommon/testing/test.hpp \
-    ../include/libKitsuneCommon/threading/thread.hpp
+    ../include/libKitsuneCommon/threading/thread.hpp \
+    statemachine/state.hpp \
+    ../include/libKitsuneCommon/statemachine/statemachine.hpp
