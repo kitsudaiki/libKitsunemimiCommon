@@ -15,7 +15,10 @@ HEADERS += \
     libKitsuneCommon/buffering/dataBuffer_test.hpp \
     libKitsuneCommon/buffering/dataBufferMethods_test.hpp \
     libKitsuneCommon/statemachine/state_test.hpp \
-    libKitsuneCommon/statemachine/statemachine_test.hpp
+    libKitsuneCommon/statemachine/statemachine_test.hpp \
+    libKitsuneCommon/data_structure/dataItems_dataObject_test.hpp \
+    libKitsuneCommon/data_structure/dataItems_dataValue_test.hpp \
+    libKitsuneCommon/data_structure/dataItems_dataArray_test.hpp
 
 SOURCES += \
     main.cpp \
@@ -24,4 +27,7 @@ SOURCES += \
     libKitsuneCommon/buffering/dataBuffer_test.cpp \
     libKitsuneCommon/buffering/dataBufferMethods_test.cpp \
     libKitsuneCommon/statemachine/state_test.cpp \
-    libKitsuneCommon/statemachine/statemachine_test.cpp
+    libKitsuneCommon/statemachine/statemachine_test.cpp \
+    libKitsuneCommon/data_structure/dataItems_dataArray_test.cpp \
+    libKitsuneCommon/data_structure/dataItems_dataObject_test.cpp \
+    libKitsuneCommon/data_structure/dataItems_dataValue_test.cpp
