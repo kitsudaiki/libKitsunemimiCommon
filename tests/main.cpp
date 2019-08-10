@@ -18,6 +18,10 @@
 #include <libKitsuneCommon/statemachine/state_test.hpp>
 #include <libKitsuneCommon/statemachine/statemachine_test.hpp>
 
+#include <libKitsuneCommon/data_structure/dataItems_dataArray_test.hpp>
+#include <libKitsuneCommon/data_structure/dataItems_dataObject_test.hpp>
+#include <libKitsuneCommon/data_structure/dataItems_dataValue_test.hpp>
+
 int main()
 {
     Kitsune::Common::DataBufferMethods_Test();
@@ -28,4 +32,8 @@ int main()
 
     Kitsune::Common::State_Test();
     Kitsune::Common::Statemachine_Test();
+
+    Kitsune::Common::DataItems_DataValue_Test();
+    Kitsune::Common::DataItems_DataArray_Test();
+    Kitsune::Common::DataItems_DataObject_Test();
 }

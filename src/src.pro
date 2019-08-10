@@ -12,7 +12,8 @@ SOURCES += \
     buffering/dataBufferMethods.cpp \
     testing/test.cpp \
     threading/thread.cpp \
-    statemachine/statemachine.cpp
+    statemachine/statemachine.cpp \
+    data_structure/dataItems.cpp
 
 HEADERS += \
     ../include/libKitsuneCommon/commonMethods/stringMethods.hpp \
@@ -22,4 +23,5 @@ HEADERS += \
     ../include/libKitsuneCommon/testing/test.hpp \
     ../include/libKitsuneCommon/threading/thread.hpp \
     statemachine/state.hpp \
-    ../include/libKitsuneCommon/statemachine/statemachine.hpp
+    ../include/libKitsuneCommon/statemachine/statemachine.hpp \
+    ../include/libKitsuneCommon/data_structure/dataItems.hpp
