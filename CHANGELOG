@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.0] - 2019-08-10
+
+### Added
+- data-items, which were originally json-items from libKitsuneJson
+- simple statemachine
 
 ## [0.1.0] - 2019-08-03
 
