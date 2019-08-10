@@ -22,7 +22,7 @@ namespace Common
 DataItem::~DataItem() {}
 
 /**
- * request type, of the current data-object
+ * @brief request type, of the current data-object
  *
  * @return object-specific entry of the dataTypes-enumeration
  */
@@ -33,7 +33,7 @@ DataItem::getType() const
 }
 
 /**
- * check if DataItem is a DataValue
+ * @brief check if DataItem is a DataValue
  */
 bool
 DataItem::isValue() const
@@ -46,7 +46,7 @@ DataItem::isValue() const
 }
 
 /**
- * check if DataItem is a DataObject
+ * @brief check if DataItem is a DataObject
  */
 bool
 DataItem::isObject() const
@@ -58,7 +58,7 @@ DataItem::isObject() const
 }
 
 /**
- * check if DataItem is a DataArray
+ * @brief check if DataItem is a DataArray
  */
 bool
 DataItem::isArray() const
@@ -70,7 +70,7 @@ DataItem::isArray() const
 }
 
 /**
- * convert to a DataArray
+ * @brief convert to a DataArray
  */
 DataArray*
 DataItem::toArray()
@@ -82,7 +82,7 @@ DataItem::toArray()
 }
 
 /**
- * convert to a DataObject
+ * @brief convert to a DataObject
  */
 DataObject*
 DataItem::toObject()
@@ -94,7 +94,7 @@ DataItem::toObject()
 }
 
 /**
- * convert to a DataVolue
+ * @brief convert to a DataVolue
  */
 DataValue*
 DataItem::toValue()
@@ -107,7 +107,7 @@ DataItem::toValue()
 }
 
 /**
- * request the string of the data-value, if it is from string-type
+ * @brief request the string of the data-value, if it is from string-type
  *
  * @return string of the data-value, if data-value is from string-type, else empty string
  */
@@ -133,7 +133,7 @@ DataItem::toString()
 }
 
 /**
- * request the integer of the data-value, if it is from int-type
+ * @brief request the integer of the data-value, if it is from int-type
  *
  * @return integer of the data-value, if data-value is from int-type, else empty 0
  */
@@ -150,7 +150,7 @@ DataItem::toInt()
 
 
 /**
- * request the flaot of the data-value, if it is from float-type
+ * @brief request the flaot of the data-value, if it is from float-type
  *
  * @return float of the data-value, if data-value is from float-type, else empty 0.0
  */
@@ -166,7 +166,7 @@ DataItem::toFloat()
 }
 
 /**
- * add indent and linebreak to be better human-readable
+ * @brief add indent and linebreak to be better human-readable
  */
 void
 DataItem::addIndent(std::string *output,
@@ -197,7 +197,7 @@ DataValue::DataValue()
 }
 
 /**
- * data-value for strings
+ * @brief data-value for strings
  */
 DataValue::DataValue(const std::string &text)
 {
@@ -207,7 +207,7 @@ DataValue::DataValue(const std::string &text)
 }
 
 /**
- * data-value for integers
+ * @brief data-value for integers
  */
 DataValue::DataValue(const int value)
 {
@@ -217,7 +217,7 @@ DataValue::DataValue(const int value)
 }
 
 /**
- * data-value for float
+ * @brief data-value for float
  */
 DataValue::DataValue(const float value)
 {
@@ -227,13 +227,15 @@ DataValue::DataValue(const float value)
 }
 
 /**
- * @brief DataValue::~DataValue
+ * @brief destructor
  */
-DataValue::~DataValue()
-{
-    //std::cout<<"DataValue: "<<this<<std::endl;
-}
+DataValue::~DataValue() {}
 
+/**
+ * @brief get type inside the data-value
+ *
+ * @return value-type
+ */
 DataValue::dataValueTypes
 DataValue::getValueType()
 {
@@ -241,7 +243,7 @@ DataValue::getValueType()
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime nullptr
+ * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
 DataValue::operator[](const std::string)
@@ -250,7 +252,7 @@ DataValue::operator[](const std::string)
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime nullptr
+ * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
 DataValue::operator[](const uint32_t)
@@ -259,7 +261,7 @@ DataValue::operator[](const uint32_t)
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime nullptr
+ * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
 DataValue::get(const std::string)
@@ -268,7 +270,7 @@ DataValue::get(const std::string)
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime nullptr
+ * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
 DataValue::get(const uint32_t)
@@ -277,7 +279,7 @@ DataValue::get(const uint32_t)
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime 0
+ * @brief fake-method which exist here only for the inheritance and returns everytime 0
  */
 uint32_t
 DataValue::getSize() const
@@ -286,7 +288,7 @@ DataValue::getSize() const
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime false
+ * @brief fake-method which exist here only for the inheritance and returns everytime false
  */
 bool
 DataValue::remove(const std::string&)
@@ -295,7 +297,7 @@ DataValue::remove(const std::string&)
 }
 
 /**
- * fake-method which exist here only for the inheritance and returns everytime false
+ * @brief fake-method which exist here only for the inheritance and returns everytime false
  */
 bool
 DataValue::remove(const uint32_t)
@@ -304,7 +306,7 @@ DataValue::remove(const uint32_t)
 }
 
 /**
- * copy the data-value
+ * @brief copy the data-value
  *
  * @return pointer to a copy of the value
  */
@@ -325,7 +327,7 @@ DataValue::copy()
 }
 
 /**
- * prints the content of the object
+ * @brief prints the content of the object
  */
 std::string
 DataValue::print(std::string *output,
@@ -354,7 +356,7 @@ DataValue::print(std::string *output,
 }
 
 /**
- * writes a new string into the data-value
+ * @brief writes a new string into the data-value
  */
 void
 DataValue::setValue(const std::string &item)
@@ -367,7 +369,7 @@ DataValue::setValue(const std::string &item)
 }
 
 /**
- * writes a new integer into the data-value
+ * @brief writes a new integer into the data-value
  */
 void
 DataValue::setValue(const int &item)
@@ -380,7 +382,7 @@ DataValue::setValue(const int &item)
 }
 
 /**
- * writes a new integer into the data-value
+ * @brief writes a new integer into the data-value
  */
 void
 DataValue::setValue(const float &item)
@@ -397,7 +399,7 @@ DataValue::setValue(const float &item)
 //===================================================================
 
 /**
- * object for key-value-pairs
+ * @brief object for key-value-pairs
  */
 DataObject::DataObject()
 {
@@ -405,7 +407,7 @@ DataObject::DataObject()
 }
 
 /**
- * delete all items in the key-value-list
+ * @brief delete all items in the key-value-list
  */
 DataObject::~DataObject()
 {
@@ -419,7 +421,7 @@ DataObject::~DataObject()
 }
 
 /**
- * get a specific item of the object
+ * @brief get a specific item of the object
  *
  * @return nullptr if index in key is to high, else object
  */
@@ -430,7 +432,7 @@ DataObject::operator[](const std::string key)
 }
 
 /**
- * get a specific item of the object
+ * @brief get a specific item of the object
  *
  * @return nullptr if index is to high, else object
  */
@@ -441,7 +443,7 @@ DataObject::operator[](const uint32_t index)
 }
 
 /**
- * get a specific item of the object
+ * @brief get a specific item of the object
  *
  * @return nullptr if index in key is to high, else object
  */
@@ -459,7 +461,7 @@ DataObject::get(const std::string key)
 }
 
 /**
- * get a specific item of the object
+ * @brief get a specific item of the object
  *
  * @return nullptr if index is to high, else object
  */
@@ -486,7 +488,7 @@ DataObject::get(const uint32_t index)
 }
 
 /**
- * getter for the number of elements in the key-value-list
+ * @brief getter for the number of elements in the key-value-list
  *
  * @return number of elements in the key-value-list
  */
@@ -497,7 +499,7 @@ DataObject::getSize() const
 }
 
 /**
- * get list of keys of the objects-map
+ * @brief get list of keys of the objects-map
  *
  * @return string-list with the keys of the map
  */
@@ -514,7 +516,7 @@ DataObject::getKeys()
 }
 
 /**
- * get list of values of the objects-map
+ * @brief get list of values of the objects-map
  *
  * @return DataItem-list with the keys of the map
  */
@@ -531,7 +533,7 @@ DataObject::getValues()
 }
 
 /**
- * check if a key is in the object-map
+ * @brief check if a key is in the object-map
  *
  * @return false if the key doesn't exist, else true
  */
@@ -549,7 +551,7 @@ DataObject::contains(const std::string &key)
 }
 
 /**
- * get the string-value behind the key inside the data-object
+ * @brief get the string-value behind the key inside the data-object
  */
 std::string
 DataObject::getString(const std::string &key)
@@ -559,7 +561,7 @@ DataObject::getString(const std::string &key)
 }
 
 /**
- * get the int-value behind the key inside the data-object
+ * @brief get the int-value behind the key inside the data-object
  */
 int
 DataObject::getInt(const std::string &key)
@@ -569,7 +571,7 @@ DataObject::getInt(const std::string &key)
 }
 
 /**
- * get the float-value behind the key inside the data-object
+ * @brief get the float-value behind the key inside the data-object
  */
 float
 DataObject::getFloat(const std::string &key)
@@ -579,7 +581,7 @@ DataObject::getFloat(const std::string &key)
 }
 
 /**
- * remove an item from the key-value-list
+ * @brief remove an item from the key-value-list
  *
  * @return false if the key doesn't exist, else true
  */
@@ -599,7 +601,7 @@ DataObject::remove(const std::string &key)
 }
 
 /**
- * remove an item from the object
+ * @brief remove an item from the object
  *
  * @return false if index is to high, else true
  */
@@ -625,7 +627,7 @@ DataObject::remove(const uint32_t index)
 }
 
 /**
- * copy the object with all elements
+ * @brief copy the object with all elements
  *
  * @return pointer to a copy of the object
  */
@@ -642,7 +644,7 @@ DataObject::copy()
 }
 
 /**
- * prints the content of the object
+ * @brief prints the content of the object
  */
 std::string
 DataObject::print(std::string *output,
@@ -700,7 +702,7 @@ DataObject::print(std::string *output,
 }
 
 /**
- * add new key-value-pair to the object
+ * @brief add new key-value-pair to the object
  *
  * @return false if key already exist, else true
  */
@@ -733,7 +735,7 @@ DataObject::insert(const std::string &key,
 //===================================================================
 
 /**
- * array for items in data-style
+ * @brief array for items in data-style
  */
 DataArray::DataArray()
 {
@@ -741,7 +743,7 @@ DataArray::DataArray()
 }
 
 /**
- * delete all items in the array
+ * @brief delete all items in the array
  */
 DataArray::~DataArray()
 {
@@ -755,7 +757,7 @@ DataArray::~DataArray()
 }
 
 /**
- * get a specific item of the array
+ * @brief get a specific item of the array
  *
  * @return nullptr if index in key is to high, else true
  */
@@ -766,7 +768,7 @@ DataArray::operator[](const std::string key)
 }
 
 /**
- * get a specific item of the array
+ * @brief get a specific item of the array
  *
  * @return nullptr if index is to high, else true
  */
@@ -777,7 +779,7 @@ DataArray::operator[](const uint32_t index)
 }
 
 /**
- * get a specific item of the array
+ * @brief get a specific item of the array
  *
  * @return nullptr if index in key is to high, else object
  */
@@ -788,7 +790,7 @@ DataArray::get(const std::string key)
 }
 
 /**
- * get a specific item of the array
+ * @brief get a specific item of the array
  *
  * @return nullptr if index is to high, else the object
  */
@@ -803,7 +805,7 @@ DataArray::get(const uint32_t index)
 }
 
 /**
- * getter for the number of elements in the array
+ * @brief getter for the number of elements in the array
  *
  * @return number of elements in the array
  */
@@ -814,7 +816,7 @@ DataArray::getSize() const
 }
 
 /**
- * remove an item from the array
+ * @brief remove an item from the array
  *
  * @return false if index in key is to high, else true
  */
@@ -830,7 +832,7 @@ DataArray::remove(const std::string &key)
 }
 
 /**
- * remove an item from the array
+ * @brief remove an item from the array
  *
  * @return false if index is to high, else true
  */
@@ -845,7 +847,7 @@ DataArray::remove(const uint32_t index)
 }
 
 /**
- * copy the array with all elements
+ * @brief copy the array with all elements
  *
  * @return pointer to a copy of the array
  */
@@ -861,7 +863,7 @@ DataArray::copy()
 }
 
 /**
- * prints the content of the object
+ * @brief prints the content of the object
  */
 std::string
 DataArray::print(std::string *output,
@@ -899,7 +901,7 @@ DataArray::print(std::string *output,
 }
 
 /**
- * add a new item to the array
+ * @brief add a new item to the array
  *
  * @return false, if new item-pointer is nullptr, else true
  */

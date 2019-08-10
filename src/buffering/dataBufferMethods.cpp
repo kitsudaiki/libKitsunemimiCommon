@@ -16,7 +16,7 @@ namespace Common
 {
 
 /**
- * copy data into the buffer and resize the buffer in necessary
+ * @brief copy data into the buffer and resize the buffer in necessary
  *
  * @param buffer pointer to buffer-object
  * @param data pointer the the data, which should be written into the buffer
@@ -55,8 +55,8 @@ addDataToBuffer(DataBuffer* buffer,
 }
 
 /**
- * allocate more memory for the buffer.
- * It allocates a bigger memory-block an copy the old buffer-content into the new.
+ * @brief allocate more memory for the buffer.
+ *        It allocates a bigger memory-block an copy the old buffer-content into the new.
  *
  * @param buffer pointer to buffer-object
  * @param numberOfBlocks number of blocks to allocate
@@ -98,7 +98,7 @@ allocateBlocks(DataBuffer* buffer,
 }
 
 /**
- * reset a buffer and clears the data, so it is like the buffer is totally new
+ * @brief reset a buffer and clears the data, so it is like the buffer is totally new
  *
  * @param buffer pointer to buffer-object
  * @param numberOfBlocks number of new allocated blocks after buffer-reset
@@ -141,7 +141,7 @@ resetBuffer(DataBuffer* buffer,
 
 
 /**
- * allocate a number of aligned bytes
+ * @brief allocate a number of aligned bytes
  *
  * @param numberOfBytes bytes to allocate
  *
@@ -173,8 +173,8 @@ alignedMalloc(const uint16_t blockSize,
 }
 
 /**
- * free aligned memory
- * this method is a bit useless, but I wanted a equivalent for the alignedMalloc-method
+ * @brief free aligned memory
+ *        this method is a bit useless, but I wanted a equivalent for the alignedMalloc-method
  *
  * @param ptr pointer to the memory to free
  *

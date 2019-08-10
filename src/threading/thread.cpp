@@ -16,7 +16,7 @@ namespace Common
 {
 
 /**
- * constructor
+ * @brief constructor
  */
 Thread::Thread(int coreId)
 {
@@ -24,7 +24,7 @@ Thread::Thread(int coreId)
 }
 
 /**
- * destructor
+ * @brief destructor
  */
 Thread::~Thread()
 {
@@ -32,7 +32,7 @@ Thread::~Thread()
 }
 
 /**
- * bind the thread to a specific cpu-thread
+ * @brief bind the thread to a specific cpu-thread
  *
  * @param coreId id of the cpu-thread where bind
  *
@@ -65,7 +65,7 @@ Thread::bindThreadToCore(const int coreId)
 }
 
 /**
- * start the thread
+ * @brief start the thread
  *
  * @return false if already running, else true
  */
@@ -91,7 +91,7 @@ Thread::start()
 }
 
 /**
- * wait until the thread has finished its task
+ * @brief wait until the thread has finished its task
  *
  * @return false if not actire or not joinable, else true
  */
@@ -117,7 +117,7 @@ Thread::waitForFinish()
 }
 
 /**
- * stop a thread without killing the thread
+ * @brief stop a thread without killing the thread
  */
 void
 Thread::stop()
@@ -138,7 +138,7 @@ Thread::stop()
 
 
 /**
- * say the thread, he should wait at the next barrier
+ * @brief say the thread, he should wait at the next barrier
  */
 void
 Thread::initBlockThread()
@@ -147,7 +147,7 @@ Thread::initBlockThread()
 }
 
 /**
- * lets the thread continue if he waits at the barrier
+ * @brief let the thread continue if he waits at the barrier
  */
 void
 Thread::continueThread()
@@ -156,7 +156,7 @@ Thread::continueThread()
 }
 
 /**
- * simple mutex-lock
+ * @brief simple mutex-lock
  */
 void
 Thread::mutexLock()
@@ -165,7 +165,7 @@ Thread::mutexLock()
 }
 
 /**
- * simple mutex-unlock
+ * @brief simple mutex-unlock
  */
 void
 Thread::mutexUnlock()
@@ -174,7 +174,7 @@ Thread::mutexUnlock()
 }
 
 /**
- * lets the thread wait at a barrier
+ * @brief let the thread wait at a barrier
  */
 void
 Thread::blockThread()
@@ -186,7 +186,7 @@ Thread::blockThread()
 }
 
 /**
- * lets the thread sleep for a specific amount of microseconds
+ * @brief let the thread sleep for a specific amount of microseconds
  */
 void
 Thread::sleepThread(const uint32_t microSeconds)
@@ -195,7 +195,7 @@ Thread::sleepThread(const uint32_t microSeconds)
 }
 
 /**
- * check if thread is active
+ * @brief check if thread is active
  *
  * @return true, if active, else false
  */

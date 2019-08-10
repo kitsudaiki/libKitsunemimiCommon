@@ -37,7 +37,7 @@ struct DataBuffer
     uint8_t padding[5];
 
     /**
-     * constructor
+     * @brief constructor
      *
      * @param numberOfBlocks number of block of the initial allocation (at least one)
      */
@@ -51,7 +51,7 @@ struct DataBuffer
     }
 
     /**
-     * copy-constructor
+     * @brief copy-constructor
      */
     DataBuffer(const DataBuffer &other)
     {
@@ -66,9 +66,9 @@ struct DataBuffer
     }
 
     /**
-     * simple additonal construct which use allready allocated memory.
-     * If this existing buffer is not a multiple of the blocksize,
-     * it allocate new memory with a valid size.
+     * @brief simple additonal construct which use allready allocated memory.
+     *        If this existing buffer is not a multiple of the blocksize,
+     *        it allocate new memory with a valid size.
      *
      * @param data pointer to the already allocated memory
      * @param size size of the allocated memory
@@ -89,7 +89,7 @@ struct DataBuffer
     }
 
     /**
-     * destructor to clear the allocated memory inside this object
+     * @brief destructor to clear the allocated memory inside this object
      */
     ~DataBuffer()
     {
@@ -105,7 +105,7 @@ struct DataBuffer
     }
 
     /**
-     * get a pointer to a specific block inside the buffer
+     * @brief get a pointer to a specific block inside the buffer
      *
      * @param blockPosition number of the block inside the buffer
      *
@@ -125,7 +125,7 @@ struct DataBuffer
     }
 
     /**
-     * add an object to the buffer
+     * @brief add an object to the buffer
      *
      * @param data pointer to the object, which shoulb be written to the buffer
      */
@@ -137,7 +137,7 @@ struct DataBuffer
     }
 
     /**
-     * reset a buffer and clears the data, so it is like the buffer is totally new
+     * @brief reset a buffer and clears the data, so it is like the buffer is totally new
      *
      * @return false if precheck or allocation failed, else true
      */
