@@ -15,6 +15,9 @@
 #include <libKitsuneCommon/commonMethods/stringMethods_test.hpp>
 #include <libKitsuneCommon/commonMethods/vectorMethods_test.hpp>
 
+#include <libKitsuneCommon/statemachine/state_test.hpp>
+#include <libKitsuneCommon/statemachine/statemachine_test.hpp>
+
 int main()
 {
     Kitsune::Common::DataBufferMethods_Test();
@@ -22,4 +25,7 @@ int main()
 
     Kitsune::Common::StringMethods_Test();
     Kitsune::Common::TextFile_Test();
+
+    Kitsune::Common::State_Test();
+    Kitsune::Common::Statemachine_Test();
 }
