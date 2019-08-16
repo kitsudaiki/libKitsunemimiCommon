@@ -7,10 +7,10 @@
  *  MIT License
  */
 
-#ifndef DATAITEMS_DATAOBJECT_TEST_HPP
-#define DATAITEMS_DATAOBJECT_TEST_HPP
+#ifndef DATAITEMS_DATAOBJECT_TEST_H
+#define DATAITEMS_DATAOBJECT_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
@@ -48,4 +48,4 @@ private:
 }  // namespace Common
 }  // namespace Kitsune
 
-#endif // DATAITEMS_DATAOBJECT_TEST_HPP
+#endif // DATAITEMS_DATAOBJECT_TEST_H

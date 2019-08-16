@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethods.hpp
+ *  @file    vectorMethods.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef VECTORMETHODS_HPP
-#define VECTORMETHODS_HPP
+#ifndef VECTOR_METHODS_H
+#define VECTOR_METHODS_H
 
 #include <string>
 #include <vector>
@@ -45,4 +45,4 @@ removeEmptyStrings(std::vector<std::string>* inputVector)
 } // namespace Common
 } // namespace Kitsune
 
-#endif // VECTORMETHODS_HPP
+#endif // VECTORMETHODS_H

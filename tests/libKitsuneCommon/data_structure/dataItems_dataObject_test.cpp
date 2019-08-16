@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#include "dataItems_dataObject_test.hpp"
-#include <data_structure/dataItems.hpp>
+#include "dataItems_dataObject_test.h"
+#include <data_structure/data_items.h>
 
 namespace Kitsune
 {

@@ -1,5 +1,5 @@
 /**
- *  @file    state_test.hpp
+ *  @file    vectorMethods_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,29 +7,27 @@
  *  MIT License
  */
 
-#ifndef STATE_TEST_HPP
-#define STATE_TEST_HPP
+#ifndef VECTOR_METHODS_TEST_H
+#define VECTOR_METHODS_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
 namespace Common
 {
 
-class State_Test
+class TextFile_Test
         : public Kitsune::Common::Test
 {
 public:
-    State_Test();
+    TextFile_Test();
 
 private:
-    void addTransition_test();
-    void next_test();
-
+    void removeEmptyStrings_test();
 };
 
 } // namespace Common
 } // namespace Kitsune
 
-#endif // STATE_TEST_HPP
+#endif // VECTORMETHODS_TEST_H

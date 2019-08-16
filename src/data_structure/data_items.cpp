@@ -7,7 +7,7 @@
  *  MIT License
  */
 
-#include <data_structure/dataItems.hpp>
+#include <data_structure/data_items.h>
 #include <iostream>
 
 namespace Kitsune

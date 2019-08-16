@@ -1,5 +1,5 @@
 /**
- *  @file    dataItems_DataValue_test.h
+ *  @file    dataItems_DataArray_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,21 +7,22 @@
  *  MIT License
  */
 
-#ifndef DATAITEMS_DATAVALUE_TEST_HPP
-#define DATAITEMS_DATAVALUE_TEST_HPP
+#ifndef DATAITEMS_DATAARRAY_TEST_H
+#define DATAITEMS_DATAARRAY_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
 namespace Common
 {
-class DataValue;
+class DataArray;
 
-class DataItems_DataValue_Test : public Kitsune::Common::Test
+class DataItems_DataArray_Test
+        : public Kitsune::Common::Test
 {
 public:
-    DataItems_DataValue_Test();
+    DataItems_DataArray_Test();
 
 private:
     void operator_test();
@@ -35,11 +36,12 @@ private:
     void toValue_toObject_toArray_test();
     void toString_toInt_toFloat_test();
 
-    void getValueType_test();
-    void setValue_test();
+    void append_test();
+
+    DataArray initTestArray();
 };
 
 }  // namespace Common
 }  // namespace Kitsune
 
-#endif // DATAITEMS_DATAVALUE_TEST_HPP
+#endif // DATAITEMS_DATAARRAY_TEST_H

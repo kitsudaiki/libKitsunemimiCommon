@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethods_test.hpp
+ *  @file    stringMethods_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,27 +7,27 @@
  *  MIT License
  */
 
-#ifndef VECTORMETHODS_TEST_HPP
-#define VECTORMETHODS_TEST_HPP
+#ifndef STRING_METHODS_TEST_H
+#define STRING_METHODS_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
 namespace Common
 {
 
-class TextFile_Test
+class StringMethods_Test
         : public Kitsune::Common::Test
 {
 public:
-    TextFile_Test();
+    StringMethods_Test();
 
 private:
-    void removeEmptyStrings_test();
+    void splitString_test();
 };
 
 } // namespace Common
 } // namespace Kitsune
 
-#endif // VECTORMETHODS_TEST_HPP
+#endif // STRINGMETHODS_TEST_H

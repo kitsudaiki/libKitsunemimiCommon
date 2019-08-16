@@ -1,5 +1,5 @@
 /**
- *  @file    statemachine_test.hpp
+ *  @file    statemachine_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,10 +7,10 @@
  *  MIT License
  */
 
-#ifndef STATEMACHINE_TEST_HPP
-#define STATEMACHINE_TEST_HPP
+#ifndef STATEMACHINE_TEST_H
+#define STATEMACHINE_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
@@ -34,4 +34,4 @@ private:
 } // namespace Common
 } // namespace Kitsune
 
-#endif // STATEMACHINE_TEST_HPP
+#endif // STATEMACHINE_TEST_H

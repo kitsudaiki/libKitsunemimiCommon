@@ -1,5 +1,5 @@
 /**
- *  @file    dataBuffer.hpp
+ *  @file    dataBuffer.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef DATABUFFER_HPP
-#define DATABUFFER_HPP
+#ifndef DATA_BUFFER_H
+#define DATA_BUFFER_H
 
 #include <string.h>
 #include <iostream>
@@ -18,7 +18,7 @@
 #include <stdint.h>
 
 
-#include <buffering/dataBufferMethods.hpp>
+#include <buffering/data_buffer_methods.h>
 
 namespace Kitsune
 {
@@ -152,4 +152,4 @@ struct DataBuffer
 } // namespace Common
 } // namespace Kitsune
 
-#endif // DATABUFFER_HPP
+#endif // DATABUFFER_H
