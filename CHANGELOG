@@ -1,10 +1,21 @@
 # Changelog
 
+
+## [0.3.0] - 2019-08-17
+
+### Changed
+- changed file-names for better readable
+
+### Fixed
+- fixed memory-leak in DataArray and DataObject
+
+
 ## [0.2.0] - 2019-08-10
 
 ### Added
 - data-items, which were originally json-items from libKitsuneJson
 - simple statemachine
+
 
 ## [0.1.0] - 2019-08-03
 
