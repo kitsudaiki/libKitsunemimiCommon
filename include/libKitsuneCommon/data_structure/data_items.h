@@ -1,5 +1,5 @@
 /**
- *  @file    dataObjects.hpp
+ *  @file    data_items.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef DATAOBJECTS_HPP
-#define DATAOBJECTS_HPP
+#ifndef DATAITEMS_H
+#define DATAITEMS_H
 
 #include <iostream>
 #include <string>
@@ -205,4 +205,4 @@ public:
 }  // namespace Common
 }  // namespace Kitsune
 
-#endif // DATAOBJECTS_HPP
+#endif // DATAITEMS_H

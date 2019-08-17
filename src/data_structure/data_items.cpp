@@ -1,5 +1,5 @@
 ﻿/**
- *  @file    dataObjects.cpp
+ *  @file    data_items.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,7 +7,7 @@
  *  MIT License
  */
 
-#include <data_structure/dataItems.hpp>
+#include <data_structure/data_items.h>
 #include <iostream>
 
 namespace Kitsune

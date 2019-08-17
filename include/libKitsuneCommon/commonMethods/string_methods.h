@@ -1,5 +1,5 @@
 /**
- *  @file    stringMethods.hpp
+ *  @file    string_methods.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef STRINGMETHODS_HPP
-#define STRINGMETHODS_HPP
+#ifndef STRING_METHODS_H
+#define STRING_METHODS_H
 
 #include <string>
 #include <iostream>
@@ -51,4 +51,4 @@ splitString(const std::string &inputString,
 } // namespace Common
 } // namespace Kitsune
 
-#endif // STRINGMETHODS_HPP
+#endif // STRINGMETHODS_H

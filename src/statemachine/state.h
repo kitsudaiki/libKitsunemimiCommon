@@ -1,5 +1,5 @@
 /**
- *  @file    state.hpp
+ *  @file    state.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef STATE_HPP
-#define STATE_HPP
+#ifndef STATE_H
+#define STATE_H
 
 #include <map>
 #include <vector>
@@ -94,4 +94,4 @@ struct State
 } // namespace Common
 } // namespace Kitsune
 
-#endif // STATE_HPP
+#endif // STATE_H

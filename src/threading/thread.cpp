@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#include <threading/thread.hpp>
-#include <buffering/dataBuffer.hpp>
+#include <threading/thread.h>
+#include <buffering/data_buffer.h>
 
 namespace Kitsune
 {

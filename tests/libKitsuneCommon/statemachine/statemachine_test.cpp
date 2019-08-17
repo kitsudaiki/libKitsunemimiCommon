@@ -7,9 +7,9 @@
  *  MIT License
  */
 
-#include "statemachine_test.hpp"
+#include "statemachine_test.h"
 
-#include <statemachine/statemachine.hpp>
+#include <statemachine/statemachine.h>
 
 namespace Kitsune
 {

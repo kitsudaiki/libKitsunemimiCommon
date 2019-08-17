@@ -1,5 +1,5 @@
 /**
- *  @file    test.hpp
+ *  @file    test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef TEST_HPP
-#define TEST_HPP
+#ifndef TEST_H
+#define TEST_H
 
 #include <string>
 #include <iostream>
@@ -63,4 +63,4 @@ protected:
 } // namespace Common
 } // namespace Kitsune
 
-#endif // TEST_HPP
+#endif // TEST_H

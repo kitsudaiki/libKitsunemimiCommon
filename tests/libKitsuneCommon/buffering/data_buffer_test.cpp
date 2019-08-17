@@ -1,5 +1,5 @@
 /**
- *  @file    dataBuffer_test.cpp
+ *  @file    data_buffer_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,9 +7,9 @@
  *  MIT License
  */
 
-#include "dataBuffer_test.hpp"
+#include "data_buffer_test.h"
 
-#include <buffering/dataBuffer.hpp>
+#include <buffering/data_buffer.h>
 
 namespace Kitsune
 {

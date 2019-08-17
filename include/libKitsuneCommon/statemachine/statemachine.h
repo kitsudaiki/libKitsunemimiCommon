@@ -1,5 +1,5 @@
 /**
- *  @file    statemachine.hpp
+ *  @file    statemachine.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef STATEMACHINE_HPP
-#define STATEMACHINE_HPP
+#ifndef STATEMACHINE_H
+#define STATEMACHINE_H
 
 #include <vector>
 #include <iostream>
@@ -47,4 +47,4 @@ private:
 } // namespace Common
 } // namespace Kitsune
 
-#endif // STATEMACHINE_HPP
+#endif // STATEMACHINE_H

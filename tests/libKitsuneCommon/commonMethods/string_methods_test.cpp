@@ -1,5 +1,5 @@
 /**
- *  @file    stringMethods_test.cpp
+ *  @file    string_methods_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,9 +7,9 @@
  *  MIT License
  */
 
-#include "stringMethods_test.hpp"
+#include "string_methods_test.h"
 
-#include <commonMethods/stringMethods.hpp>
+#include <commonMethods/string_methods.h>
 
 namespace Kitsune
 {
