@@ -593,6 +593,8 @@ DataObject::remove(const std::string &key)
 
     if(it != m_objects.end())
     {
+        DataItem* tempItem = it->second;
+        delete tempItem;
         m_objects.erase(it);
         return true;
     }
@@ -618,6 +620,8 @@ DataObject::remove(const uint32_t index)
     {
         if(counter == index)
         {
+            DataItem* tempItem = it->second;
+            delete tempItem;
             m_objects.erase(it);
             return true;
         }
@@ -827,6 +831,8 @@ DataArray::remove(const std::string &key)
     if(m_array.size() <= index) {
         return false;
     }
+    DataItem* tempItem = m_array[index];
+    delete tempItem;
     m_array.erase(m_array.begin() + index);
     return true;
 }
@@ -842,6 +848,8 @@ DataArray::remove(const uint32_t index)
     if(m_array.size() <= index) {
         return false;
     }
+    DataItem* tempItem = m_array[index];
+    delete tempItem;
     m_array.erase(m_array.begin() + index);
     return true;
 }
