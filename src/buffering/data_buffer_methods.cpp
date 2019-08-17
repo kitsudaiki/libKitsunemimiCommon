@@ -1,5 +1,5 @@
 /**
- *  @file    dataBufferMethods.cpp
+ *  @file    data_buffer_methods.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#include <buffering/dataBufferMethods.hpp>
-#include <buffering/dataBuffer.hpp>
+#include <buffering/data_buffer_methods.h>
+#include <buffering/data_buffer.h>
 
 namespace Kitsune
 {

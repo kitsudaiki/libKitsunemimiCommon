@@ -1,5 +1,5 @@
 /**
- *  @file    stringMethods_test.hpp
+ *  @file    state_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,27 +7,29 @@
  *  MIT License
  */
 
-#ifndef STRINGMETHODS_TEST_HPP
-#define STRINGMETHODS_TEST_HPP
+#ifndef STATE_TEST_H
+#define STATE_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
 namespace Common
 {
 
-class StringMethods_Test
+class State_Test
         : public Kitsune::Common::Test
 {
 public:
-    StringMethods_Test();
+    State_Test();
 
 private:
-    void splitString_test();
+    void addTransition_test();
+    void next_test();
+
 };
 
 } // namespace Common
 } // namespace Kitsune
 
-#endif // STRINGMETHODS_TEST_HPP
+#endif // STATE_TEST_H

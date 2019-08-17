@@ -1,5 +1,5 @@
 /**
- *  @file    dataBufferMethods_test.hpp
+ *  @file    data_buffer_methods_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,10 +7,10 @@
  *  MIT License
  */
 
-#ifndef DATABUFFERMETHODS_TEST_HPP
-#define DATABUFFERMETHODS_TEST_HPP
+#ifndef DATA_BUFFER_METHODS_TEST_H
+#define DATA_BUFFER_METHODS_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
@@ -32,4 +32,4 @@ private:
 } // namespace Common
 } // namespace Kitsune
 
-#endif // DATABUFFERMETHODS_TEST_HPP
+#endif // DATABUFFERMETHODS_TEST_H

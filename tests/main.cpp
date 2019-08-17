@@ -9,18 +9,18 @@
 
 #include <iostream>
 
-#include <libKitsuneCommon/buffering/dataBuffer_test.hpp>
-#include <libKitsuneCommon/buffering/dataBufferMethods_test.hpp>
+#include <libKitsuneCommon/buffering/data_buffer_test.h>
+#include <libKitsuneCommon/buffering/data_buffer_methods_test.h>
 
-#include <libKitsuneCommon/commonMethods/stringMethods_test.hpp>
-#include <libKitsuneCommon/commonMethods/vectorMethods_test.hpp>
+#include <libKitsuneCommon/commonMethods/string_methods_test.h>
+#include <libKitsuneCommon/commonMethods/vector_methods_test.h>
 
-#include <libKitsuneCommon/statemachine/state_test.hpp>
-#include <libKitsuneCommon/statemachine/statemachine_test.hpp>
+#include <libKitsuneCommon/statemachine/state_test.h>
+#include <libKitsuneCommon/statemachine/statemachine_test.h>
 
-#include <libKitsuneCommon/data_structure/dataItems_dataArray_test.hpp>
-#include <libKitsuneCommon/data_structure/dataItems_dataObject_test.hpp>
-#include <libKitsuneCommon/data_structure/dataItems_dataValue_test.hpp>
+#include <libKitsuneCommon/data_structure/data_items_DataArray_test.h>
+#include <libKitsuneCommon/data_structure/data_items_DataObject_test.h>
+#include <libKitsuneCommon/data_structure/data_items_DataValue_test.h>
 
 int main()
 {

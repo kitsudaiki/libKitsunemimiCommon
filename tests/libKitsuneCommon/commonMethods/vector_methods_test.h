@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethods_test.hpp
+ *  @file    vector_methods_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,10 +7,10 @@
  *  MIT License
  */
 
-#ifndef VECTORMETHODS_TEST_HPP
-#define VECTORMETHODS_TEST_HPP
+#ifndef VECTOR_METHODS_TEST_H
+#define VECTOR_METHODS_TEST_H
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {
@@ -30,4 +30,4 @@ private:
 } // namespace Common
 } // namespace Kitsune
 
-#endif // VECTORMETHODS_TEST_HPP
+#endif // VECTORMETHODS_TEST_H

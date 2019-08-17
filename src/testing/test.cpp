@@ -7,7 +7,7 @@
  *  MIT License
  */
 
-#include <testing/test.hpp>
+#include <testing/test.h>
 
 namespace Kitsune
 {

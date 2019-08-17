@@ -1,5 +1,5 @@
 /**
- *  @file    dataBufferMethods.hpp
+ *  @file    data_buffer_methods.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef DATABUFFERMETHODS_HPP
-#define DATABUFFERMETHODS_HPP
+#ifndef DATA_BUFFER_METHODS_H
+#define DATA_BUFFER_METHODS_H
 
 #include <string.h>
 #include <stdio.h>
@@ -38,4 +38,4 @@ bool alignedFree(void *ptr);
 } // namespace Common
 } // namespace Kitsune
 
-#endif // DATABUFFERMETHODS_HPP
+#endif // DATABUFFERMETHODS_H

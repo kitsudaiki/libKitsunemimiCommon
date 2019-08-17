@@ -1,5 +1,5 @@
 /**
- *  @file    thread.hpp
+ *  @file    thread.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,8 +7,8 @@
  *  MIT License
  */
 
-#ifndef THREAD_HPP
-#define THREAD_HPP
+#ifndef THREAD_H
+#define THREAD_H
 
 #include <mutex>
 #include <condition_variable>
@@ -64,4 +64,4 @@ protected:
 } // namespace Common
 } // namespace Kitsune
 
-#endif // THREAD_HPP
+#endif // THREAD_H

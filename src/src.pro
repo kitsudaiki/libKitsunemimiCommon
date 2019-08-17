@@ -9,19 +9,19 @@ INCLUDEPATH += $$PWD \
             ../include/libKitsuneCommon
 
 SOURCES += \
-    buffering/dataBufferMethods.cpp \
     testing/test.cpp \
     threading/thread.cpp \
     statemachine/statemachine.cpp \
-    data_structure/dataItems.cpp
+    buffering/data_buffer_methods.cpp \
+    data_structure/data_items.cpp
 
 HEADERS += \
-    ../include/libKitsuneCommon/commonMethods/stringMethods.hpp \
-    ../include/libKitsuneCommon/commonMethods/vectorMethods.hpp \
-    ../include/libKitsuneCommon/buffering/dataBuffer.hpp \
-    ../include/libKitsuneCommon/buffering/dataBufferMethods.hpp \
-    ../include/libKitsuneCommon/testing/test.hpp \
-    ../include/libKitsuneCommon/threading/thread.hpp \
-    statemachine/state.hpp \
-    ../include/libKitsuneCommon/statemachine/statemachine.hpp \
-    ../include/libKitsuneCommon/data_structure/dataItems.hpp
+    ../include/libKitsuneCommon/buffering/data_buffer.h \
+    ../include/libKitsuneCommon/buffering/data_buffer_methods.h \
+    ../include/libKitsuneCommon/commonMethods/string_methods.h \
+    ../include/libKitsuneCommon/commonMethods/vector_methods.h \
+    ../include/libKitsuneCommon/data_structure/data_items.h \
+    ../include/libKitsuneCommon/statemachine/statemachine.h \
+    ../include/libKitsuneCommon/testing/test.h \
+    ../include/libKitsuneCommon/threading/thread.h \
+    statemachine/state.h
