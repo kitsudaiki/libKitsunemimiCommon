@@ -1,5 +1,5 @@
 /**
- *  @file    dataBuffer.h
+ *  @file    data_buffer.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

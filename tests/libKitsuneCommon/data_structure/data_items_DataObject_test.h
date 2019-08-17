@@ -1,5 +1,5 @@
 /**
- *  @file    dataItems_DataObject_test.h
+ *  @file    data_items_DataObject_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

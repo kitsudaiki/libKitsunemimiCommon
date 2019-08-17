@@ -1,5 +1,5 @@
 /**
- *  @file    dataItems_DataArray_test.cpp
+ *  @file    data_items_DataArray_test.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
@@ -7,7 +7,7 @@
  *  MIT License
  */
 
-#include "dataItems_dataArray_test.h"
+#include "data_items_DataArray_test.h"
 #include <data_structure/data_items.h>
 
 namespace Kitsune

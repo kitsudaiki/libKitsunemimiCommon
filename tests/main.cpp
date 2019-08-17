@@ -18,9 +18,9 @@
 #include <libKitsuneCommon/statemachine/state_test.h>
 #include <libKitsuneCommon/statemachine/statemachine_test.h>
 
-#include <libKitsuneCommon/data_structure/dataItems_dataArray_test.h>
-#include <libKitsuneCommon/data_structure/dataItems_dataObject_test.h>
-#include <libKitsuneCommon/data_structure/dataItems_dataValue_test.h>
+#include <libKitsuneCommon/data_structure/data_items_DataArray_test.h>
+#include <libKitsuneCommon/data_structure/data_items_DataObject_test.h>
+#include <libKitsuneCommon/data_structure/data_items_DataValue_test.h>
 
 int main()
 {

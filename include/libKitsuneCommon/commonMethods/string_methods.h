@@ -1,5 +1,5 @@
 /**
- *  @file    stringMethods.h
+ *  @file    string_methods.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

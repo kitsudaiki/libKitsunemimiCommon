@@ -1,5 +1,5 @@
 /**
- *  @file    dataBufferMethods.cpp
+ *  @file    data_buffer_methods.cpp
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

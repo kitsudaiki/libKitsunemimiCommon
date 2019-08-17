@@ -1,5 +1,5 @@
 /**
- *  @file    vectorMethods_test.h
+ *  @file    vector_methods_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe

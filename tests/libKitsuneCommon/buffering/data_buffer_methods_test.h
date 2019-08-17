@@ -1,5 +1,5 @@
 /**
- *  @file    dataBufferMethods_test.h
+ *  @file    data_buffer_methods_test.h
  *
  *  @author  Tobias Anker
  *  Contact: tobias.anker@kitsunemimi.moe
