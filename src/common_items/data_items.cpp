@@ -7,8 +7,7 @@
  *  MIT License
  */
 
-#include <data_structure/data_items.h>
-#include <iostream>
+#include <common_items/data_items.h>
 
 namespace Kitsune
 {
@@ -169,7 +168,7 @@ DataItem::toFloat()
  * @brief add indent and linebreak to be better human-readable
  */
 void
-DataItem::addIndent(std::string *output,
+DataItem::addIndent(std::string* output,
                     const bool indent,
                     const uint32_t level)
 {
@@ -313,7 +312,7 @@ DataValue::remove(const uint32_t)
 DataItem*
 DataValue::copy()
 {
-    DataValue *tempItem = nullptr;
+    DataValue* tempItem = nullptr;
     if(m_valueType == STRING_TYPE) {
         tempItem = new DataValue(m_stringValue);
     }
@@ -330,7 +329,7 @@ DataValue::copy()
  * @brief prints the content of the object
  */
 std::string
-DataValue::print(std::string *output,
+DataValue::print(std::string* output,
                  const bool indent,
                  const uint32_t level)
 {
@@ -651,7 +650,7 @@ DataObject::copy()
  * @brief prints the content of the object
  */
 std::string
-DataObject::print(std::string *output,
+DataObject::print(std::string* output,
                   const bool indent,
                   const uint32_t level)
 {
@@ -712,7 +711,7 @@ DataObject::print(std::string *output,
  */
 bool
 DataObject::insert(const std::string &key,
-                   DataItem *value,
+                   DataItem* value,
                    bool force)
 {
 
@@ -874,7 +873,7 @@ DataArray::copy()
  * @brief prints the content of the object
  */
 std::string
-DataArray::print(std::string *output,
+DataArray::print(std::string* output,
                  const bool indent,
                  const uint32_t level)
 {
@@ -914,7 +913,7 @@ DataArray::print(std::string *output,
  * @return false, if new item-pointer is nullptr, else true
  */
 bool
-DataArray::append(DataItem *item)
+DataArray::append(DataItem* item)
 {
     if(item == nullptr) {
         return false;

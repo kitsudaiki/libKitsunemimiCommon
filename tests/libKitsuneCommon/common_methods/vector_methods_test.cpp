@@ -9,7 +9,7 @@
 
 #include "vector_methods_test.h"
 
-#include <commonMethods/vector_methods.h>
+#include <common_methods/vector_methods.h>
 
 namespace Kitsune
 {
