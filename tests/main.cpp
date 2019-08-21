@@ -12,15 +12,15 @@
 #include <libKitsuneCommon/buffering/data_buffer_test.h>
 #include <libKitsuneCommon/buffering/data_buffer_methods_test.h>
 
-#include <libKitsuneCommon/commonMethods/string_methods_test.h>
-#include <libKitsuneCommon/commonMethods/vector_methods_test.h>
+#include <libKitsuneCommon/common_methods/string_methods_test.h>
+#include <libKitsuneCommon/common_methods/vector_methods_test.h>
 
 #include <libKitsuneCommon/statemachine/state_test.h>
 #include <libKitsuneCommon/statemachine/statemachine_test.h>
 
-#include <libKitsuneCommon/data_structure/data_items_DataArray_test.h>
-#include <libKitsuneCommon/data_structure/data_items_DataObject_test.h>
-#include <libKitsuneCommon/data_structure/data_items_DataValue_test.h>
+#include <libKitsuneCommon/common_items/data_items_DataArray_test.h>
+#include <libKitsuneCommon/common_items/data_items_DataObject_test.h>
+#include <libKitsuneCommon/common_items/data_items_DataValue_test.h>
 
 int main()
 {

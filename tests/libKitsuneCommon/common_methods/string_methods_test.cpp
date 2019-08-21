@@ -9,7 +9,7 @@
 
 #include "string_methods_test.h"
 
-#include <commonMethods/string_methods.h>
+#include <common_methods/string_methods.h>
 
 namespace Kitsune
 {

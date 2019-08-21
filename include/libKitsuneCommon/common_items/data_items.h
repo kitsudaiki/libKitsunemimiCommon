@@ -79,7 +79,7 @@ protected:
     dataTypes m_type = UNINIT_TYPE;
     dataValueTypes m_valueType = UNINIT_VALUE_TYPE;
 
-    void addIndent(std::string *output,
+    void addIndent(std::string* output,
                    const bool indent,
                    const uint32_t level);
 };
@@ -115,7 +115,7 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(std::string *output=nullptr,
+    std::string print(std::string* output=nullptr,
                       const bool indent=false,
                       const uint32_t level=0);
 
@@ -160,7 +160,7 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(std::string *output=nullptr,
+    std::string print(std::string* output=nullptr,
                       const bool indent=false,
                       const uint32_t level=0);
 
@@ -193,7 +193,7 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(std::string *output=nullptr,
+    std::string print(std::string* output=nullptr,
                       const bool indent=false,
                       const uint32_t level=0);
 
