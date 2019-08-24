@@ -13,7 +13,8 @@ SOURCES += \
     threading/thread.cpp \
     statemachine/statemachine.cpp \
     buffering/data_buffer_methods.cpp \
-    common_items/data_items.cpp
+    common_items/data_items.cpp \
+    common_items/table_item.cpp
 
 HEADERS += \
     ../include/libKitsuneCommon/buffering/data_buffer.h \
@@ -24,4 +25,5 @@ HEADERS += \
     ../include/libKitsuneCommon/statemachine/statemachine.h \
     ../include/libKitsuneCommon/testing/test.h \
     ../include/libKitsuneCommon/threading/thread.h \
-    statemachine/state.h
+    statemachine/state.h \
+    ../include/libKitsuneCommon/common_items/table_item.h
