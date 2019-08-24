@@ -1,10 +1,15 @@
 /**
  *  @file    data_buffer_methods.h
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
+ *
+ *  @brief methods for the data-buffer
+ *
+ *  @detail Besause I don't wanted to press all the methods into the data-buffer struct-object
+ *          I separated these into this file without class. It for memory allocation and
+ *          delete in data-buffers.
  */
 
 #ifndef DATA_BUFFER_METHODS_H

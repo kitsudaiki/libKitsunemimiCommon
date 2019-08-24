@@ -1,10 +1,15 @@
 /**
  *  @file    data_items.h
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
+ *
+ *  @brief data-items for universal data-structures
+ *
+ *  @detail These was originally created in libKitsuneJson. Thats why the strint-output of the
+ *          structure has still json-format. It can handle list, maps and values and is used
+ *          in all of the kitsune-parser libraries as internal data-representation.
  */
 
 #ifndef DATAITEMS_H

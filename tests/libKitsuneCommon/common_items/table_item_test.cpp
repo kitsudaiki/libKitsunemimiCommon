@@ -1,11 +1,11 @@
 /**
  *  @file    table_item_test.cpp
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
  */
+
 #include "table_item_test.h"
 
 namespace Kitsune

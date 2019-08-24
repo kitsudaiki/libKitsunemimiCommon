@@ -1,10 +1,9 @@
 /**
  *  @file    data_items_DataArray_test.cpp
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
  */
 
 #include "data_items_DataArray_test.h"

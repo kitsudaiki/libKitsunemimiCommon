@@ -1,10 +1,16 @@
 /**
  *  @file    table_items.cpp
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
+ *
+ *  @brief data-handling object for tables
+ *
+ *  @detail This was created to print data as table on the command-line. Its primary to make
+ *          data better visible for the user. Internally it uses the the data-items of this
+ *          library. So its possible to easily convert json-items of libKitsuneJson
+ *          into this table-output for example in REST-API responses.
  */
 
 #ifndef TABLE_ITEM_H

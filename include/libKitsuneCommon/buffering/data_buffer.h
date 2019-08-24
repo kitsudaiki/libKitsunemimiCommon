@@ -1,10 +1,15 @@
 /**
  *  @file    data_buffer.h
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
+ *
+ *  @brief data-buffer
+ *
+ *  @detail This is a simple buffer for binary-data. The primary advantage is the easier resizing
+ *          when adding new data. Internally it uses alligned memory, because this is necessary
+ *          for the direct read- and write-operations of the libKitsunePersistence.
  */
 
 #ifndef DATA_BUFFER_H

@@ -1,10 +1,16 @@
 /**
  *  @file    thread.h
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
+ *
+ *  @brief common thread-class
+ *
+ *  @detail This class is only a collection of some thread-function like blocking and so on
+ *          which I often use. This makes the creation of threads more easy for me. Additionally
+ *          this class provides the ability to bind a new one of this thread to a specific
+ *          cpu-thread.
  */
 
 #ifndef THREAD_H

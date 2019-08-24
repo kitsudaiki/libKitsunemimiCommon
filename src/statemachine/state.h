@@ -1,10 +1,14 @@
 /**
  *  @file    state.h
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
+ *
+ *  @brief state for the statemachine
+ *
+ *  @detail This state-objects are for the internal usage of the statemachine. They save all
+ *          defined transitions.
  */
 
 #ifndef STATE_H

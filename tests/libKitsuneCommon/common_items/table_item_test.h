@@ -1,10 +1,9 @@
 /**
  *  @file    table_item_test.h
  *
- *  @author  Tobias Anker
- *  Contact: tobias.anker@kitsunemimi.moe
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  MIT License
+ *  @copyright MIT License
  */
 
 #ifndef TABLE_ITEM_TEST_H
