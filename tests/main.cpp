@@ -25,7 +25,6 @@
 
 int main()
 {
-    /**
     Kitsune::Common::DataBufferMethods_Test();
     Kitsune::Common::DataBuffer_Test();
 
@@ -38,6 +37,6 @@ int main()
     Kitsune::Common::DataItems_DataValue_Test();
     Kitsune::Common::DataItems_DataArray_Test();
     Kitsune::Common::DataItems_DataObject_Test();
-    **/
+
     Kitsune::Common::TableItem_test();
 }
