@@ -110,22 +110,22 @@ DataItem::toValue()
  *
  * @return string of the data-value, if data-value is from string-type, else empty string
  */
-std::string
-DataItem::toString()
+const std::string
+DataItem::toString() const
 {
     if(m_valueType == STRING_TYPE)
     {
-        DataValue* value = dynamic_cast<DataValue*>(this);
+        const DataValue* value = dynamic_cast<const DataValue*>(this);
         return value->m_stringValue;
     }
     if(m_valueType == INT_TYPE)
     {
-        DataValue* value = dynamic_cast<DataValue*>(this);
+        const DataValue* value = dynamic_cast<const DataValue*>(this);
         return std::to_string(value->m_intValue);;
     }
     if(m_valueType == FLOAT_TYPE)
     {
-        DataValue* value = dynamic_cast<DataValue*>(this);
+        const DataValue* value = dynamic_cast<const DataValue*>(this);
         return std::to_string(value->m_floatValue);;
     }
     return "";
@@ -254,7 +254,7 @@ DataValue::operator[](const std::string)
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::operator[](const uint32_t)
+DataValue::operator[](const uint64_t)
 {
     return nullptr;
 }
@@ -272,7 +272,7 @@ DataValue::get(const std::string)
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::get(const uint32_t)
+DataValue::get(const uint64_t)
 {
     return nullptr;
 }
@@ -280,10 +280,10 @@ DataValue::get(const uint32_t)
 /**
  * @brief fake-method which exist here only for the inheritance and returns everytime 0
  */
-uint32_t
-DataValue::getSize() const
+uint64_t
+DataValue::getSize()
 {
-    return 0;
+    return toString().size();
 }
 
 /**
@@ -299,7 +299,7 @@ DataValue::remove(const std::string&)
  * @brief fake-method which exist here only for the inheritance and returns everytime false
  */
 bool
-DataValue::remove(const uint32_t)
+DataValue::remove(const uint64_t)
 {
     return false;
 }
@@ -330,8 +330,8 @@ DataValue::copy()
  */
 std::string
 DataValue::print(std::string* output,
-                 const bool indent,
-                 const uint32_t level)
+                 const bool,
+                 const uint32_t)
 {
     std::string out = "";
     if(output == nullptr) {
@@ -436,7 +436,7 @@ DataObject::operator[](const std::string key)
  * @return nullptr if index is to high, else object
  */
 DataItem*
-DataObject::operator[](const uint32_t index)
+DataObject::operator[](const uint64_t index)
 {
     return get(index);
 }
@@ -465,7 +465,7 @@ DataObject::get(const std::string key)
  * @return nullptr if index is to high, else object
  */
 DataItem*
-DataObject::get(const uint32_t index)
+DataObject::get(const uint64_t index)
 {
     if(m_objects.size() <= index) {
         return nullptr;
@@ -491,10 +491,10 @@ DataObject::get(const uint32_t index)
  *
  * @return number of elements in the key-value-list
  */
-uint32_t
-DataObject::getSize() const
+uint64_t
+DataObject::getSize()
 {
-    return static_cast<uint32_t>(m_objects.size());
+    return m_objects.size();
 }
 
 /**
@@ -607,7 +607,7 @@ DataObject::remove(const std::string &key)
  * @return false if index is to high, else true
  */
 bool
-DataObject::remove(const uint32_t index)
+DataObject::remove(const uint64_t index)
 {
     if(m_objects.size() <= index) {
         return false;
@@ -776,7 +776,7 @@ DataArray::operator[](const std::string key)
  * @return nullptr if index is to high, else true
  */
 DataItem*
-DataArray::operator[](const uint32_t index)
+DataArray::operator[](const uint64_t index)
 {
     return get(index);
 }
@@ -787,7 +787,7 @@ DataArray::operator[](const uint32_t index)
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataArray::get(const std::string key)
+DataArray::get(const std::string)
 {
     return nullptr;
 }
@@ -798,7 +798,7 @@ DataArray::get(const std::string key)
  * @return nullptr if index is to high, else the object
  */
 DataItem*
-DataArray::get(const uint32_t index)
+DataArray::get(const uint64_t index)
 {
     if(m_array.size() <= index) {
         return nullptr;
@@ -812,10 +812,10 @@ DataArray::get(const uint32_t index)
  *
  * @return number of elements in the array
  */
-uint32_t
-DataArray::getSize() const
+uint64_t
+DataArray::getSize()
 {
-    return static_cast<uint32_t>(m_array.size());
+    return m_array.size();
 }
 
 /**
@@ -842,7 +842,7 @@ DataArray::remove(const std::string &key)
  * @return false if index is to high, else true
  */
 bool
-DataArray::remove(const uint32_t index)
+DataArray::remove(const uint64_t index)
 {
     if(m_array.size() <= index) {
         return false;

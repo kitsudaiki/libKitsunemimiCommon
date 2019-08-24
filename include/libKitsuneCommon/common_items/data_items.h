@@ -47,14 +47,14 @@ public:
 
     // getter
     virtual DataItem* operator[](const std::string key) = 0;
-    virtual DataItem* operator[](const uint32_t index) = 0;
+    virtual DataItem* operator[](const uint64_t index) = 0;
     virtual DataItem* get(const std::string key) = 0;
-    virtual DataItem* get(const uint32_t index) = 0;
-    virtual uint32_t getSize() const = 0;
+    virtual DataItem* get(const uint64_t index) = 0;
+    virtual uint64_t getSize() = 0;
 
     // delete
     virtual bool remove(const std::string &key) = 0;
-    virtual bool remove(const uint32_t index) = 0;
+    virtual bool remove(const uint64_t index) = 0;
 
     // output
     virtual DataItem* copy() = 0;
@@ -71,7 +71,7 @@ public:
     DataObject* toObject();
     DataValue* toValue();
 
-    std::string toString();
+    const std::string toString() const;
     int toInt();
     float toFloat();
 
@@ -104,20 +104,20 @@ public:
 
     // getter
     DataItem* operator[](const std::string);
-    DataItem* operator[](const uint32_t);
+    DataItem* operator[](const uint64_t);
     DataItem* get(const std::string);
-    DataItem* get(const uint32_t);
-    uint32_t getSize() const;
+    DataItem* get(const uint64_t);
+    uint64_t getSize();
 
     // delete
     bool remove(const std::string&);
-    bool remove(const uint32_t);
+    bool remove(const uint64_t);
 
     // output
     DataItem* copy();
     std::string print(std::string* output=nullptr,
-                      const bool indent=false,
-                      const uint32_t level=0);
+                      const bool=false,
+                      const uint32_t=0);
 
     // content
     std::string m_stringValue = "";
@@ -141,10 +141,10 @@ public:
 
     // getter
     DataItem* operator[](const std::string key);
-    DataItem* operator[](const uint32_t index);
+    DataItem* operator[](const uint64_t index);
     DataItem* get(const std::string key);
-    DataItem* get(const uint32_t index);
-    uint32_t getSize() const;
+    DataItem* get(const uint64_t index);
+    uint64_t getSize();
 
     std::vector<std::string> getKeys();
     std::vector<DataItem*> getValues();
@@ -156,7 +156,7 @@ public:
 
     // delete
     bool remove(const std::string &key);
-    bool remove(const uint32_t index);
+    bool remove(const uint64_t index);
 
     // output
     DataItem* copy();
@@ -182,14 +182,14 @@ public:
 
     // getter
     DataItem* operator[](const std::string key);
-    DataItem* operator[](const uint32_t index);
-    DataItem* get(const std::string key);
-    DataItem* get(const uint32_t index);
-    uint32_t getSize() const;
+    DataItem* operator[](const uint64_t index);
+    DataItem* get(const std::string);
+    DataItem* get(const uint64_t index);
+    uint64_t getSize();
 
     // delete
     bool remove(const std::string &key);
-    bool remove(const uint32_t index);
+    bool remove(const uint64_t index);
 
     // output
     DataItem* copy();
