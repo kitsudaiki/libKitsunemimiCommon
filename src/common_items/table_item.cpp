@@ -16,7 +16,7 @@ namespace Common
 {
 
 /**
- * @brief TableItem::TableItem
+ * @brief constructor
  */
 TableItem::TableItem()
 {
@@ -25,9 +25,10 @@ TableItem::TableItem()
 }
 
 /**
- * @brief TableItem::TableItem
- * @param body
- * @param header
+ * @brief create a table from predefined values
+ *
+ * @param body body-content as data-array-item
+ * @param header header-content as data-array-item
  */
 TableItem::TableItem(DataArray *body,
                      DataArray *header)
@@ -48,19 +49,23 @@ TableItem::TableItem(DataArray *body,
 }
 
 /**
- * @brief TableItem::~TableItem
+ * @brief destructor
  */
 TableItem::~TableItem()
 {
+    // delete all data of the table
     delete m_body;
     delete m_header;
 }
 
 /**
- * @brief TableItem::addColumn
- * @param internalName
- * @param shownName
- * @return
+ * @brief add a new column to the header of the table
+ *
+ * @param internalName name for internal indentification of the columns inside the body
+ * @param shownName name which is shown in the string-output of the table
+ *                  if leaved blank, the name is set equal to the internal-name
+ *
+ * @return should return true everytime
  */
 bool
 TableItem::addColumn(const std::string &internalName,
@@ -79,10 +84,12 @@ TableItem::addColumn(const std::string &internalName,
 }
 
 /**
- * @brief TableItem::renameColume
- * @param internalName
- * @param newShownName
- * @return
+ * @brief rename a column in the header of the table
+ *
+ * @param internalName name for internal indentification of the columns inside the body
+ * @param newShownName new name for string output
+ *
+ * @return false if internal-name doesn't exist, else true
  */
 bool
 TableItem::renameColume(const std::string &internalName,
@@ -103,10 +110,13 @@ TableItem::renameColume(const std::string &internalName,
 }
 
 /**
- * @brief TableItem::deleteColumn
- * @param x
- * @param withBody
- * @return
+ * @brief delelete a colume from the table
+ *
+ * @param x column-position
+ * @param withBody true for delete all column-related data from the body of the table too,
+ *                 false for delete column only from the header
+ *
+ * @return false if column-position is too high, else true
  */
 bool
 TableItem::deleteColumn(const uint64_t x,
@@ -138,10 +148,13 @@ TableItem::deleteColumn(const uint64_t x,
 }
 
 /**
- * @brief TableItem::deleteColumn
- * @param internalName
- * @param withBody
- * @return
+ * @brief delelete a colume from the table
+ *
+ * @param internalName internal name of the column
+ * @param withBody true for delete all column-related data from the body of the table too,
+ *                 false for delete column only from the header
+ *
+ * @return false if internal name doesn't exist, else true
  */
 bool
 TableItem::deleteColumn(const std::string &internalName,
@@ -161,20 +174,24 @@ TableItem::deleteColumn(const std::string &internalName,
 }
 
 /**
- * @brief TableItem::addRow
- * @param rowContent
- * @return
+ * @brief add a new row to the table
+ *
+ * @param rowContent vector of string for the content of the new row
+ *
+ * @return should return true everytime
  */
 bool
 TableItem::addRow(const std::vector<std::string> rowContent)
 {
     DataObject* obj = new DataObject();
 
+    // check and cut size
     uint64_t size = rowContent.size();
     if(m_header->getSize() < size) {
         size = m_header->getSize();
     }
 
+    // add new row content to the table
     for(uint64_t x = 0; x < size; x++)
     {
         obj->insert(m_header->get(x)->get("inner")->toString(),
@@ -185,9 +202,11 @@ TableItem::addRow(const std::vector<std::string> rowContent)
 }
 
 /**
- * @brief TableItem::deleteRow
- * @param y
- * @return
+ * @brief delete a row from the table
+ *
+ * @param y row-position
+ *
+ * @return false if row-position is too high, else true
  */
 bool
 TableItem::deleteRow(const uint64_t y)
@@ -204,11 +223,13 @@ TableItem::deleteRow(const uint64_t y)
 }
 
 /**
- * @brief TableItem::setCell
- * @param x
- * @param y
- * @param newValue
- * @return
+ * @brief set the content of a specific cell inside the table
+ *
+ * @param x x-position of the cell within the table
+ * @param y y-position of the cell within the table
+ * @param newValue new cell-value as string
+ *
+ * @return false if x or y is too hight, esle true
  */
 bool
 TableItem::setCell(const uint32_t x,
@@ -270,10 +291,12 @@ TableItem::getCell(const uint32_t x,
 }
 
 /**
- * @brief TableItem::deleteCell
- * @param x
- * @param y
- * @return
+ * @brief delete a spcific cell from the table
+ *
+ * @param x x-position of the cell within the table
+ * @param y y-position of the cell within the table
+ *
+ * @return false if cell-content is already deleted or if x or y is too hight, else true
  */
 bool
 TableItem::deleteCell(const uint32_t x,
@@ -294,8 +317,9 @@ TableItem::deleteCell(const uint32_t x,
 }
 
 /**
- * @brief TableItem::getNumberOfColums
- * @return
+ * @brief request number of columns of the table
+ *
+ * @return number of columns
  */
 uint64_t
 TableItem::getNumberOfColums()
@@ -304,8 +328,9 @@ TableItem::getNumberOfColums()
 }
 
 /**
- * @brief TableItem::getNumberOfRows
- * @return
+ * @brief request number of rows of the table
+ *
+ * @return number of rows
  */
 uint64_t
 TableItem::getNumberOfRows()
@@ -314,8 +339,9 @@ TableItem::getNumberOfRows()
 }
 
 /**
- * @brief TableItem::toString
- * @return
+ * @brief converts the table-content into a string
+ *
+ * @return table as string
  */
 std::string
 TableItem::print()
@@ -324,14 +350,16 @@ TableItem::print()
     std::vector<uint64_t> xSizes(getNumberOfColums(), 0);
     std::vector<uint64_t> ySizes(getNumberOfRows(), 0);
 
-    // collect size-values of each row and column
+    // collect size-values of within the table
     for(uint64_t x = 0; x < getNumberOfColums(); x++)
     {
+        // collect size-values of the header-entries
         const std::pair<uint64_t, uint64_t> headerCellSize = getHeaderCellSize(x);
         if(xSizes.at(x) < headerCellSize.first) {
             xSizes[x] = headerCellSize.first;
         }
 
+        // collect size-values of each row and column
         for(uint64_t y = 0; y < getNumberOfRows(); y++)
         {
             const std::pair<uint64_t, uint64_t> cellSize = getBodyCellSize(x, y);
@@ -344,28 +372,32 @@ TableItem::print()
         }
     }
 
+    // create separator-line
     const std::string limitLine = getLimitLine(xSizes);
 
     std::string result = "";
 
+    // print table-header
     result.append(limitLine);
     result.append(printHeaderLine(xSizes));
     result.append(limitLine);
 
+    // print table body
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
         result.append(printBodyLine(xSizes, y));
     }
-
     result.append(limitLine);
 
     return result;
 }
 
 /**
- * @brief TableItem::getLimitLine
- * @param sizes
- * @return
+ * @brief create separator-line for the table
+ *
+ * @param sizes list with all width-values for printing placeholder
+ *
+ * @return separator-line as string
  */
 const std::string
 TableItem::getLimitLine(const std::vector<uint64_t> &sizes)
@@ -384,9 +416,11 @@ TableItem::getLimitLine(const std::vector<uint64_t> &sizes)
 }
 
 /**
- * @brief TableItem::printHeaderLine
- * @param sizes
- * @return
+ * @brief convert the header of the table into a string
+ *
+ * @param sizes list with all width-values for printing placeholder
+ *
+ * @return sting with the content of the header for output
  */
 const std::string
 TableItem::printHeaderLine(const std::vector<uint64_t> &sizes)
@@ -408,10 +442,12 @@ TableItem::printHeaderLine(const std::vector<uint64_t> &sizes)
 }
 
 /**
- * @brief TableItem::printBodyLine
- * @param sizes
- * @param y
- * @return
+ * @brief converts a row of the table into a string
+ *
+ * @param sizes list with all width-values for printing placeholder
+ * @param y row-number
+ *
+ * @return sting with the content of a row for output
  */
 const std::string
 TableItem::printBodyLine(const std::vector<uint64_t> &sizes,
@@ -422,16 +458,20 @@ TableItem::printBodyLine(const std::vector<uint64_t> &sizes,
     for(uint64_t i = 0; i < sizes.size(); i++)
     {
         output.append("| ");
+
+        // get cell of the table
         const std::string columnName = m_header->get(i)->get("inner")->toValue()->toString();
         DataItem* item = m_body->get(y)->get(columnName);
 
         if(item == nullptr)
         {
+            // print empty cell
             output.append(std::string(sizes.at(i), ' '));
             output.append(" ");
         }
         else
         {
+            // print cell-content and fill the rest with blank
             DataValue* value = item->toValue();
             output.append(value->toString());
             output.append(std::string(sizes.at(i) - value->getSize(), ' '));
@@ -445,9 +485,11 @@ TableItem::printBodyLine(const std::vector<uint64_t> &sizes,
 }
 
 /**
- * @brief TableItem::getHeaderCellSize
- * @param x
- * @return
+ * @brief request the cell-dimensions of a specific cell inside the header
+ *
+ * @param x column-position
+ *
+ * @return width and hight of the cell inside the header as pair
  */
 const std::pair<uint64_t, uint64_t>
 TableItem::getHeaderCellSize(const uint64_t x)
@@ -478,10 +520,13 @@ TableItem::getHeaderCellSize(const uint64_t x)
 }
 
 /**
- * @brief TableItem::getCellSize
- * @param x
- * @param y
- * @return
+ * @brief request the cell-dimensions of a specific cell inside the table
+ *
+ * @param x x-position of the cell within the table
+ * @param y y-position of the cell within the table
+ *
+ * @return width and hight of the cell inside the body as pair, or a pair of null-values
+ *         if x or y is too hight or cell is deleted
  */
 const std::pair<uint64_t, uint64_t>
 TableItem::getBodyCellSize(const uint64_t x,
