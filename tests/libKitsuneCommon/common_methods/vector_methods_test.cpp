@@ -16,7 +16,7 @@ namespace Common
 {
 
 TextFile_Test::TextFile_Test()
-    : Kitsune::Common::Test("VectorMethods_Test")
+    : Kitsune::Common::UnitTest("VectorMethods_Test")
 {
     removeEmptyStrings_test();
 }

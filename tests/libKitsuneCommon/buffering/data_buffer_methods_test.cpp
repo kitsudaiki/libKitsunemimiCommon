@@ -24,7 +24,7 @@ struct TestStruct
 } __attribute__((packed));
 
 DataBufferMethods_Test::DataBufferMethods_Test()
-    : Kitsune::Common::Test("DataBufferMethods_Test")
+    : Kitsune::Common::UnitTest("DataBufferMethods_Test")
 {
     addDataToBuffer_test();
     allocateBlocks_test();

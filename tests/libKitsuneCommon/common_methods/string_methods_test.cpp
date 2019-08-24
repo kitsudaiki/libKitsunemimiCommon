@@ -16,7 +16,7 @@ namespace Common
 {
 
 StringMethods_Test::StringMethods_Test()
-    : Kitsune::Common::Test("StringMethods_Test")
+    : Kitsune::Common::UnitTest("StringMethods_Test")
 {
     splitString_test();
 }

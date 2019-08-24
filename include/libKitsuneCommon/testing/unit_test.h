@@ -1,5 +1,5 @@
 /**
- *  @file    test.h
+ *  @file    unit_test.h
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
@@ -23,7 +23,7 @@ namespace Kitsune
 namespace Common
 {
 
-class Test
+class UnitTest
 {
 #define UNITTEST(IS_VAL, SHOULD_VAL) if(IS_VAL != SHOULD_VAL) \
 {  \
@@ -57,8 +57,8 @@ class Test
     }
 
 public:
-    Test(const std::string testName);
-    ~Test();
+    UnitTest(const std::string testName);
+    ~UnitTest();
 
 protected:
     uint32_t m_successfulTests = 0;

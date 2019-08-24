@@ -9,7 +9,7 @@
 #ifndef STATEMACHINE_TEST_H
 #define STATEMACHINE_TEST_H
 
-#include <testing/test.h>
+#include <testing/unit_test.h>
 
 namespace Kitsune
 {
@@ -17,7 +17,7 @@ namespace Common
 {
 
 class Statemachine_Test
-        : public Kitsune::Common::Test
+        : public Kitsune::Common::UnitTest
 {
 public:
     Statemachine_Test();

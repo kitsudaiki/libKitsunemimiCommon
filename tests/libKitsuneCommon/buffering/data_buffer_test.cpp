@@ -23,7 +23,7 @@ struct TestStruct
 } __attribute__((packed));
 
 DataBuffer_Test::DataBuffer_Test()
-    : Kitsune::Common::Test("DataBuffer_Test")
+    : Kitsune::Common::UnitTest("DataBuffer_Test")
 {
     structSize_test();
     constructor_test();

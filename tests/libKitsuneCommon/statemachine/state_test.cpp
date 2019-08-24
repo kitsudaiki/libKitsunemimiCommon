@@ -16,7 +16,7 @@ namespace Common
 {
 
 State_Test::State_Test()
-    : Kitsune::Common::Test("State_Test")
+    : Kitsune::Common::UnitTest("State_Test")
 {
     addTransition_test();
     next_test();
