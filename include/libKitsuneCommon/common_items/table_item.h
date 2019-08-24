@@ -25,9 +25,11 @@ class TableItem
 {
 public:
     TableItem();
+    TableItem(const TableItem &other);
     TableItem(DataArray* body,
               DataArray* header=nullptr);
     ~TableItem();
+    TableItem& operator=(const TableItem& other);
 
     // column
     bool addColumn(const std::string &internalName,

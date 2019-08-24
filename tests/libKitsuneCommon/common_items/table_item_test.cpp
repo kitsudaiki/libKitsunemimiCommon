@@ -16,6 +16,9 @@ namespace Common
 TableItem_test::TableItem_test()
     : Kitsune::Common::Test("TableItem_test")
 {
+    copy_contructor_test();
+    assignment_operator_test();
+
     // column
     addColumn_Test();
     renameColume_Test();
@@ -36,6 +39,32 @@ TableItem_test::TableItem_test()
 
     // output
     print_Test();
+}
+
+/**
+ * @brief TableItem_test::copy_contructor_test
+ */
+void
+TableItem_test::copy_contructor_test()
+{
+    TableItem testItem = getTestTableItem();
+    TableItem copyItem = testItem;
+
+    UNITTEST(copyItem.print(), testItem.print());
+}
+
+/**
+ * @brief TableItem_test::assignment_operator_test
+ */
+void
+TableItem_test::assignment_operator_test()
+{
+    TableItem testItem = getTestTableItem();
+    TableItem assignedItem;
+
+    assignedItem = testItem;
+
+    UNITTEST(assignedItem.print(), testItem.print());
 }
 
 /**

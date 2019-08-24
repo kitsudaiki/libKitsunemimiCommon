@@ -25,6 +25,9 @@ public:
     TableItem_test();
 
 private:
+    void copy_contructor_test();
+    void assignment_operator_test();
+
     // column
     void addColumn_Test();
     void renameColume_Test();

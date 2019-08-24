@@ -25,6 +25,15 @@ TableItem::TableItem()
 }
 
 /**
+ * @brief copy-constructor
+ */
+TableItem::TableItem(const TableItem &other)
+{
+    m_body = other.m_body->copy()->toArray();
+    m_header = other.m_header->copy()->toArray();
+}
+
+/**
  * @brief create a table from predefined values
  *
  * @param body body-content as data-array-item
@@ -56,6 +65,26 @@ TableItem::~TableItem()
     // delete all data of the table
     delete m_body;
     delete m_header;
+}
+
+/**
+ * @brief assignment-constructor
+ */
+TableItem&
+TableItem::operator=(const TableItem& other)
+{
+    // check for self-assignment
+    if(&other == this) {
+        return *this;
+    }
+
+    delete m_body;
+    delete m_header;
+
+    m_body = other.m_body->copy()->toArray();
+    m_header = other.m_header->copy()->toArray();
+
+    return *this;
 }
 
 /**
