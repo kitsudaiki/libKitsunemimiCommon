@@ -16,7 +16,7 @@ namespace Common
 {
 
 Statemachine_Test::Statemachine_Test()
-    : Kitsune::Common::Test("Statemachine_Test")
+    : Kitsune::Common::UnitTest("Statemachine_Test")
 {
     createNewState_test();
     addTransition_test();

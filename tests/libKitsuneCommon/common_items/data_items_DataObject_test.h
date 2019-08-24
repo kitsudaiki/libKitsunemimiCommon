@@ -9,7 +9,7 @@
 #ifndef DATAITEMS_DATAOBJECT_TEST_H
 #define DATAITEMS_DATAOBJECT_TEST_H
 
-#include <testing/test.h>
+#include <testing/unit_test.h>
 
 namespace Kitsune
 {
@@ -18,7 +18,7 @@ namespace Common
 class DataObject;
 
 class DataItems_DataObject_Test
-        : public Kitsune::Common::Test
+        : public Kitsune::Common::UnitTest
 {
 public:
     DataItems_DataObject_Test();

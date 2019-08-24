@@ -15,7 +15,7 @@ namespace Common
 {
 
 DataItems_DataValue_Test::DataItems_DataValue_Test()
-    : Kitsune::Common::Test("DataItems_DataValue_Test")
+    : Kitsune::Common::UnitTest("DataItems_DataValue_Test")
 {
     operator_test();
     get_test();

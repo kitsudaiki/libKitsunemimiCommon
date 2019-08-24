@@ -14,7 +14,7 @@ namespace Common
 {
 
 TableItem_test::TableItem_test()
-    : Kitsune::Common::Test("TableItem_test")
+    : Kitsune::Common::UnitTest("TableItem_test")
 {
     copy_contructor_test();
     assignment_operator_test();

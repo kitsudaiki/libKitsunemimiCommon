@@ -9,12 +9,12 @@ INCLUDEPATH += $$PWD \
             ../include/libKitsuneCommon
 
 SOURCES += \
-    testing/test.cpp \
     threading/thread.cpp \
     statemachine/statemachine.cpp \
     buffering/data_buffer_methods.cpp \
     common_items/data_items.cpp \
-    common_items/table_item.cpp
+    common_items/table_item.cpp \
+    testing/unit_test.cpp
 
 HEADERS += \
     ../include/libKitsuneCommon/buffering/data_buffer.h \
@@ -23,7 +23,7 @@ HEADERS += \
     ../include/libKitsuneCommon/common_methods/vector_methods.h \
     ../include/libKitsuneCommon/common_items/data_items.h \
     ../include/libKitsuneCommon/statemachine/statemachine.h \
-    ../include/libKitsuneCommon/testing/test.h \
     ../include/libKitsuneCommon/threading/thread.h \
     statemachine/state.h \
-    ../include/libKitsuneCommon/common_items/table_item.h
+    ../include/libKitsuneCommon/common_items/table_item.h \
+    ../include/libKitsuneCommon/testing/unit_test.h
