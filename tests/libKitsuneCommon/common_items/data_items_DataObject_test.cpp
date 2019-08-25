@@ -79,7 +79,7 @@ void
 DataItems_DataObject_Test::getSize_test()
 {
     DataObject object = initTestObject();
-    UNITTEST(object.getSize(), 4);
+    UNITTEST(object.size(), 4);
 }
 
 /**
@@ -93,7 +93,7 @@ DataItems_DataObject_Test::remove_test()
     UNITTEST(object.remove("hmm"), true);
 
     UNITTEST(object.get(1)->toString(), "42.500000");
-    UNITTEST(object.getSize(), 2);
+    UNITTEST(object.size(), 2);
 
     // negative tests
     UNITTEST(object.remove(10), false);
@@ -134,7 +134,7 @@ DataItems_DataObject_Test::print_test()
               "    \"poi\": \"\",\n"
               "    \"xyz\": 42.500000\n"
               "}";
-    UNITTEST(object.print(nullptr, true), compare);
+    UNITTEST(object.print(true), compare);
 }
 
 /**

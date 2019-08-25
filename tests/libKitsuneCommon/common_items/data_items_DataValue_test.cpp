@@ -74,7 +74,7 @@ void
 DataItems_DataValue_Test::getSize_test()
 {
     DataValue defaultValue;
-    UNITTEST(defaultValue.getSize(), 0);
+    UNITTEST(defaultValue.size(), 0);
 }
 
 /**

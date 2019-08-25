@@ -286,7 +286,7 @@ DataValue::get(const uint64_t)
  * @brief fake-method which exist here only for the inheritance and returns everytime 0
  */
 uint64_t
-DataValue::getSize()
+DataValue::size()
 {
     return toString().size();
 }
@@ -334,8 +334,8 @@ DataValue::copy()
  * @brief prints the content of the object
  */
 std::string
-DataValue::print(std::string* output,
-                 const bool,
+DataValue::print(const bool,
+                 std::string* output,
                  const uint32_t)
 {
     std::string out = "";
@@ -497,7 +497,7 @@ DataObject::get(const uint64_t index)
  * @return number of elements in the key-value-list
  */
 uint64_t
-DataObject::getSize()
+DataObject::size()
 {
     return m_objects.size();
 }
@@ -655,8 +655,8 @@ DataObject::copy()
  * @brief prints the content of the object
  */
 std::string
-DataObject::print(std::string* output,
-                  const bool indent,
+DataObject::print(const bool indent,
+                  std::string* output,
                   const uint32_t level)
 {
     std::string out = "";
@@ -698,7 +698,7 @@ DataObject::print(std::string* output,
             if(it->second == nullptr) {
                 output->append("NULL");
             } else {
-                it->second->print(output, indent, level+1);
+                it->second->print(indent, output, level+1);
             }
         }
     }
@@ -818,7 +818,7 @@ DataArray::get(const uint64_t index)
  * @return number of elements in the array
  */
 uint64_t
-DataArray::getSize()
+DataArray::size()
 {
     return m_array.size();
 }
@@ -878,8 +878,8 @@ DataArray::copy()
  * @brief prints the content of the object
  */
 std::string
-DataArray::print(std::string* output,
-                 const bool indent,
+DataArray::print(const bool indent,
+                 std::string* output,
                  const uint32_t level)
 {
     std::string out = "";
@@ -903,7 +903,7 @@ DataArray::print(std::string* output,
             continue;
         }
 
-        (*it)->print(output, indent, level+1);
+        (*it)->print(indent, output, level+1);
     }
 
     addIndent(output, indent, level);

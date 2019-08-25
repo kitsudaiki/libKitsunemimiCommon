@@ -93,7 +93,7 @@ void
 DataItems_DataArray_Test::getSize_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.getSize(), 4);
+    UNITTEST(array.size(), 4);
 }
 
 /**
@@ -107,7 +107,7 @@ DataItems_DataArray_Test::remove_test()
     UNITTEST(array.remove("2"), true);
 
     UNITTEST(array.get(1)->toInt(), 42);
-    UNITTEST(array.getSize(), 2);
+    UNITTEST(array.size(), 2);
 
     // negative tests
     UNITTEST(array.remove(10), false);
@@ -148,7 +148,7 @@ DataItems_DataArray_Test::print_test()
               "    42,\n"
               "    42.500000\n"
               "]";
-    UNITTEST(array.print(nullptr, true), compare);
+    UNITTEST(array.print(true), compare);
 }
 
 /**

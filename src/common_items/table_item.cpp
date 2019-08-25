@@ -130,7 +130,7 @@ bool
 TableItem::renameColume(const std::string &internalName,
                         const std::string &newShownName)
 {
-    const uint64_t size = m_header->getSize();
+    const uint64_t size = m_header->size();
 
     for(uint64_t x = 0; x < size; x++)
     {
@@ -158,7 +158,7 @@ TableItem::deleteColumn(const uint64_t x,
                         const bool withBody)
 {
     // precheck
-    if(x >= m_header->getSize()) {
+    if(x >= m_header->size()) {
         return false;
     }
 
@@ -171,7 +171,7 @@ TableItem::deleteColumn(const uint64_t x,
     // remove data of the column
     if(withBody)
     {
-        const uint64_t size = m_body->getSize();
+        const uint64_t size = m_body->size();
 
         for(uint64_t y = 0; y < size; y++)
         {
@@ -195,7 +195,7 @@ bool
 TableItem::deleteColumn(const std::string &internalName,
                         const bool withBody)
 {
-    const uint64_t size = m_header->getSize();
+    const uint64_t size = m_header->size();
 
     // search in header
     for(uint64_t x = 0; x < size; x++)
@@ -222,8 +222,8 @@ TableItem::addRow(const std::vector<std::string> rowContent)
 
     // check and cut size
     uint64_t size = rowContent.size();
-    if(m_header->getSize() < size) {
-        size = m_header->getSize();
+    if(m_header->size() < size) {
+        size = m_header->size();
     }
 
     // add new row content to the table
@@ -247,7 +247,7 @@ bool
 TableItem::deleteRow(const uint64_t y)
 {
     // precheck
-    if(y >= m_body->getSize())
+    if(y >= m_body->size())
     {
         return false;
     }
@@ -272,8 +272,8 @@ TableItem::setCell(const uint32_t x,
                    const std::string &newValue)
 {
     // precheck
-    if(x >= m_header->getSize()
-            || y >= m_body->getSize())
+    if(x >= m_header->size()
+            || y >= m_body->size())
     {
         return false;
     }
@@ -306,8 +306,8 @@ TableItem::getCell(const uint32_t x,
                    const uint32_t y)
 {
     // precheck
-    if(x >= m_header->getSize()
-            || y >= m_body->getSize())
+    if(x >= m_header->size()
+            || y >= m_body->size())
     {
         return "";
     }
@@ -338,8 +338,8 @@ TableItem::deleteCell(const uint32_t x,
                       const uint32_t y)
 {
     // precheck
-    if(x >= m_header->getSize()
-            || y >= m_body->getSize())
+    if(x >= m_header->size()
+            || y >= m_body->size())
     {
         return false;
     }
@@ -359,7 +359,7 @@ TableItem::deleteCell(const uint32_t x,
 uint64_t
 TableItem::getNumberOfColums()
 {
-    return m_header->getSize();
+    return m_header->size();
 }
 
 /**
@@ -370,7 +370,7 @@ TableItem::getNumberOfColums()
 uint64_t
 TableItem::getNumberOfRows()
 {
-    return m_body->getSize();
+    return m_body->size();
 }
 
 /**
@@ -467,7 +467,7 @@ TableItem::printHeaderLine(const std::vector<uint64_t> &sizes)
         output.append("| ");
         DataValue* value = m_header->get(i)->get("outer")->toValue();
         output.append(value->toString());
-        output.append(std::string(sizes.at(i) - value->getSize(), ' '));
+        output.append(std::string(sizes.at(i) - value->size(), ' '));
         output.append(" ");
     }
 
@@ -509,7 +509,7 @@ TableItem::printBodyLine(const std::vector<uint64_t> &sizes,
             // print cell-content and fill the rest with blank
             DataValue* value = item->toValue();
             output.append(value->toString());
-            output.append(std::string(sizes.at(i) - value->getSize(), ' '));
+            output.append(std::string(sizes.at(i) - value->size(), ' '));
             output.append(" ");
         }
     }
@@ -535,7 +535,7 @@ TableItem::getHeaderCellSize(const uint64_t x)
     result.second = 0;
 
     // precheck
-    if(x >= m_header->getSize())
+    if(x >= m_header->size())
     {
         return result;
     }
@@ -548,7 +548,7 @@ TableItem::getHeaderCellSize(const uint64_t x)
     }
 
     // get string-length
-    result.first += value->toValue()->getSize();
+    result.first += value->toValue()->size();
     result.second = 0;
 
     return result;
@@ -573,8 +573,8 @@ TableItem::getBodyCellSize(const uint64_t x,
     result.second = 0;
 
     // precheck
-    if(x >= m_header->getSize()
-            || y >= m_body->getSize())
+    if(x >= m_header->size()
+            || y >= m_body->size())
     {
         return result;
     }
@@ -588,7 +588,7 @@ TableItem::getBodyCellSize(const uint64_t x,
     }
 
     // get string-length
-    result.first += value->toValue()->getSize();
+    result.first += value->toValue()->size();
     result.second = 0;
 
     return result;
