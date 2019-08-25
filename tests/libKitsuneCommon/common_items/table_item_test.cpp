@@ -137,16 +137,8 @@ TableItem_test::addRow_Test()
     testItem.addColumn("asdf", "ASDF");
     testItem.addColumn("poipoipoi");
 
-    std::vector<std::string> newRow;
-
-    newRow.push_back("this is a test");
-    newRow.push_back("k");
-    UNITTEST(testItem.addRow(newRow), true);
-
-    newRow.clear();
-    newRow.push_back("asdf");
-    newRow.push_back("qwert");
-    UNITTEST(testItem.addRow(newRow), true);
+    UNITTEST(testItem.addRow(std::vector<std::string>{"this is a test", "k"}), true);
+    UNITTEST(testItem.addRow(std::vector<std::string>{"asdf", "qwert"}), true);
 
     const std::string compare =
             "+----------------+-----------+\n"
@@ -294,16 +286,8 @@ TableItem_test::getTestTableItem()
     testItem.addColumn("asdf", "ASDF");
     testItem.addColumn("poipoipoi");
 
-    std::vector<std::string> newRow;
-
-    newRow.push_back("this is a test");
-    newRow.push_back("k");
-    testItem.addRow(newRow);
-
-    newRow.clear();
-    newRow.push_back("asdf");
-    newRow.push_back("qwert");
-    testItem.addRow(newRow);
+    testItem.addRow(std::vector<std::string>{"this is a test", "k"});
+    testItem.addRow(std::vector<std::string>{"asdf", "qwert"});
 
     return testItem;
 }
