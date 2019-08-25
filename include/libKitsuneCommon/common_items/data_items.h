@@ -55,7 +55,7 @@ public:
     virtual DataItem* operator[](const uint64_t index) = 0;
     virtual DataItem* get(const std::string key) = 0;
     virtual DataItem* get(const uint64_t index) = 0;
-    virtual uint64_t getSize() = 0;
+    virtual uint64_t size() = 0;
 
     // delete
     virtual bool remove(const std::string &key) = 0;
@@ -63,8 +63,8 @@ public:
 
     // output
     virtual DataItem* copy() = 0;
-    virtual std::string print(std::string *output=nullptr,
-                              bool indent=false,
+    virtual std::string print(bool indent=false,
+                              std::string *output=nullptr,
                               uint32_t step=0) = 0;
 
     dataTypes getType() const;
@@ -112,7 +112,7 @@ public:
     DataItem* operator[](const uint64_t);
     DataItem* get(const std::string);
     DataItem* get(const uint64_t);
-    uint64_t getSize();
+    uint64_t size();
 
     // delete
     bool remove(const std::string&);
@@ -120,8 +120,8 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(std::string* output=nullptr,
-                      const bool=false,
+    std::string print(const bool=false,
+                      std::string* output=nullptr,
                       const uint32_t=0);
 
     // content
@@ -149,7 +149,7 @@ public:
     DataItem* operator[](const uint64_t index);
     DataItem* get(const std::string key);
     DataItem* get(const uint64_t index);
-    uint64_t getSize();
+    uint64_t size();
 
     std::vector<std::string> getKeys();
     std::vector<DataItem*> getValues();
@@ -165,8 +165,8 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(std::string* output=nullptr,
-                      const bool indent=false,
+    std::string print(const bool=false,
+                      std::string* output=nullptr,
                       const uint32_t level=0);
 
     // content
@@ -190,7 +190,7 @@ public:
     DataItem* operator[](const uint64_t index);
     DataItem* get(const std::string);
     DataItem* get(const uint64_t index);
-    uint64_t getSize();
+    uint64_t size();
 
     // delete
     bool remove(const std::string &key);
@@ -198,8 +198,8 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(std::string* output=nullptr,
-                      const bool indent=false,
+    std::string print(const bool indent=false,
+                      std::string* output=nullptr,
                       const uint32_t level=0);
 
     // content
