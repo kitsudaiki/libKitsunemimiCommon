@@ -1,10 +1,15 @@
 # Changelog
 
 
+## [0.4.1] - 2019-08-26
+
+### Fixed
+- data-buffer was missing in the readme-file, which was fixed
+
+
 ## [0.4.0] - 2019-08-25
 
 ### Added
-
 - table-items with unit-tests
 - short description to all files
 - content for readme-file
@@ -14,6 +19,7 @@
 - in data-items: made print-method better usable
 - renamed Test-class to UnitTest-class
 - renamed data_structure-directory to common_items
+
 
 ## [0.3.0] - 2019-08-17
 
