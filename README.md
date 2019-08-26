@@ -21,6 +21,10 @@ All my projects are mirrored to gitlab, where I have still my ci-pipeline runnin
 
 These are classes for data-representation. At the moment there are data-items and table-items. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
 
+### Data buffer
+
+This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
+
 ### Threads
 
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread (this feature is still a bit incomplete, because it has 4 threads as max number of threads).
@@ -255,6 +259,52 @@ here ouput has nwo the content:
 
 ```
 
+### Data buffer
+
+The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
+
+```cpp
+#include <buffering/data_buffer.h>
+
+// initialize new data-buffer with 10 x 4KiB
+DataBuffer testBuffer(10);
+
+int value = 42;
+
+// write data to buffer a the position pointed by the value `testBuffer.bufferPosition`
+// you can set the bufferPosition directly to write at a custom location
+// or write your data directly with memcpy to any position of `testBuffer.data`
+bool success = testBuffer.addData(&value);
+
+// This example is a bit stupid, because it is the fist value in the data-buffer
+// It get the block with id 0 from the buffer as int-array and from with it gets the first element
+int readValue = static_cast<int>(testBuffer.getBlock(0))[0];
+
+// clear buffer and reset to only one allocated block
+testBuffer.reset();
+
+```
+
+For more control you can also use the data-methods directly:
+
+```cpp
+#include <buffering/data_buffer.h>
+
+// initialize new data-buffer with 10 x 4KiB
+DataBuffer testBuffer(10);
+
+int value = 42;
+
+// write data to buffer a the position pointed by the value `testBuffer.bufferPosition`
+bool success = addDataToBuffer(&testBuffer, static_cast<void*>(value), sizeof(int);
+
+// additional allocate 10 more block
+success = allocateBlocks(&testBuffer, 10);
+
+// clear the buffer and reduce it to 10 block again
+success = resetBuffer(&testBuffer, 10);
+
+```
 
 ### Threads
 
