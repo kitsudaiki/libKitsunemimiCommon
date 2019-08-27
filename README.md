@@ -12,8 +12,11 @@ My first libraries hab really common names like libCommon and so on, but I thoug
 
 ### About my repositories in general
 
-At the moment there are over 10 Kitsune-libraries an multiple tools in my private repos. I plan to make all open-source. This here is my first repositiory for open-sourcing and I don't have much experience with github, so I still have many to learn and make my workflow better. Most of all I have to improve my ticket-handling...
-All my projects are mirrored to gitlab, where I have still my ci-pipeline running. 
+At the moment there are over 10 Kitsune-libraries an multiple tools in my private repos. I plan to make all open-source, but I have much to learn about open-source-projects. Most of all I have to improve my ticket-handling. So please help me to improve my workflow.
+
+All my projects are mirrored to gitlab, where I have still my gitlab-ci runner. 
+
+I don't really like it to write much comments into header-files. More exactly I absolutly hate it, when I have to search the provided functions of a header between a massive amount of comments. Header-files are for me primary to have an overview, of all provided functions, which I have see as fast as possible. Comments of functions, parameters and return-values in my code are only written into the source-file. So when something is unclear for a specific method, than look into the source-file. If the comment there are not helpful for you, then please write me a mail or an issue to fix this. 
 
 ## Content Overview
 
@@ -46,7 +49,7 @@ These contains some commonly used mehtods. At the moment there are only two, but
 
 I write my projects with the Qt-creator, but without Qt itself. 
 
-### requirements
+### Requirements
 
 - g++
 - qt5-qmake
@@ -55,33 +58,21 @@ I write my projects with the Qt-creator, but without Qt itself.
 
 IMPORTANT: qmake normally requires the Qt-framework, but it can also work alone when using `/usr/lib/x86_64-linux-gnu/qt5/bin/qmake` instead of `qmake` (tested on ubuntu).
 
-#### build all
+#### build
 
-1. go to the directory, where it should build
+1. create a build-directory
 
-2. build make-file with qmake:
+`mkdir <PATH_TO_BUILD_DIR>`
 
-`/usr/lib/x86_64-linux-gnu/qt5/bin/qmake <PATH_TO_THE_REPO>/libKitsuneCommon/libKitsuneCommon.pro`
+`cd <PATH_TO_BUILD_DIR>`
 
-3. build library:
+2. build libKitsuneCommon-lib into the build-directory
 
-`make`
+`/usr/lib/x86_64-linux-gnu/qt5/bin/qmake <PATH_OF_OUTCHECKED_REPO>/libKitsuneCommon/libKitsuneCommon.pro`
 
+`/usr/bin/make`
 
-After this a `src` and `test` directory are created. The `src`-directory contains the new build library and the `test`-derectory the executable unit-test-binary. 
-
-
-#### build only library
-
-1. go to the directory, where it should build
-
-2. build make-file with qmake:
-
-`/usr/lib/x86_64-linux-gnu/qt5/bin/qmake <PATH_TO_THE_REPO>/libKitsuneCommon/src/src.pro`
-
-3. build library:
-
-`make`
+Afterwards in `<PATH_TO_BUILD_DIR>/src/` you find the compiled libraries.
 
 
 ## Usage
