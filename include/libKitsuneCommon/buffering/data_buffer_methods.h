@@ -27,7 +27,6 @@ namespace Common
 
 struct DataBuffer;
 
-
 bool addDataToBuffer(DataBuffer *buffer,
                      const void* data,
                      const uint64_t dataSize);
@@ -43,4 +42,4 @@ bool alignedFree(void *ptr);
 } // namespace Common
 } // namespace Kitsune
 
-#endif // DATABUFFERMETHODS_H
+#endif // DATA_BUFFER_METHODS_H
