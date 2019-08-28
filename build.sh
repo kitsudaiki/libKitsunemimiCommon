@@ -18,8 +18,8 @@ mkdir -p $LIB_KITSUNE_COMMON_DIR
 cd $LIB_KITSUNE_COMMON_DIR
 
 # build libKitsuneCommon library with qmake
-/usr/lib/x86_64-linux-gnu/qt5/bin/qmake $DIR/libKitsuneCommon.pro -spec linux-g++
-/usr/bin/make
+/usr/lib/x86_64-linux-gnu/qt5/bin/qmake $DIR/libKitsuneCommon.pro -spec linux-g++ "CONFIG += optimize_full"
+/usr/bin/make -j4
 
 # copy build-result and include-files into the result-directory
 cp "$LIB_KITSUNE_COMMON_DIR/src/libKitsuneCommon.so.0.4.0" "$RESULT_DIR/"
