@@ -47,32 +47,54 @@ These contains some commonly used mehtods. At the moment there are only two, but
 
 ## Build
 
-I write my projects with the Qt-creator, but without Qt itself. 
-
 ### Requirements
 
-- g++
-- qt5-qmake
+paket | version
+--- | ---
+g++ | 6.3.0
+qt5-qmake | 5.7.1
+
+This are the version I have installed under Debian Stable via apt. Some older or newer version should work as well. I write my projects with the Qt-creator, but without Qt itself. Thats why qmake is required to build my projects.
+
+IMPORTANT: All my projects are only tested on Linux. 
 
 ### build library
 
-IMPORTANT: qmake normally requires the Qt-framework, but it can also work alone when using `/usr/lib/x86_64-linux-gnu/qt5/bin/qmake` instead of `qmake` (tested on ubuntu).
+In all of my repositories you will find a `build.sh`. You only have to run this script. It doesn't required sudo, because you have to install required tool via apt, for example, by yourself. But if other projects from me are required, it download them from github and build them in the correct version too. This script is also use by the ci-pipeline, so its tested with every commit.
 
-#### build
+Before running the build-script:
 
-1. create a build-directory
+```bash
+.
+└── libKitsuneCommon
+    ├── build.sh
+    └── ...
+```
 
-`mkdir <PATH_TO_BUILD_DIR>`
+After running the build-script:
 
-`cd <PATH_TO_BUILD_DIR>`
+```bash
+.
+├── build
+│   └── libKitsuneCommon
+│       ├── Makefile
+│       ├── src
+│       └── tests
+├── libKitsuneCommon
+│   ├── build.sh
+│   └── ...
+└── result
+    ├── include
+    │   └── libKitsuneCommon
+    ├── libKitsuneCommon.so -> libKitsuneCommon.so.0.4.0
+    ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.4.0
+    ├── libKitsuneCommon.so.0.4 -> libKitsuneCommon.so.0.4.0
+    └── libKitsuneCommon.so.0.4.0
+```
 
-2. build libKitsuneCommon-lib into the build-directory
+It create automatic a `build` and `result` directory in the directory, where you have cloned the project. At first it build all into the `build`-directory and after all build-steps are finished, it copy the include directory from the cloned repository and the build library into the `result`-directory. So you have all in one single place.
 
-`/usr/lib/x86_64-linux-gnu/qt5/bin/qmake <PATH_OF_OUTCHECKED_REPO>/libKitsuneCommon/libKitsuneCommon.pro`
-
-`/usr/bin/make`
-
-Afterwards in `<PATH_TO_BUILD_DIR>/src/` you find the compiled libraries.
+Tested on Debian and Ubuntu. If you use Centos, Arch, etc and the build-script fails on your machine, then please write me a mail and I will try to fix the script.
 
 
 ## Usage
@@ -522,6 +544,12 @@ removeEmptyStrings(&testVector);
 // after this testVector only contains ["x", "y", "z"]
 
 ```
+
+
+## Contributing
+
+Please give me as many inputs as possible about bugs, bad code style, bad documentation and so on. 
+
 
 ## License
 

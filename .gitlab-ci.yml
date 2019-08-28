@@ -4,18 +4,11 @@ build:
   script:
     - echo Working on branch $CI_COMMIT_REF_NAME
 
-    - mkdir /builds/build
-    - cd /builds/build
+    - cd /builds/tobiasanker/libKitsuneCommon
+    - ./build.sh
 
-    - mkdir libKitsuneCommon
-    - cd libKitsuneCommon
-
-    - /usr/lib/x86_64-linux-gnu/qt5/bin/qmake /builds/tobiasanker/libKitsuneCommon/libKitsuneCommon.pro -spec linux-g++
-    - /usr/bin/make
-
-    - cd tests
-    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/builds/build/libKitsuneCommon/src'
-    - ./tests
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/builds/tobiasanker/result'
+    - /builds/tobiasanker/build/libKitsuneCommon/tests/tests
 
   tags:
     - docker
