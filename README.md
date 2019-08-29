@@ -177,7 +177,7 @@ This is for printing informations as table on the commandline in form of this ex
 ```
 +-----------------+---------+
 | Name of column1 | column2 |
-+-----------------+---------+
++=================+=========+
 | this is a test  | k       |
 | asdf            | hmmm    |
 +-----------------+---------+
@@ -209,7 +209,7 @@ here ouput has nwo the content:
 
 "+-----------------+---------+\n"
 "| Name of column1 | column2 |\n"
-"+-----------------+---------+\n"
+"+=================+=========+\n"
 "| this is a test  | k       |\n"
 "| asdf            | hmmm    |\n"
 "+-----------------+---------+\n";
@@ -264,7 +264,7 @@ here ouput has nwo the content:
 
 "+-----------------+---------+\n"
 "| Name of column1 | column2 |\n"
-"+-----------------+---------+\n"
+"+=================+=========+\n"
 "| this is a test  | k       |\n"
 "| asdf            | hmmm    |\n"
 "+-----------------+---------+\n";
