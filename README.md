@@ -179,11 +179,16 @@ This is for printing informations as table on the commandline in form of this ex
 | Name of column1 | column2 |
 +=================+=========+
 | this is a test  | k       |
++-----------------+---------+
 | asdf            | hmmm    |
++-----------------+---------+
+| x               |         |
+| y               |         |
+| z               |         |
 +-----------------+---------+
 ```
 
-Its primary to print informations coming from a REST-API response in form a json. So it can be filled manually or with content which was parsed with libKitsuneJson (coming soon open-source).
+Its primary to print informations coming from a REST-API response in form a json. So it can be filled manually or with content which was parsed with libKitsuneJson (coming soon open-source). If the content of a cell of the table contains a string with line breaks, its shown as multiple lines line in the last row of the example.
 
 - manual filling of the table:
 
@@ -211,6 +216,7 @@ here ouput has nwo the content:
 "| Name of column1 | column2 |\n"
 "+=================+=========+\n"
 "| this is a test  | k       |\n"
+"+-----------------+---------+\n"
 "| asdf            | hmmm    |\n"
 "+-----------------+---------+\n";
 **/
@@ -266,6 +272,7 @@ here ouput has nwo the content:
 "| Name of column1 | column2 |\n"
 "+=================+=========+\n"
 "| this is a test  | k       |\n"
+"+-----------------+---------+\n"
 "| asdf            | hmmm    |\n"
 "+-----------------+---------+\n";
 **/
