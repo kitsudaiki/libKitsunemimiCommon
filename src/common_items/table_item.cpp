@@ -408,21 +408,19 @@ TableItem::print()
     }
 
     // create separator-line
-    const std::string limitLine = getLimitLine(xSizes);
-
     std::string result = "";
 
     // print table-header
-    result.append(limitLine);
+    result.append(getLimitLine(xSizes));
     result.append(printHeaderLine(xSizes));
-    result.append(limitLine);
+    result.append(getLimitLine(xSizes, true));
 
     // print table body
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
         result.append(printBodyLine(xSizes, y));
     }
-    result.append(limitLine);
+    result.append(getLimitLine(xSizes));
 
     return result;
 }
@@ -431,18 +429,25 @@ TableItem::print()
  * @brief create separator-line for the table
  *
  * @param sizes list with all width-values for printing placeholder
+ * @param bigLine if true, it use '=' instead of '-' for the lines (default = false)
  *
  * @return separator-line as string
  */
 const std::string
-TableItem::getLimitLine(const std::vector<uint64_t> &sizes)
+TableItem::getLimitLine(const std::vector<uint64_t> &sizes,
+                        const bool bigLine)
 {
     std::string output = "";
+
+    char lineSegment = '-';
+    if(bigLine) {
+        lineSegment = '=';
+    }
 
     for(uint64_t i = 0; i < sizes.size(); i++)
     {
         output.append("+");
-        output.append(std::string(sizes.at(i) + 2, '-'));
+        output.append(std::string(sizes.at(i) + 2, lineSegment));
     }
 
     output.append("+\n");

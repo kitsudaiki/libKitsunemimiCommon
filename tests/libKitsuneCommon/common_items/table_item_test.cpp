@@ -80,7 +80,7 @@ TableItem_test::addColumn_Test()
 
     const std::string compare = "+------+-----+\n"
                                 "| ASDF | poi |\n"
-                                "+------+-----+\n"
+                                "+======+=====+\n"
                                 "+------+-----+\n";
     UNITTEST(testItem.print(), compare);
 }
@@ -100,7 +100,7 @@ TableItem_test::renameColume_Test()
 
     const std::string compare = "+-----+\n"
                                 "| XYZ |\n"
-                                "+-----+\n"
+                                "+=====+\n"
                                 "+-----+\n";
     UNITTEST(testItem.print(), compare);
 }
@@ -121,7 +121,7 @@ TableItem_test::deleteColumn_Test()
 
     const std::string compare = "+-----+\n"
                                 "| poi |\n"
-                                "+-----+\n"
+                                "+=====+\n"
                                 "+-----+\n";
     UNITTEST(testItem.print(), compare);
 }
@@ -143,7 +143,7 @@ TableItem_test::addRow_Test()
     const std::string compare =
             "+----------------+-----------+\n"
             "| ASDF           | poipoipoi |\n"
-            "+----------------+-----------+\n"
+            "+================+===========+\n"
             "| this is a test | k         |\n"
             "| asdf           | qwert     |\n"
             "+----------------+-----------+\n";
@@ -165,7 +165,7 @@ TableItem_test::deleteRow_Test()
     const std::string compare =
             "+------+-----------+\n"
             "| ASDF | poipoipoi |\n"
-            "+------+-----------+\n"
+            "+======+===========+\n"
             "| asdf | qwert     |\n"
             "+------+-----------+\n";
 
@@ -187,7 +187,7 @@ TableItem_test::setCell_Test()
     const std::string compare =
             "+----------------+-----------+\n"
             "| ASDF           | poipoipoi |\n"
-            "+----------------+-----------+\n"
+            "+================+===========+\n"
             "| this is a test | k         |\n"
             "| asdf           | hmmm      |\n"
             "+----------------+-----------+\n";
@@ -223,7 +223,7 @@ TableItem_test::deleteCell_Test()
     const std::string compare =
             "+----------------+-----------+\n"
             "| ASDF           | poipoipoi |\n"
-            "+----------------+-----------+\n"
+            "+================+===========+\n"
             "| this is a test | k         |\n"
             "|                | qwert     |\n"
             "+----------------+-----------+\n";
@@ -266,7 +266,7 @@ TableItem_test::print_Test()
     const std::string compare =
             "+----------------+-----------+\n"
             "| ASDF           | poipoipoi |\n"
-            "+----------------+-----------+\n"
+            "+================+===========+\n"
             "| this is a test | k         |\n"
             "| asdf           | qwert     |\n"
             "+----------------+-----------+\n";
