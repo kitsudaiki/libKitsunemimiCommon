@@ -71,7 +71,8 @@ private:
     DataArray* m_body = nullptr;
     DataArray* m_header = nullptr;
 
-    const std::string getLimitLine(const std::vector<uint64_t> &sizes);
+    const std::string getLimitLine(const std::vector<uint64_t> &sizes,
+                                   const bool bigLine=false);
     const std::string printHeaderLine(const std::vector<uint64_t> &sizes);
     const std::string printBodyLine(const std::vector<uint64_t> &sizes,
                                     const uint64_t y);
