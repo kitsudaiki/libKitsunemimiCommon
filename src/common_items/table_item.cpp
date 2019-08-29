@@ -16,6 +16,8 @@
 #include <common_items/table_item.h>
 #include <common_items/data_items.h>
 
+#include <common_methods/string_methods.h>
+
 namespace Kitsune
 {
 namespace Common
@@ -407,20 +409,22 @@ TableItem::print()
         }
     }
 
+
     // create separator-line
+    const std::string normalSeparator = getLimitLine(xSizes);
     std::string result = "";
 
     // print table-header
-    result.append(getLimitLine(xSizes));
+    result.append(normalSeparator);
     result.append(printHeaderLine(xSizes));
     result.append(getLimitLine(xSizes, true));
 
     // print table body
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
-        result.append(printBodyLine(xSizes, y));
+        result.append(printBodyLine(xSizes, ySizes.at(y), y));
+        result.append(getLimitLine(xSizes));
     }
-    result.append(getLimitLine(xSizes));
 
     return result;
 }
@@ -484,42 +488,56 @@ TableItem::printHeaderLine(const std::vector<uint64_t> &sizes)
 /**
  * @brief converts a row of the table into a string
  *
- * @param sizes list with all width-values for printing placeholder
+ * @param xSizes list with all width-values for printing placeholder
+ * @param rowHeight hight-value for printing placeholder
  * @param y row-number
  *
  * @return sting with the content of a row for output
  */
 const std::string
-TableItem::printBodyLine(const std::vector<uint64_t> &sizes,
+TableItem::printBodyLine(const std::vector<uint64_t> &xSizes,
+                         const uint64_t rowHeight,
                          const uint64_t y)
 {
     std::string output = "";
 
-    for(uint64_t i = 0; i < sizes.size(); i++)
+    // prepare all cell-contents
+    std::vector<std::vector<std::string>> allSplitCellContents;
+    for(uint64_t i = 0; i < xSizes.size(); i++)
     {
-        output.append("| ");
-
         // get cell of the table
         const std::string columnName = m_header->get(i)->get("inner")->toValue()->toString();
         DataItem* item = m_body->get(y)->get(columnName);
 
-        if(item == nullptr)
-        {
-            // print empty cell
-            output.append(std::string(sizes.at(i), ' '));
-            output.append(" ");
+        if(item == nullptr) {
+            allSplitCellContents.push_back(std::vector<std::string>({" "}));
+        } else {
+            allSplitCellContents.push_back(splitString(item->toValue()->toString(), '\n'));
         }
-        else
-        {
-            // print cell-content and fill the rest with blank
-            DataValue* value = item->toValue();
-            output.append(value->toString());
-            output.append(std::string(sizes.at(i) - value->size(), ' '));
-            output.append(" ");
-        }
+
     }
 
-    output.append("|\n");
+    // create output string for all lines of one table-row
+    for(uint64_t line = 0; line < rowHeight; line++)
+    {
+        // print row line by line
+        for(uint64_t i = 0; i < xSizes.size(); i++)
+        {
+            std::string singleCellLine = "";
+            if(allSplitCellContents.at(i).size() > line) {
+                singleCellLine = allSplitCellContents.at(i).at(line);
+            }
+
+            // create string for one line of one cell
+            output.append("| ");
+            output.append(singleCellLine);
+            output.append(std::string(xSizes.at(i) - singleCellLine.size(), ' '));
+            output.append(" ");
+        }
+
+        output.append("|\n");
+    }
+
 
     return output;
 }
@@ -592,9 +610,33 @@ TableItem::getBodyCellSize(const uint64_t x,
         return result;
     }
 
-    // get string-length
-    result.first += value->toValue()->size();
-    result.second = 0;
+    // get string-length and number of line-breaks
+    const std::string cellContent = value->toValue()->toString();
+    uint32_t counter = 0;
+    for(uint32_t i = 0; i < cellContent.size(); i++)
+    {
+        if(cellContent.at(i) == '\n')
+        {
+            result.second++;
+            if(result.first < counter) {
+                result.first = counter;
+            }
+            counter = 0;
+        }
+        else
+        {
+            counter++;
+        }
+    };
+
+    // for the case, that the last character was not a line break
+    if(cellContent.at(cellContent.size()-1) != '\n')
+    {
+        result.second++;
+        if(result.first < counter) {
+            result.first = counter;
+        }
+    }
 
     return result;
 }

@@ -80,8 +80,7 @@ TableItem_test::addColumn_Test()
 
     const std::string compare = "+------+-----+\n"
                                 "| ASDF | poi |\n"
-                                "+======+=====+\n"
-                                "+------+-----+\n";
+                                "+======+=====+\n";
     UNITTEST(testItem.print(), compare);
 }
 
@@ -100,8 +99,7 @@ TableItem_test::renameColume_Test()
 
     const std::string compare = "+-----+\n"
                                 "| XYZ |\n"
-                                "+=====+\n"
-                                "+-----+\n";
+                                "+=====+\n";
     UNITTEST(testItem.print(), compare);
 }
 
@@ -121,8 +119,7 @@ TableItem_test::deleteColumn_Test()
 
     const std::string compare = "+-----+\n"
                                 "| poi |\n"
-                                "+=====+\n"
-                                "+-----+\n";
+                                "+=====+\n";
     UNITTEST(testItem.print(), compare);
 }
 
@@ -145,6 +142,7 @@ TableItem_test::addRow_Test()
             "| ASDF           | poipoipoi |\n"
             "+================+===========+\n"
             "| this is a test | k         |\n"
+            "+----------------+-----------+\n"
             "| asdf           | qwert     |\n"
             "+----------------+-----------+\n";
 
@@ -189,6 +187,7 @@ TableItem_test::setCell_Test()
             "| ASDF           | poipoipoi |\n"
             "+================+===========+\n"
             "| this is a test | k         |\n"
+            "+----------------+-----------+\n"
             "| asdf           | hmmm      |\n"
             "+----------------+-----------+\n";
 
@@ -225,6 +224,7 @@ TableItem_test::deleteCell_Test()
             "| ASDF           | poipoipoi |\n"
             "+================+===========+\n"
             "| this is a test | k         |\n"
+            "+----------------+-----------+\n"
             "|                | qwert     |\n"
             "+----------------+-----------+\n";
 
@@ -263,12 +263,20 @@ TableItem_test::print_Test()
 {
     TableItem testItem = getTestTableItem();
 
+    // additional multiline test
+    testItem.addRow(std::vector<std::string>{"x\ny\nz", " "});
+
     const std::string compare =
             "+----------------+-----------+\n"
             "| ASDF           | poipoipoi |\n"
             "+================+===========+\n"
             "| this is a test | k         |\n"
+            "+----------------+-----------+\n"
             "| asdf           | qwert     |\n"
+            "+----------------+-----------+\n"
+            "| x              |           |\n"
+            "| y              |           |\n"
+            "| z              |           |\n"
             "+----------------+-----------+\n";
 
     UNITTEST(testItem.print(), compare);

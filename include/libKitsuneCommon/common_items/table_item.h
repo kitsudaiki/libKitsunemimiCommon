@@ -74,7 +74,8 @@ private:
     const std::string getLimitLine(const std::vector<uint64_t> &sizes,
                                    const bool bigLine=false);
     const std::string printHeaderLine(const std::vector<uint64_t> &sizes);
-    const std::string printBodyLine(const std::vector<uint64_t> &sizes,
+    const std::string printBodyLine(const std::vector<uint64_t> &xSizes,
+                                    const uint64_t rowHeight,
                                     const uint64_t y);
 
     const std::pair<uint64_t, uint64_t> getHeaderCellSize(const uint64_t x);
