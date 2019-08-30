@@ -380,34 +380,24 @@ TableItem::getNumberOfRows()
  *
  * @return table as string
  */
-std::string
+const std::string
 TableItem::print()
 {
-    // init
+    // init data-handling values
     std::vector<uint64_t> xSizes(getNumberOfColums(), 0);
     std::vector<uint64_t> ySizes(getNumberOfRows(), 0);
+    TableBodyAll convertedBody;
+    TableRow convertedHeader;
 
-    // collect size-values of within the table
-    for(uint64_t x = 0; x < getNumberOfColums(); x++)
-    {
-        // collect size-values of the header-entries
-        const std::pair<uint64_t, uint64_t> headerCellSize = getHeaderCellSize(x);
-        if(xSizes.at(x) < headerCellSize.first) {
-            xSizes[x] = headerCellSize.first;
-        }
-
-        // collect size-values of each row and column
-        for(uint64_t y = 0; y < getNumberOfRows(); y++)
-        {
-            const std::pair<uint64_t, uint64_t> cellSize = getBodyCellSize(x, y);
-            if(xSizes.at(x) < cellSize.first) {
-                xSizes[x] = cellSize.first;
-            }
-            if(ySizes.at(y) < cellSize.second) {
-                ySizes[y] = cellSize.second;
-            }
-        }
-    }
+    // converts the table into a better format for the output
+    // and get the maximum values of the columns and rows
+    const std::vector<std::string> innerNames = getInnerName();
+    convertHeaderForOutput(&convertedHeader,
+                           &xSizes);
+    convertBodyForOutput(&convertedBody,
+                         &xSizes,
+                         &ySizes,
+                         innerNames);
 
 
     // create separator-line
@@ -422,11 +412,111 @@ TableItem::print()
     // print table body
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
-        result.append(printBodyLine(xSizes, ySizes.at(y), y));
+        result.append(printBodyLine(&convertedBody.at(y), xSizes, ySizes.at(y)));
         result.append(getLimitLine(xSizes));
     }
 
     return result;
+}
+
+/**
+ * @brief get all internal column-names
+ *
+ * @return list with all internal names
+ */
+const std::vector<std::string>
+TableItem::getInnerName()
+{
+    std::vector<std::string> result;
+
+    for(uint64_t x = 0; x < getNumberOfColums(); x++)
+    {
+        result.push_back(m_header->get(x)->get("inner")->toString());
+    }
+
+    return result;
+}
+
+/**
+ * @brief converts the header of the table from a data-item-tree into a string-lists
+ *
+ * @param convertedHeader target of the result of the convert
+ * @param xSizes target of the x-size values
+ */
+void
+TableItem::convertHeaderForOutput(TableItem::TableRow* convertedHeader,
+                                  std::vector<uint64_t>* xSizes)
+{
+    for(uint64_t x = 0; x < xSizes->size(); x++)
+    {
+        std::string cellContent = "";
+
+        // get value at requested position
+        DataItem* value = m_header->get(x)->get("outer");
+        if(value != nullptr) {
+            cellContent = value->toValue()->toString();
+        }
+
+        // split cell content
+        const TableCell splittedCellContent = splitString(cellContent, '\n');
+        for(uint64_t line = 0; line < splittedCellContent.size(); line++)
+        {
+            // check for a new maximum of the column-width
+            if(xSizes->at(x) < splittedCellContent.at(line).size()) {
+                (*xSizes)[x] = splittedCellContent.at(line).size();
+            }
+        }
+
+        convertedHeader->push_back(splittedCellContent);
+    }
+}
+
+/**
+ * @brief converts the body of the table from a data-item-tree into a string-lists
+ *
+ * @param convertedBody target of the result of the convert
+ * @param xSizes target of the x-size values
+ * @param ySizes target of the y-size values
+ * @param columeInnerNames internal name of the columns, which should be in the result
+ */
+void
+TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
+                                std::vector<uint64_t>* xSizes,
+                                std::vector<uint64_t>* ySizes,
+                                const std::vector<std::string> &columeInnerNames)
+{
+    for(uint64_t y = 0; y < getNumberOfRows(); y++)
+    {
+        convertedBody->push_back(TableRow());
+
+        for(uint64_t x = 0; x < columeInnerNames.size(); x++)
+        {
+            std::string cellContent = "";
+
+            // get cell content or use empty string, if cell not exist
+            DataItem* value = m_body->get(y)->get(columeInnerNames.at(x));
+            if(value != nullptr) {
+                cellContent = value->toValue()->toString();
+            }
+
+            // split cell content
+            const TableCell splittedCellContent = splitString(cellContent, '\n');
+            for(uint64_t line = 0; line < splittedCellContent.size(); line++)
+            {
+                // check for a new maximum of the column-width
+                if(xSizes->at(x) < splittedCellContent.at(line).size()) {
+                    (*xSizes)[x] = splittedCellContent.at(line).size();
+                }
+            }
+
+            // check for a new maximum of the row-height
+            if(ySizes->at(y) < splittedCellContent.size()) {
+                (*ySizes)[y] = splittedCellContent.size();
+            }
+
+            convertedBody->at(y).push_back(splittedCellContent);
+        }
+    }
 }
 
 /**
@@ -443,17 +533,18 @@ TableItem::getLimitLine(const std::vector<uint64_t> &sizes,
 {
     std::string output = "";
 
+    // set line type
     char lineSegment = '-';
     if(bigLine) {
         lineSegment = '=';
     }
 
+    // create line
     for(uint64_t i = 0; i < sizes.size(); i++)
     {
         output.append("+");
         output.append(std::string(sizes.at(i) + 2, lineSegment));
     }
-
     output.append("+\n");
 
     return output;
@@ -462,21 +553,21 @@ TableItem::getLimitLine(const std::vector<uint64_t> &sizes,
 /**
  * @brief convert the header of the table into a string
  *
- * @param sizes list with all width-values for printing placeholder
+ * @param xSizes list with all width-values for printing placeholder
  *
  * @return sting with the content of the header for output
  */
 const std::string
-TableItem::printHeaderLine(const std::vector<uint64_t> &sizes)
+TableItem::printHeaderLine(const std::vector<uint64_t> &xSizes)
 {
     std::string output = "";
 
-    for(uint64_t i = 0; i < sizes.size(); i++)
+    for(uint64_t i = 0; i < xSizes.size(); i++)
     {
         output.append("| ");
         DataValue* value = m_header->get(i)->get("outer")->toValue();
         output.append(value->toString());
-        output.append(std::string(sizes.at(i) - value->size(), ' '));
+        output.append(std::string(xSizes.at(i) - value->size(), ' '));
         output.append(" ");
     }
 
@@ -488,34 +579,18 @@ TableItem::printHeaderLine(const std::vector<uint64_t> &sizes)
 /**
  * @brief converts a row of the table into a string
  *
+ * @param rowContent one row of the converted content of the table-body
  * @param xSizes list with all width-values for printing placeholder
  * @param rowHeight hight-value for printing placeholder
- * @param y row-number
  *
  * @return sting with the content of a row for output
  */
 const std::string
-TableItem::printBodyLine(const std::vector<uint64_t> &xSizes,
-                         const uint64_t rowHeight,
-                         const uint64_t y)
+TableItem::printBodyLine(TableRow* rowContent,
+                         const std::vector<uint64_t> &xSizes,
+                         const uint64_t rowHeight)
 {
     std::string output = "";
-
-    // prepare all cell-contents
-    std::vector<std::vector<std::string>> allSplitCellContents;
-    for(uint64_t i = 0; i < xSizes.size(); i++)
-    {
-        // get cell of the table
-        const std::string columnName = m_header->get(i)->get("inner")->toValue()->toString();
-        DataItem* item = m_body->get(y)->get(columnName);
-
-        if(item == nullptr) {
-            allSplitCellContents.push_back(std::vector<std::string>({" "}));
-        } else {
-            allSplitCellContents.push_back(splitString(item->toValue()->toString(), '\n'));
-        }
-
-    }
 
     // create output string for all lines of one table-row
     for(uint64_t line = 0; line < rowHeight; line++)
@@ -524,8 +599,8 @@ TableItem::printBodyLine(const std::vector<uint64_t> &xSizes,
         for(uint64_t i = 0; i < xSizes.size(); i++)
         {
             std::string singleCellLine = "";
-            if(allSplitCellContents.at(i).size() > line) {
-                singleCellLine = allSplitCellContents.at(i).at(line);
+            if(rowContent->at(i).size() > line) {
+                singleCellLine = rowContent->at(i).at(line);
             }
 
             // create string for one line of one cell
@@ -540,105 +615,6 @@ TableItem::printBodyLine(const std::vector<uint64_t> &xSizes,
 
 
     return output;
-}
-
-/**
- * @brief request the cell-dimensions of a specific cell inside the header
- *
- * @param x column-position
- *
- * @return width and hight of the cell inside the header as pair
- */
-const std::pair<uint64_t, uint64_t>
-TableItem::getHeaderCellSize(const uint64_t x)
-{
-    // init
-    std::pair<uint64_t, uint64_t> result;
-    result.first = 0;
-    result.second = 0;
-
-    // precheck
-    if(x >= m_header->size())
-    {
-        return result;
-    }
-
-    // get value at requested position
-    DataItem* value = m_header->get(x)->get("outer");
-
-    if(value == nullptr) {
-        return result;
-    }
-
-    // get string-length
-    result.first += value->toValue()->size();
-    result.second = 0;
-
-    return result;
-}
-
-/**
- * @brief request the cell-dimensions of a specific cell inside the table
- *
- * @param x x-position of the cell within the table
- * @param y y-position of the cell within the table
- *
- * @return width and hight of the cell inside the body as pair, or a pair of null-values
- *         if x or y is too hight or cell is deleted
- */
-const std::pair<uint64_t, uint64_t>
-TableItem::getBodyCellSize(const uint64_t x,
-                           const uint64_t y)
-{
-    // init
-    std::pair<uint64_t, uint64_t> result;
-    result.first = 0;
-    result.second = 0;
-
-    // precheck
-    if(x >= m_header->size()
-            || y >= m_body->size())
-    {
-        return result;
-    }
-
-    // get value at requested position
-    const std::string columnInnerName = m_header->get(x)->get("inner")->toString();
-    DataItem* value = m_body->get(y)->get(columnInnerName);
-
-    if(value == nullptr) {
-        return result;
-    }
-
-    // get string-length and number of line-breaks
-    const std::string cellContent = value->toValue()->toString();
-    uint32_t counter = 0;
-    for(uint32_t i = 0; i < cellContent.size(); i++)
-    {
-        if(cellContent.at(i) == '\n')
-        {
-            result.second++;
-            if(result.first < counter) {
-                result.first = counter;
-            }
-            counter = 0;
-        }
-        else
-        {
-            counter++;
-        }
-    };
-
-    // for the case, that the last character was not a line break
-    if(cellContent.at(cellContent.size()-1) != '\n')
-    {
-        result.second++;
-        if(result.first < counter) {
-            result.first = counter;
-        }
-    }
-
-    return result;
 }
 
 }  // namespace Common
