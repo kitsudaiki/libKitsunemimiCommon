@@ -79,7 +79,8 @@ private:
     const std::vector<std::string> getInnerName();
 
     void convertCellForOutput(TableCell* convertedCell,
-                              uint64_t* x,
+                              const std::string &cellContent,
+                              uint64_t* width,
                               const uint32_t maxColumnWidth);
     void convertHeaderForOutput(TableRow* convertedHeader,
                                 std::vector<uint64_t>* xSizes,

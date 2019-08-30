@@ -22,7 +22,10 @@ namespace Common
 {
 
 /**
- * sptrit a string at a specific delimiter
+ * @brief sptrit a string at a specific delimiter
+ *
+ * @param inputString string, which sould be splitted
+ * @param delim delimiter to identify the points to split
  *
  * @return vector with the string parts
  */
@@ -50,23 +53,25 @@ splitStringByDelimiter(const std::string &inputString,
 }
 
 /**
- * @brief splitStringByLength
- * @param str
- * @param splitLength
- * @return
+ * @brief split a string into part with a maximum length
+ *
+ * @param inputString string, which sould be splitted
+ * @param splitLength max length of the single substrings
+ *
+ * @return vector with the string parts
  */
 inline std::vector<std::string>
-splitStringByLength(const std::string &str,
+splitStringByLength(const std::string &inputString,
                     const uint64_t splitLength)
 {
-    const uint64_t numberOfSubstrings = static_cast<const uint64_t>(str.length() / splitLength);
+    const uint64_t numberOfSubstrings = inputString.length() / splitLength;
     std::vector<std::string> result;
 
     // split string
     // number of string +1 to handle leftovers
     for(uint64_t i = 0; i < numberOfSubstrings + 1; i++)
     {
-        result.push_back(str.substr(i * splitLength, splitLength));
+        result.push_back(inputString.substr(i * splitLength, splitLength));
     }
 
     return result;

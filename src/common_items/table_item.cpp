@@ -440,16 +440,21 @@ TableItem::getInnerName()
 }
 
 /**
- * @brief TableItem::convertCellForOutput
- * @param convertedCell
- * @param xSizes
- * @param maxColumnWidth
+ * @brief finialize a cell of the table for output, by spliting it into multiple lines
+ *        if necessary.
+ *
+ * @param convertedCell target of the result of the convert
+ * @param cellContent cell-content as string
+ * @param width width of the current column
+ * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
 TableItem::convertCellForOutput(TableCell* convertedCell,
-                                uint64_t* x,
+                                const std::string &cellContent,
+                                uint64_t* width,
                                 const uint32_t maxColumnWidth)
 {
+    *convertedCell = splitStringByDelimiter(cellContent, '\n');
     for(uint32_t line = 0; line < convertedCell->size(); line++)
     {
         if(convertedCell->at(line).size() > maxColumnWidth)
@@ -464,8 +469,8 @@ TableItem::convertCellForOutput(TableCell* convertedCell,
         }
 
         // check for a new maximum of the column-width
-        if(*x < convertedCell->at(line).size()) {
-            *x = convertedCell->at(line).size();
+        if(*width < convertedCell->at(line).size()) {
+            *width = convertedCell->at(line).size();
         }
     }
 }
@@ -475,6 +480,7 @@ TableItem::convertCellForOutput(TableCell* convertedCell,
  *
  * @param convertedHeader target of the result of the convert
  * @param xSizes target of the x-size values
+ * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
 TableItem::convertHeaderForOutput(TableRow* convertedHeader,
@@ -492,9 +498,9 @@ TableItem::convertHeaderForOutput(TableRow* convertedHeader,
         }
 
         // split cell content
-        TableCell splittedCellContent = splitStringByDelimiter(cellContent, '\n');
-
+        TableCell splittedCellContent;
         convertCellForOutput(&splittedCellContent,
+                             cellContent,
                              &(*xSizes)[x],
                              maxColumnWidth);
 
@@ -509,6 +515,7 @@ TableItem::convertHeaderForOutput(TableRow* convertedHeader,
  * @param xSizes target of the x-size values
  * @param ySizes target of the y-size values
  * @param columeInnerNames internal name of the columns, which should be in the result
+ * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
 TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
@@ -532,8 +539,9 @@ TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
             }
 
             // split cell content
-            TableCell splittedCellContent = splitStringByDelimiter(cellContent, '\n');
+            TableCell splittedCellContent;
             convertCellForOutput(&splittedCellContent,
+                                 cellContent,
                                  &(*xSizes)[x],
                                  maxColumnWidth);
 
