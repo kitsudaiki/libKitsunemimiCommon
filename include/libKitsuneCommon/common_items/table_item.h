@@ -65,7 +65,8 @@ public:
     uint64_t getNumberOfRows();
 
     // output
-    const std::string print(const uint32_t maxColumnWidth=500);
+    const std::string print(const uint32_t maxColumnWidth=500,
+                            const bool showOne=false);
 
 private:
     DataArray* m_body = nullptr;
@@ -76,8 +77,12 @@ private:
     typedef std::vector<TableCell> TableRow;
     typedef std::vector<TableRow> TableBodyAll;
 
+    // helper functions for the output
     const std::vector<std::string> getInnerName();
+    const std::string getLimitLine(const std::vector<uint64_t> &sizes,
+                                   const bool bigLine=false);
 
+    // content-converter for easier output-handline
     void convertCellForOutput(TableCell* convertedCell,
                               const std::string &cellContent,
                               uint64_t* width,
@@ -91,12 +96,24 @@ private:
                               const std::vector<std::string> &columeInnerNames,
                               const uint32_t maxColumnWidth);
 
-    const std::string getLimitLine(const std::vector<uint64_t> &sizes,
-                                   const bool bigLine=false);
+    // output of single lines of the output
     const std::string printHeaderLine(const std::vector<uint64_t> &xSizes);
     const std::string printBodyLine(TableRow* rowContent,
                                     const std::vector<uint64_t> &xSizes,
                                     const uint64_t rowHeigh);
+    const std::string printHeaderBodyLine(TableRow* headerContent,
+                                          TableRow* rowContent,
+                                          const std::vector<uint64_t> &xSizes,
+                                          const uint64_t rowHeigh,
+                                          const uint64_t y);
+
+    // final output of the two different versions
+    const std::string printNormalTable(TableBodyAll* convertedBody,
+                                       std::vector<uint64_t>* xSizes,
+                                       std::vector<uint64_t>* ySizes);
+
+    const std::string printVerticalTable(TableRow* convertedHeader,
+                                         TableBodyAll* convertedBody);
 };
 
 }  // namespace Common
