@@ -27,8 +27,8 @@ namespace Common
  * @return vector with the string parts
  */
 inline std::vector<std::string>
-splitString(const std::string &inputString,
-            const char delim)
+splitStringByDelimiter(const std::string &inputString,
+                       const char delim)
 {
     // precheck
     if(inputString.length() == 0) {
@@ -44,6 +44,29 @@ splitString(const std::string &inputString,
     while(std::getline(inputStream, item, delim))
     {
         result.push_back(item);
+    }
+
+    return result;
+}
+
+/**
+ * @brief splitStringByLength
+ * @param str
+ * @param splitLength
+ * @return
+ */
+inline std::vector<std::string>
+splitStringByLength(const std::string &str,
+                    const uint64_t splitLength)
+{
+    const uint64_t numberOfSubstrings = static_cast<const uint64_t>(str.length() / splitLength);
+    std::vector<std::string> result;
+
+    // split string
+    // number of string +1 to handle leftovers
+    for(uint64_t i = 0; i < numberOfSubstrings + 1; i++)
+    {
+        result.push_back(str.substr(i * splitLength, splitLength));
     }
 
     return result;

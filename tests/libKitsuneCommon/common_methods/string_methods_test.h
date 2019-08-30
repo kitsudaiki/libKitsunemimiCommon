@@ -23,7 +23,8 @@ public:
     StringMethods_Test();
 
 private:
-    void splitString_test();
+    void splitStringByDelimiter_test();
+    void splitStringByLength_test();
 };
 
 } // namespace Common
