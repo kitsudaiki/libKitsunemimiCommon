@@ -65,22 +65,32 @@ public:
     uint64_t getNumberOfRows();
 
     // output
-    std::string print();
+    const std::string print();
 
 private:
     DataArray* m_body = nullptr;
     DataArray* m_header = nullptr;
 
+    // internal typedefs to make cleaner code
+    typedef std::vector<std::string> TableCell;
+    typedef std::vector<TableCell> TableRow;
+    typedef std::vector<TableRow> TableBodyAll;
+
+    const std::vector<std::string> getInnerName();
+
+    void convertHeaderForOutput(TableRow* convertedHeader,
+                                std::vector<uint64_t>* xSizes);
+    void convertBodyForOutput(TableBodyAll* convertedBody,
+                              std::vector<uint64_t>* xSizes,
+                              std::vector<uint64_t>* ySizes,
+                              const std::vector<std::string> &columeInnerNames);
+
     const std::string getLimitLine(const std::vector<uint64_t> &sizes,
                                    const bool bigLine=false);
-    const std::string printHeaderLine(const std::vector<uint64_t> &sizes);
-    const std::string printBodyLine(const std::vector<uint64_t> &xSizes,
-                                    const uint64_t rowHeight,
-                                    const uint64_t y);
-
-    const std::pair<uint64_t, uint64_t> getHeaderCellSize(const uint64_t x);
-    const std::pair<uint64_t, uint64_t> getBodyCellSize(const uint64_t x,
-                                                        const uint64_t y);
+    const std::string printHeaderLine(const std::vector<uint64_t> &xSizes);
+    const std::string printBodyLine(TableRow* rowContent,
+                                    const std::vector<uint64_t> &xSizes,
+                                    const uint64_t rowHeigh);
 };
 
 }  // namespace Common
