@@ -279,6 +279,8 @@ here ouput has nwo the content:
 
 ```
 
+The width of a column is per default limited to 500 characters. Its possible to modify this, by calling the print-methods with a value. For example `testItem.print(10)` to limit the width of a column to 10 characters. If the content of a cell of the table is longer than this value, line breaks will be added and write it in multiple lines.
+
 ### Data buffer
 
 The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
@@ -515,7 +517,7 @@ This is really minimalistic at the moment, because here are only two methods now
 
 #### string methods
 
-The only function hier is the ability to split string at a specific character into a vector of strings.
+The only function hier is the ability to split string at a specific character into a vector of strings or split them into a list of substring, where each substring has a maximum size.
 
 Example:
 
@@ -525,11 +527,15 @@ Example:
 
 
 std::string testString = "this is a test-string";
+std::vector<std::string> result;
 
-// run task
-std::vector<std::string> result = splitString(testString, ' ');
+// split by a delimiter
+result = splitStringByDelimiter(testString, ' ');
+// the resulting list now contains ["this", "is", "a", "test-string"]
 
-// the resulting result now contains ["this", "is", "a", "test-string"]
+// split into max sizes
+result = splitStringByLength(testString, 5);
+// the resulting list now contains ["this ", "is a ", "test-", "strin", "g"]
 
 ```
 
