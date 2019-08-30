@@ -381,7 +381,7 @@ TableItem::getNumberOfRows()
  * @return table as string
  */
 const std::string
-TableItem::print()
+TableItem::print(const uint32_t maxColumnWidth)
 {
     // init data-handling values
     std::vector<uint64_t> xSizes(getNumberOfColums(), 0);
@@ -393,11 +393,13 @@ TableItem::print()
     // and get the maximum values of the columns and rows
     const std::vector<std::string> innerNames = getInnerName();
     convertHeaderForOutput(&convertedHeader,
-                           &xSizes);
+                           &xSizes,
+                           maxColumnWidth);
     convertBodyForOutput(&convertedBody,
                          &xSizes,
                          &ySizes,
-                         innerNames);
+                         innerNames,
+                         maxColumnWidth);
 
 
     // create separator-line
@@ -438,14 +440,46 @@ TableItem::getInnerName()
 }
 
 /**
+ * @brief TableItem::convertCellForOutput
+ * @param convertedCell
+ * @param xSizes
+ * @param maxColumnWidth
+ */
+void
+TableItem::convertCellForOutput(TableCell* convertedCell,
+                                uint64_t* x,
+                                const uint32_t maxColumnWidth)
+{
+    for(uint32_t line = 0; line < convertedCell->size(); line++)
+    {
+        if(convertedCell->at(line).size() > maxColumnWidth)
+        {
+            std::vector<std::string> sub = splitStringByLength(convertedCell->at(line),
+                                                               maxColumnWidth);
+            // delete old entry and replace it with the splitted content
+            convertedCell->erase(convertedCell->begin() + line);
+            convertedCell->insert(convertedCell->begin() + line,
+                                  sub.begin(),
+                                  sub.end());
+        }
+
+        // check for a new maximum of the column-width
+        if(*x < convertedCell->at(line).size()) {
+            *x = convertedCell->at(line).size();
+        }
+    }
+}
+
+/**
  * @brief converts the header of the table from a data-item-tree into a string-lists
  *
  * @param convertedHeader target of the result of the convert
  * @param xSizes target of the x-size values
  */
 void
-TableItem::convertHeaderForOutput(TableItem::TableRow* convertedHeader,
-                                  std::vector<uint64_t>* xSizes)
+TableItem::convertHeaderForOutput(TableRow* convertedHeader,
+                                  std::vector<uint64_t>* xSizes,
+                                  const uint32_t maxColumnWidth)
 {
     for(uint64_t x = 0; x < xSizes->size(); x++)
     {
@@ -458,14 +492,11 @@ TableItem::convertHeaderForOutput(TableItem::TableRow* convertedHeader,
         }
 
         // split cell content
-        const TableCell splittedCellContent = splitString(cellContent, '\n');
-        for(uint64_t line = 0; line < splittedCellContent.size(); line++)
-        {
-            // check for a new maximum of the column-width
-            if(xSizes->at(x) < splittedCellContent.at(line).size()) {
-                (*xSizes)[x] = splittedCellContent.at(line).size();
-            }
-        }
+        TableCell splittedCellContent = splitStringByDelimiter(cellContent, '\n');
+
+        convertCellForOutput(&splittedCellContent,
+                             &(*xSizes)[x],
+                             maxColumnWidth);
 
         convertedHeader->push_back(splittedCellContent);
     }
@@ -483,7 +514,8 @@ void
 TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
                                 std::vector<uint64_t>* xSizes,
                                 std::vector<uint64_t>* ySizes,
-                                const std::vector<std::string> &columeInnerNames)
+                                const std::vector<std::string> &columeInnerNames,
+                                const uint32_t maxColumnWidth)
 {
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
@@ -500,14 +532,10 @@ TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
             }
 
             // split cell content
-            const TableCell splittedCellContent = splitString(cellContent, '\n');
-            for(uint64_t line = 0; line < splittedCellContent.size(); line++)
-            {
-                // check for a new maximum of the column-width
-                if(xSizes->at(x) < splittedCellContent.at(line).size()) {
-                    (*xSizes)[x] = splittedCellContent.at(line).size();
-                }
-            }
+            TableCell splittedCellContent = splitStringByDelimiter(cellContent, '\n');
+            convertCellForOutput(&splittedCellContent,
+                                 &(*xSizes)[x],
+                                 maxColumnWidth);
 
             // check for a new maximum of the row-height
             if(ySizes->at(y) < splittedCellContent.size()) {

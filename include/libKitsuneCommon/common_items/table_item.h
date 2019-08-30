@@ -65,7 +65,7 @@ public:
     uint64_t getNumberOfRows();
 
     // output
-    const std::string print();
+    const std::string print(const uint32_t maxColumnWidth=500);
 
 private:
     DataArray* m_body = nullptr;
@@ -78,12 +78,17 @@ private:
 
     const std::vector<std::string> getInnerName();
 
+    void convertCellForOutput(TableCell* convertedCell,
+                              uint64_t* x,
+                              const uint32_t maxColumnWidth);
     void convertHeaderForOutput(TableRow* convertedHeader,
-                                std::vector<uint64_t>* xSizes);
+                                std::vector<uint64_t>* xSizes,
+                                const uint32_t maxColumnWidth);
     void convertBodyForOutput(TableBodyAll* convertedBody,
                               std::vector<uint64_t>* xSizes,
                               std::vector<uint64_t>* ySizes,
-                              const std::vector<std::string> &columeInnerNames);
+                              const std::vector<std::string> &columeInnerNames,
+                              const uint32_t maxColumnWidth);
 
     const std::string getLimitLine(const std::vector<uint64_t> &sizes,
                                    const bool bigLine=false);

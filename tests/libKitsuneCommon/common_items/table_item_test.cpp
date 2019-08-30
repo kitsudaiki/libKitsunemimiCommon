@@ -265,21 +265,29 @@ TableItem_test::print_Test()
 
     // additional multiline test
     testItem.addRow(std::vector<std::string>{"x\ny\nz", " "});
+    testItem.addRow(std::vector<std::string>{"y", "abcdefghijklmnopqrst"});
+
 
     const std::string compare =
-            "+----------------+-----------+\n"
-            "| ASDF           | poipoipoi |\n"
-            "+================+===========+\n"
-            "| this is a test | k         |\n"
-            "+----------------+-----------+\n"
-            "| asdf           | qwert     |\n"
-            "+----------------+-----------+\n"
-            "| x              |           |\n"
-            "| y              |           |\n"
-            "| z              |           |\n"
-            "+----------------+-----------+\n";
+            "+-----------+-----------+\n"
+            "| ASDF      | poipoipoi |\n"
+            "+===========+===========+\n"
+            "| this is a | k         |\n"
+            "|  test     |           |\n"
+            "+-----------+-----------+\n"
+            "| asdf      | qwert     |\n"
+            "+-----------+-----------+\n"
+            "| x         |           |\n"
+            "| y         |           |\n"
+            "| z         |           |\n"
+            "+-----------+-----------+\n"
+            "| y         | abcdefghi |\n"
+            "|           | jklmnopqr |\n"
+            "|           | st        |\n"
+            "+-----------+-----------+\n";
 
-    UNITTEST(testItem.print(), compare);
+    // test with a maximum cell width of 9
+    UNITTEST(testItem.print(9), compare);
 }
 
 /**
