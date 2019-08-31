@@ -112,7 +112,7 @@ There exist three different items which all inherit the `DataItem` for generic a
 - `DataValue`
 	- simple value-item
 	- can be string, int-value or float-value
-- `DataObject`
+- `DataMap`
 	- This is a map-object for key-value-pair with a string as identifier and a DataItem-pointer as value
 	- data can be added with the `insert`-method
 - `DataArray`
@@ -137,20 +137,20 @@ array.append(stringValue.copy());
 array.append(intValue.copy());
 array.append(floatValue.copy());
 
-// init and fill object
-DataObject object;
-object.insert("asdf", stringValue.copy());
-object.insert("hmm", intValue.copy());
-object.insert("xyz", floatValue.copy());
+// init and fill map
+DataMap map;
+map.insert("asdf", stringValue.copy());
+map.insert("hmm", intValue.copy());
+map.insert("xyz", floatValue.copy());
 
-// add the array also to the object
-object.insert("array", array.copy());
+// add the array also to the map
+map.insert("array", array.copy());
 
-int size = object.size();
+int size = map.size();
 // `size` is 4 (3 values and 1 array)
 
 
-std::string output = object.toString(true);
+std::string output = map.toString(true);
 /**
 `output` would look like this:
 
@@ -166,7 +166,7 @@ std::string output = object.toString(true);
 }
 **/
 
-std::string value = object.get("array")->get(2)->toValue()->toString();
+std::string value = map.get("array")->get(2)->toValue()->toString();
 // `value` would be `42.500000` as string
 ```
 

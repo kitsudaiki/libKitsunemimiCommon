@@ -108,7 +108,7 @@ bool
 TableItem::addColumn(const std::string &internalName,
                      const std::string &shownName)
 {
-    DataObject* obj = new DataObject();
+    DataMap* obj = new DataMap();
 
     obj->insert("inner", new DataValue(internalName));
     if(shownName != "") {
@@ -177,7 +177,7 @@ TableItem::deleteColumn(const uint64_t x,
 
         for(uint64_t y = 0; y < size; y++)
         {
-            m_body->get(y)->toObject()->remove(name);
+            m_body->get(y)->toMap()->remove(name);
         }
     }
 
@@ -220,7 +220,7 @@ TableItem::deleteColumn(const std::string &internalName,
 bool
 TableItem::addRow(const std::vector<std::string> rowContent)
 {
-    DataObject* obj = new DataObject();
+    DataMap* obj = new DataMap();
 
     // check and cut size
     uint64_t size = rowContent.size();
@@ -286,7 +286,7 @@ TableItem::setCell(const uint32_t x,
 
     // set new value
     if(value == nullptr) {
-        m_body->get(y)->toObject()->insert(columnInnerName, new DataValue(newValue));
+        m_body->get(y)->toMap()->insert(columnInnerName, new DataValue(newValue));
     } else {
         value->toValue()->setValue(newValue);
     }

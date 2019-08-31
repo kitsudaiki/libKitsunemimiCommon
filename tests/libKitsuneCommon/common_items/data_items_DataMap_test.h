@@ -1,13 +1,13 @@
 /**
- *  @file    data_items_DataObject_test.h
+ *  @file    data_items_DataMap_test.h
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright MIT License
  */
 
-#ifndef DATAITEMS_DATAOBJECT_TEST_H
-#define DATAITEMS_DATAOBJECT_TEST_H
+#ifndef DATAITEMS_DATAMAP_TEST_H
+#define DATAITEMS_DATAMAP_TEST_H
 
 #include <testing/unit_test.h>
 
@@ -15,13 +15,13 @@ namespace Kitsune
 {
 namespace Common
 {
-class DataObject;
+class DataMap;
 
-class DataItems_DataObject_Test
+class DataItems_DataMap_Test
         : public Kitsune::Common::UnitTest
 {
 public:
-    DataItems_DataObject_Test();
+    DataItems_DataMap_Test();
 
 private:
     void operator_test();
@@ -31,8 +31,8 @@ private:
     void copy_test();
     void toString_test();
     void getType_test();
-    void isValue_isObject_isArray_test();
-    void toValue_toObject_toArray_test();
+    void isValue_isMap_isArray_test();
+    void toValue_toMap_toArray_test();
     void getString_getInt_getFloat_test();
 
     void insert_test();
@@ -41,10 +41,10 @@ private:
     void getValues_test();
     void contains_test();
 
-    DataObject initTestObject();
+    DataMap initTestObject();
 };
 
 }  // namespace Common
 }  // namespace Kitsune
 
-#endif // DATAITEMS_DATAOBJECT_TEST_H
+#endif // DATAITEMS_DATAMAP_TEST_H

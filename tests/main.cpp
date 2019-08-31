@@ -18,7 +18,7 @@
 #include <libKitsuneCommon/statemachine/statemachine_test.h>
 
 #include <libKitsuneCommon/common_items/data_items_DataArray_test.h>
-#include <libKitsuneCommon/common_items/data_items_DataObject_test.h>
+#include <libKitsuneCommon/common_items/data_items_DataMap_test.h>
 #include <libKitsuneCommon/common_items/data_items_DataValue_test.h>
 #include <libKitsuneCommon/common_items/table_item_test.h>
 
@@ -35,7 +35,7 @@ int main()
 
     Kitsune::Common::DataItems_DataValue_Test();
     Kitsune::Common::DataItems_DataArray_Test();
-    Kitsune::Common::DataItems_DataObject_Test();
+    Kitsune::Common::DataItems_DataMap_Test();
 
     Kitsune::Common::TableItem_test();
 }

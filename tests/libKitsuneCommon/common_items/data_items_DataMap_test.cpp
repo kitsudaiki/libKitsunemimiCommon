@@ -1,12 +1,12 @@
 /**
- *  @file    data_items_DataObject_test.cpp
+ *  @file    data_items_DataMap_test.cpp
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright MIT License
  */
 
-#include "data_items_DataObject_test.h"
+#include "data_items_DataMap_test.h"
 #include <common_items/data_items.h>
 
 namespace Kitsune
@@ -14,8 +14,8 @@ namespace Kitsune
 namespace Common
 {
 
-DataItems_DataObject_Test::DataItems_DataObject_Test()
-    : Kitsune::Common::UnitTest("DataItems_DataObject_Test")
+DataItems_DataMap_Test::DataItems_DataMap_Test()
+    : Kitsune::Common::UnitTest("DataItems_DataMap_Test")
 {
     operator_test();
     get_test();
@@ -24,8 +24,8 @@ DataItems_DataObject_Test::DataItems_DataObject_Test()
     copy_test();
     toString_test();
     getType_test();
-    isValue_isObject_isArray_test();
-    toValue_toObject_toArray_test();
+    isValue_isMap_isArray_test();
+    toValue_toMap_toArray_test();
     getString_getInt_getFloat_test();
 
     // object-exclusive
@@ -40,9 +40,9 @@ DataItems_DataObject_Test::DataItems_DataObject_Test()
  * operator_test
  */
 void
-DataItems_DataObject_Test::operator_test()
+DataItems_DataMap_Test::operator_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
     UNITTEST(object[0]->getString(), "test");
     UNITTEST(object["hmm"]->getInt(), 42);
@@ -58,9 +58,9 @@ DataItems_DataObject_Test::operator_test()
  * get_test
  */
 void
-DataItems_DataObject_Test::get_test()
+DataItems_DataMap_Test::get_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
     UNITTEST(object.get(0)->getString(), "test");
     UNITTEST(object.get("hmm")->getInt(), 42);
@@ -76,9 +76,9 @@ DataItems_DataObject_Test::get_test()
  * getSize_test
  */
 void
-DataItems_DataObject_Test::getSize_test()
+DataItems_DataMap_Test::getSize_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
     UNITTEST(object.size(), 4);
 }
 
@@ -86,9 +86,9 @@ DataItems_DataObject_Test::getSize_test()
  * remove_test
  */
 void
-DataItems_DataObject_Test::remove_test()
+DataItems_DataMap_Test::remove_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
     UNITTEST(object.remove(0), true);
     UNITTEST(object.remove("hmm"), true);
 
@@ -103,11 +103,11 @@ DataItems_DataObject_Test::remove_test()
  * copy_test
  */
 void
-DataItems_DataObject_Test::copy_test()
+DataItems_DataMap_Test::copy_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
-    DataObject* objectCopy = dynamic_cast<DataObject*>(object.copy());
+    DataMap* objectCopy = dynamic_cast<DataMap*>(object.copy());
 
     bool isNullptr = objectCopy == nullptr;
     UNITTEST(isNullptr, false);
@@ -121,9 +121,9 @@ DataItems_DataObject_Test::copy_test()
  * toString_test
  */
 void
-DataItems_DataObject_Test::toString_test()
+DataItems_DataMap_Test::toString_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
     std::string compare = "{\"asdf\":\"test\",\"hmm\":42,\"poi\":\"\",\"xyz\":42.500000}";
     UNITTEST(object.toString(), compare);
@@ -141,33 +141,33 @@ DataItems_DataObject_Test::toString_test()
  * getType_test
  */
 void
-DataItems_DataObject_Test::getType_test()
+DataItems_DataMap_Test::getType_test()
 {
-    DataObject object = initTestObject();
-    UNITTEST(object.getType(), DataItem::OBJECT_TYPE);
+    DataMap object = initTestObject();
+    UNITTEST(object.getType(), DataItem::MAP_TYPE);
 }
 
 /**
- * isValue_isObject_isArray_test
+ * isValue_isMap_isArray_test
  */
 void
-DataItems_DataObject_Test::isValue_isObject_isArray_test()
+DataItems_DataMap_Test::isValue_isMap_isArray_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
     UNITTEST(object.isValue(), false);
-    UNITTEST(object.isObject(), true);
+    UNITTEST(object.isMap(), true);
     UNITTEST(object.isArray(), false);
 }
 
 /**
- * toValue_toObject_toArray_test
+ * toValue_toMap_toArray_test
  */
 void
-DataItems_DataObject_Test::toValue_toObject_toArray_test()
+DataItems_DataMap_Test::toValue_toMap_toArray_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
-    bool isNullptr = object.toObject() == nullptr;
+    bool isNullptr = object.toMap() == nullptr;
     UNITTEST(isNullptr, false);
 
     isNullptr = object.toArray() == nullptr;
@@ -181,9 +181,9 @@ DataItems_DataObject_Test::toValue_toObject_toArray_test()
  * getString_getInt_getFloat_test
  */
 void
-DataItems_DataObject_Test::getString_getInt_getFloat_test()
+DataItems_DataMap_Test::getString_getInt_getFloat_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
     UNITTEST(object.getString(), "");
     UNITTEST(object.getInt(), 0);
     UNITTEST(object.getFloat(), 0.0f);
@@ -193,9 +193,9 @@ DataItems_DataObject_Test::getString_getInt_getFloat_test()
  * insert_test
  */
 void
-DataItems_DataObject_Test::insert_test()
+DataItems_DataMap_Test::insert_test()
 {
-    DataObject object;
+    DataMap object;
     DataValue defaultValue;
     DataValue stringValue("test");
     DataValue intValue(42);
@@ -211,9 +211,9 @@ DataItems_DataObject_Test::insert_test()
  * getStringByKey_getIntByKey_getFloatByKey_test
  */
 void
-DataItems_DataObject_Test::getStringByKey_getIntByKey_getFloatByKey_test()
+DataItems_DataMap_Test::getStringByKey_getIntByKey_getFloatByKey_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
     UNITTEST(object.getStringByKey("asdf"), "test");
     UNITTEST(object.getIntByKey("hmm"), 42);
@@ -224,9 +224,9 @@ DataItems_DataObject_Test::getStringByKey_getIntByKey_getFloatByKey_test()
  * getKeys_test
  */
 void
-DataItems_DataObject_Test::getKeys_test()
+DataItems_DataMap_Test::getKeys_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
     std::vector<std::string> keys = object.getKeys();
     UNITTEST(keys.size(), 4);
@@ -240,9 +240,9 @@ DataItems_DataObject_Test::getKeys_test()
  * getValues_test
  */
 void
-DataItems_DataObject_Test::getValues_test()
+DataItems_DataMap_Test::getValues_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
 
     std::vector<DataItem*> values = object.getValues();
     UNITTEST(values.size(), 4);
@@ -256,9 +256,9 @@ DataItems_DataObject_Test::getValues_test()
  * contains_test
  */
 void
-DataItems_DataObject_Test::contains_test()
+DataItems_DataMap_Test::contains_test()
 {
-    DataObject object = initTestObject();
+    DataMap object = initTestObject();
     UNITTEST(object.contains("poi"), true);
     UNITTEST(object.contains("asdf"), true);
     UNITTEST(object.contains("hmm"), true);
@@ -268,14 +268,14 @@ DataItems_DataObject_Test::contains_test()
 }
 
 /**
- * create test data-object
+ * create test data-map
  *
- * @return data-object for tests
+ * @return data-map for tests
  */
-DataObject
-DataItems_DataObject_Test::initTestObject()
+DataMap
+DataItems_DataMap_Test::initTestObject()
 {
-    DataObject object;
+    DataMap object;
     DataValue defaultValue;
     DataValue stringValue("test");
     DataValue intValue(42);

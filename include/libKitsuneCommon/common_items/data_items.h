@@ -25,7 +25,7 @@ namespace Kitsune
 namespace Common
 {
 class DataArray;
-class DataObject;
+class DataMap;
 class DataValue;
 
 //===================================================================
@@ -39,7 +39,7 @@ public:
     enum dataTypes {
         UNINIT_TYPE = 0,
         VALUE_TYPE = 1,
-        OBJECT_TYPE = 2,
+        MAP_TYPE = 2,
         ARRAY_TYPE = 3
     };
 
@@ -67,15 +67,18 @@ public:
                                  std::string *output=nullptr,
                                  uint32_t step=0) = 0;
 
+    // checker
     dataTypes getType() const;
     bool isValue() const;
-    bool isObject() const;
+    bool isMap() const;
     bool isArray() const;
 
+    // converter
     DataArray* toArray();
-    DataObject* toObject();
+    DataMap* toMap();
     DataValue* toValue();
 
+    // value-getter
     const std::string getString() const;
     int getInt();
     float getFloat();
@@ -131,13 +134,13 @@ public:
 };
 
 //===================================================================
-// DataObject
+// DataMap
 //===================================================================
-class DataObject : public DataItem
+class DataMap : public DataItem
 {
 public:
-    DataObject();
-    ~DataObject();
+    DataMap();
+    ~DataMap();
 
     // add
     bool insert(const std::string &key,
@@ -155,6 +158,7 @@ public:
     std::vector<DataItem*> getValues();
     bool contains(const std::string &key);
 
+    // get values by keys
     std::string getStringByKey(const std::string &key);
     int getIntByKey(const std::string &key);
     float getFloatByKey(const std::string &key);
@@ -170,7 +174,7 @@ public:
                          const uint32_t level=0);
 
     // content
-    std::map<std::string, DataItem*> m_objects;
+    std::map<std::string, DataItem*> m_map;
 };
 
 //===================================================================
@@ -205,7 +209,6 @@ public:
     // content
     std::vector<DataItem*> m_array;
 };
-
 
 }  // namespace Common
 }  // namespace Kitsune

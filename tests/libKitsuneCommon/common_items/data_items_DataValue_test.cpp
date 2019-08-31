@@ -24,8 +24,8 @@ DataItems_DataValue_Test::DataItems_DataValue_Test()
     copy_test();
     toString_test();
     getType_test();
-    isValue_isObject_isArray_test();
-    toValue_toObject_toArray_test();
+    isValue_isMap_isArray_test();
+    toValue_toMap_toArray_test();
     getString_getInt_getFloat_test();
 
     // value-exclusive
@@ -157,26 +157,26 @@ DataItems_DataValue_Test::getType_test()
 }
 
 /**
- * isValue_isObject_isArray_test
+ * isValue_isMap_isArray_test
  */
 void
-DataItems_DataValue_Test::isValue_isObject_isArray_test()
+DataItems_DataValue_Test::isValue_isMap_isArray_test()
 {
     DataValue defaultValue;
     UNITTEST(defaultValue.isValue(), true);
-    UNITTEST(defaultValue.isObject(), false);
+    UNITTEST(defaultValue.isMap(), false);
     UNITTEST(defaultValue.isArray(), false);
 }
 
 /**
- * toValue_toObject_toArray_test
+ * toValue_toMap_toArray_test
  */
 void
-DataItems_DataValue_Test::toValue_toObject_toArray_test()
+DataItems_DataValue_Test::toValue_toMap_toArray_test()
 {
     DataValue defaultValue;
 
-    bool isNullptr = defaultValue.toObject() == nullptr;
+    bool isNullptr = defaultValue.toMap() == nullptr;
     UNITTEST(isNullptr, true);
 
     isNullptr = defaultValue.toArray() == nullptr;
