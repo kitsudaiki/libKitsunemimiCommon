@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [0.5.0] - 2019-08-31
+
+### Added 
+- build-script for the library
+- add show-one-options for tables to make it better readable for tables with one row
+- column-width-limitation in tables
+- rows in the table can now have multiple lines within one cell of the table
+- new common method to split strings into part with a maximum size
+
+### Changed
+- renamed in data-items:
+    - toString -> getString
+    - getString(...) -> getStringByKey(...)
+    - print -> toString
+- renamed in table-items
+    - print -> toString
+- renamed DataObject to DataMap include all relevant getter and setter
+
+
 ## [0.4.1] - 2019-08-26
 
 ### Fixed
