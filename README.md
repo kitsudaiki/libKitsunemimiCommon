@@ -266,7 +266,7 @@ TableItem testItem(&body, &header);
 
 std::string output = testItem.print();
 /**
-here ouput has nwo the content: 
+here ouput has now the content: 
 
 "+-----------------+---------+\n"
 "| Name of column1 | column2 |\n"
@@ -280,6 +280,38 @@ here ouput has nwo the content:
 ```
 
 The width of a column is per default limited to 500 characters. Its possible to modify this, by calling the print-methods with a value. For example `testItem.print(10)` to limit the width of a column to 10 characters. If the content of a cell of the table is longer than this value, line breaks will be added and write it in multiple lines.
+
+It is also possible to convert it into a vertical table. The it is returned a table with two columns. The left is the header in vertical form and the right column is the first row of the table in vertical form. It makes tables with only one row better readable. Example:
+
+```cpp
+TableItem testItem();
+/** following content
+"+-----------------+---------+\n"
+"| Name of column1 | column2 |\n"
+"+=================+=========+\n"
+"| this is a test  | k       |\n"
+"+-----------------+---------+\n"
+"| asdf            | hmmm    |\n"
+"+-----------------+---------+\n";
+**/
+
+
+std::string output = testItem.print(100, true);
+/**
+first argument it the maximum size of the column and the secont is the alternative vertical mode
+here ouput has now the content: 
+
+"+-----------------+----------------+\n"
+"| Name of column1 | this is a test |\n"
+"+-----------------+----------------+\n"
+"| column2         | k              |\n"
+"+-----------------+----------------+\n";
+
+One the first row is used here for the output
+**/
+
+```
+
 
 ### Data buffer
 
