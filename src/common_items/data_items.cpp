@@ -50,12 +50,12 @@ DataItem::isValue() const
 }
 
 /**
- * @brief check if DataItem is a DataObject
+ * @brief check if DataItem is a DataMap
  */
 bool
-DataItem::isObject() const
+DataItem::isMap() const
 {
-    if(m_type == OBJECT_TYPE) {
+    if(m_type == MAP_TYPE) {
         return true;
     }
     return false;
@@ -86,13 +86,13 @@ DataItem::toArray()
 }
 
 /**
- * @brief convert to a DataObject
+ * @brief convert to a DataMap
  */
-DataObject*
-DataItem::toObject()
+DataMap*
+DataItem::toMap()
 {
-    if(m_type == OBJECT_TYPE) {
-        return static_cast<DataObject*>(this);
+    if(m_type == MAP_TYPE) {
+        return static_cast<DataMap*>(this);
     }
     return nullptr;
 }
@@ -399,29 +399,29 @@ DataValue::setValue(const float &item)
 }
 
 //===================================================================
-// DataObject
+// DataMap
 //===================================================================
 
 /**
  * @brief object for key-value-pairs
  */
-DataObject::DataObject()
+DataMap::DataMap()
 {
-    m_type = OBJECT_TYPE;
+    m_type = MAP_TYPE;
 }
 
 /**
  * @brief delete all items in the key-value-list
  */
-DataObject::~DataObject()
+DataMap::~DataMap()
 {
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_objects.begin(); it != m_objects.end(); it++)
+    for(it = m_map.begin(); it != m_map.end(); it++)
     {
         DataItem* tempItem = it->second;
         delete tempItem;
     }
-    m_objects.clear();
+    m_map.clear();
 }
 
 /**
@@ -430,7 +430,7 @@ DataObject::~DataObject()
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataObject::operator[](const std::string key)
+DataMap::operator[](const std::string key)
 {
     return get(key);
 }
@@ -441,7 +441,7 @@ DataObject::operator[](const std::string key)
  * @return nullptr if index is to high, else object
  */
 DataItem*
-DataObject::operator[](const uint64_t index)
+DataMap::operator[](const uint64_t index)
 {
     return get(index);
 }
@@ -452,12 +452,12 @@ DataObject::operator[](const uint64_t index)
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataObject::get(const std::string key)
+DataMap::get(const std::string key)
 {
     std::map<std::string, DataItem*>::iterator it;
-    it = m_objects.find(key);
+    it = m_map.find(key);
 
-    if(it != m_objects.end()) {
+    if(it != m_map.end()) {
         return it->second;
     }
 
@@ -470,16 +470,16 @@ DataObject::get(const std::string key)
  * @return nullptr if index is to high, else object
  */
 DataItem*
-DataObject::get(const uint64_t index)
+DataMap::get(const uint64_t index)
 {
-    if(m_objects.size() <= index) {
+    if(m_map.size() <= index) {
         return nullptr;
     }
 
     uint32_t counter = 0;
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_objects.begin();
-        it != m_objects.end();
+    for(it = m_map.begin();
+        it != m_map.end();
         it++)
     {
         if(counter == index) {
@@ -497,9 +497,9 @@ DataObject::get(const uint64_t index)
  * @return number of elements in the key-value-list
  */
 uint64_t
-DataObject::size()
+DataMap::size()
 {
-    return m_objects.size();
+    return m_map.size();
 }
 
 /**
@@ -508,11 +508,11 @@ DataObject::size()
  * @return string-list with the keys of the map
  */
 std::vector<std::string>
-DataObject::getKeys()
+DataMap::getKeys()
 {
     std::vector<std::string> result;
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_objects.begin(); it != m_objects.end(); it++)
+    for(it = m_map.begin(); it != m_map.end(); it++)
     {
         result.push_back(it->first);
     }
@@ -525,11 +525,11 @@ DataObject::getKeys()
  * @return DataItem-list with the keys of the map
  */
 std::vector<DataItem*>
-DataObject::getValues()
+DataMap::getValues()
 {
     std::vector<DataItem*> result;
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_objects.begin(); it != m_objects.end(); it++)
+    for(it = m_map.begin(); it != m_map.end(); it++)
     {
         result.push_back(it->second);
     }
@@ -542,12 +542,12 @@ DataObject::getValues()
  * @return false if the key doesn't exist, else true
  */
 bool
-DataObject::contains(const std::string &key)
+DataMap::contains(const std::string &key)
 {
     std::map<std::string, DataItem*>::iterator it;
-    it = m_objects.find(key);
+    it = m_map.find(key);
 
-    if(it != m_objects.end())
+    if(it != m_map.end())
     {
         return true;
     }
@@ -555,30 +555,30 @@ DataObject::contains(const std::string &key)
 }
 
 /**
- * @brief get the string-value behind the key inside the data-object
+ * @brief get the string-value behind the key inside the data-map
  */
 std::string
-DataObject::getStringByKey(const std::string &key)
+DataMap::getStringByKey(const std::string &key)
 {
     DataItem* item = get(key);
     return item->getString();
 }
 
 /**
- * @brief get the int-value behind the key inside the data-object
+ * @brief get the int-value behind the key inside the data-map
  */
 int
-DataObject::getIntByKey(const std::string &key)
+DataMap::getIntByKey(const std::string &key)
 {
     DataItem* item = get(key);
     return item->getInt();
 }
 
 /**
- * @brief get the float-value behind the key inside the data-object
+ * @brief get the float-value behind the key inside the data-map
  */
 float
-DataObject::getFloatByKey(const std::string &key)
+DataMap::getFloatByKey(const std::string &key)
 {
     DataItem* item = get(key);
     return item->getFloat();
@@ -590,16 +590,16 @@ DataObject::getFloatByKey(const std::string &key)
  * @return false if the key doesn't exist, else true
  */
 bool
-DataObject::remove(const std::string &key)
+DataMap::remove(const std::string &key)
 {
     std::map<std::string, DataItem*>::iterator it;
-    it = m_objects.find(key);
+    it = m_map.find(key);
 
-    if(it != m_objects.end())
+    if(it != m_map.end())
     {
         DataItem* tempItem = it->second;
         delete tempItem;
-        m_objects.erase(it);
+        m_map.erase(it);
         return true;
     }
 
@@ -612,21 +612,21 @@ DataObject::remove(const std::string &key)
  * @return false if index is to high, else true
  */
 bool
-DataObject::remove(const uint64_t index)
+DataMap::remove(const uint64_t index)
 {
-    if(m_objects.size() <= index) {
+    if(m_map.size() <= index) {
         return false;
     }
 
     uint32_t counter = 0;
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_objects.begin(); it != m_objects.end(); it++)
+    for(it = m_map.begin(); it != m_map.end(); it++)
     {
         if(counter == index)
         {
             DataItem* tempItem = it->second;
             delete tempItem;
-            m_objects.erase(it);
+            m_map.erase(it);
             return true;
         }
         counter++;
@@ -640,11 +640,11 @@ DataObject::remove(const uint64_t index)
  * @return pointer to a copy of the object
  */
 DataItem*
-DataObject::copy()
+DataMap::copy()
 {
-    DataObject* tempItem = new DataObject();
+    DataMap* tempItem = new DataMap();
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_objects.begin(); it != m_objects.end(); it++)
+    for(it = m_map.begin(); it != m_map.end(); it++)
     {
         tempItem->insert(it->first, it->second->copy());
     }
@@ -655,7 +655,7 @@ DataObject::copy()
  * @brief return the content as string
  */
 std::string
-DataObject::toString(const bool indent,
+DataMap::toString(const bool indent,
                      std::string* output,
                      const uint32_t level)
 {
@@ -670,7 +670,7 @@ DataObject::toString(const bool indent,
     for(uint8_t typeCounter = 1; typeCounter < 6; typeCounter++)
     {
         std::map<std::string, DataItem*>::iterator it;
-        for(it = m_objects.begin(); it != m_objects.end(); it++)
+        for(it = m_map.begin(); it != m_map.end(); it++)
         {
             if(it->second != nullptr
                     && it->second->getType() != typeCounter)
@@ -715,25 +715,25 @@ DataObject::toString(const bool indent,
  * @return false if key already exist, else true
  */
 bool
-DataObject::insert(const std::string &key,
+DataMap::insert(const std::string &key,
                    DataItem* value,
                    bool force)
 {
 
 
     std::map<std::string, DataItem*>::iterator it;
-    it = m_objects.find(key);
+    it = m_map.find(key);
 
-    if(it != m_objects.end()
+    if(it != m_map.end()
             && force == false)
     {
         return false;
     }
 
-    if(it != m_objects.end()) {
+    if(it != m_map.end()) {
         it->second = value;
     } else {
-        m_objects.insert(std::pair<std::string, DataItem*>(key, value));
+        m_map.insert(std::pair<std::string, DataItem*>(key, value));
     }
     return true;
 }

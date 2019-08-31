@@ -24,7 +24,7 @@ namespace Kitsune
 namespace Common
 {
 class DataArray;
-class DataObject;
+class DataMap;
 class DataValue;
 
 class TableItem

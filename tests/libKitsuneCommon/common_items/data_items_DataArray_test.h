@@ -31,8 +31,8 @@ private:
     void copy_test();
     void toString_test();
     void getType_test();
-    void isValue_isObject_isArray_test();
-    void toValue_toObject_toArray_test();
+    void isValue_isMap_isArray_test();
+    void toValue_toMap_toArray_test();
     void getString_getInt_getFloat_test();
 
     void append_test();
