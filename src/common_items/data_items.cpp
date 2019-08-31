@@ -116,7 +116,7 @@ DataItem::toValue()
  * @return string of the data-value, if data-value is from string-type, else empty string
  */
 const std::string
-DataItem::toString() const
+DataItem::getString() const
 {
     if(m_valueType == STRING_TYPE)
     {
@@ -142,7 +142,7 @@ DataItem::toString() const
  * @return integer of the data-value, if data-value is from int-type, else empty 0
  */
 int
-DataItem::toInt()
+DataItem::getInt()
 {
     if(m_valueType == INT_TYPE)
     {
@@ -159,7 +159,7 @@ DataItem::toInt()
  * @return float of the data-value, if data-value is from float-type, else empty 0.0
  */
 float
-DataItem::toFloat()
+DataItem::getFloat()
 {
     if(m_valueType == FLOAT_TYPE)
     {
@@ -288,7 +288,7 @@ DataValue::get(const uint64_t)
 uint64_t
 DataValue::size()
 {
-    return toString().size();
+    return getString().size();
 }
 
 /**
@@ -331,12 +331,12 @@ DataValue::copy()
 }
 
 /**
- * @brief prints the content of the object
+ * @brief return the content as string
  */
 std::string
-DataValue::print(const bool,
-                 std::string* output,
-                 const uint32_t)
+DataValue::toString(const bool,
+                    std::string* output,
+                    const uint32_t)
 {
     std::string out = "";
     if(output == nullptr) {
@@ -558,30 +558,30 @@ DataObject::contains(const std::string &key)
  * @brief get the string-value behind the key inside the data-object
  */
 std::string
-DataObject::getString(const std::string &key)
+DataObject::getStringByKey(const std::string &key)
 {
     DataItem* item = get(key);
-    return item->toString();
+    return item->getString();
 }
 
 /**
  * @brief get the int-value behind the key inside the data-object
  */
 int
-DataObject::getInt(const std::string &key)
+DataObject::getIntByKey(const std::string &key)
 {
     DataItem* item = get(key);
-    return item->toInt();
+    return item->getInt();
 }
 
 /**
  * @brief get the float-value behind the key inside the data-object
  */
 float
-DataObject::getFloat(const std::string &key)
+DataObject::getFloatByKey(const std::string &key)
 {
     DataItem* item = get(key);
-    return item->toFloat();
+    return item->getFloat();
 }
 
 /**
@@ -652,12 +652,12 @@ DataObject::copy()
 }
 
 /**
- * @brief prints the content of the object
+ * @brief return the content as string
  */
 std::string
-DataObject::print(const bool indent,
-                  std::string* output,
-                  const uint32_t level)
+DataObject::toString(const bool indent,
+                     std::string* output,
+                     const uint32_t level)
 {
     std::string out = "";
     if(output == nullptr) {
@@ -698,7 +698,7 @@ DataObject::print(const bool indent,
             if(it->second == nullptr) {
                 output->append("NULL");
             } else {
-                it->second->print(indent, output, level+1);
+                it->second->toString(indent, output, level+1);
             }
         }
     }
@@ -875,12 +875,12 @@ DataArray::copy()
 }
 
 /**
- * @brief prints the content of the object
+ * @brief return the content as string
  */
 std::string
-DataArray::print(const bool indent,
-                 std::string* output,
-                 const uint32_t level)
+DataArray::toString(const bool indent,
+                    std::string* output,
+                    const uint32_t level)
 {
     std::string out = "";
     if(output == nullptr) {
@@ -903,7 +903,7 @@ DataArray::print(const bool indent,
             continue;
         }
 
-        (*it)->print(indent, output, level+1);
+        (*it)->toString(indent, output, level+1);
     }
 
     addIndent(output, indent, level);

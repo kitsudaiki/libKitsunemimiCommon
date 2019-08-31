@@ -63,9 +63,9 @@ public:
 
     // output
     virtual DataItem* copy() = 0;
-    virtual std::string print(bool indent=false,
-                              std::string *output=nullptr,
-                              uint32_t step=0) = 0;
+    virtual std::string toString(bool indent=false,
+                                 std::string *output=nullptr,
+                                 uint32_t step=0) = 0;
 
     dataTypes getType() const;
     bool isValue() const;
@@ -76,9 +76,9 @@ public:
     DataObject* toObject();
     DataValue* toValue();
 
-    const std::string toString() const;
-    int toInt();
-    float toFloat();
+    const std::string getString() const;
+    int getInt();
+    float getFloat();
 
 protected:
     dataTypes m_type = UNINIT_TYPE;
@@ -120,9 +120,9 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(const bool=false,
-                      std::string* output=nullptr,
-                      const uint32_t=0);
+    std::string toString(const bool=false,
+                         std::string* output=nullptr,
+                         const uint32_t=0);
 
     // content
     std::string m_stringValue = "";
@@ -155,9 +155,9 @@ public:
     std::vector<DataItem*> getValues();
     bool contains(const std::string &key);
 
-    std::string getString(const std::string &key);
-    int getInt(const std::string &key);
-    float getFloat(const std::string &key);
+    std::string getStringByKey(const std::string &key);
+    int getIntByKey(const std::string &key);
+    float getFloatByKey(const std::string &key);
 
     // delete
     bool remove(const std::string &key);
@@ -165,9 +165,9 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(const bool=false,
-                      std::string* output=nullptr,
-                      const uint32_t level=0);
+    std::string toString(const bool=false,
+                         std::string* output=nullptr,
+                         const uint32_t level=0);
 
     // content
     std::map<std::string, DataItem*> m_objects;
@@ -198,9 +198,9 @@ public:
 
     // output
     DataItem* copy();
-    std::string print(const bool indent=false,
-                      std::string* output=nullptr,
-                      const uint32_t level=0);
+    std::string toString(const bool indent=false,
+                         std::string* output=nullptr,
+                         const uint32_t level=0);
 
     // content
     std::vector<DataItem*> m_array;

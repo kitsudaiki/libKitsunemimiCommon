@@ -38,7 +38,7 @@ TableItem_test::TableItem_test()
     getNumberOfRows_Test();
 
     // output
-    print_Test();
+    toString_test();
 }
 
 /**
@@ -50,7 +50,7 @@ TableItem_test::copy_contructor_test()
     TableItem testItem = getTestTableItem();
     TableItem copyItem = testItem;
 
-    UNITTEST(copyItem.print(), testItem.print());
+    UNITTEST(copyItem.toString(), testItem.toString());
 }
 
 /**
@@ -64,7 +64,7 @@ TableItem_test::assignment_operator_test()
 
     assignedItem = testItem;
 
-    UNITTEST(assignedItem.print(), testItem.print());
+    UNITTEST(assignedItem.toString(), testItem.toString());
 }
 
 /**
@@ -81,7 +81,7 @@ TableItem_test::addColumn_Test()
     const std::string compare = "+------+-----+\n"
                                 "| ASDF | poi |\n"
                                 "+======+=====+\n";
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -100,7 +100,7 @@ TableItem_test::renameColume_Test()
     const std::string compare = "+-----+\n"
                                 "| XYZ |\n"
                                 "+=====+\n";
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -120,7 +120,7 @@ TableItem_test::deleteColumn_Test()
     const std::string compare = "+-----+\n"
                                 "| poi |\n"
                                 "+=====+\n";
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -146,7 +146,7 @@ TableItem_test::addRow_Test()
             "| asdf           | qwert     |\n"
             "+----------------+-----------+\n";
 
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -167,7 +167,7 @@ TableItem_test::deleteRow_Test()
             "| asdf | qwert     |\n"
             "+------+-----------+\n";
 
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -191,7 +191,7 @@ TableItem_test::setCell_Test()
             "| asdf           | hmmm      |\n"
             "+----------------+-----------+\n";
 
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -228,7 +228,7 @@ TableItem_test::deleteCell_Test()
             "|                | qwert     |\n"
             "+----------------+-----------+\n";
 
-    UNITTEST(testItem.print(), compare);
+    UNITTEST(testItem.toString(), compare);
 }
 
 /**
@@ -256,10 +256,10 @@ TableItem_test::getNumberOfRows_Test()
 }
 
 /**
- * @brief print_Test
+ * @brief toString_test
  */
 void
-TableItem_test::print_Test()
+TableItem_test::toString_test()
 {
     TableItem testItem = getTestTableItem();
 
@@ -287,7 +287,7 @@ TableItem_test::print_Test()
             "+-----------+-----------+\n";
 
     // test with a maximum cell width of 9
-    UNITTEST(testItem.print(9), compare);
+    UNITTEST(testItem.toString(9), compare);
 
     const std::string compareVertical =
             "+-----------+-----------+\n"
@@ -297,7 +297,7 @@ TableItem_test::print_Test()
             "| poipoipoi | k         |\n"
             "+-----------+-----------+\n";
 
-    UNITTEST(testItem.print(9, true), compareVertical);
+    UNITTEST(testItem.toString(9, true), compareVertical);
 }
 
 /**

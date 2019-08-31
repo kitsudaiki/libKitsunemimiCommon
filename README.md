@@ -150,7 +150,7 @@ int size = object.size();
 // `size` is 4 (3 values and 1 array)
 
 
-std::string output = object.print(true);
+std::string output = object.toString(true);
 /**
 `output` would look like this:
 
@@ -208,7 +208,7 @@ testItem.addRow(std::vector<std::string>{"this is a test", "k"});
 testItem.addRow(std::vector<std::string>{"asdf", "qwert"});
 
 // convert to string
-std::string output = testItem.print();
+std::string output = testItem.toString();
 /**
 here ouput has nwo the content: 
 
@@ -264,7 +264,7 @@ content of the body in form of:
 // The header is not required here. The columns can be added afterwards.
 TableItem testItem(&body, &header);
 
-std::string output = testItem.print();
+std::string output = testItem.toString();
 /**
 here ouput has now the content: 
 
@@ -279,7 +279,7 @@ here ouput has now the content:
 
 ```
 
-The width of a column is per default limited to 500 characters. Its possible to modify this, by calling the print-methods with a value. For example `testItem.print(10)` to limit the width of a column to 10 characters. If the content of a cell of the table is longer than this value, line breaks will be added and write it in multiple lines.
+The width of a column is per default limited to 500 characters. Its possible to modify this, by calling the toString-methods with a value. For example `testItem.toString(10)` to limit the width of a column to 10 characters. If the content of a cell of the table is longer than this value, line breaks will be added and write it in multiple lines.
 
 It is also possible to convert it into a vertical table. The it is returned a table with two columns. The left is the header in vertical form and the right column is the first row of the table in vertical form. It makes tables with only one row better readable. Example:
 
@@ -296,7 +296,7 @@ TableItem testItem();
 **/
 
 
-std::string output = testItem.print(100, true);
+std::string output = testItem.toString(100, true);
 /**
 first argument it the maximum size of the column and the secont is the alternative vertical mode
 here ouput has now the content: 

@@ -136,7 +136,7 @@ TableItem::renameColume(const std::string &internalName,
 
     for(uint64_t x = 0; x < size; x++)
     {
-        if(m_header->get(x)->get("inner")->toString() == internalName)
+        if(m_header->get(x)->get("inner")->getString() == internalName)
         {
             m_header->get(x)->get("outer")->toValue()->setValue(newShownName);
             return true;
@@ -165,7 +165,7 @@ TableItem::deleteColumn(const uint64_t x,
     }
 
     // get internal header-name
-    const std::string name = m_header->get(x)->get("inner")->toString();
+    const std::string name = m_header->get(x)->get("inner")->getString();
 
     // remove colume from header
     m_header->remove(x);
@@ -202,7 +202,7 @@ TableItem::deleteColumn(const std::string &internalName,
     // search in header
     for(uint64_t x = 0; x < size; x++)
     {
-        if(m_header->get(x)->get("inner")->toString() == internalName) {
+        if(m_header->get(x)->get("inner")->getString() == internalName) {
             return deleteColumn(x, withBody);
         }
     }
@@ -231,7 +231,7 @@ TableItem::addRow(const std::vector<std::string> rowContent)
     // add new row content to the table
     for(uint64_t x = 0; x < size; x++)
     {
-        obj->insert(m_header->get(x)->get("inner")->toString(),
+        obj->insert(m_header->get(x)->get("inner")->getString(),
                     new DataValue(rowContent.at(x)));
     }
 
@@ -281,7 +281,7 @@ TableItem::setCell(const uint32_t x,
     }
 
     // get value at requested position
-    const std::string columnInnerName = m_header->get(x)->get("inner")->toString();
+    const std::string columnInnerName = m_header->get(x)->get("inner")->getString();
     DataItem* value = m_body->get(y)->get(columnInnerName);
 
     // set new value
@@ -315,7 +315,7 @@ TableItem::getCell(const uint32_t x,
     }
 
     // get value at requested position
-    const std::string columnInnerName = m_header->get(x)->get("inner")->toString();
+    const std::string columnInnerName = m_header->get(x)->get("inner")->getString();
     DataItem* value = m_body->get(y)->get(columnInnerName);
 
     // check value
@@ -324,7 +324,7 @@ TableItem::getCell(const uint32_t x,
     }
 
     // return value-content as string
-    return value->toString();
+    return value->getString();
 }
 
 /**
@@ -347,7 +347,7 @@ TableItem::deleteCell(const uint32_t x,
     }
 
     // get column inner name
-    const std::string columnInnerName = m_header->get(x)->get("inner")->toString();
+    const std::string columnInnerName = m_header->get(x)->get("inner")->getString();
 
     // remove value if possible
     return m_body->get(y)->remove(columnInnerName);
@@ -385,8 +385,8 @@ TableItem::getNumberOfRows()
  * @return table as string
  */
 const std::string
-TableItem::print(const uint32_t maxColumnWidth,
-                 const bool showOne)
+TableItem::toString(const uint32_t maxColumnWidth,
+                    const bool showOne)
 {
     // init data-handling values
     std::vector<uint64_t> xSizes(getNumberOfColums(), 0);
@@ -522,7 +522,7 @@ TableItem::getInnerName()
 
     for(uint64_t x = 0; x < getNumberOfColums(); x++)
     {
-        result.push_back(m_header->get(x)->get("inner")->toString());
+        result.push_back(m_header->get(x)->get("inner")->getString());
     }
 
     return result;
@@ -583,7 +583,7 @@ TableItem::convertHeaderForOutput(TableRow* convertedHeader,
         // get value at requested position
         DataItem* value = m_header->get(x)->get("outer");
         if(value != nullptr) {
-            cellContent = value->toValue()->toString();
+            cellContent = value->toValue()->getString();
         }
 
         // split cell content
@@ -624,7 +624,7 @@ TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
             // get cell content or use empty string, if cell not exist
             DataItem* value = m_body->get(y)->get(columeInnerNames.at(x));
             if(value != nullptr) {
-                cellContent = value->toValue()->toString();
+                cellContent = value->toValue()->getString();
             }
 
             // split cell content
@@ -691,7 +691,7 @@ TableItem::printHeaderLine(const std::vector<uint64_t> &xSizes)
     {
         output.append("| ");
         DataValue* value = m_header->get(i)->get("outer")->toValue();
-        output.append(value->toString());
+        output.append(value->getString());
         output.append(std::string(xSizes.at(i) - value->size(), ' '));
         output.append(" ");
     }
