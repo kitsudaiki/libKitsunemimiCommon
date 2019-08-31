@@ -288,6 +288,16 @@ TableItem_test::print_Test()
 
     // test with a maximum cell width of 9
     UNITTEST(testItem.print(9), compare);
+
+    const std::string compareVertical =
+            "+-----------+-----------+\n"
+            "| ASDF      | this is a |\n"
+            "|           |  test     |\n"
+            "+-----------+-----------+\n"
+            "| poipoipoi | k         |\n"
+            "+-----------+-----------+\n";
+
+    UNITTEST(testItem.print(9, true), compareVertical);
 }
 
 /**
