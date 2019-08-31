@@ -22,15 +22,15 @@ DataItems_DataObject_Test::DataItems_DataObject_Test()
     getSize_test();
     remove_test();
     copy_test();
-    print_test();
+    toString_test();
     getType_test();
     isValue_isObject_isArray_test();
     toValue_toObject_toArray_test();
-    toString_toInt_toFloat_test();
+    getString_getInt_getFloat_test();
 
     // object-exclusive
     insert_test();
-    getString_getInt_getFloat_test();
+    getStringByKey_getIntByKey_getFloatByKey_test();
     getKeys_test();
     getValues_test();
     contains_test();
@@ -44,8 +44,8 @@ DataItems_DataObject_Test::operator_test()
 {
     DataObject object = initTestObject();
 
-    UNITTEST(object[0]->toString(), "test");
-    UNITTEST(object["hmm"]->toInt(), 42);
+    UNITTEST(object[0]->getString(), "test");
+    UNITTEST(object["hmm"]->getInt(), 42);
 
     // negative tests
     bool isNullptr = object[10] == nullptr;
@@ -62,8 +62,8 @@ DataItems_DataObject_Test::get_test()
 {
     DataObject object = initTestObject();
 
-    UNITTEST(object.get(0)->toString(), "test");
-    UNITTEST(object.get("hmm")->toInt(), 42);
+    UNITTEST(object.get(0)->getString(), "test");
+    UNITTEST(object.get("hmm")->getInt(), 42);
 
     // negative tests
     bool isNullptr = object.get(10) == nullptr;
@@ -92,7 +92,7 @@ DataItems_DataObject_Test::remove_test()
     UNITTEST(object.remove(0), true);
     UNITTEST(object.remove("hmm"), true);
 
-    UNITTEST(object.get(1)->toString(), "42.500000");
+    UNITTEST(object.get(1)->getString(), "42.500000");
     UNITTEST(object.size(), 2);
 
     // negative tests
@@ -112,21 +112,21 @@ DataItems_DataObject_Test::copy_test()
     bool isNullptr = objectCopy == nullptr;
     UNITTEST(isNullptr, false);
 
-    UNITTEST(object.print(), objectCopy->print());
+    UNITTEST(object.toString(), objectCopy->toString());
 
     delete objectCopy;
 }
 
 /**
- * print_test
+ * toString_test
  */
 void
-DataItems_DataObject_Test::print_test()
+DataItems_DataObject_Test::toString_test()
 {
     DataObject object = initTestObject();
 
     std::string compare = "{\"asdf\":\"test\",\"hmm\":42,\"poi\":\"\",\"xyz\":42.500000}";
-    UNITTEST(object.print(), compare);
+    UNITTEST(object.toString(), compare);
 
     compare = "{\n"
               "    \"asdf\": \"test\",\n"
@@ -134,7 +134,7 @@ DataItems_DataObject_Test::print_test()
               "    \"poi\": \"\",\n"
               "    \"xyz\": 42.500000\n"
               "}";
-    UNITTEST(object.print(true), compare);
+    UNITTEST(object.toString(true), compare);
 }
 
 /**
@@ -178,15 +178,15 @@ DataItems_DataObject_Test::toValue_toObject_toArray_test()
 }
 
 /**
- * toString_toInt_toFloat_test
+ * getString_getInt_getFloat_test
  */
 void
-DataItems_DataObject_Test::toString_toInt_toFloat_test()
+DataItems_DataObject_Test::getString_getInt_getFloat_test()
 {
     DataObject object = initTestObject();
-    UNITTEST(object.toString(), "");
-    UNITTEST(object.toInt(), 0);
-    UNITTEST(object.toFloat(), 0.0f);
+    UNITTEST(object.getString(), "");
+    UNITTEST(object.getInt(), 0);
+    UNITTEST(object.getFloat(), 0.0f);
 }
 
 /**
@@ -208,16 +208,16 @@ DataItems_DataObject_Test::insert_test()
 }
 
 /**
- * getString_getInt_getFloat_test
+ * getStringByKey_getIntByKey_getFloatByKey_test
  */
 void
-DataItems_DataObject_Test::getString_getInt_getFloat_test()
+DataItems_DataObject_Test::getStringByKey_getIntByKey_getFloatByKey_test()
 {
     DataObject object = initTestObject();
 
-    UNITTEST(object.getString("asdf"), "test");
-    UNITTEST(object.getInt("hmm"), 42);
-    UNITTEST(object.getFloat("xyz"), 42.5f);
+    UNITTEST(object.getStringByKey("asdf"), "test");
+    UNITTEST(object.getIntByKey("hmm"), 42);
+    UNITTEST(object.getFloatByKey("xyz"), 42.5f);
 }
 
 /**
@@ -246,10 +246,10 @@ DataItems_DataObject_Test::getValues_test()
 
     std::vector<DataItem*> values = object.getValues();
     UNITTEST(values.size(), 4);
-    UNITTEST(values.at(0)->toString(), "test");
-    UNITTEST(values.at(1)->toString(), "42");
-    UNITTEST(values.at(2)->toString(), "");
-    UNITTEST(values.at(3)->toString(), "42.500000");
+    UNITTEST(values.at(0)->getString(), "test");
+    UNITTEST(values.at(1)->getString(), "42");
+    UNITTEST(values.at(2)->getString(), "");
+    UNITTEST(values.at(3)->getString(), "42.500000");
 }
 
 /**

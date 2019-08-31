@@ -22,11 +22,11 @@ DataItems_DataArray_Test::DataItems_DataArray_Test()
     getSize_test();
     remove_test();
     copy_test();
-    print_test();
+    toString_test();
     getType_test();
     isValue_isObject_isArray_test();
     toValue_toObject_toArray_test();
-    toString_toInt_toFloat_test();
+    getString_getInt_getFloat_test();
 
     // array-exclusive
     append_test();
@@ -60,7 +60,7 @@ DataItems_DataArray_Test::operator_test()
 {
     DataArray array = initTestArray();
 
-    UNITTEST(array[1]->toString(), "test");
+    UNITTEST(array[1]->getString(), "test");
 
     // negative tests
     bool isNullptr = array[10] == nullptr;
@@ -77,7 +77,7 @@ DataItems_DataArray_Test::get_test()
 {
     DataArray array = initTestArray();
 
-    UNITTEST(array.get(1)->toString(), "test");
+    UNITTEST(array.get(1)->getString(), "test");
 
     // negative tests
     bool isNullptr = array.get(10) == nullptr;
@@ -106,7 +106,7 @@ DataItems_DataArray_Test::remove_test()
     UNITTEST(array.remove(1), true);
     UNITTEST(array.remove("2"), true);
 
-    UNITTEST(array.get(1)->toInt(), 42);
+    UNITTEST(array.get(1)->getInt(), 42);
     UNITTEST(array.size(), 2);
 
     // negative tests
@@ -126,21 +126,21 @@ DataItems_DataArray_Test::copy_test()
     bool isNullptr = arrayCopy == nullptr;
     UNITTEST(isNullptr, false);
 
-    UNITTEST(array.print(), arrayCopy->print());
+    UNITTEST(array.toString(), arrayCopy->toString());
 
     delete arrayCopy;
 }
 
 /**
- * print_test
+ * toString_test
  */
 void
-DataItems_DataArray_Test::print_test()
+DataItems_DataArray_Test::toString_test()
 {
     DataArray array = initTestArray();
 
     std::string compare = "[\"\",\"test\",42,42.500000]";
-    UNITTEST(array.print(), compare);
+    UNITTEST(array.toString(), compare);
 
     compare = "[\n"
               "    \"\",\n"
@@ -148,7 +148,7 @@ DataItems_DataArray_Test::print_test()
               "    42,\n"
               "    42.500000\n"
               "]";
-    UNITTEST(array.print(true), compare);
+    UNITTEST(array.toString(true), compare);
 }
 
 /**
@@ -192,15 +192,15 @@ DataItems_DataArray_Test::toValue_toObject_toArray_test()
 }
 
 /**
- * toString_toInt_toFloat_test
+ * getString_getInt_getFloat_test
  */
 void
-DataItems_DataArray_Test::toString_toInt_toFloat_test()
+DataItems_DataArray_Test::getString_getInt_getFloat_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.toString(), "");
-    UNITTEST(array.toInt(), 0);
-    UNITTEST(array.toFloat(), 0.0f);
+    UNITTEST(array.getString(), "");
+    UNITTEST(array.getInt(), 0);
+    UNITTEST(array.getFloat(), 0.0f);
 }
 
 /**

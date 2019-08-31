@@ -22,11 +22,11 @@ DataItems_DataValue_Test::DataItems_DataValue_Test()
     getSize_test();
     remove_test();
     copy_test();
-    print_test();
+    toString_test();
     getType_test();
     isValue_isObject_isArray_test();
     toValue_toObject_toArray_test();
-    toString_toInt_toFloat_test();
+    getString_getInt_getFloat_test();
 
     // value-exclusive
     getValueType_test();
@@ -123,20 +123,20 @@ DataItems_DataValue_Test::copy_test()
 }
 
 /**
- * print_test
+ * toString_test
  */
 void
-DataItems_DataValue_Test::print_test()
+DataItems_DataValue_Test::toString_test()
 {
     DataValue defaultValue;
     DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
-    UNITTEST(defaultValue.print(), "\"\"");
-    UNITTEST(stringValue.print(), "\"test\"");
-    UNITTEST(intValue.print(), "42");
-    UNITTEST(floatValue.print(), "42.500000");
+    UNITTEST(defaultValue.toString(), "\"\"");
+    UNITTEST(stringValue.toString(), "\"test\"");
+    UNITTEST(intValue.toString(), "42");
+    UNITTEST(floatValue.toString(), "42.500000");
 }
 
 /**
@@ -187,10 +187,10 @@ DataItems_DataValue_Test::toValue_toObject_toArray_test()
 }
 
 /**
- * toString_toInt_toFloat_test
+ * getString_getInt_getFloat_test
  */
 void
-DataItems_DataValue_Test::toString_toInt_toFloat_test()
+DataItems_DataValue_Test::getString_getInt_getFloat_test()
 {
     DataValue defaultValue;
     DataValue stringValue("test");
@@ -198,24 +198,24 @@ DataItems_DataValue_Test::toString_toInt_toFloat_test()
     DataValue floatValue(42.5f);
 
     // default-value
-    UNITTEST(defaultValue.toString(), "");
-    UNITTEST(defaultValue.toInt(), 0);
-    UNITTEST(defaultValue.toFloat(), 0.0f);
+    UNITTEST(defaultValue.getString(), "");
+    UNITTEST(defaultValue.getInt(), 0);
+    UNITTEST(defaultValue.getFloat(), 0.0f);
 
     // string-value
-    UNITTEST(stringValue.toString(), "test");
-    UNITTEST(stringValue.toInt(), 0);
-    UNITTEST(stringValue.toFloat(), 0.0f);
+    UNITTEST(stringValue.getString(), "test");
+    UNITTEST(stringValue.getInt(), 0);
+    UNITTEST(stringValue.getFloat(), 0.0f);
 
     // int-value
-    UNITTEST(intValue.toString(), "42");
-    UNITTEST(intValue.toInt(), 42);
-    UNITTEST(intValue.toFloat(), 0.0f);
+    UNITTEST(intValue.getString(), "42");
+    UNITTEST(intValue.getInt(), 42);
+    UNITTEST(intValue.getFloat(), 0.0f);
 
     // float-value
-    UNITTEST(floatValue.toString(), "42.500000");
-    UNITTEST(floatValue.toInt(), 0);
-    UNITTEST(floatValue.toFloat(), 42.5f);
+    UNITTEST(floatValue.getString(), "42.500000");
+    UNITTEST(floatValue.getInt(), 0);
+    UNITTEST(floatValue.getFloat(), 42.5f);
 }
 
 /**

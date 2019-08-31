@@ -29,14 +29,14 @@ private:
     void getSize_test();
     void remove_test();
     void copy_test();
-    void print_test();
+    void toString_test();
     void getType_test();
     void isValue_isObject_isArray_test();
     void toValue_toObject_toArray_test();
-    void toString_toInt_toFloat_test();
+    void getString_getInt_getFloat_test();
 
     void insert_test();
-    void getString_getInt_getFloat_test();
+    void getStringByKey_getIntByKey_getFloatByKey_test();
     void getKeys_test();
     void getValues_test();
     void contains_test();

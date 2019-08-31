@@ -46,7 +46,7 @@ private:
     void getNumberOfRows_Test();
 
     // output
-    void print_Test();
+    void toString_test();
 
     TableItem getTestTableItem();
 };

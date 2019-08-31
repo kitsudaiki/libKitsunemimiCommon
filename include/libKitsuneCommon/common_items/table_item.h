@@ -65,8 +65,8 @@ public:
     uint64_t getNumberOfRows();
 
     // output
-    const std::string print(const uint32_t maxColumnWidth=500,
-                            const bool showOne=false);
+    const std::string toString(const uint32_t maxColumnWidth=500,
+                               const bool showOne=false);
 
 private:
     DataArray* m_body = nullptr;
