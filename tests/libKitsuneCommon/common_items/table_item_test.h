@@ -26,6 +26,7 @@ public:
 private:
     void copy_contructor_test();
     void assignment_operator_test();
+    void clearTable_test();
 
     // column
     void addColumn_Test();

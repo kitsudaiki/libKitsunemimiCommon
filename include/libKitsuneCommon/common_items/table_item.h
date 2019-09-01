@@ -37,6 +37,8 @@ public:
     ~TableItem();
     TableItem& operator=(const TableItem& other);
 
+    void clearTable();
+
     // column
     bool addColumn(const std::string &internalName,
                    const std::string &shownName="");
