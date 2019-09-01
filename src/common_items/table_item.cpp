@@ -96,6 +96,19 @@ TableItem::operator=(const TableItem& other)
 }
 
 /**
+ * @brief erase the whole content of the table
+ */
+void
+TableItem::clearTable()
+{
+    delete m_body;
+    delete m_header;
+
+    m_header = new DataArray();
+    m_body = new DataArray();
+}
+
+/**
  * @brief add a new column to the header of the table
  *
  * @param internalName name for internal indentification of the columns inside the body

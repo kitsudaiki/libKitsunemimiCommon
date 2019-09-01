@@ -42,7 +42,7 @@ TableItem_test::TableItem_test()
 }
 
 /**
- * @brief TableItem_test::copy_contructor_test
+ * @brief copy_contructor_test
  */
 void
 TableItem_test::copy_contructor_test()
@@ -54,7 +54,7 @@ TableItem_test::copy_contructor_test()
 }
 
 /**
- * @brief TableItem_test::assignment_operator_test
+ * @brief assignment_operator_test
  */
 void
 TableItem_test::assignment_operator_test()
@@ -65,6 +65,19 @@ TableItem_test::assignment_operator_test()
     assignedItem = testItem;
 
     UNITTEST(assignedItem.toString(), testItem.toString());
+}
+
+/**
+ * @brief clearTable_test
+ */
+void TableItem_test::clearTable_test()
+{
+    TableItem testItem = getTestTableItem();
+
+    testItem.clearTable();
+
+    UNITTEST(testItem.getNumberOfRows(), 0);
+    UNITTEST(testItem.getNumberOfColums(), 0);
 }
 
 /**
