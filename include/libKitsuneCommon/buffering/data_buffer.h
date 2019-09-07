@@ -44,11 +44,16 @@ struct DataBuffer
     /**
      * @brief constructor
      *
-     * @param numberOfBlocks number of block of the initial allocation (at least one)
+     * @param numberOfBlocks number of block of the initial allocation
+     *                       (at least one)
+     * @param blockSize size of a block in the data-buffer
+     *                  (should never be changed after buffer was created)
      */
-    DataBuffer(const uint32_t numberOfBlocks = 1)
+    DataBuffer(const uint32_t numberOfBlocks = 1,
+               const uint16_t blockSize = 4096)
     {
-        assert(blockSize % 512 == 0);
+        this->blockSize = blockSize;
+        assert(this->blockSize % 512 == 0);
         if(numberOfBlocks < 1) {
             allocateBlocks(this, 1);
         }
