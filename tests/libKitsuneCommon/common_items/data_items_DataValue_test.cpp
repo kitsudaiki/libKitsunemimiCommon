@@ -101,19 +101,21 @@ DataItems_DataValue_Test::copy_test()
 
     // default-value
     DataValue* defaultValueCopy = dynamic_cast<DataValue*>(defaultValue.copy());
-    UNITTEST(defaultValue.m_stringValue, defaultValueCopy->m_stringValue);
+    UNITTEST(std::string(defaultValue.m_content.stringValue),
+             std::string(defaultValueCopy->m_content.stringValue));
 
     // string-value
     DataValue* stringValueCopy = dynamic_cast<DataValue*>(stringValue.copy());
-    UNITTEST(stringValue.m_stringValue, stringValueCopy->m_stringValue);
+    UNITTEST(std::string(stringValue.m_content.stringValue),
+             std::string(stringValueCopy->m_content.stringValue));
 
     // int-value
     DataValue* intValueCopy = dynamic_cast<DataValue*>(intValue.copy());
-    UNITTEST(intValue.m_intValue, intValueCopy->m_intValue);
+    UNITTEST(intValue.m_content.intValue, intValueCopy->m_content.intValue);
 
     // float-value
     DataValue* floatValueCopy = dynamic_cast<DataValue*>(floatValue.copy());
-    UNITTEST(floatValue.m_floatValue, floatValueCopy->m_floatValue);
+    UNITTEST(floatValue.m_content.floatValue, floatValueCopy->m_content.floatValue);
 
     // cleanup
     delete defaultValueCopy;
@@ -246,23 +248,17 @@ DataItems_DataValue_Test::setValue_test()
     // string-value
     defaultValue.setValue("test");
     UNITTEST(defaultValue.getValueType(), DataItem::STRING_TYPE);
-    UNITTEST(defaultValue.m_stringValue, "test");
-    UNITTEST(defaultValue.m_intValue, 0);
-    UNITTEST(defaultValue.m_floatValue, 0.0f);
+    UNITTEST(std::string(defaultValue.m_content.stringValue), "test");
 
     // int-value
     defaultValue.setValue(42);
     UNITTEST(defaultValue.getValueType(), DataItem::INT_TYPE);
-    UNITTEST(defaultValue.m_stringValue, "");
-    UNITTEST(defaultValue.m_intValue, 42);
-    UNITTEST(defaultValue.m_floatValue, 0.0f);
+    UNITTEST(defaultValue.m_content.intValue, 42);
 
     // float-value
     defaultValue.setValue(42.5f);
     UNITTEST(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
-    UNITTEST(defaultValue.m_stringValue, "");
-    UNITTEST(defaultValue.m_intValue, 0);
-    UNITTEST(defaultValue.m_floatValue, 42.5f);
+    UNITTEST(defaultValue.m_content.floatValue, 42.5f);
 }
 
 }  // namespace Common

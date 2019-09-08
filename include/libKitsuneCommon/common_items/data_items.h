@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <string>
+#include <string.h>
 #include <vector>
 #include <map>
 
@@ -128,9 +129,14 @@ public:
                          const uint32_t=0);
 
     // content
-    std::string m_stringValue = "";
-    int m_intValue = 0;
-    float m_floatValue = 0.0f;
+    union DataValueContent
+    {
+        char* stringValue;
+        int intValue;
+        float floatValue;
+    };
+
+    DataValueContent m_content;
 };
 
 //===================================================================
