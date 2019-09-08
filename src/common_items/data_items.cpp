@@ -121,17 +121,17 @@ DataItem::getString() const
     if(m_valueType == STRING_TYPE)
     {
         const DataValue* value = dynamic_cast<const DataValue*>(this);
-        return value->m_stringValue;
+        return std::string(value->m_content.stringValue);
     }
     if(m_valueType == INT_TYPE)
     {
         const DataValue* value = dynamic_cast<const DataValue*>(this);
-        return std::to_string(value->m_intValue);;
+        return std::to_string(value->m_content.intValue);
     }
     if(m_valueType == FLOAT_TYPE)
     {
         const DataValue* value = dynamic_cast<const DataValue*>(this);
-        return std::to_string(value->m_floatValue);;
+        return std::to_string(value->m_content.floatValue);
     }
     return "";
 }
@@ -147,7 +147,7 @@ DataItem::getInt()
     if(m_valueType == INT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_intValue;
+        return value->m_content.intValue;
     }
     return 0;
 }
@@ -164,7 +164,7 @@ DataItem::getFloat()
     if(m_valueType == FLOAT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_floatValue;
+        return value->m_content.floatValue;
     }
     return 0.0f;
 }
@@ -198,6 +198,9 @@ DataValue::DataValue()
 {
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
+
+    m_content.stringValue = new char[1];
+    m_content.stringValue[0] = '\0';
 }
 
 /**
@@ -207,7 +210,10 @@ DataValue::DataValue(const std::string &text)
 {
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
-    m_stringValue = text;
+
+    m_content.stringValue = new char[text.size()+1];
+    memcpy(m_content.stringValue, text.c_str(), text.size());
+    m_content.stringValue[text.size()] = '\0';
 }
 
 /**
@@ -217,7 +223,7 @@ DataValue::DataValue(const int value)
 {
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
-    m_intValue = value;
+    m_content.intValue = value;
 }
 
 /**
@@ -227,7 +233,7 @@ DataValue::DataValue(const float value)
 {
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
-    m_floatValue = value;
+    m_content.floatValue = value;
 }
 
 /**
@@ -319,13 +325,13 @@ DataValue::copy()
 {
     DataValue* tempItem = nullptr;
     if(m_valueType == STRING_TYPE) {
-        tempItem = new DataValue(m_stringValue);
+        tempItem = new DataValue(std::string(m_content.stringValue));
     }
     if(m_valueType == INT_TYPE) {
-        tempItem = new DataValue(m_intValue);
+        tempItem = new DataValue(m_content.intValue);
     }
     if(m_valueType == FLOAT_TYPE) {
-        tempItem = new DataValue(m_floatValue);
+        tempItem = new DataValue(m_content.floatValue);
     }
     return tempItem;
 }
@@ -346,14 +352,14 @@ DataValue::toString(const bool,
     if(m_valueType == STRING_TYPE)
     {
         output->append("\"");
-        output->append(m_stringValue);
+        output->append(std::string(m_content.stringValue));
         output->append("\"");
     }
     if(m_valueType == INT_TYPE) {
-        output->append(std::to_string(m_intValue));
+        output->append(std::to_string(m_content.intValue));
     }
     if(m_valueType == FLOAT_TYPE) {
-        output->append(std::to_string(m_floatValue));
+        output->append(std::to_string(m_content.floatValue));
     }
 
     return out;
@@ -365,11 +371,16 @@ DataValue::toString(const bool,
 void
 DataValue::setValue(const std::string &item)
 {
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
-    m_intValue = 0;
-    m_floatValue = 0.0f;
-    m_stringValue = item;
+
+    m_content.stringValue = new char[item.size()+1];
+    memcpy(m_content.stringValue, item.c_str(), item.size());
+    m_content.stringValue[item.size()] = '\0';
 }
 
 /**
@@ -378,11 +389,14 @@ DataValue::setValue(const std::string &item)
 void
 DataValue::setValue(const int &item)
 {
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
-    m_stringValue = "";
-    m_floatValue = 0.0f;
-    m_intValue = item;
+
+    m_content.intValue = item;
 }
 
 /**
@@ -391,11 +405,14 @@ DataValue::setValue(const int &item)
 void
 DataValue::setValue(const float &item)
 {
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
-    m_stringValue = "";
-    m_intValue = 0;
-    m_floatValue = item;
+
+    m_content.floatValue = item;
 }
 
 //===================================================================
