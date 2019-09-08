@@ -123,16 +123,6 @@ DataItem::getString() const
         const DataValue* value = dynamic_cast<const DataValue*>(this);
         return std::string(value->m_content.stringValue);
     }
-    if(m_valueType == INT_TYPE)
-    {
-        const DataValue* value = dynamic_cast<const DataValue*>(this);
-        return std::to_string(value->m_content.intValue);
-    }
-    if(m_valueType == FLOAT_TYPE)
-    {
-        const DataValue* value = dynamic_cast<const DataValue*>(this);
-        return std::to_string(value->m_content.floatValue);
-    }
     return "";
 }
 
@@ -167,6 +157,22 @@ DataItem::getFloat()
         return value->m_content.floatValue;
     }
     return 0.0f;
+}
+
+/**
+ * @brief request the bool of the data-value, if it is from bool-type
+ *
+ * @return bool of the data-value, if data-value is from bool-type, else empty flase
+ */
+bool
+DataItem::getBool()
+{
+    if(m_valueType == BOOL_TYPE)
+    {
+        DataValue* value = dynamic_cast<DataValue*>(this);
+        return value->m_content.boolValue;
+    }
+    return false;
 }
 
 /**
@@ -234,6 +240,16 @@ DataValue::DataValue(const float value)
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
     m_content.floatValue = value;
+}
+
+/**
+ * @brief data-value for bool
+ */
+DataValue::DataValue(const bool value)
+{
+    m_type = VALUE_TYPE;
+    m_valueType = BOOL_TYPE;
+    m_content.boolValue = value;
 }
 
 /**
@@ -333,6 +349,9 @@ DataValue::copy()
     if(m_valueType == FLOAT_TYPE) {
         tempItem = new DataValue(m_content.floatValue);
     }
+    if(m_valueType == BOOL_TYPE) {
+        tempItem = new DataValue(m_content.boolValue);
+    }
     return tempItem;
 }
 
@@ -355,11 +374,21 @@ DataValue::toString(const bool,
         output->append(std::string(m_content.stringValue));
         output->append("\"");
     }
+
     if(m_valueType == INT_TYPE) {
         output->append(std::to_string(m_content.intValue));
     }
     if(m_valueType == FLOAT_TYPE) {
         output->append(std::to_string(m_content.floatValue));
+    }
+
+    if(m_valueType == BOOL_TYPE)
+    {
+        if(m_content.boolValue) {
+            output->append("true");
+        } else {
+            output->append("false");
+        }
     }
 
     return out;
@@ -413,6 +442,22 @@ DataValue::setValue(const float &item)
     m_valueType = FLOAT_TYPE;
 
     m_content.floatValue = item;
+}
+
+/**
+ * @brief writes a new boolean into the data-value
+ */
+void
+DataValue::setValue(const bool &item)
+{
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
+    m_type = VALUE_TYPE;
+    m_valueType = BOOL_TYPE;
+
+    m_content.boolValue = item;
 }
 
 //===================================================================

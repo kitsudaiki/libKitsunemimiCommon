@@ -49,6 +49,7 @@ public:
         STRING_TYPE = 1,
         INT_TYPE = 2,
         FLOAT_TYPE = 3,
+        BOOL_TYPE = 4,
     };
 
     // getter
@@ -83,6 +84,7 @@ public:
     const std::string getString() const;
     int getInt();
     float getFloat();
+    bool getBool();
 
 protected:
     dataTypes m_type = UNINIT_TYPE;
@@ -103,6 +105,7 @@ public:
     DataValue(const std::string &text);
     DataValue(const int value);
     DataValue(const float value);
+    DataValue(const bool value);
     ~DataValue();
 
     // setter
@@ -110,6 +113,7 @@ public:
     void setValue(const std::string &item);
     void setValue(const int &item);
     void setValue(const float &item);
+    void setValue(const bool &item);
 
     // getter
     DataItem* operator[](const std::string);
@@ -134,6 +138,7 @@ public:
         char* stringValue;
         int intValue;
         float floatValue;
+        bool boolValue;
     };
 
     DataValueContent m_content;

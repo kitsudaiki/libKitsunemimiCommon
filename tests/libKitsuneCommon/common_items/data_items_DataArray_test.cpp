@@ -40,7 +40,7 @@ DataItems_DataArray_Test::append_test()
 {
     DataArray array;
     DataValue defaultValue;
-    DataValue stringValue("test");
+    DataValue stringValue(std::string("test"));
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
@@ -60,7 +60,7 @@ DataItems_DataArray_Test::operator_test()
 {
     DataArray array = initTestArray();
 
-    UNITTEST(array[1]->getString(), "test");
+    UNITTEST(array[1]->toString(), "\"test\"");
 
     // negative tests
     bool isNullptr = array[10] == nullptr;
@@ -213,7 +213,7 @@ DataItems_DataArray_Test::initTestArray()
 {
     DataArray array;
     DataValue defaultValue;
-    DataValue stringValue("test");
+    DataValue stringValue(std::string("test"));
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
