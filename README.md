@@ -4,7 +4,32 @@
 
 This library contains some functions, I need for my other projects. There are functions for memory-handling, thread-handling, data representation and testing.
 
-This is the first of my repositories that I made open-source. There will come much more, but this should be my first step.
+### Content Overview
+
+#### Common items
+
+These are classes for data-representation. At the moment there are data-items and table-items. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
+
+#### Data buffer
+
+This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
+
+#### Threads
+
+This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread (this feature is still a bit incomplete, because it has 4 threads as max number of threads).
+
+#### Tests
+
+This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
+
+#### Statemachine
+
+It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
+
+#### Common methods
+
+These contains some commonly used mehtods. At the moment there are only two, but there will come more.
+
 
 ### About my kitsune libraries
 
@@ -17,33 +42,6 @@ At the moment there are over 10 Kitsune-libraries an multiple tools in my privat
 All my projects are mirrored to gitlab, where I have still my gitlab-ci runner. 
 
 I don't really like it to write much comments into header-files. More exactly I absolutly hate it, when I have to search the provided functions of a header between a massive amount of comments. Header-files are for me primary to have an overview, of all provided functions, which I have see as fast as possible. Comments of functions, parameters and return-values in my code are only written into the source-file. So when something is unclear for a specific method, than look into the source-file. If the comment there are not helpful for you, then please write me a mail or an issue to fix this. 
-
-## Content Overview
-
-### Common items
-
-These are classes for data-representation. At the moment there are data-items and table-items. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
-
-### Data buffer
-
-This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
-
-### Threads
-
-This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread (this feature is still a bit incomplete, because it has 4 threads as max number of threads).
-
-### Tests
-
-This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
-
-### Statemachine
-
-It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
-
-### Common methods
-
-These contains some commonly used mehtods. At the moment there are only two, but there will come more.
-
 
 ## Build
 
@@ -86,10 +84,10 @@ After running the build-script:
 └── result
     ├── include
     │   └── libKitsuneCommon
-    ├── libKitsuneCommon.so -> libKitsuneCommon.so.0.5.0
-    ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.5.0
-    ├── libKitsuneCommon.so.0.5 -> libKitsuneCommon.so.0.5.0
-    └── libKitsuneCommon.so.0.5.0
+    ├── libKitsuneCommon.so -> libKitsuneCommon.so.0.5.1
+    ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.5.1
+    ├── libKitsuneCommon.so.0.5 -> libKitsuneCommon.so.0.5.1
+    └── libKitsuneCommon.so.0.5.1
 ```
 
 It create automatic a `build` and `result` directory in the directory, where you have cloned the project. At first it build all into the `build`-directory and after all build-steps are finished, it copy the include directory from the cloned repository and the build library into the `result`-directory. So you have all in one single place.
