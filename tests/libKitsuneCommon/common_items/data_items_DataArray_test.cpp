@@ -40,7 +40,7 @@ DataItems_DataArray_Test::append_test()
 {
     DataArray array;
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
@@ -213,7 +213,7 @@ DataItems_DataArray_Test::initTestArray()
 {
     DataArray array;
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
