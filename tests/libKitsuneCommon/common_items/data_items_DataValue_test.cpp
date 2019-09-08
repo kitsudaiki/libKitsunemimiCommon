@@ -95,7 +95,7 @@ DataItems_DataValue_Test::copy_test()
 {
     // init
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
@@ -136,7 +136,7 @@ void
 DataItems_DataValue_Test::toString_test()
 {
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
@@ -155,7 +155,7 @@ void
 DataItems_DataValue_Test::getType_test()
 {
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
@@ -204,7 +204,7 @@ void
 DataItems_DataValue_Test::getString_getInt_getFloat_getBool_test()
 {
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
@@ -247,7 +247,7 @@ void
 DataItems_DataValue_Test::getValueType_test()
 {
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
@@ -268,7 +268,7 @@ DataItems_DataValue_Test::setValue_test()
     DataValue defaultValue;
 
     // string-value
-    defaultValue.setValue(std::string("test"));
+    defaultValue.setValue("test");
     UNITTEST(defaultValue.getValueType(), DataItem::STRING_TYPE);
     UNITTEST(std::string(defaultValue.m_content.stringValue), "test");
 

@@ -210,6 +210,21 @@ DataValue::DataValue()
 }
 
 /**
+ * @brief data-value for char-arrays
+ */
+DataValue::DataValue(const char *text)
+{
+    m_type = VALUE_TYPE;
+    m_valueType = STRING_TYPE;
+
+    size_t len = strlen(text);
+
+    m_content.stringValue = new char[len+1];
+    strncpy(m_content.stringValue, text, len);
+    m_content.stringValue[len] = '\0';
+}
+
+/**
  * @brief data-value for strings
  */
 DataValue::DataValue(const std::string &text)
@@ -392,6 +407,26 @@ DataValue::toString(const bool,
     }
 
     return out;
+}
+
+/**
+ * @brief writes a new string into the data-value
+ */
+void
+DataValue::setValue(const char *item)
+{
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
+    m_type = VALUE_TYPE;
+    m_valueType = STRING_TYPE;
+
+    size_t len = strlen(item);
+
+    m_content.stringValue = new char[len+1];
+    strncpy(m_content.stringValue, item, len);
+    m_content.stringValue[len] = '\0';
 }
 
 /**

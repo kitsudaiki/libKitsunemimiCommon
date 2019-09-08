@@ -197,7 +197,7 @@ DataItems_DataMap_Test::insert_test()
 {
     DataMap object;
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
@@ -277,7 +277,7 @@ DataItems_DataMap_Test::initTestObject()
 {
     DataMap object;
     DataValue defaultValue;
-    DataValue stringValue(std::string("test"));
+    DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 

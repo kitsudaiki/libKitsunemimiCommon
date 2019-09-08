@@ -102,6 +102,7 @@ class DataValue : public DataItem
 {
 public:
     DataValue();
+    DataValue(const char* text);
     DataValue(const std::string &text);
     DataValue(const int value);
     DataValue(const float value);
@@ -110,6 +111,7 @@ public:
 
     // setter
     dataValueTypes getValueType();
+    void setValue(const char *item);
     void setValue(const std::string &item);
     void setValue(const int &item);
     void setValue(const float &item);
