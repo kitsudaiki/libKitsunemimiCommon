@@ -92,7 +92,7 @@ DataItems_DataMap_Test::remove_test()
     UNITTEST(object.remove(0), true);
     UNITTEST(object.remove("hmm"), true);
 
-    UNITTEST(object.get(1)->getString(), "42.500000");
+    UNITTEST(object.get(1)->toString(), "42.500000");
     UNITTEST(object.size(), 2);
 
     // negative tests
@@ -197,7 +197,7 @@ DataItems_DataMap_Test::insert_test()
 {
     DataMap object;
     DataValue defaultValue;
-    DataValue stringValue("test");
+    DataValue stringValue(std::string("test"));
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
@@ -246,10 +246,10 @@ DataItems_DataMap_Test::getValues_test()
 
     std::vector<DataItem*> values = object.getValues();
     UNITTEST(values.size(), 4);
-    UNITTEST(values.at(0)->getString(), "test");
-    UNITTEST(values.at(1)->getString(), "42");
-    UNITTEST(values.at(2)->getString(), "");
-    UNITTEST(values.at(3)->getString(), "42.500000");
+    UNITTEST(values.at(0)->toString(), "\"test\"");
+    UNITTEST(values.at(1)->toString(), "42");
+    UNITTEST(values.at(2)->toString(), "\"\"");
+    UNITTEST(values.at(3)->toString(), "42.500000");
 }
 
 /**
@@ -277,7 +277,7 @@ DataItems_DataMap_Test::initTestObject()
 {
     DataMap object;
     DataValue defaultValue;
-    DataValue stringValue("test");
+    DataValue stringValue(std::string("test"));
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
