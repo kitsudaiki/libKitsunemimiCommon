@@ -66,7 +66,7 @@ public:
     // output
     virtual DataItem* copy() = 0;
     virtual std::string toString(bool indent=false,
-                                 std::string *output=nullptr,
+                                 std::string* output=nullptr,
                                  uint32_t step=0) = 0;
 
     // checker
@@ -74,6 +74,10 @@ public:
     bool isValue() const;
     bool isMap() const;
     bool isArray() const;
+    bool isStringValue() const;
+    bool isIntValue() const;
+    bool isFloatValue() const;
+    bool isBoolValue() const;
 
     // converter
     DataArray* toArray();

@@ -60,7 +60,7 @@ DataItems_DataArray_Test::operator_test()
 {
     DataArray array = initTestArray();
 
-    UNITTEST(array[1]->toString(), "\"test\"");
+    UNITTEST(array[1]->toString(), "test");
 
     // negative tests
     bool isNullptr = array[10] == nullptr;
