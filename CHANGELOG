@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.5.2] - 2019-09-15
+
+### Changed
+- quotes around string in toString are now only added, the its calld by the DataMap or DataArray
+  (this is basically an API-break, but its necessary for libKitsuneJson and to few for a 0.6 tag)
+
+
 ## [0.5.1] - 2019-09-08
 
 ### Added
