@@ -74,6 +74,54 @@ DataItem::isArray() const
 }
 
 /**
+ * @brief check if DataItem is a String-Value
+ */
+bool
+DataItem::isStringValue() const
+{
+    if(m_valueType == STRING_TYPE) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief check if DataItem is a int-Value
+ */
+bool
+DataItem::isIntValue() const
+{
+    if(m_valueType == INT_TYPE) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief check if DataItem is a float-Value
+ */
+bool
+DataItem::isFloatValue() const
+{
+    if(m_valueType == FLOAT_TYPE) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief check if DataItem is a bool-Value
+ */
+bool
+DataItem::isBoolValue() const
+{
+    if(m_valueType == BOOL_TYPE) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * @brief convert to a DataArray
  */
 DataArray*
@@ -385,14 +433,13 @@ DataValue::toString(const bool,
 
     if(m_valueType == STRING_TYPE)
     {
-        output->append("\"");
         output->append(std::string(m_content.stringValue));
-        output->append("\"");
     }
 
     if(m_valueType == INT_TYPE) {
         output->append(std::to_string(m_content.intValue));
     }
+
     if(m_valueType == FLOAT_TYPE) {
         output->append(std::to_string(m_content.floatValue));
     }
@@ -761,6 +808,7 @@ DataMap::toString(const bool indent,
         output = &out;
     }
 
+    // begin map
     bool firstPring = false;
     output->append("{");
 
@@ -780,26 +828,41 @@ DataMap::toString(const bool indent,
             }
             firstPring = true;
 
+            // add key
             addIndent(output, indent, level+1);
-
-            output->append("\"");
             output->append(it->first);
-            output->append("\"");
+
             output->append(":");
 
             if(indent == true) {
                 output->append(" ");
             }
 
-            // TODO: add unit-tests for nullptr-case
-            if(it->second == nullptr) {
+            // add value
+            if(it->second == nullptr)
+            {
+                // TODO: add unit-tests for nullptr-case
                 output->append("NULL");
-            } else {
+            }
+            else
+            {
+                // if value is string-item, then set quotes
+                if(it->second->isStringValue()) {
+                    output->append("\"");
+                }
+
+                // convert value of item into stirng
                 it->second->toString(indent, output, level+1);
+
+                // if value is string-item, then set quotes
+                if(it->second->isStringValue()) {
+                    output->append("\"");
+                }
             }
         }
     }
 
+    // close map
     addIndent(output, indent, level);
     output->append("}");
 
@@ -984,25 +1047,40 @@ DataArray::toString(const bool indent,
         output = &out;
     }
 
+    // begin array
     output->append("[");
     addIndent(output, indent, level+1);
 
     std::vector<DataItem*>::iterator it;
     for(it = m_array.begin(); it != m_array.end(); it++)
     {
+        // separate items of the array with comma
         if(it != m_array.begin())
         {
             output->append(",");
             addIndent(output, indent, level+1);
         }
 
+        // check value
         if((*it) == nullptr) {
             continue;
         }
 
+        // if value is string-item, then set quotes
+        if((*it)->isStringValue()) {
+            output->append("\"");
+        }
+
+        // convert value of item into stirng
         (*it)->toString(indent, output, level+1);
+
+        // if value is string-item, then set quotes
+        if((*it)->isStringValue()) {
+            output->append("\"");
+        }
     }
 
+    // close array
     addIndent(output, indent, level);
     output->append("]");
 

@@ -125,14 +125,14 @@ DataItems_DataMap_Test::toString_test()
 {
     DataMap object = initTestObject();
 
-    std::string compare = "{\"asdf\":\"test\",\"hmm\":42,\"poi\":\"\",\"xyz\":42.500000}";
+    std::string compare = "{asdf:\"test\",hmm:42,poi:\"\",xyz:42.500000}";
     UNITTEST(object.toString(), compare);
 
     compare = "{\n"
-              "    \"asdf\": \"test\",\n"
-              "    \"hmm\": 42,\n"
-              "    \"poi\": \"\",\n"
-              "    \"xyz\": 42.500000\n"
+              "    asdf: \"test\",\n"
+              "    hmm: 42,\n"
+              "    poi: \"\",\n"
+              "    xyz: 42.500000\n"
               "}";
     UNITTEST(object.toString(true), compare);
 }
@@ -246,9 +246,9 @@ DataItems_DataMap_Test::getValues_test()
 
     std::vector<DataItem*> values = object.getValues();
     UNITTEST(values.size(), 4);
-    UNITTEST(values.at(0)->toString(), "\"test\"");
+    UNITTEST(values.at(0)->toString(), "test");
     UNITTEST(values.at(1)->toString(), "42");
-    UNITTEST(values.at(2)->toString(), "\"\"");
+    UNITTEST(values.at(2)->toString(), "");
     UNITTEST(values.at(3)->toString(), "42.500000");
 }
 

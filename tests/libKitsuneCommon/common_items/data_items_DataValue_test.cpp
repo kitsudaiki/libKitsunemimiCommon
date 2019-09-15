@@ -141,8 +141,8 @@ DataItems_DataValue_Test::toString_test()
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
 
-    UNITTEST(defaultValue.toString(), "\"\"");
-    UNITTEST(stringValue.toString(), "\"test\"");
+    UNITTEST(defaultValue.toString(), "");
+    UNITTEST(stringValue.toString(), "test");
     UNITTEST(intValue.toString(), "42");
     UNITTEST(floatValue.toString(), "42.500000");
     UNITTEST(boolValue.toString(), "true");
