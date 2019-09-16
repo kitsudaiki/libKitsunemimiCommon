@@ -1,5 +1,9 @@
 # libKitsuneCommon
 
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/tobiasanker/libKitsuneCommon?label=build%20and%20test&style=flat-square)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tobiasanker/libKitsuneCommon?style=flat-square)
+![GitHub](https://img.shields.io/github/license/tobiasanker/libKitsuneCommon?style=flat-square)
+
 ## Description
 
 This library contains some functions, I need for my other projects. There are functions for memory-handling, thread-handling, data representation and testing.
