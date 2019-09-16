@@ -1,8 +1,9 @@
 # libKitsuneCommon
 
 ![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/tobiasanker/libKitsuneCommon?label=build%20and%20test&style=flat-square)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tobiasanker/libKitsuneCommon?style=flat-square)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tobiasanker/libKitsuneCommon?label=version&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/tobiasanker/libKitsuneCommon?style=flat-square)
+![Platform](https://img.shields.io/badge/platform-Linux--x64-lightgrey?style=flat-square)
 
 ## Description
 
@@ -10,27 +11,59 @@ This library contains some functions, I need for my other projects. There are fu
 
 ### Content Overview
 
-#### Common items
+#### Data-Items
 
-These are classes for data-representation. At the moment there are data-items and table-items. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
+*include-file:* `common_items/data_items.h`
+
+These are classes for data-representation and comparable to the dict-objects of python. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
+
+#### Tables
+
+*include-file:* `common_items/table_item.h`
+
+This is for printing tables. Internally it use the data-items for handling the content. For example you could parse the json-formated content of an http message via libKitsuneJson, use the the resulting data-item-tree together with a header definition and print is as table. The results looks for example like this:
+
+```
++-----------------+---------+
+| Name of column1 | column2 |
++=================+=========+
+| this is a test  | k       |
++-----------------+---------+
+| another test    | asdf    |
++-----------------+---------+
+| x               |         |
+| y               |         |
+| z               |         |
++-----------------+---------+
+```
 
 #### Data buffer
+
+*include-file:* `buffering/data_buffer.h`
 
 This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
 
 #### Threads
 
+*include-file:* `threading/thread.h`
+
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread (this feature is still a bit incomplete, because it has 4 threads as max number of threads).
 
 #### Tests
+
+*include-file:* `testing/unit_test.h`
 
 This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
 
 #### Statemachine
 
+*include-file:* `statemachine/statemachine.h`
+
 It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
 
 #### Common methods
+
+*include-file:* `common_methods/string_methods.h` and `common_methods/vector_methods.h`
 
 These contains some commonly used mehtods. At the moment there are only two, but there will come more.
 
@@ -48,15 +81,19 @@ Here some common information about my projects and my code-styling. It's not com
 
 ### About my repositories in general
 
-1. All my projects are mirrored to gitlab, where I have still my gitlab-ci runner.
+1. I programming only on Linux. Sorry, but I have no time for supporting Windows and Mac.
 
-2. In each project-repository is an `build.sh`-script to make it easier for you to build the project by yourself. It download and link all required git-repositories in the correct version and link it all. This script is also used by the gitlab-ci-runner and so it is everytime up-to-date.
+2. Its not relevant for me, if someone beside me is using my small projects now. With the open-sourcing of the current projects, I force myself to a cleaner workflow and it's also training, when I hopefully bring my main project open-source in two or three years. But I would be happy, if there is already someone, who find my current public projects helpful.
 
-3. All my projects have unit-tests, which are executed by the ci-runner in each commit. Most of the functions are tested. Primary some negative-tests are missing. I try to avoid mocks in the tests as much as possible. Even tcp-socket-tests using the localhost for real data-transfer-tests.
+3. All my projects are mirrored to gitlab, where I have still my gitlab-ci runner.
 
-4. For the naming of variables, methods and classes, I use camel case and for the names of files and directories, I use snake case.
+4. In each project-repository is an `build.sh`-script to make it easier for you to build the project by yourself. It download and link all required git-repositories in the correct version and link it all. This script is also used by the gitlab-ci-runner and so it is everytime up-to-date.
 
-5. About my comments:
+5. All my projects have unit-tests, which are executed by the ci-runner in each commit. Most of the functions are tested. Primary some negative-tests are missing. I try to avoid mocks in the tests as much as possible. Even tcp-socket-tests using the localhost for real data-transfer-tests.
+
+6. For the naming of variables, methods and classes, I use camel case and for the names of files and directories, I use snake case.
+
+7. About my comments:
 
     - Many comments in my code seems to be a bit useless, but I like to use them for optical separation. I also write them, when I think I finished the programming task and while writing the comments I recheck the code under the comment again and often I find improvements or bugs while this.
 
@@ -64,7 +101,7 @@ Here some common information about my projects and my code-styling. It's not com
 
     - I don't like it to write much comments into header-files. More exactly I absolutly hate it, when I have to search the provided functions of a header between a massive amount of comments. Header-files are for me primary to have an overview of all provided functions, which I want to see as fast as possible. Comments of functions, parameters and return-values in my code are only written into the source-files. So when something is unclear for a specific method, then look into the source-file. If the comment there are not helpful for you, then please write me a mail or an issue to fix this. 
 
-6. I try to avoid templates and macros as much as possible. I don't dislike them, but I only use them, when I don't have another solution. 
+8. I try to avoid templates and macros as much as possible. I don't dislike them, but I only use them, when I don't have another solution. 
 
 
 ## Build
