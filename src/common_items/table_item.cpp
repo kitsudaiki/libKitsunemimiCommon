@@ -130,7 +130,8 @@ TableItem::addColumn(const std::string &internalName,
         obj->insert("outer", new DataValue(internalName));
     }
 
-    return m_header->append(obj);
+    m_header->append(obj);
+    return true;
 }
 
 /**
@@ -248,7 +249,8 @@ TableItem::addRow(const std::vector<std::string> rowContent)
                     new DataValue(rowContent.at(x)));
     }
 
-    return m_body->append(obj);
+    m_body->append(obj);
+    return true;
 }
 
 /**

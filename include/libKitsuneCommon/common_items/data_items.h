@@ -204,7 +204,7 @@ public:
     ~DataArray();
 
     // add
-    bool append(DataItem* item);
+    void append(DataItem* item);
 
     // getter
     DataItem* operator[](const std::string key);
