@@ -143,10 +143,10 @@ After running the build-script:
 └── result
     ├── include
     │   └── libKitsuneCommon
-    ├── libKitsuneCommon.so -> libKitsuneCommon.so.0.5.2
-    ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.5.2
-    ├── libKitsuneCommon.so.0.5 -> libKitsuneCommon.so.0.5.2
-    └── libKitsuneCommon.so.0.5.2
+    ├── libKitsuneCommon.so -> libKitsuneCommon.so.0.5.3
+    ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.5.3
+    ├── libKitsuneCommon.so.0.5 -> libKitsuneCommon.so.0.5.3
+    └── libKitsuneCommon.so.0.5.3
 ```
 
 It create automatic a `build` and `result` directory in the directory, where you have cloned the project. At first it build all into the `build`-directory and after all build-steps are finished, it copy the include directory from the cloned repository and the build library into the `result`-directory. So you have all in one single place.
@@ -193,6 +193,7 @@ DataArray array;
 array.append(stringValue.copy());
 array.append(intValue.copy());
 array.append(floatValue.copy());
+array.append(nullptr);
 
 // init and fill map
 DataMap map;
@@ -218,7 +219,8 @@ std::string output = map.toString(true);
     "array": [
         "test",
         42,
-        42.500000
+        42.500000,
+        null
     ]
 }
 **/
