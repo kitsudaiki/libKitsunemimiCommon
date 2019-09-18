@@ -22,11 +22,11 @@ cd $LIB_KITSUNE_COMMON_DIR
 /usr/bin/make -j4
 
 # copy build-result and include-files into the result-directory
-cp "$LIB_KITSUNE_COMMON_DIR/src/libKitsuneCommon.so.0.5.2" "$RESULT_DIR/"
+cp "$LIB_KITSUNE_COMMON_DIR/src/libKitsuneCommon.so.0.5.3" "$RESULT_DIR/"
 cp -r "$DIR/include" "$RESULT_DIR/"
 
 # recreate symlinks
 cd "$RESULT_DIR/"
-ln -s libKitsuneCommon.so.0.5.2 libKitsuneCommon.so.0.5
-ln -s libKitsuneCommon.so.0.5.2 libKitsuneCommon.so.0
-ln -s libKitsuneCommon.so.0.5.2 libKitsuneCommon.so
+ln -s libKitsuneCommon.so.0.5.3 libKitsuneCommon.so.0.5
+ln -s libKitsuneCommon.so.0.5.3 libKitsuneCommon.so.0
+ln -s libKitsuneCommon.so.0.5.3 libKitsuneCommon.so
