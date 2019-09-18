@@ -79,7 +79,7 @@ void
 DataItems_DataMap_Test::getSize_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.size(), 4);
+    UNITTEST(object.size(), 5);
 }
 
 /**
@@ -92,8 +92,8 @@ DataItems_DataMap_Test::remove_test()
     UNITTEST(object.remove(0), true);
     UNITTEST(object.remove("hmm"), true);
 
-    UNITTEST(object.get(1)->toString(), "42.500000");
-    UNITTEST(object.size(), 2);
+    UNITTEST(object.get(2)->toString(), "42.500000");
+    UNITTEST(object.size(), 3);
 
     // negative tests
     UNITTEST(object.remove(10), false);
@@ -125,14 +125,19 @@ DataItems_DataMap_Test::toString_test()
 {
     DataMap object = initTestObject();
 
-    std::string compare = "{asdf:\"test\",hmm:42,poi:\"\",xyz:42.500000}";
+    std::string compare = "{\"asdf\":\"test\","
+                          "\"fail\":null,"
+                          "\"hmm\":42,"
+                          "\"poi\":\"\","
+                          "\"xyz\":42.500000}";
     UNITTEST(object.toString(), compare);
 
     compare = "{\n"
-              "    asdf: \"test\",\n"
-              "    hmm: 42,\n"
-              "    poi: \"\",\n"
-              "    xyz: 42.500000\n"
+              "    \"asdf\": \"test\",\n"
+              "    \"fail\": null,\n"
+              "    \"hmm\": 42,\n"
+              "    \"poi\": \"\",\n"
+              "    \"xyz\": 42.500000\n"
               "}";
     UNITTEST(object.toString(true), compare);
 }
@@ -205,6 +210,7 @@ DataItems_DataMap_Test::insert_test()
     UNITTEST(object.insert("asdf", stringValue.copy()), true);
     UNITTEST(object.insert("hmm", intValue.copy()), true);
     UNITTEST(object.insert("xyz", floatValue.copy()), true);
+    UNITTEST(object.insert("fail", nullptr), true);
 }
 
 /**
@@ -229,11 +235,12 @@ DataItems_DataMap_Test::getKeys_test()
     DataMap object = initTestObject();
 
     std::vector<std::string> keys = object.getKeys();
-    UNITTEST(keys.size(), 4);
+    UNITTEST(keys.size(), 5);
     UNITTEST(keys.at(0), "asdf");
-    UNITTEST(keys.at(1), "hmm");
-    UNITTEST(keys.at(2), "poi");
-    UNITTEST(keys.at(3), "xyz");
+    UNITTEST(keys.at(1), "fail");
+    UNITTEST(keys.at(2), "hmm");
+    UNITTEST(keys.at(3), "poi");
+    UNITTEST(keys.at(4), "xyz");
 }
 
 /**
@@ -245,11 +252,11 @@ DataItems_DataMap_Test::getValues_test()
     DataMap object = initTestObject();
 
     std::vector<DataItem*> values = object.getValues();
-    UNITTEST(values.size(), 4);
+    UNITTEST(values.size(), 5);
     UNITTEST(values.at(0)->toString(), "test");
-    UNITTEST(values.at(1)->toString(), "42");
-    UNITTEST(values.at(2)->toString(), "");
-    UNITTEST(values.at(3)->toString(), "42.500000");
+    UNITTEST(values.at(2)->toString(), "42");
+    UNITTEST(values.at(3)->toString(), "");
+    UNITTEST(values.at(4)->toString(), "42.500000");
 }
 
 /**
@@ -264,7 +271,7 @@ DataItems_DataMap_Test::contains_test()
     UNITTEST(object.contains("hmm"), true);
     UNITTEST(object.contains("xyz"), true);
 
-    UNITTEST(object.contains("fail"), false);
+    UNITTEST(object.contains("12345"), false);
 }
 
 /**
@@ -285,6 +292,7 @@ DataItems_DataMap_Test::initTestObject()
     object.insert("asdf", stringValue.copy());
     object.insert("hmm", intValue.copy());
     object.insert("xyz", floatValue.copy());
+    object.insert("fail", nullptr);
 
     return object;
 }

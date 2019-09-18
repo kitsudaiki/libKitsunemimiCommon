@@ -790,7 +790,11 @@ DataMap::copy()
     std::map<std::string, DataItem*>::iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
-        tempItem->insert(it->first, it->second->copy());
+        if(it->second == nullptr) {
+            tempItem->insert(it->first, nullptr);
+        } else {
+            tempItem->insert(it->first, it->second->copy());
+        }
     }
     return tempItem;
 }
@@ -809,55 +813,47 @@ DataMap::toString(const bool indent,
     }
 
     // begin map
-    bool firstPring = false;
+    bool firstRun = false;
     output->append("{");
 
-    for(uint8_t typeCounter = 1; typeCounter < 6; typeCounter++)
+    std::map<std::string, DataItem*>::iterator it;
+    for(it = m_map.begin(); it != m_map.end(); it++)
     {
-        std::map<std::string, DataItem*>::iterator it;
-        for(it = m_map.begin(); it != m_map.end(); it++)
+        if(firstRun) {
+            output->append(",");
+        }
+        firstRun = true;
+
+        // add key
+        addIndent(output, indent, level+1);
+        output->append("\"");
+        output->append(it->first);
+        output->append("\"");
+
+        output->append(":");
+
+        if(indent == true) {
+            output->append(" ");
+        }
+
+        // add value
+        if(it->second == nullptr)
         {
-            if(it->second != nullptr
-                    && it->second->getType() != typeCounter)
-            {
-                continue;
+            output->append("null");
+        }
+        else
+        {
+            // if value is string-item, then set quotes
+            if(it->second->isStringValue()) {
+                output->append("\"");
             }
 
-            if(firstPring) {
-                output->append(",");
-            }
-            firstPring = true;
+            // convert value of item into stirng
+            it->second->toString(indent, output, level+1);
 
-            // add key
-            addIndent(output, indent, level+1);
-            output->append(it->first);
-
-            output->append(":");
-
-            if(indent == true) {
-                output->append(" ");
-            }
-
-            // add value
-            if(it->second == nullptr)
-            {
-                // TODO: add unit-tests for nullptr-case
-                output->append("NULL");
-            }
-            else
-            {
-                // if value is string-item, then set quotes
-                if(it->second->isStringValue()) {
-                    output->append("\"");
-                }
-
-                // convert value of item into stirng
-                it->second->toString(indent, output, level+1);
-
-                // if value is string-item, then set quotes
-                if(it->second->isStringValue()) {
-                    output->append("\"");
-                }
+            // if value is string-item, then set quotes
+            if(it->second->isStringValue()) {
+                output->append("\"");
             }
         }
     }
@@ -1029,7 +1025,11 @@ DataArray::copy()
     DataArray* tempItem = new DataArray();
     for(uint32_t i = 0; i < m_array.size(); i++)
     {
-        tempItem->append(m_array[i]->copy());
+        if(m_array[i] == nullptr) {
+            tempItem->append(nullptr);
+        } else {
+            tempItem->append(m_array[i]->copy());
+        }
     }
     return tempItem;
 }
@@ -1061,22 +1061,25 @@ DataArray::toString(const bool indent,
             addIndent(output, indent, level+1);
         }
 
-        // check value
-        if((*it) == nullptr) {
-            continue;
+        // add value
+        if((*it) == nullptr)
+        {
+            output->append("null");
         }
+        else
+        {
+            // if value is string-item, then set quotes
+            if((*it)->isStringValue()) {
+                output->append("\"");
+            }
 
-        // if value is string-item, then set quotes
-        if((*it)->isStringValue()) {
-            output->append("\"");
-        }
+            // convert value of item into stirng
+            (*it)->toString(indent, output, level+1);
 
-        // convert value of item into stirng
-        (*it)->toString(indent, output, level+1);
-
-        // if value is string-item, then set quotes
-        if((*it)->isStringValue()) {
-            output->append("\"");
+            // if value is string-item, then set quotes
+            if((*it)->isStringValue()) {
+                output->append("\"");
+            }
         }
     }
 
@@ -1089,18 +1092,11 @@ DataArray::toString(const bool indent,
 
 /**
  * @brief add a new item to the array
- *
- * @return false, if new item-pointer is nullptr, else true
  */
-bool
+void
 DataArray::append(DataItem* item)
 {
-    if(item == nullptr) {
-        return false;
-    }
-
     m_array.push_back(item);
-    return true;
 }
 
 

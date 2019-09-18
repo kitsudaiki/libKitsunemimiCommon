@@ -44,12 +44,13 @@ DataItems_DataArray_Test::append_test()
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
-    UNITTEST(array.append(defaultValue.copy()), true);
-    UNITTEST(array.append(stringValue.copy()), true);
-    UNITTEST(array.append(intValue.copy()), true);
-    UNITTEST(array.append(floatValue.copy()), true);
+    array.append(defaultValue.copy());
+    array.append(stringValue.copy());
+    array.append(intValue.copy());
+    array.append(floatValue.copy());
+    array.append(nullptr);
 
-    UNITTEST(array.append(nullptr), false);
+    UNITTEST(array.size(), 5);
 }
 
 /**
@@ -93,7 +94,7 @@ void
 DataItems_DataArray_Test::getSize_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.size(), 4);
+    UNITTEST(array.size(), 5);
 }
 
 /**
@@ -107,7 +108,7 @@ DataItems_DataArray_Test::remove_test()
     UNITTEST(array.remove("2"), true);
 
     UNITTEST(array.get(1)->getInt(), 42);
-    UNITTEST(array.size(), 2);
+    UNITTEST(array.size(), 3);
 
     // negative tests
     UNITTEST(array.remove(10), false);
@@ -139,14 +140,15 @@ DataItems_DataArray_Test::toString_test()
 {
     DataArray array = initTestArray();
 
-    std::string compare = "[\"\",\"test\",42,42.500000]";
+    std::string compare = "[\"\",\"test\",42,42.500000,null]";
     UNITTEST(array.toString(), compare);
 
     compare = "[\n"
               "    \"\",\n"
               "    \"test\",\n"
               "    42,\n"
-              "    42.500000\n"
+              "    42.500000,\n"
+              "    null\n"
               "]";
     UNITTEST(array.toString(true), compare);
 }
@@ -221,6 +223,7 @@ DataItems_DataArray_Test::initTestArray()
     array.append(stringValue.copy());
     array.append(intValue.copy());
     array.append(floatValue.copy());
+    array.append(nullptr);
 
     return array;
 }
