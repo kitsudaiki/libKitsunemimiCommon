@@ -1,11 +1,11 @@
 /**
- *  @file    string_methods.h
+ *  @file       string_methods.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      often used methods for string-operations
  *
- *  @copyright MIT License
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @brief often used methods for string-operations
+ *  @copyright  MIT License
  */
 
 #ifndef STRING_METHODS_H

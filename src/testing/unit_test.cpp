@@ -1,15 +1,15 @@
 /**
- *  @file    unit_test.cpp
+ *  @file       unit_test.cpp
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      This is in all my projects used for unit-tests.
  *
- *  @copyright MIT License
+ *  @details    It counts all successful and failed
+ *              calls of the UNITTEST and UNITTEST_NEG macro. In case of a failed macro-call, it
+ *              shows the file-name, linenumer and method-name of the failed test.
  *
- *  @brief helper-class for unit-tests
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail This is in all my projects used for unit-tests. It counts all successful and failed
- *          calls of the UNITTEST and UNITTEST_NEG macro. In case of a failed macro-call, it
- *          shows the file-name, linenumer and method-name of the failed test.
+ *  @copyright  MIT License
  */
 
 #include <testing/unit_test.h>

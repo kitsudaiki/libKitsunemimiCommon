@@ -1,15 +1,15 @@
 /**
- *  @file    data_buffer_methods.cpp
+ *  @file       data_buffer_methods.cpp
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      Methods for the data-buffer.
  *
- *  @copyright MIT License
+ *  @details    Besause I don't wanted to press all the methods into the data-buffer struct-object
+ *              I separated these into this file without class. It for memory allocation and delete
+ *              in data-buffers.
  *
- *  @brief methods for the data-buffer
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail Besause I don't wanted to press all the methods into the data-buffer struct-object
- *          I separated these into this file without class. It for memory allocation and
- *          delete in data-buffers.
+ *  @copyright  MIT License
  */
 
 #include <buffering/data_buffer_methods.h>
@@ -148,6 +148,7 @@ resetBuffer(DataBuffer* buffer,
 /**
  * @brief allocate a number of aligned bytes
  *
+ * @param blockSize size of a single block for alignment. MUST be a multiple of 512.
  * @param numberOfBytes bytes to allocate
  *
  * @return pointer to the allocated memory or nullptr if blocksize is not a multiple of 512
@@ -181,7 +182,7 @@ alignedMalloc(const uint16_t blockSize,
  * @brief free aligned memory
  *        this method is a bit useless, but I wanted a equivalent for the alignedMalloc-method
  *
- * @param ptr pointer to the memory to free
+ * @param  ptr pointer to the memory to free
  *
  * @return true, if pointer not nullptr, else false
  */
