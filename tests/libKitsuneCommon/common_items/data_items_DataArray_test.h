@@ -24,6 +24,7 @@ public:
     DataItems_DataArray_Test();
 
 private:
+    void copy_assingment_operator_test();
     void operator_test();
     void get_test();
     void getSize_test();

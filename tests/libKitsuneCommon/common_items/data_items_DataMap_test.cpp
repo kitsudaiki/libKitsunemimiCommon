@@ -17,6 +17,7 @@ namespace Common
 DataItems_DataMap_Test::DataItems_DataMap_Test()
     : Kitsune::Common::UnitTest("DataItems_DataMap_Test")
 {
+    copy_assingment_operator_test();
     operator_test();
     get_test();
     getSize_test();
@@ -34,6 +35,18 @@ DataItems_DataMap_Test::DataItems_DataMap_Test()
     getKeys_test();
     getValues_test();
     contains_test();
+}
+
+/**
+ * copy_assingment_operator_test
+ */
+void
+DataItems_DataMap_Test::copy_assingment_operator_test()
+{
+    DataMap map = initTestObject();
+    DataMap mapCopy;
+    mapCopy = map;
+    UNITTEST(mapCopy.toString(), map.toString());
 }
 
 /**

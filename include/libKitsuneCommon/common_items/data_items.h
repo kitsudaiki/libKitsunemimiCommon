@@ -113,6 +113,8 @@ public:
     DataValue(const bool value);
     ~DataValue();
 
+    DataValue& operator=(const DataValue& other);
+
     // setter
     dataValueTypes getValueType();
     void setValue(const char *item);
@@ -159,6 +161,8 @@ public:
     DataMap();
     ~DataMap();
 
+    DataMap& operator=(const DataMap& other);
+
     // add
     bool insert(const std::string &key,
                 DataItem* value,
@@ -202,6 +206,8 @@ class DataArray : public DataItem
 public:
     DataArray();
     ~DataArray();
+
+    DataArray& operator=(const DataArray &other);
 
     // add
     void append(DataItem* item);

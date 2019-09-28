@@ -321,6 +321,21 @@ DataValue::DataValue(const bool value)
 DataValue::~DataValue() {}
 
 /**
+ * @brief assignment operator
+ */
+DataValue
+&DataValue::operator=(const DataValue &other)
+{
+    if(this != &other)
+    {
+        this->m_type = other.m_type;
+        this->m_valueType = other.m_valueType;
+        this->m_content = other.m_content;
+    }
+    return *this;
+}
+
+/**
  * @brief get type inside the data-value
  *
  * @return value-type
@@ -566,6 +581,36 @@ DataMap::~DataMap()
         delete tempItem;
     }
     m_map.clear();
+}
+
+/**
+ * @brief assignment operator
+ */
+DataMap
+&DataMap::operator=(const DataMap &other)
+{
+    if(this != &other)
+    {
+        this->m_type = other.m_type;
+        this->m_valueType = other.m_valueType;
+
+        this->m_map.clear();
+        std::map<std::string, DataItem*>::iterator it;
+        std::map<std::string, DataItem*> otherMap = other.m_map;
+        for(it = otherMap.begin(); it != otherMap.end(); it++)
+        {
+            if(it->second != nullptr)
+            {
+                this->m_map.insert(std::pair<std::string, DataItem*>(it->first,
+                                                                     it->second->copy()));
+            }
+            else
+            {
+                this->m_map.insert(std::pair<std::string, DataItem*>(it->first, nullptr));
+            }
+        }
+    }
+    return *this;
 }
 
 /**
@@ -918,6 +963,30 @@ DataArray::~DataArray()
         delete tempItem;
     }
     m_array.clear();
+}
+
+/**
+ * @brief copy-assignment operator
+ */
+DataArray
+&DataArray::operator=(const DataArray &other)
+{
+    if(this != &other)
+    {
+        this->m_type = other.m_type;
+        this->m_valueType = other.m_valueType;
+
+        this->m_array.clear();
+        for(uint32_t i = 0; i < other.m_array.size(); i++)
+        {
+            if(other.m_array[i] != nullptr) {
+                this->m_array.push_back(other.m_array[i]->copy());
+            } else {
+                this->m_array.push_back(nullptr);
+            }
+        }
+    }
+    return *this;
 }
 
 /**
