@@ -1,11 +1,11 @@
 /**
- *  @file    vector_methods.h
+ *  @file       vector_methods.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      often used methods for vector-operations
  *
- *  @copyright MIT License
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @brief often used methods for vector-operations
+ *  @copyright  MIT License
  */
 
 #ifndef VECTOR_METHODS_H

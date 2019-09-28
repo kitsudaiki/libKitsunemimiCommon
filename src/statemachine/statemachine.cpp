@@ -1,14 +1,13 @@
 /**
- *  @file    statemachine.cpp
+ *  @file       statemachine.cpp
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      Its only a simple statemachine in the moment.
  *
- *  @copyright MIT License
+ *  @details    Basically its only to change the state and check the current state.
  *
- *  @brief simple statemachine
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail Its only a simple statemachine in the moment. Basically its only to change the state
- *          and check the current state.
+ *  @copyright  MIT License
  */
 
 #include <statemachine/statemachine.h>
@@ -99,11 +98,11 @@ Statemachine::setCurrentState(const std::string &stateName)
 /**
  * @brief add a ne transition to another state
  *
- * @param state source-state of the transition
+ * @param stateName source-state of the transition
  * @param key key-value which identify the transistion
- * @param nextState next state with belongs to the spezific key
+ * @param nextStateName next state with belongs to the spezific key
  *
- * @retrun false if key already registerd or state or nextState doesn't exist, else true
+ * @return false if key already registerd or state or nextState doesn't exist, else true
  */
 bool
 Statemachine::addTransition(const std::string &stateName,

@@ -1,14 +1,13 @@
 /**
- *  @file    state.h
+ *  @file       state.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      This state-objects are for the internal usage of the statemachine.
  *
- *  @copyright MIT License
+ *  @details    They save all defined transitions.
  *
- *  @brief state for the statemachine
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail This state-objects are for the internal usage of the statemachine. They save all
- *          defined transitions.
+ *  @copyright  MIT License
  */
 
 #ifndef STATE_H
@@ -44,7 +43,7 @@ struct State
      * @param key key-value which identify the transistion
      * @param nextState next state with belongs to the spezific key
      *
-     * @retrun false if key already registerd, else true
+     * @return false if key already registerd, else true
      */
     bool
     addTransition(const std::string &key, State* nextState)

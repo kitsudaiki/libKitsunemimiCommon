@@ -1,14 +1,13 @@
 /**
- *  @file    statemachine.h
+ *  @file       statemachine.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      Its only a simple statemachine in the moment.
  *
- *  @copyright MIT License
+ *  @details    Basically its only to change the state and check the current state.
  *
- *  @brief simple statemachine
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail Its only a simple statemachine in the moment. Basically its only to change the state
- *          and check the current state.
+ *  @copyright  MIT License
  */
 
 #ifndef STATEMACHINE_H

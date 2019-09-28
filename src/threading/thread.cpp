@@ -1,16 +1,16 @@
 /**
- *  @file    thread.cpp
+ *  @file       thread.cpp
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      Common Thead-class.
  *
- *  @copyright MIT License
+ *  @details    This class is only a collection of some thread-function like blocking and so on
+ *              which I often use. This makes the creation of threads more easy for me. Additionally
+ *              this class provides the ability to bind a new one of this thread to a specific
+ *              cpu-thread.
  *
- *  @brief common thread-class
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail This class is only a collection of some thread-function like blocking and so on
- *          which I often use. This makes the creation of threads more easy for me. Additionally
- *          this class provides the ability to bind a new one of this thread to a specific
- *          cpu-thread.
+ *  @copyright  MIT License
  */
 
 #include <threading/thread.h>

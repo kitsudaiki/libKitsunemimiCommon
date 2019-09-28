@@ -1,15 +1,15 @@
 /**
- *  @file    data_buffer.h
+ *  @file       data_buffer.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      This is a simple buffer for binary-data.
  *
- *  @copyright MIT License
+ *  @details    The primary advantage is the easier resizing when adding new data. Internally it
+ *              uses alligned memory, because this is necessary for the direct read- and
+ *              write-operations of the libKitsunePersistence.
  *
- *  @brief data-buffer
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @detail This is a simple buffer for binary-data. The primary advantage is the easier resizing
- *          when adding new data. Internally it uses alligned memory, because this is necessary
- *          for the direct read- and write-operations of the libKitsunePersistence.
+ *  @copyright  MIT License
  */
 
 #ifndef DATA_BUFFER_H
@@ -76,7 +76,7 @@ struct DataBuffer
     }
 
     /**
-     * @brief simple additonal construct which use allready allocated memory.
+     * @brief Simple additonal construct which use allready allocated memory.
      *        If this existing buffer is not a multiple of the blocksize,
      *        it allocate new memory with a valid size.
      *
