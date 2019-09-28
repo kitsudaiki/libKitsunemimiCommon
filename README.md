@@ -649,6 +649,16 @@ removeEmptyStrings(&testVector);
 
 ```
 
+## Code-Documentation
+
+Documentation is buildable with doxygen:
+
+```
+doxygen Doxyfile
+```
+
+On Linux you need the packages `doxygen` and `graphviz`.
+
 
 ## Contributing
 
