@@ -17,6 +17,7 @@ namespace Common
 DataItems_DataArray_Test::DataItems_DataArray_Test()
     : Kitsune::Common::UnitTest("DataItems_DataArray_Test")
 {
+    copy_assingment_constructor_test();
     copy_assingment_operator_test();
     operator_test();
     get_test();
@@ -31,6 +32,17 @@ DataItems_DataArray_Test::DataItems_DataArray_Test()
 
     // array-exclusive
     append_test();
+}
+
+/**
+ * copy_assingment_constructor_test
+ */
+void
+DataItems_DataArray_Test::copy_assingment_constructor_test()
+{
+    DataArray array = initTestArray();
+    DataArray arrayCopy = array;
+    UNITTEST(arrayCopy.toString(), array.toString());
 }
 
 /**

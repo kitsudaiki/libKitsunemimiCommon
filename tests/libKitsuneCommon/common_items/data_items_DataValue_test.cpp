@@ -17,6 +17,7 @@ namespace Common
 DataItems_DataValue_Test::DataItems_DataValue_Test()
     : Kitsune::Common::UnitTest("DataItems_DataValue_Test")
 {
+    copy_assingment_constructor_test();
     copy_assingment_operator_test();
     operator_test();
     get_test();
@@ -34,6 +35,16 @@ DataItems_DataValue_Test::DataItems_DataValue_Test()
     setValue_test();
 }
 
+/**
+ * copy_assingment_constructor_test
+ */
+void
+DataItems_DataValue_Test::copy_assingment_constructor_test()
+{
+    DataValue value("test");
+    DataValue valueCopy = value;
+    UNITTEST(valueCopy.toString(), value.toString());
+}
 
 /**
  * copy_assingment_operator_test

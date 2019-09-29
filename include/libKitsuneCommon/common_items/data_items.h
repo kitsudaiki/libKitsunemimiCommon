@@ -111,6 +111,7 @@ public:
     DataValue(const int value);
     DataValue(const float value);
     DataValue(const bool value);
+    DataValue(const DataValue &other);
     ~DataValue();
 
     DataValue& operator=(const DataValue& other);
@@ -159,6 +160,7 @@ class DataMap : public DataItem
 {
 public:
     DataMap();
+    DataMap(const DataMap &other);
     ~DataMap();
 
     DataMap& operator=(const DataMap& other);
@@ -205,6 +207,7 @@ class DataArray : public DataItem
 {
 public:
     DataArray();
+    DataArray(const DataArray &other);
     ~DataArray();
 
     DataArray& operator=(const DataArray &other);

@@ -24,6 +24,7 @@ public:
     DataItems_DataMap_Test();
 
 private:
+    void copy_assingment_constructor_test();
     void copy_assingment_operator_test();
     void operator_test();
     void get_test();
