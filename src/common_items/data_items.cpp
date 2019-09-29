@@ -623,9 +623,17 @@ DataMap
     {
         this->m_type = other.m_type;
         this->m_valueType = other.m_valueType;
-
-        this->m_map.clear();
         std::map<std::string, DataItem*>::iterator it;
+
+        // clear map
+        for(it = this->m_map.begin(); it != this->m_map.end(); it++)
+        {
+            DataItem* item = it->second;
+            delete item;
+        }
+        this->m_map.clear();
+
+        // refill map
         std::map<std::string, DataItem*> otherMap = other.m_map;
         for(it = otherMap.begin(); it != otherMap.end(); it++)
         {
@@ -1024,7 +1032,15 @@ DataArray
         this->m_type = other.m_type;
         this->m_valueType = other.m_valueType;
 
+        // clear list
+        for(uint32_t i = 0; i < this->m_array.size(); i++)
+        {
+            DataItem* item = this->m_array[i];
+            delete item;
+        }
         this->m_array.clear();
+
+        // refill list
         for(uint32_t i = 0; i < other.m_array.size(); i++)
         {
             if(other.m_array[i] != nullptr) {
