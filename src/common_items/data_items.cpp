@@ -316,6 +316,16 @@ DataValue::DataValue(const bool value)
 }
 
 /**
+ * @brief copy-assingment-constructor
+ */
+DataValue::DataValue(const DataValue &other)
+{
+    m_type = other.m_type;
+    m_valueType = other.m_valueType;
+    m_content = other.m_content;
+}
+
+/**
  * @brief destructor
  */
 DataValue::~DataValue() {}
@@ -567,6 +577,26 @@ DataValue::setValue(const bool &item)
 DataMap::DataMap()
 {
     m_type = MAP_TYPE;
+}
+
+/**
+ * @brief copy-assingment-constructor
+ */
+DataMap::DataMap(const DataMap &other)
+{
+    m_type = other.m_type;
+    m_valueType = other.m_valueType;
+
+    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*> otherMap = other.m_map;
+    for(it = otherMap.begin(); it != otherMap.end(); it++)
+    {
+        if(it->second != nullptr) {
+            m_map.insert(std::pair<std::string, DataItem*>(it->first, it->second->copy()));
+        } else {
+            m_map.insert(std::pair<std::string, DataItem*>(it->first, nullptr));
+        }
+    }
 }
 
 /**
@@ -949,6 +979,24 @@ DataMap::insert(const std::string &key,
 DataArray::DataArray()
 {
     m_type = ARRAY_TYPE;
+}
+
+/**
+ * @brief copy-assingment-constructor
+ */
+DataArray::DataArray(const DataArray &other)
+{
+    m_type = other.m_type;
+    m_valueType = other.m_valueType;
+
+    for(uint32_t i = 0; i < other.m_array.size(); i++)
+    {
+        if(other.m_array[i] != nullptr) {
+            m_array.push_back(other.m_array[i]->copy());
+        } else {
+            m_array.push_back(nullptr);
+        }
+    }
 }
 
 /**
