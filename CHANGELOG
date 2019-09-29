@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.4] - 2019-09-29
+
+### Added
+- Doxyfile for generating code-documentation
+- copy-assingment-operator to DataMap, DataArray and DataValue
+- copy-assingment-constructor to DataMap, DataArray and DataValue
+
 
 ## [0.5.3] - 2019-09-18
 
