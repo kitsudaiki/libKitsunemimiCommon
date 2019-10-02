@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- Maximum thead number for thead-bindung is not hardcoded anymore
+
+
 ## [0.5.4] - 2019-09-29
 
 ### Added
