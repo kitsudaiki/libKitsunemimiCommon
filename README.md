@@ -48,7 +48,7 @@ This is a simple buffer for binary-data. The primary advantage is the easier res
 
 *include-file:* `threading/thread.h`
 
-This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread (this feature is still a bit incomplete, because it has 4 threads as max number of threads).
+This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread.
 
 #### Tests
 

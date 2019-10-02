@@ -48,10 +48,9 @@ bool
 Thread::bindThreadToCore(const int coreId)
 {
     // precheck
-    // TODO: get max-core-number of the system
-    int num_cores = 4;
+    uint32_t num_cores = std::thread::hardware_concurrency();;
     if(coreId < 0
-            || coreId >= num_cores)
+            || static_cast<uint32_t>(coreId) >= num_cores)
     {
         return false;
     }
@@ -104,7 +103,7 @@ Thread::start()
 bool
 Thread::waitForFinish()
 {
-    // TODO: check that the thread doesn't typ to stop itself,
+    // TODO: check that the thread doesn't try to wait for himself,
     //       because it results into a deadlock
 
     // precheck
@@ -128,7 +127,7 @@ Thread::waitForFinish()
 void
 Thread::stop()
 {
-    // TODO: check that the thread doesn't typ to stop itself,
+    // TODO: check that the thread doesn't try to stop itself,
     //       because it results into a deadlock
 
     // precheck
