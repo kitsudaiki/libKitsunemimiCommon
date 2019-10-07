@@ -12,8 +12,8 @@
  *  @copyright  MIT License
  */
 
-#include <buffering/data_buffer_methods.h>
-#include <buffering/data_buffer.h>
+#include <libKitsuneCommon/data_buffer_methods.h>
+#include <libKitsuneCommon/data_buffer.h>
 
 namespace Kitsune
 {

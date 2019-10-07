@@ -6,24 +6,24 @@ CONFIG += c++14
 VERSION = 0.5.4
 
 INCLUDEPATH += $$PWD \
-            ../include/libKitsuneCommon
+            ../include
 
 SOURCES += \
-    threading/thread.cpp \
-    statemachine/statemachine.cpp \
-    buffering/data_buffer_methods.cpp \
+    thread.cpp \
+    statemachine.cpp \
+    data_buffer_methods.cpp \
     common_items/data_items.cpp \
     common_items/table_item.cpp \
-    testing/unit_test.cpp
+    unit_test.cpp
 
 HEADERS += \
-    ../include/libKitsuneCommon/buffering/data_buffer.h \
-    ../include/libKitsuneCommon/buffering/data_buffer_methods.h \
+    ../include/libKitsuneCommon/data_buffer.h \
+    ../include/libKitsuneCommon/data_buffer_methods.h \
     ../include/libKitsuneCommon/common_methods/string_methods.h \
     ../include/libKitsuneCommon/common_methods/vector_methods.h \
     ../include/libKitsuneCommon/common_items/data_items.h \
-    ../include/libKitsuneCommon/statemachine/statemachine.h \
-    ../include/libKitsuneCommon/threading/thread.h \
-    statemachine/state.h \
+    ../include/libKitsuneCommon/statemachine.h \
+    ../include/libKitsuneCommon/thread.h \
+    state.h \
     ../include/libKitsuneCommon/common_items/table_item.h \
-    ../include/libKitsuneCommon/testing/unit_test.h
+    ../include/libKitsuneCommon/unit_test.h

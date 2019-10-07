@@ -10,8 +10,8 @@
  *  @copyright  MIT License
  */
 
-#include <statemachine/statemachine.h>
-#include <statemachine/state.h>
+#include <libKitsuneCommon/statemachine.h>
+#include <state.h>
 
 namespace Kitsune
 {

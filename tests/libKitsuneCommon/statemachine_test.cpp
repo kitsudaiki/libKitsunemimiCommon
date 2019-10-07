@@ -8,7 +8,7 @@
 
 #include "statemachine_test.h"
 
-#include <statemachine/statemachine.h>
+#include <libKitsuneCommon/statemachine.h>
 
 namespace Kitsune
 {

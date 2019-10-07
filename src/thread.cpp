@@ -13,8 +13,8 @@
  *  @copyright  MIT License
  */
 
-#include <threading/thread.h>
-#include <buffering/data_buffer.h>
+#include <libKitsuneCommon/thread.h>
+#include <libKitsuneCommon/data_buffer.h>
 
 namespace Kitsune
 {

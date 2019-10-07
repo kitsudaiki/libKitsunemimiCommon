@@ -8,7 +8,7 @@
 
 #include "vector_methods_test.h"
 
-#include <common_methods/vector_methods.h>
+#include <libKitsuneCommon/common_methods/vector_methods.h>
 
 namespace Kitsune
 {

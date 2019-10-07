@@ -40,25 +40,25 @@ This is for printing tables. Internally it use the data-items for handling the c
 
 #### Data buffer
 
-*include-file:* `buffering/data_buffer.h`
+*include-file:* `data_buffer.h`
 
 This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
 
 #### Threads
 
-*include-file:* `threading/thread.h`
+*include-file:* `thread.h`
 
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread.
 
 #### Tests
 
-*include-file:* `testing/unit_test.h`
+*include-file:* `unit_test.h`
 
 This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
 
 #### Statemachine
 
-*include-file:* `statemachine/statemachine.h`
+*include-file:* `statemachine.h`
 
 It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
 
@@ -378,7 +378,7 @@ One the first row is used here for the output
 The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
 
 ```cpp
-#include <buffering/data_buffer.h>
+#include <data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
@@ -402,7 +402,7 @@ testBuffer.reset();
 For more control you can also use the data-methods directly:
 
 ```cpp
-#include <buffering/data_buffer.h>
+#include <data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
@@ -429,7 +429,7 @@ The usage can be explained with the following examples:
 ```cpp
 // demo_thead.h
 
-#include <threading/thread.h>
+#include <thread.h>
 
 
 class DemoThread 
@@ -514,7 +514,7 @@ Example:
 ```cpp
 // demo_test.h
 
-#include <testing/unit_test.h>
+#include <unit_test.h>
 
 class Demo_Test 
     : public Kitsune::Common::UnitTest    // <-- connect with unit-tests
@@ -577,7 +577,7 @@ This is really a ultra simple statemachine, so the few functions can easily expl
 
 ```cpp
 
-#include <statemachine/statemachine.h>
+#include <statemachine.h>
 
 
 // create statemachine

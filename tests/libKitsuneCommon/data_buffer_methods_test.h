@@ -9,7 +9,7 @@
 #ifndef DATA_BUFFER_METHODS_TEST_H
 #define DATA_BUFFER_METHODS_TEST_H
 
-#include <testing/unit_test.h>
+#include <libKitsuneCommon/unit_test.h>
 
 namespace Kitsune
 {
