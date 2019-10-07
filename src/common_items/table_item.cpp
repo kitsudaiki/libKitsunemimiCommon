@@ -14,10 +14,10 @@
  */
 
 
-#include <common_items/table_item.h>
-#include <common_items/data_items.h>
+#include <libKitsuneCommon/common_items/table_item.h>
+#include <libKitsuneCommon/common_items/data_items.h>
 
-#include <common_methods/string_methods.h>
+#include <libKitsuneCommon/common_methods/string_methods.h>
 
 namespace Kitsune
 {

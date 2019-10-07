@@ -12,7 +12,7 @@
  *  @copyright  MIT License
  */
 
-#include <common_items/data_items.h>
+#include <libKitsuneCommon/common_items/data_items.h>
 
 namespace Kitsune
 {

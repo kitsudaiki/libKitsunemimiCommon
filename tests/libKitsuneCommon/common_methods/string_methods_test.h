@@ -9,7 +9,7 @@
 #ifndef STRING_METHODS_TEST_H
 #define STRING_METHODS_TEST_H
 
-#include <testing/unit_test.h>
+#include <libKitsuneCommon/testing/unit_test.h>
 
 namespace Kitsune
 {

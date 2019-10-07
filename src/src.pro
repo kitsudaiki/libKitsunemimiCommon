@@ -6,7 +6,7 @@ CONFIG += c++14
 VERSION = 0.5.4
 
 INCLUDEPATH += $$PWD \
-            ../include/libKitsuneCommon
+            ../include
 
 SOURCES += \
     threading/thread.cpp \

@@ -1,4 +1,4 @@
 INCLUDEPATH += $$PWD/src \
-               $$PWD/include/libKitsuneCommon
+               $$PWD/include
 
 

@@ -9,7 +9,7 @@
 #ifndef VECTOR_METHODS_TEST_H
 #define VECTOR_METHODS_TEST_H
 
-#include <testing/unit_test.h>
+#include <libKitsuneCommon/testing/unit_test.h>
 
 namespace Kitsune
 {

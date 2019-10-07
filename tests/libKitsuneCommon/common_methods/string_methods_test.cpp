@@ -8,7 +8,7 @@
 
 #include "string_methods_test.h"
 
-#include <common_methods/string_methods.h>
+#include <libKitsuneCommon/common_methods/string_methods.h>
 
 namespace Kitsune
 {

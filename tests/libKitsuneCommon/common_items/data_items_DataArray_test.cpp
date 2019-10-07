@@ -7,7 +7,7 @@
  */
 
 #include "data_items_DataArray_test.h"
-#include <common_items/data_items.h>
+#include <libKitsuneCommon/common_items/data_items.h>
 
 namespace Kitsune
 {
