@@ -3,7 +3,7 @@ QT       -= qt core gui
 TARGET = KitsuneCommon
 TEMPLATE = lib
 CONFIG += c++14
-VERSION = 0.5.4
+VERSION = 0.6.0
 
 INCLUDEPATH += $$PWD \
             ../include

@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [0.6.0]
+
+### Changed
+- file-structure
+- include paths
 
 ### Fixed
 - Maximum thead number for thead-bindung is not hardcoded anymore
