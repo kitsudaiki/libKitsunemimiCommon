@@ -12,7 +12,7 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsuneCommon/testing/unit_test.h>
+#include <libKitsuneCommon/unit_test.h>
 
 namespace Kitsune
 {

@@ -8,7 +8,7 @@
 
 #include "data_buffer_test.h"
 
-#include <libKitsuneCommon/buffering/data_buffer.h>
+#include <libKitsuneCommon/data_buffer.h>
 
 namespace Kitsune
 {

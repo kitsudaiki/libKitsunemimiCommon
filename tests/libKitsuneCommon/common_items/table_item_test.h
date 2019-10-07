@@ -9,7 +9,7 @@
 #ifndef TABLE_ITEM_TEST_H
 #define TABLE_ITEM_TEST_H
 
-#include <libKitsuneCommon/testing/unit_test.h>
+#include <libKitsuneCommon/unit_test.h>
 #include <libKitsuneCommon/common_items/table_item.h>
 
 namespace Kitsune

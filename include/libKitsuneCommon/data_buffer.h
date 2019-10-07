@@ -23,7 +23,7 @@
 #include <stdint.h>
 
 
-#include <libKitsuneCommon/buffering/data_buffer_methods.h>
+#include <libKitsuneCommon/data_buffer_methods.h>
 
 namespace Kitsune
 {

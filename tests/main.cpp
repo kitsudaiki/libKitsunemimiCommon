@@ -8,14 +8,14 @@
 
 #include <iostream>
 
-#include <libKitsuneCommon/buffering/data_buffer_test.h>
-#include <libKitsuneCommon/buffering/data_buffer_methods_test.h>
+#include <libKitsuneCommon/data_buffer_test.h>
+#include <libKitsuneCommon/data_buffer_methods_test.h>
 
 #include <libKitsuneCommon/common_methods/string_methods_test.h>
 #include <libKitsuneCommon/common_methods/vector_methods_test.h>
 
-#include <libKitsuneCommon/statemachine/state_test.h>
-#include <libKitsuneCommon/statemachine/statemachine_test.h>
+#include <libKitsuneCommon/state_test.h>
+#include <libKitsuneCommon/statemachine_test.h>
 
 #include <libKitsuneCommon/common_items/data_items_DataArray_test.h>
 #include <libKitsuneCommon/common_items/data_items_DataMap_test.h>

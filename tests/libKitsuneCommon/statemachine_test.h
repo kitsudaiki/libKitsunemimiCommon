@@ -9,7 +9,7 @@
 #ifndef STATEMACHINE_TEST_H
 #define STATEMACHINE_TEST_H
 
-#include <libKitsuneCommon/testing/unit_test.h>
+#include <libKitsuneCommon/unit_test.h>
 
 namespace Kitsune
 {

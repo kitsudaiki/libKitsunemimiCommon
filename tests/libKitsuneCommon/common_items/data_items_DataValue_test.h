@@ -9,7 +9,7 @@
 #ifndef DATAITEMS_DATAVALUE_TEST_H
 #define DATAITEMS_DATAVALUE_TEST_H
 
-#include <libKitsuneCommon/testing/unit_test.h>
+#include <libKitsuneCommon/unit_test.h>
 
 namespace Kitsune
 {
@@ -17,7 +17,8 @@ namespace Common
 {
 class DataValue;
 
-class DataItems_DataValue_Test : public Kitsune::Common::UnitTest
+class DataItems_DataValue_Test
+        : public Kitsune::Common::UnitTest
 {
 public:
     DataItems_DataValue_Test();
