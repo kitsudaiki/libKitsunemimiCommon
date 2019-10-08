@@ -42,7 +42,7 @@ public:
                        const std::string &childStateName);
 
     // runtime
-    bool goToNextState(const std::string &next);
+    bool goToNextState(const std::string &nextStateName);
     std::string getCurrentState() const;
     bool isInState(const std::string &stateName);
 

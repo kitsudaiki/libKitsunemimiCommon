@@ -175,25 +175,26 @@ Statemachine::addChildState(const std::string &stateName,
 /**
  * @brief got to the next state, if possible
  *
- * @param next the identifier of the next state of the statemachine
+ * @param nextStateName the identifier of the next state of the statemachine
  *
  * @return true, if there was the next requested state
  */
 bool
-Statemachine::goToNextState(const std::string &next)
+Statemachine::goToNextState(const std::string &nextStateName)
 {
-    if(m_currentState == nullptr) {
-        return false;
+    State* state = m_currentState;
+    while(state != nullptr)
+    {
+        State* nextState = state->next(nextStateName);
+        state = state->parent;
+        if(nextState != nullptr)
+        {
+            m_currentState = nextState;
+            return true;
+        }
     }
 
-    State* state = m_currentState->next(next);
-    if(state == nullptr) {
-        return false;
-    }
-
-    m_currentState = state;
-
-    return true;
+    return false;
 }
 
 /**

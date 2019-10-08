@@ -82,12 +82,6 @@ struct State
             }
             return tempState;
         }
-        else
-        {
-            if(parent != nullptr) {
-                return parent->next(key);
-            }
-        }
 
         return nullptr;
     }
