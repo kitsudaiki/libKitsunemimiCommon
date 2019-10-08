@@ -30,6 +30,7 @@ private:
     void getCurrentState_test();
     void setInitialChildState_test();
     void addChildState_test();
+    void isInState_test();
 };
 
 } // namespace Common
