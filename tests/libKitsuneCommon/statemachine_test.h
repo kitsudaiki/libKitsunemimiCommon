@@ -28,6 +28,8 @@ private:
     void addTransition_test();
     void goToNextState_test();
     void getCurrentState_test();
+    void setInitialChildState_test();
+    void addChildState_test();
 };
 
 } // namespace Common

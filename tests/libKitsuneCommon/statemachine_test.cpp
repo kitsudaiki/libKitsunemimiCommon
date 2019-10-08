@@ -106,5 +106,37 @@ Statemachine_Test::getCurrentState_test()
     UNITTEST(statemachine.getCurrentState(), "nextState");
 }
 
+/**
+ * setInitialChildState_test
+ */
+void
+Statemachine_Test::setInitialChildState_test()
+{
+    Statemachine statemachine;
+
+    statemachine.createNewState("sourceState");
+    statemachine.createNewState("nextState");
+
+    UNITTEST(statemachine.setInitialChildState("sourceState", "nextState"), true);
+    UNITTEST(statemachine.setInitialChildState("fail", "nextState"), false);
+    UNITTEST(statemachine.setInitialChildState("sourceState", "fail"), false);
+}
+
+/**
+ * addChildState_test
+ */
+void
+Statemachine_Test::addChildState_test()
+{
+    Statemachine statemachine;
+
+    statemachine.createNewState("sourceState");
+    statemachine.createNewState("nextState");
+
+    UNITTEST(statemachine.addChildState("sourceState", "nextState"), true);
+    UNITTEST(statemachine.addChildState("fail", "nextState"), false);
+    UNITTEST(statemachine.addChildState("sourceState", "fail"), false);
+}
+
 } // namespace Common
 } // namespace Kitsune

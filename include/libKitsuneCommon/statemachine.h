@@ -36,6 +36,10 @@ public:
     bool addTransition(const std::string &stateName,
                        const std::string &key,
                        const std::string &nextStateName);
+    bool setInitialChildState(const std::string &stateName,
+                              const std::string &initialChildStateName);
+    bool addChildState(const std::string &stateName,
+                       const std::string &childStateName);
 
     // runtime
     bool goToNextState(const std::string &next);
@@ -43,8 +47,9 @@ public:
 
 private:
     std::map<std::string, State*> m_allStates;
-
     State* m_currentState = nullptr;
+
+    State* getState(const std::string stateName);
 };
 
 } // namespace Common

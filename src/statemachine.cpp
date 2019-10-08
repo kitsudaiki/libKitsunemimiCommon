@@ -52,16 +52,14 @@ Statemachine::~Statemachine()
 bool
 Statemachine::createNewState(const std::string &stateName)
 {
-    std::map<std::string, State*>::iterator it;
-
     // check if state already exist
-    it = m_allStates.find(stateName);
-    if(it != m_allStates.end()) {
+    State* newState = getState(stateName);
+    if(newState != nullptr) {
         return false;
     }
 
     // add new state
-    State* newState = new State(stateName);
+    newState = new State(stateName);
     m_allStates.insert(std::pair<std::string, State*>(stateName, newState));
 
     // first created state is set as current stat to init the statemachine
@@ -82,15 +80,13 @@ Statemachine::createNewState(const std::string &stateName)
 bool
 Statemachine::setCurrentState(const std::string &stateName)
 {
-    std::map<std::string, State*>::iterator it;
-
     // check if state already exist
-    it = m_allStates.find(stateName);
-    if(it == m_allStates.end()) {
+    State* state = getState(stateName);
+    if(state == nullptr) {
         return false;
     }
 
-    m_currentState = it->second;
+    m_currentState = state;
 
     return true;
 }
@@ -109,24 +105,12 @@ Statemachine::addTransition(const std::string &stateName,
                             const std::string &key,
                             const std::string &nextStateName)
 {
-    // init
-    State* sourceState = nullptr;
-    State* nextState = nullptr;
-    std::map<std::string, State*>::iterator it;
+    State* sourceState = getState(stateName);
+    State* nextState = getState(nextStateName);
 
-    // check and get source-state
-    it = m_allStates.find(stateName);
-    if(it != m_allStates.end()) {
-        sourceState = it->second;
-    } else {
-        return false;
-    }
-
-    // check and get next-state
-    it = m_allStates.find(nextStateName);
-    if(it != m_allStates.end()) {
-        nextState = it->second;
-    } else {
+    if(sourceState == nullptr
+            || nextState == nullptr)
+    {
         return false;
     }
 
@@ -134,6 +118,58 @@ Statemachine::addTransition(const std::string &stateName,
     const bool success =  sourceState->addTransition(key, nextState);
 
     return success;
+}
+
+/**
+ * @brief set initial child state
+ *
+ * @param stateName source-state of the transition
+ * @param initialChildStateName
+ *
+ * @return false, if names doesn't exist, else true
+ */
+bool
+Statemachine::setInitialChildState(const std::string &stateName,
+                                   const std::string &initialChildStateName)
+{
+    State* sourceState = getState(stateName);
+    State* initialChildState = getState(initialChildStateName);
+
+    if(sourceState == nullptr
+            || initialChildState == nullptr)
+    {
+        return false;
+    }
+
+    sourceState->setInitialChildState(initialChildState);
+
+    return true;
+}
+
+/**
+ * @brief add one state as child state for another one
+ *
+ * @param stateName source-state of the transition
+ * @param childStateName
+ *
+ * @return false, if names doesn't exist, else true
+ */
+bool
+Statemachine::addChildState(const std::string &stateName,
+                            const std::string &childStateName)
+{
+    State* sourceState = getState(stateName);
+    State* childState = getState(childStateName);
+
+    if(sourceState == nullptr
+            || childState == nullptr)
+    {
+        return false;
+    }
+
+    sourceState->addChildState(childState);
+
+    return true;
 }
 
 /**
@@ -173,6 +209,26 @@ Statemachine::getCurrentState() const
     }
 
     return m_currentState->name;
+}
+
+/**
+ * @brief get state by name
+ *
+ * @param stateName name of the state
+ *
+ * @return nullptr, if state-name was not found, else pointer to the state
+ */
+State*
+Statemachine::getState(const std::string stateName)
+{
+    // check and get source-state
+    std::map<std::string, State*>::iterator it;
+    it = m_allStates.find(stateName);
+    if(it != m_allStates.end()) {
+        return it->second;
+    }
+
+    return nullptr;
 }
 
 } // namespace Common

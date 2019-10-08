@@ -20,6 +20,8 @@ State_Test::State_Test()
 {
     addTransition_test();
     next_test();
+    setInitialChildState_test();
+    addChildState_test();
 }
 
 /**
@@ -36,7 +38,6 @@ State_Test::addTransition_test()
     UNITTEST(sourceState.addTransition("go", &nextState), false);
 
     UNITTEST(sourceState.nextStates.size(), 2);
-
 }
 
 /**
@@ -60,6 +61,32 @@ State_Test::next_test()
     selctedState = sourceState.next("fail");
     isNullptr = selctedState == nullptr;
     UNITTEST(isNullptr, true);
+}
+
+/**
+ * setInitialChildState_test
+ */
+void
+State_Test::setInitialChildState_test()
+{
+    State sourceState("source");
+    State initialState("initial");
+
+    sourceState.setInitialChildState(&initialState);
+    UNITTEST(sourceState.initialChild->name, "initial");
+}
+
+/**
+ * addChildState_test
+ */
+void
+State_Test::addChildState_test()
+{
+    State sourceState("source");
+    State childState("child");
+
+    sourceState.addChildState(&childState);
+    UNITTEST(childState.parent->name, "source");
 }
 
 } // namespace Common

@@ -77,8 +77,7 @@ struct State
         if(it != nextStates.end())
         {
             State* tempState = it->second;
-            while(tempState->initialChild != nullptr)
-            {
+            if(tempState->initialChild != nullptr) {
                 tempState = tempState->initialChild;
             }
             return tempState;
@@ -91,6 +90,28 @@ struct State
         }
 
         return nullptr;
+    }
+
+    /**
+     * @brief set the initial child state
+     *
+     * @param child initial child state
+     */
+    void
+    setInitialChildState(State* child)
+    {
+        this->initialChild = child;
+    }
+
+    /**
+     * @brief add child state
+     *
+     * @param child new child state
+     */
+    void
+    addChildState(State* child)
+    {
+        child->parent = this;
     }
 };
 
