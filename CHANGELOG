@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- parent-child-states to statemachine
+
+
 ## [0.6.0] - 2019-10-07
 
 ### Changed
