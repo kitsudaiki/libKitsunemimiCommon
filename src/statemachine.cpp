@@ -212,6 +212,28 @@ Statemachine::getCurrentState() const
 }
 
 /**
+ * @brief check if in statemachine is in a specific state
+ *
+ * @param stateName name of the requested state
+ *
+ * @return true, if in requested state or in a child-state of the requested state, else false
+ */
+bool
+Statemachine::isInState(const std::string &stateName)
+{
+    State* state = m_currentState;
+    while(state != nullptr)
+    {
+        if(state->name == stateName) {
+            return true;
+        }
+        state = state->parent;
+    }
+
+    return false;
+}
+
+/**
  * @brief get state by name
  *
  * @param stateName name of the state

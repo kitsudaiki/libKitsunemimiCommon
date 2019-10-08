@@ -24,6 +24,7 @@ Statemachine_Test::Statemachine_Test()
     setInitialChildState_test();
     addChildState_test();
     getCurrentState_test();
+    isInState_test();
 }
 
 /**
@@ -150,6 +151,38 @@ Statemachine_Test::getCurrentState_test()
     statemachine.goToNextState("gogo");
 
     UNITTEST(statemachine.getCurrentState(), "targetState");
+}
+
+/**
+ * isInState_test
+ */
+void
+Statemachine_Test::isInState_test()
+{
+    Statemachine statemachine;
+
+    UNITTEST(statemachine.getCurrentState(), "");
+
+    // init state
+    statemachine.createNewState("sourceState");
+    statemachine.createNewState("nextState");
+    statemachine.createNewState("childState");
+    statemachine.createNewState("targetState");
+
+    // build state-machine
+    statemachine.addChildState("nextState", "childState");
+    statemachine.setInitialChildState("nextState", "childState");
+    statemachine.addTransition("sourceState", "go", "nextState");
+    statemachine.addTransition("nextState", "gogo", "targetState");
+
+    UNITTEST(statemachine.isInState("sourceState"), true);
+    UNITTEST(statemachine.isInState("fail"), false);
+
+    statemachine.goToNextState("go");
+
+    UNITTEST(statemachine.isInState("childState"), true);
+    UNITTEST(statemachine.isInState("nextState"), true);
+    UNITTEST(statemachine.isInState("sourceState"), false);
 }
 
 } // namespace Common

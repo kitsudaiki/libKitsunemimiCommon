@@ -44,6 +44,7 @@ public:
     // runtime
     bool goToNextState(const std::string &next);
     std::string getCurrentState() const;
+    bool isInState(const std::string &stateName);
 
 private:
     std::map<std::string, State*> m_allStates;
