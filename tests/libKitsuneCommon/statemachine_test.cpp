@@ -21,6 +21,8 @@ Statemachine_Test::Statemachine_Test()
     createNewState_test();
     addTransition_test();
     goToNextState_test();
+    setInitialChildState_test();
+    addChildState_test();
     getCurrentState_test();
 }
 
@@ -86,6 +88,38 @@ Statemachine_Test::goToNextState_test()
 }
 
 /**
+ * setInitialChildState_test
+ */
+void
+Statemachine_Test::setInitialChildState_test()
+{
+    Statemachine statemachine;
+
+    statemachine.createNewState("sourceState");
+    statemachine.createNewState("nextState");
+
+    UNITTEST(statemachine.setInitialChildState("sourceState", "nextState"), true);
+    UNITTEST(statemachine.setInitialChildState("fail", "nextState"), false);
+    UNITTEST(statemachine.setInitialChildState("sourceState", "fail"), false);
+}
+
+/**
+ * addChildState_test
+ */
+void
+Statemachine_Test::addChildState_test()
+{
+    Statemachine statemachine;
+
+    statemachine.createNewState("sourceState");
+    statemachine.createNewState("nextState");
+
+    UNITTEST(statemachine.addChildState("sourceState", "nextState"), true);
+    UNITTEST(statemachine.addChildState("fail", "nextState"), false);
+    UNITTEST(statemachine.addChildState("sourceState", "fail"), false);
+}
+
+/**
  * getCurrentState_test
  */
 void
@@ -95,15 +129,27 @@ Statemachine_Test::getCurrentState_test()
 
     UNITTEST(statemachine.getCurrentState(), "");
 
+    // init state
     statemachine.createNewState("sourceState");
     statemachine.createNewState("nextState");
+    statemachine.createNewState("childState");
+    statemachine.createNewState("targetState");
+
+    // build state-machine
+    statemachine.addChildState("nextState", "childState");
+    statemachine.setInitialChildState("nextState", "childState");
+    statemachine.addTransition("sourceState", "go", "nextState");
+    statemachine.addTransition("nextState", "gogo", "targetState");
 
     UNITTEST(statemachine.getCurrentState(), "sourceState");
 
-    statemachine.addTransition("sourceState", "go", "nextState");
     statemachine.goToNextState("go");
 
-    UNITTEST(statemachine.getCurrentState(), "nextState");
+    UNITTEST(statemachine.getCurrentState(), "childState");
+
+    statemachine.goToNextState("gogo");
+
+    UNITTEST(statemachine.getCurrentState(), "targetState");
 }
 
 } // namespace Common

@@ -25,7 +25,8 @@ public:
 private:
     void addTransition_test();
     void next_test();
-
+    void setInitialChildState_test();
+    void addChildState_test();
 };
 
 } // namespace Common

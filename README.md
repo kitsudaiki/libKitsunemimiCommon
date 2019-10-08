@@ -583,12 +583,18 @@ This is really a ultra simple statemachine, so the few functions can easily expl
 // create statemachine
 Statemachine testMachine;
 
-// add states
-testMachine.createNewState("sourceState");
-testMachine.createNewState("nextState");
+// init state
+statemachine.createNewState("sourceState");
+statemachine.createNewState("nextState");
+statemachine.createNewState("childState");
+statemachine.createNewState("targetState");
 
-// add transitions
-testMachine.addTransition("sourceState", "go", "nextState");
+// build state-machine
+statemachine.addChildState("nextState", "childState");
+statemachine.setInitialChildState("nextState", "childState");
+
+statemachine.addTransition("sourceState", "go", "nextState");
+statemachine.addTransition("nextState", "gogo", "targetState");
 
 // try to go to next state
 bool success = testMachine.goToNextState("go");
