@@ -144,7 +144,6 @@ After running the build-script:
 └── result
     ├── include
     │   └── libKitsuneCommon
-    ├── libKitsuneCommon.so -> libKitsuneCommon.so.0.6.0
     ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.6.0
     ├── libKitsuneCommon.so.0.6 -> libKitsuneCommon.so.0.6.0
     └── libKitsuneCommon.so.0.6.0
