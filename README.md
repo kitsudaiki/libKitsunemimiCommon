@@ -14,13 +14,13 @@ This library contains some functions, I need for my other projects. There are fu
 
 #### Data-Items
 
-*include-file:* `common_items/data_items.h`
+*include-file:* `libKitsuneCommon/common_items/data_items.h`
 
 These are classes for data-representation and comparable to the dict-objects of python. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
 
 #### Tables
 
-*include-file:* `common_items/table_item.h`
+*include-file:* `libKitsuneCommon/common_items/table_item.h`
 
 This is for printing tables. Internally it use the data-items for handling the content. For example you could parse the json-formated content of an http message via libKitsuneJson, use the the resulting data-item-tree together with a header definition and print is as table. The results looks for example like this:
 
@@ -40,31 +40,31 @@ This is for printing tables. Internally it use the data-items for handling the c
 
 #### Data buffer
 
-*include-file:* `data_buffer.h`
+*include-file:* `libKitsuneCommon/data_buffer.h`
 
 This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
 
 #### Threads
 
-*include-file:* `thread.h`
+*include-file:* `libKitsuneCommon/thread.h`
 
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread.
 
 #### Tests
 
-*include-file:* `unit_test.h`
+*include-file:* `libKitsuneCommon/unit_test.h`
 
 This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
 
 #### Statemachine
 
-*include-file:* `statemachine.h`
+*include-file:* `libKitsuneCommon/statemachine.h`
 
 It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
 
 #### Common methods
 
-*include-file:* `common_methods/string_methods.h` and `common_methods/vector_methods.h`
+*include-file:* `libKitsuneCommon/common_methods/string_methods.h` and `libKitsuneCommon/common_methods/vector_methods.h`
 
 These contains some commonly used mehtods. At the moment there are only two, but there will come more.
 
@@ -181,7 +181,7 @@ IMPORTANT: all getter here only return a pointer to the internal object. If you 
 To see all offered possebilities, which are provided by the data-items, please see the header-file `common_items/data_items.h`. There is nearly all self-explaining, because there are basically only getter and setter. So the following is only a minimal example:
 
 ```cpp
-#include <common_items/data_items.h>
+#include <libKitsuneCommon/common_items/data_items.h>
 
 // init some value
 DataValue stringValue("test");
@@ -252,7 +252,7 @@ Its primary to print informations coming from a REST-API response in form a json
 - manual filling of the table:
 
 ```cpp
-#include <common_items/table_item.h>
+#include <libKitsuneCommon/common_items/table_item.h>
 
 
 TableItem testItem;
@@ -285,7 +285,7 @@ here ouput has nwo the content:
 - fill with predefined informations:
 
 ```cpp
-#include <common_items/table_item.h>
+#include <libKitsuneCommon/common_items/table_item.h>
 
 DataArray header;
 /**
@@ -377,7 +377,7 @@ One the first row is used here for the output
 The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
 
 ```cpp
-#include <data_buffer.h>
+#include <libKitsuneCommon/data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
@@ -401,7 +401,7 @@ testBuffer.reset();
 For more control you can also use the data-methods directly:
 
 ```cpp
-#include <data_buffer.h>
+#include <libKitsuneCommon/data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
@@ -428,7 +428,7 @@ The usage can be explained with the following examples:
 ```cpp
 // demo_thead.h
 
-#include <thread.h>
+#include <libKitsuneCommon/thread.h>
 
 
 class DemoThread 
@@ -454,7 +454,7 @@ public:
 - It can be called like this for example:
 
 ```cpp
-#include <demo_thead.h>
+#include <libKitsuneCommon/demo_thead.h>
 
 int main()
 {
@@ -513,7 +513,7 @@ Example:
 ```cpp
 // demo_test.h
 
-#include <unit_test.h>
+#include <libKitsuneCommon/unit_test.h>
 
 class Demo_Test 
     : public Kitsune::Common::UnitTest    // <-- connect with unit-tests
@@ -576,7 +576,7 @@ This is really a ultra simple statemachine, so the few functions can easily expl
 
 ```cpp
 
-#include <statemachine.h>
+#include <libKitsuneCommon/statemachine.h>
 
 
 // create statemachine
@@ -620,7 +620,7 @@ Example:
 
 ```cpp
 
-#include <common_methods/string_methods.h>
+#include <libKitsuneCommon/common_methods/string_methods.h>
 
 
 std::string testString = "this is a test-string";
@@ -644,7 +644,7 @@ Example:
 
 ```cpp
 
-#include <common_methods/vector_methods.h>
+#include <libKitsuneCommon/common_methods/vector_methods.h>
 
 
 std::vector<std::string> testVector{"x","","y","z",""};
