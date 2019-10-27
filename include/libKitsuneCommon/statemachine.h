@@ -17,6 +17,7 @@
 #include <iostream>
 #include <map>
 #include <utility>
+#include <atomic>
 
 namespace Kitsune
 {
@@ -42,13 +43,15 @@ public:
                        const std::string &childStateName);
 
     // runtime
-    bool goToNextState(const std::string &nextStateName);
-    std::string getCurrentState() const;
+    bool goToNextState(const std::string &nextStateName,
+                       const std::string &requiredPreState = "");
+    std::string getCurrentState();
     bool isInState(const std::string &stateName);
 
 private:
     std::map<std::string, State*> m_allStates;
     State* m_currentState = nullptr;
+    std::atomic_flag m_state_lock = ATOMIC_FLAG_INIT;
 
     State* getState(const std::string stateName);
 };
