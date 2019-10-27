@@ -176,26 +176,32 @@ Statemachine::addChildState(const std::string &stateName,
  * @brief got to the next state, if possible
  *
  * @param nextStateName the identifier of the next state of the statemachine
+ * @param requiredPreState
  *
  * @return true, if there was the next requested state
  */
 bool
-Statemachine::goToNextState(const std::string &nextStateName)
+Statemachine::goToNextState(const std::string &nextStateName,
+                            const std::string &requiredPreState)
 {
     bool result = false;
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
                  ; // spin
 
-    State* state = m_currentState;
-    while(state != nullptr)
+    if(requiredPreState == ""
+            || requiredPreState == m_currentState->name)
     {
-        State* nextState = state->next(nextStateName);
-        state = state->parent;
-        if(nextState != nullptr)
+        State* state = m_currentState;
+        while(state != nullptr)
         {
-            m_currentState = nextState;
-            result = true;
-            break;
+            State* nextState = state->next(nextStateName);
+            state = state->parent;
+            if(nextState != nullptr)
+            {
+                m_currentState = nextState;
+                result = true;
+                break;
+            }
         }
     }
 
