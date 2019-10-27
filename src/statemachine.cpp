@@ -182,6 +182,10 @@ Statemachine::addChildState(const std::string &stateName,
 bool
 Statemachine::goToNextState(const std::string &nextStateName)
 {
+    bool result = false;
+    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+
     State* state = m_currentState;
     while(state != nullptr)
     {
@@ -190,11 +194,14 @@ Statemachine::goToNextState(const std::string &nextStateName)
         if(nextState != nullptr)
         {
             m_currentState = nextState;
-            return true;
+            result = true;
+            break;
         }
     }
 
-    return false;
+    m_state_lock.clear(std::memory_order_release);
+
+    return result;
 }
 
 /**
@@ -203,13 +210,19 @@ Statemachine::goToNextState(const std::string &nextStateName)
  * @return the state of the statemachine
  */
 std::string
-Statemachine::getCurrentState() const
+Statemachine::getCurrentState()
 {
-    if(m_currentState == nullptr) {
-        return "";
+    std::string result = "";
+
+    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+    if(m_currentState != nullptr) {
+        result = m_currentState->name;
     }
 
-    return m_currentState->name;
+    m_state_lock.clear(std::memory_order_release);
+
+    return result;
 }
 
 /**
@@ -222,16 +235,22 @@ Statemachine::getCurrentState() const
 bool
 Statemachine::isInState(const std::string &stateName)
 {
+    bool result = false;
+    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+
     State* state = m_currentState;
     while(state != nullptr)
     {
         if(state->name == stateName) {
-            return true;
+            result = true;
         }
         state = state->parent;
     }
 
-    return false;
+    m_state_lock.clear(std::memory_order_release);
+
+    return result;
 }
 
 /**
@@ -244,14 +263,20 @@ Statemachine::isInState(const std::string &stateName)
 State*
 Statemachine::getState(const std::string stateName)
 {
+    State* result = nullptr;
+    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+
     // check and get source-state
     std::map<std::string, State*>::iterator it;
     it = m_allStates.find(stateName);
     if(it != m_allStates.end()) {
-        return it->second;
+        result = it->second;
     }
 
-    return nullptr;
+    m_state_lock.clear(std::memory_order_release);
+
+    return result;
 }
 
 } // namespace Common
