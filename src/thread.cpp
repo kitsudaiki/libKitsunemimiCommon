@@ -34,7 +34,7 @@ Thread::Thread(int coreId)
  */
 Thread::~Thread()
 {
-    stop();
+    stopThread();
 }
 
 /**
@@ -75,7 +75,7 @@ Thread::bindThreadToCore(const int coreId)
  * @return false if already running, else true
  */
 bool
-Thread::start()
+Thread::startThread()
 {
     // precheck
     if(m_active) {
@@ -125,7 +125,7 @@ Thread::waitForFinish()
  * @brief stop a thread without killing the thread
  */
 void
-Thread::stop()
+Thread::stopThread()
 {
     // TODO: check that the thread doesn't try to stop itself,
     //       because it results into a deadlock

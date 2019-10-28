@@ -36,8 +36,8 @@ public:
     Thread(int coreId = -1);
     virtual ~Thread();
 
-    bool start();
-    void stop();
+    bool startThread();
+    void stopThread();
     bool waitForFinish();
 
     void continueThread();
