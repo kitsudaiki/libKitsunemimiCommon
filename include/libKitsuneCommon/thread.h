@@ -52,17 +52,17 @@ protected:
     bool m_abort = false;
     bool m_block = false;
     bool m_active = false;
-
     int m_coreId = -1;
 
+    // lock variables
     std::atomic_flag m_spin_lock = ATOMIC_FLAG_INIT;
     std::mutex m_mutex;
     std::mutex m_cvMutex;
     std::condition_variable m_cv;
 
+    // lock methods
     void blockThread();
     void sleepThread(const uint32_t microSeconds);
-
     void mutexLock();
     void mutexUnlock();
     void spinLock();
