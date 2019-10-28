@@ -179,6 +179,25 @@ Thread::mutexUnlock()
 }
 
 /**
+ * @brief spin-lock
+ */
+void
+Thread::spinLock()
+{
+    while (m_spin_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+}
+
+/**
+ * @brief spin-unlock
+ */
+void
+Thread::spinUnlock()
+{
+    m_spin_lock.clear(std::memory_order_release);
+}
+
+/**
  * @brief let the thread wait at a barrier
  */
 void

@@ -21,6 +21,7 @@
 #include <thread>
 #include <pthread.h>
 #include <vector>
+#include <atomic>
 
 namespace Kitsune
 {
@@ -54,6 +55,7 @@ protected:
 
     int m_coreId = -1;
 
+    std::atomic_flag m_spin_lock = ATOMIC_FLAG_INIT;
     std::mutex m_mutex;
     std::mutex m_cvMutex;
     std::condition_variable m_cv;
@@ -63,6 +65,8 @@ protected:
 
     void mutexLock();
     void mutexUnlock();
+    void spinLock();
+    void spinUnlock();
 
     virtual void run() = 0;
 };
