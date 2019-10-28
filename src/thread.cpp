@@ -34,7 +34,7 @@ Thread::Thread(int coreId)
  */
 Thread::~Thread()
 {
-    stop();
+    stopThread();
 }
 
 /**
@@ -75,7 +75,7 @@ Thread::bindThreadToCore(const int coreId)
  * @return false if already running, else true
  */
 bool
-Thread::start()
+Thread::startThread()
 {
     // precheck
     if(m_active) {
@@ -125,7 +125,7 @@ Thread::waitForFinish()
  * @brief stop a thread without killing the thread
  */
 void
-Thread::stop()
+Thread::stopThread()
 {
     // TODO: check that the thread doesn't try to stop itself,
     //       because it results into a deadlock
@@ -176,6 +176,25 @@ void
 Thread::mutexUnlock()
 {
     m_mutex.unlock();
+}
+
+/**
+ * @brief spin-lock
+ */
+void
+Thread::spinLock()
+{
+    while (m_spin_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+}
+
+/**
+ * @brief spin-unlock
+ */
+void
+Thread::spinUnlock()
+{
+    m_spin_lock.clear(std::memory_order_release);
 }
 
 /**
