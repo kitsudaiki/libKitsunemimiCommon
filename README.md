@@ -52,7 +52,7 @@ This class is only a collection of some thread-function like blocking and so on 
 
 #### Tests
 
-*include-file:* `libKitsuneCommon/unit_test.h`
+*include-file:* `libKitsuneCommon/test.h`
 
 This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
 
@@ -513,10 +513,10 @@ Example:
 ```cpp
 // demo_test.h
 
-#include <libKitsuneCommon/unit_test.h>
+#include <libKitsuneCommon/test.h>
 
 class Demo_Test 
-    : public Kitsune::Common::UnitTest    // <-- connect with unit-tests
+    : public Kitsune::Common::Test    // <-- connect with unit-tests
 {
 public:
     Demo_Test();
@@ -548,10 +548,10 @@ DataBuffer_Test::some_test()
     // compare two values
     // first the is-value 
     // second the should-value
-    UNITTEST(answerForAll, 42); 	// <-- single test
+    TEST_EQUAL(answerForAll, 42); 	// <-- single test
 
     // inverted test
-    UNITTEST_NEG(answerForAll, 0);
+    TEST_NOT_EQUAL(answerForAll, 0);
 }
 ```
 

@@ -4,7 +4,7 @@
  *  @brief      This is in all my projects used for unit-tests.
  *
  *  @details    It counts all successful and failed
- *              calls of the UNITTEST and UNITTEST_NEG macro. In case of a failed macro-call, it
+ *              calls of the TEST_EQUAL and TEST_NOT_EQUAL macro. In case of a failed macro-call, it
  *              shows the file-name, linenumer and method-name of the failed test.
  *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
@@ -23,13 +23,13 @@ namespace Kitsune
 namespace Common
 {
 
-class UnitTest
+class Test
 {
-#define UNITTEST(IS_VAL, SHOULD_VAL) if(IS_VAL != SHOULD_VAL) \
+#define TEST_EQUAL(IS_VAL, SHOULD_VAL) if(IS_VAL != SHOULD_VAL) \
 {  \
     m_failedTests++; \
     std::cout << std::endl; \
-    std::cout << "Error in Unit-Test" << std::endl; \
+    std::cout << "Error in Test" << std::endl; \
     std::cout << "   File: " << __FILE__ << std::endl; \
     std::cout << "   Method: " << __PRETTY_FUNCTION__ << std::endl; \
     std::cout << "   Line: " << __LINE__ << std::endl; \
@@ -41,15 +41,16 @@ class UnitTest
     m_successfulTests++; \
     }
 
-#define UNITTEST_NEG(IS_VAL, SHOULD_NOT_VAL) if(IS_VAL == SHOULD_NOT_VAL) \
+#define TEST_NOT_EQUAL(IS_VAL, SHOULD_NOT_VAL) if(IS_VAL == SHOULD_NOT_VAL) \
 {  \
     m_failedTests++; \
     std::cout << std::endl; \
-    std::cout << "Error in negative Unit-Test" << std::endl; \
+    std::cout << "Error in Test" << std::endl; \
     std::cout << "   File: " << __FILE__ << std::endl; \
     std::cout << "   Method: " << __PRETTY_FUNCTION__ << std::endl; \
     std::cout << "   Line: " << __LINE__ << std::endl; \
     std::cout << "   Variable: " << #IS_VAL << std::endl; \
+    std::cout << "   Should-NOT-Value: " << SHOULD_NOT_VAL << std::endl; \
     std::cout << "   Is-Value: " << IS_VAL << std::endl; \
     std::cout << std::endl; \
     } else { \
@@ -57,8 +58,8 @@ class UnitTest
     }
 
 public:
-    UnitTest(const std::string testName);
-    ~UnitTest();
+    Test(const std::string testName);
+    ~Test();
 
 protected:
     uint32_t m_successfulTests = 0;

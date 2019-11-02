@@ -9,7 +9,7 @@
 #ifndef STRING_METHODS_TEST_H
 #define STRING_METHODS_TEST_H
 
-#include <libKitsuneCommon/unit_test.h>
+#include <libKitsuneCommon/test.h>
 
 namespace Kitsune
 {
@@ -17,7 +17,7 @@ namespace Common
 {
 
 class StringMethods_Test
-        : public Kitsune::Common::UnitTest
+        : public Kitsune::Common::Test
 {
 public:
     StringMethods_Test();

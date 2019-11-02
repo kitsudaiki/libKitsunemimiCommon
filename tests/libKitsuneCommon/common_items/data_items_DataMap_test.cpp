@@ -15,7 +15,7 @@ namespace Common
 {
 
 DataItems_DataMap_Test::DataItems_DataMap_Test()
-    : Kitsune::Common::UnitTest("DataItems_DataMap_Test")
+    : Kitsune::Common::Test("DataItems_DataMap_Test")
 {
     copy_assingment_constructor_test();
     copy_assingment_operator_test();
@@ -46,7 +46,7 @@ DataItems_DataMap_Test::copy_assingment_constructor_test()
 {
     DataMap map = initTestObject();
     DataMap mapCopy = map;
-    UNITTEST(mapCopy.toString(), map.toString());
+    TEST_EQUAL(mapCopy.toString(), map.toString());
 }
 
 /**
@@ -58,7 +58,7 @@ DataItems_DataMap_Test::copy_assingment_operator_test()
     DataMap map = initTestObject();
     DataMap mapCopy;
     mapCopy = map;
-    UNITTEST(mapCopy.toString(), map.toString());
+    TEST_EQUAL(mapCopy.toString(), map.toString());
 }
 
 /**
@@ -69,14 +69,14 @@ DataItems_DataMap_Test::operator_test()
 {
     DataMap object = initTestObject();
 
-    UNITTEST(object[0]->getString(), "test");
-    UNITTEST(object["hmm"]->getInt(), 42);
+    TEST_EQUAL(object[0]->getString(), "test");
+    TEST_EQUAL(object["hmm"]->getInt(), 42);
 
     // negative tests
     bool isNullptr = object[10] == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
     isNullptr = object["k"] == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -87,14 +87,14 @@ DataItems_DataMap_Test::get_test()
 {
     DataMap object = initTestObject();
 
-    UNITTEST(object.get(0)->getString(), "test");
-    UNITTEST(object.get("hmm")->getInt(), 42);
+    TEST_EQUAL(object.get(0)->getString(), "test");
+    TEST_EQUAL(object.get("hmm")->getInt(), 42);
 
     // negative tests
     bool isNullptr = object.get(10) == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
     isNullptr = object.get("k") == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -104,7 +104,7 @@ void
 DataItems_DataMap_Test::getSize_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.size(), 5);
+    TEST_EQUAL(object.size(), 5);
 }
 
 /**
@@ -114,14 +114,14 @@ void
 DataItems_DataMap_Test::remove_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.remove(0), true);
-    UNITTEST(object.remove("hmm"), true);
+    TEST_EQUAL(object.remove(0), true);
+    TEST_EQUAL(object.remove("hmm"), true);
 
-    UNITTEST(object.get(2)->toString(), "42.500000");
-    UNITTEST(object.size(), 3);
+    TEST_EQUAL(object.get(2)->toString(), "42.500000");
+    TEST_EQUAL(object.size(), 3);
 
     // negative tests
-    UNITTEST(object.remove(10), false);
+    TEST_EQUAL(object.remove(10), false);
 }
 
 /**
@@ -135,9 +135,9 @@ DataItems_DataMap_Test::copy_test()
     DataMap* objectCopy = dynamic_cast<DataMap*>(object.copy());
 
     bool isNullptr = objectCopy == nullptr;
-    UNITTEST(isNullptr, false);
+    TEST_EQUAL(isNullptr, false);
 
-    UNITTEST(object.toString(), objectCopy->toString());
+    TEST_EQUAL(object.toString(), objectCopy->toString());
 
     delete objectCopy;
 }
@@ -155,7 +155,7 @@ DataItems_DataMap_Test::toString_test()
                           "\"hmm\":42,"
                           "\"poi\":\"\","
                           "\"xyz\":42.500000}";
-    UNITTEST(object.toString(), compare);
+    TEST_EQUAL(object.toString(), compare);
 
     compare = "{\n"
               "    \"asdf\": \"test\",\n"
@@ -164,7 +164,7 @@ DataItems_DataMap_Test::toString_test()
               "    \"poi\": \"\",\n"
               "    \"xyz\": 42.500000\n"
               "}";
-    UNITTEST(object.toString(true), compare);
+    TEST_EQUAL(object.toString(true), compare);
 }
 
 /**
@@ -174,7 +174,7 @@ void
 DataItems_DataMap_Test::getType_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.getType(), DataItem::MAP_TYPE);
+    TEST_EQUAL(object.getType(), DataItem::MAP_TYPE);
 }
 
 /**
@@ -184,9 +184,9 @@ void
 DataItems_DataMap_Test::isValue_isMap_isArray_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.isValue(), false);
-    UNITTEST(object.isMap(), true);
-    UNITTEST(object.isArray(), false);
+    TEST_EQUAL(object.isValue(), false);
+    TEST_EQUAL(object.isMap(), true);
+    TEST_EQUAL(object.isArray(), false);
 }
 
 /**
@@ -198,13 +198,13 @@ DataItems_DataMap_Test::toValue_toMap_toArray_test()
     DataMap object = initTestObject();
 
     bool isNullptr = object.toMap() == nullptr;
-    UNITTEST(isNullptr, false);
+    TEST_EQUAL(isNullptr, false);
 
     isNullptr = object.toArray() == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 
     isNullptr = object.toValue() == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -214,9 +214,9 @@ void
 DataItems_DataMap_Test::getString_getInt_getFloat_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.getString(), "");
-    UNITTEST(object.getInt(), 0);
-    UNITTEST(object.getFloat(), 0.0f);
+    TEST_EQUAL(object.getString(), "");
+    TEST_EQUAL(object.getInt(), 0);
+    TEST_EQUAL(object.getFloat(), 0.0f);
 }
 
 /**
@@ -231,11 +231,11 @@ DataItems_DataMap_Test::insert_test()
     DataValue intValue(42);
     DataValue floatValue(42.5f);
 
-    UNITTEST(object.insert("poi", defaultValue.copy()), true);
-    UNITTEST(object.insert("asdf", stringValue.copy()), true);
-    UNITTEST(object.insert("hmm", intValue.copy()), true);
-    UNITTEST(object.insert("xyz", floatValue.copy()), true);
-    UNITTEST(object.insert("fail", nullptr), true);
+    TEST_EQUAL(object.insert("poi", defaultValue.copy()), true);
+    TEST_EQUAL(object.insert("asdf", stringValue.copy()), true);
+    TEST_EQUAL(object.insert("hmm", intValue.copy()), true);
+    TEST_EQUAL(object.insert("xyz", floatValue.copy()), true);
+    TEST_EQUAL(object.insert("fail", nullptr), true);
 }
 
 /**
@@ -246,9 +246,9 @@ DataItems_DataMap_Test::getStringByKey_getIntByKey_getFloatByKey_test()
 {
     DataMap object = initTestObject();
 
-    UNITTEST(object.getStringByKey("asdf"), "test");
-    UNITTEST(object.getIntByKey("hmm"), 42);
-    UNITTEST(object.getFloatByKey("xyz"), 42.5f);
+    TEST_EQUAL(object.getStringByKey("asdf"), "test");
+    TEST_EQUAL(object.getIntByKey("hmm"), 42);
+    TEST_EQUAL(object.getFloatByKey("xyz"), 42.5f);
 }
 
 /**
@@ -260,12 +260,12 @@ DataItems_DataMap_Test::getKeys_test()
     DataMap object = initTestObject();
 
     std::vector<std::string> keys = object.getKeys();
-    UNITTEST(keys.size(), 5);
-    UNITTEST(keys.at(0), "asdf");
-    UNITTEST(keys.at(1), "fail");
-    UNITTEST(keys.at(2), "hmm");
-    UNITTEST(keys.at(3), "poi");
-    UNITTEST(keys.at(4), "xyz");
+    TEST_EQUAL(keys.size(), 5);
+    TEST_EQUAL(keys.at(0), "asdf");
+    TEST_EQUAL(keys.at(1), "fail");
+    TEST_EQUAL(keys.at(2), "hmm");
+    TEST_EQUAL(keys.at(3), "poi");
+    TEST_EQUAL(keys.at(4), "xyz");
 }
 
 /**
@@ -277,11 +277,11 @@ DataItems_DataMap_Test::getValues_test()
     DataMap object = initTestObject();
 
     std::vector<DataItem*> values = object.getValues();
-    UNITTEST(values.size(), 5);
-    UNITTEST(values.at(0)->toString(), "test");
-    UNITTEST(values.at(2)->toString(), "42");
-    UNITTEST(values.at(3)->toString(), "");
-    UNITTEST(values.at(4)->toString(), "42.500000");
+    TEST_EQUAL(values.size(), 5);
+    TEST_EQUAL(values.at(0)->toString(), "test");
+    TEST_EQUAL(values.at(2)->toString(), "42");
+    TEST_EQUAL(values.at(3)->toString(), "");
+    TEST_EQUAL(values.at(4)->toString(), "42.500000");
 }
 
 /**
@@ -291,12 +291,12 @@ void
 DataItems_DataMap_Test::contains_test()
 {
     DataMap object = initTestObject();
-    UNITTEST(object.contains("poi"), true);
-    UNITTEST(object.contains("asdf"), true);
-    UNITTEST(object.contains("hmm"), true);
-    UNITTEST(object.contains("xyz"), true);
+    TEST_EQUAL(object.contains("poi"), true);
+    TEST_EQUAL(object.contains("asdf"), true);
+    TEST_EQUAL(object.contains("hmm"), true);
+    TEST_EQUAL(object.contains("xyz"), true);
 
-    UNITTEST(object.contains("12345"), false);
+    TEST_EQUAL(object.contains("12345"), false);
 }
 
 /**

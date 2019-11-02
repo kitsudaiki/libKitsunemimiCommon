@@ -15,7 +15,7 @@ namespace Common
 {
 
 DataItems_DataValue_Test::DataItems_DataValue_Test()
-    : Kitsune::Common::UnitTest("DataItems_DataValue_Test")
+    : Kitsune::Common::Test("DataItems_DataValue_Test")
 {
     copy_assingment_constructor_test();
     copy_assingment_operator_test();
@@ -43,7 +43,7 @@ DataItems_DataValue_Test::copy_assingment_constructor_test()
 {
     DataValue value("test");
     DataValue valueCopy = value;
-    UNITTEST(valueCopy.toString(), value.toString());
+    TEST_EQUAL(valueCopy.toString(), value.toString());
 }
 
 /**
@@ -55,7 +55,7 @@ DataItems_DataValue_Test::copy_assingment_operator_test()
     DataValue value("test");
     DataValue valueCopy;
     valueCopy = value;
-    UNITTEST(valueCopy.toString(), value.toString());
+    TEST_EQUAL(valueCopy.toString(), value.toString());
 }
 
 /**
@@ -68,11 +68,11 @@ DataItems_DataValue_Test::operator_test()
 
     // int-access
     bool isNullptr = defaultValue[1] == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 
     // string-access
     isNullptr = defaultValue["1"] == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -85,11 +85,11 @@ DataItems_DataValue_Test::get_test()
 
     // int-access
     bool isNullptr = defaultValue.get(1) == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 
     // string-access
     isNullptr = defaultValue.get("1") == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -99,7 +99,7 @@ void
 DataItems_DataValue_Test::getSize_test()
 {
     DataValue defaultValue;
-    UNITTEST(defaultValue.size(), 0);
+    TEST_EQUAL(defaultValue.size(), 0);
 }
 
 /**
@@ -109,7 +109,7 @@ void
 DataItems_DataValue_Test::remove_test()
 {
     DataValue defaultValue;
-    UNITTEST(defaultValue.remove(1), false);
+    TEST_EQUAL(defaultValue.remove(1), false);
 }
 
 /**
@@ -127,25 +127,25 @@ DataItems_DataValue_Test::copy_test()
 
     // default-value
     DataValue* defaultValueCopy = dynamic_cast<DataValue*>(defaultValue.copy());
-    UNITTEST(std::string(defaultValue.m_content.stringValue),
+    TEST_EQUAL(std::string(defaultValue.m_content.stringValue),
              std::string(defaultValueCopy->m_content.stringValue));
 
     // string-value
     DataValue* stringValueCopy = dynamic_cast<DataValue*>(stringValue.copy());
-    UNITTEST(std::string(stringValue.m_content.stringValue),
+    TEST_EQUAL(std::string(stringValue.m_content.stringValue),
              std::string(stringValueCopy->m_content.stringValue));
 
     // int-value
     DataValue* intValueCopy = dynamic_cast<DataValue*>(intValue.copy());
-    UNITTEST(intValue.m_content.intValue, intValueCopy->m_content.intValue);
+    TEST_EQUAL(intValue.m_content.intValue, intValueCopy->m_content.intValue);
 
     // float-value
     DataValue* floatValueCopy = dynamic_cast<DataValue*>(floatValue.copy());
-    UNITTEST(floatValue.m_content.floatValue, floatValueCopy->m_content.floatValue);
+    TEST_EQUAL(floatValue.m_content.floatValue, floatValueCopy->m_content.floatValue);
 
     // bool-value
     DataValue* boolValueCopy = dynamic_cast<DataValue*>(boolValue.copy());
-    UNITTEST(boolValue.m_content.boolValue, boolValueCopy->m_content.boolValue);
+    TEST_EQUAL(boolValue.m_content.boolValue, boolValueCopy->m_content.boolValue);
 
     // cleanup
     delete defaultValueCopy;
@@ -166,11 +166,11 @@ DataItems_DataValue_Test::toString_test()
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
 
-    UNITTEST(defaultValue.toString(), "");
-    UNITTEST(stringValue.toString(), "test");
-    UNITTEST(intValue.toString(), "42");
-    UNITTEST(floatValue.toString(), "42.500000");
-    UNITTEST(boolValue.toString(), "true");
+    TEST_EQUAL(defaultValue.toString(), "");
+    TEST_EQUAL(stringValue.toString(), "test");
+    TEST_EQUAL(intValue.toString(), "42");
+    TEST_EQUAL(floatValue.toString(), "42.500000");
+    TEST_EQUAL(boolValue.toString(), "true");
 }
 
 /**
@@ -185,11 +185,11 @@ DataItems_DataValue_Test::getType_test()
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
 
-    UNITTEST(defaultValue.getType(), DataItem::VALUE_TYPE);
-    UNITTEST(stringValue.getType(), DataItem::VALUE_TYPE);
-    UNITTEST(intValue.getType(), DataItem::VALUE_TYPE);
-    UNITTEST(floatValue.getType(), DataItem::VALUE_TYPE);
-    UNITTEST(boolValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(defaultValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(stringValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(intValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(floatValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(boolValue.getType(), DataItem::VALUE_TYPE);
 }
 
 /**
@@ -199,9 +199,9 @@ void
 DataItems_DataValue_Test::isValue_isMap_isArray_test()
 {
     DataValue defaultValue;
-    UNITTEST(defaultValue.isValue(), true);
-    UNITTEST(defaultValue.isMap(), false);
-    UNITTEST(defaultValue.isArray(), false);
+    TEST_EQUAL(defaultValue.isValue(), true);
+    TEST_EQUAL(defaultValue.isMap(), false);
+    TEST_EQUAL(defaultValue.isArray(), false);
 }
 
 /**
@@ -213,13 +213,13 @@ DataItems_DataValue_Test::toValue_toMap_toArray_test()
     DataValue defaultValue;
 
     bool isNullptr = defaultValue.toMap() == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 
     isNullptr = defaultValue.toArray() == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 
     isNullptr = defaultValue.toValue() == nullptr;
-    UNITTEST(isNullptr, false);
+    TEST_EQUAL(isNullptr, false);
 }
 
 /**
@@ -235,34 +235,34 @@ DataItems_DataValue_Test::getString_getInt_getFloat_getBool_test()
     DataValue boolValue(true);
 
     // default-value
-    UNITTEST(defaultValue.getString(), "");
-    UNITTEST(defaultValue.getInt(), 0);
-    UNITTEST(defaultValue.getFloat(), 0.0f);
-    UNITTEST(defaultValue.getBool(), false);
+    TEST_EQUAL(defaultValue.getString(), "");
+    TEST_EQUAL(defaultValue.getInt(), 0);
+    TEST_EQUAL(defaultValue.getFloat(), 0.0f);
+    TEST_EQUAL(defaultValue.getBool(), false);
 
     // string-value
-    UNITTEST(stringValue.getString(), "test");
-    UNITTEST(stringValue.getInt(), 0);
-    UNITTEST(stringValue.getFloat(), 0.0f);
-    UNITTEST(stringValue.getBool(), false);
+    TEST_EQUAL(stringValue.getString(), "test");
+    TEST_EQUAL(stringValue.getInt(), 0);
+    TEST_EQUAL(stringValue.getFloat(), 0.0f);
+    TEST_EQUAL(stringValue.getBool(), false);
 
     // int-value
-    UNITTEST(intValue.getString(), "");
-    UNITTEST(intValue.getInt(), 42);
-    UNITTEST(intValue.getFloat(), 0.0f);
-    UNITTEST(intValue.getBool(), false);
+    TEST_EQUAL(intValue.getString(), "");
+    TEST_EQUAL(intValue.getInt(), 42);
+    TEST_EQUAL(intValue.getFloat(), 0.0f);
+    TEST_EQUAL(intValue.getBool(), false);
 
     // float-value
-    UNITTEST(floatValue.getString(), "");
-    UNITTEST(floatValue.getInt(), 0);
-    UNITTEST(floatValue.getFloat(), 42.5f);
-    UNITTEST(floatValue.getBool(), false);
+    TEST_EQUAL(floatValue.getString(), "");
+    TEST_EQUAL(floatValue.getInt(), 0);
+    TEST_EQUAL(floatValue.getFloat(), 42.5f);
+    TEST_EQUAL(floatValue.getBool(), false);
 
     // bool-value
-    UNITTEST(boolValue.getString(), "");
-    UNITTEST(boolValue.getInt(), 0);
-    UNITTEST(boolValue.getFloat(), 0.0f);
-    UNITTEST(boolValue.getBool(), true);
+    TEST_EQUAL(boolValue.getString(), "");
+    TEST_EQUAL(boolValue.getInt(), 0);
+    TEST_EQUAL(boolValue.getFloat(), 0.0f);
+    TEST_EQUAL(boolValue.getBool(), true);
 }
 
 /**
@@ -277,11 +277,11 @@ DataItems_DataValue_Test::getValueType_test()
     DataValue floatValue(42.5f);
     DataValue boolValue(true);
 
-    UNITTEST(defaultValue.getValueType(), DataItem::STRING_TYPE);
-    UNITTEST(stringValue.getValueType(), DataItem::STRING_TYPE);
-    UNITTEST(intValue.getValueType(), DataItem::INT_TYPE);
-    UNITTEST(floatValue.getValueType(), DataItem::FLOAT_TYPE);
-    UNITTEST(boolValue.getValueType(), DataItem::BOOL_TYPE);
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::STRING_TYPE);
+    TEST_EQUAL(stringValue.getValueType(), DataItem::STRING_TYPE);
+    TEST_EQUAL(intValue.getValueType(), DataItem::INT_TYPE);
+    TEST_EQUAL(floatValue.getValueType(), DataItem::FLOAT_TYPE);
+    TEST_EQUAL(boolValue.getValueType(), DataItem::BOOL_TYPE);
 }
 
 /**
@@ -294,23 +294,23 @@ DataItems_DataValue_Test::setValue_test()
 
     // string-value
     defaultValue.setValue("test");
-    UNITTEST(defaultValue.getValueType(), DataItem::STRING_TYPE);
-    UNITTEST(std::string(defaultValue.m_content.stringValue), "test");
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::STRING_TYPE);
+    TEST_EQUAL(std::string(defaultValue.m_content.stringValue), "test");
 
     // int-value
     defaultValue.setValue(42);
-    UNITTEST(defaultValue.getValueType(), DataItem::INT_TYPE);
-    UNITTEST(defaultValue.m_content.intValue, 42);
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::INT_TYPE);
+    TEST_EQUAL(defaultValue.m_content.intValue, 42);
 
     // float-value
     defaultValue.setValue(42.5f);
-    UNITTEST(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
-    UNITTEST(defaultValue.m_content.floatValue, 42.5f);
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
+    TEST_EQUAL(defaultValue.m_content.floatValue, 42.5f);
 
     // bool-value
     defaultValue.setValue(true);
-    UNITTEST(defaultValue.getValueType(), DataItem::BOOL_TYPE);
-    UNITTEST(defaultValue.m_content.boolValue, true);
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::BOOL_TYPE);
+    TEST_EQUAL(defaultValue.m_content.boolValue, true);
 }
 
 }  // namespace Common

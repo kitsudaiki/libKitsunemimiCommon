@@ -23,7 +23,7 @@ struct TestStruct
 } __attribute__((packed));
 
 DataBuffer_Test::DataBuffer_Test()
-    : Kitsune::Common::UnitTest("DataBuffer_Test")
+    : Kitsune::Common::Test("DataBuffer_Test")
 {
     structSize_test();
     constructor_test();
@@ -40,7 +40,7 @@ void
 DataBuffer_Test::structSize_test()
 {
     DataBuffer testBuffer(10);
-    UNITTEST(sizeof(DataBuffer) % 8, 0);
+    TEST_EQUAL(sizeof(DataBuffer) % 8, 0);
 }
 
 /**
@@ -52,10 +52,11 @@ DataBuffer_Test::constructor_test()
     DataBuffer testBuffer(10);
 
     // check metadata of the buffer
-    UNITTEST_NEG(testBuffer.data, nullptr);
-    UNITTEST(testBuffer.numberOfBlocks, 10);
-    UNITTEST(testBuffer.bufferPosition, 0);
-    UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
+    bool isNullptr = testBuffer.data == nullptr;
+    TEST_EQUAL(isNullptr, false);
+    TEST_EQUAL(testBuffer.numberOfBlocks, 10);
+    TEST_EQUAL(testBuffer.bufferPosition, 0);
+    TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 }
 
 /**
@@ -70,24 +71,24 @@ DataBuffer_Test::copyConstructor_test()
     testStruct.b = 42;
 
     // write data to buffer
-    UNITTEST(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(testBuffer.addData(&testStruct), true);
 
     // check metadata of the buffer
-    UNITTEST(testBuffer.numberOfBlocks, 10);
-    UNITTEST(testBuffer.bufferPosition, 10);
-    UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
+    TEST_EQUAL(testBuffer.numberOfBlocks, 10);
+    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // use copy contstructor
     DataBuffer bufferCopy(testBuffer);
 
     // check metadata of the new buffer
-    UNITTEST(bufferCopy.numberOfBlocks, 10);
-    UNITTEST(bufferCopy.bufferPosition, 10);
-    UNITTEST(bufferCopy.totalBufferSize, 10*bufferCopy.blockSize);
+    TEST_EQUAL(bufferCopy.numberOfBlocks, 10);
+    TEST_EQUAL(bufferCopy.bufferPosition, 10);
+    TEST_EQUAL(bufferCopy.totalBufferSize, 10*bufferCopy.blockSize);
 
     // check content of the new buffer
     uint8_t* dataByte = static_cast<uint8_t*>(bufferCopy.data);
-    UNITTEST(static_cast<int>(dataByte[1]), 42);
+    TEST_EQUAL(static_cast<int>(dataByte[1]), 42);
 }
 
 /**
@@ -102,16 +103,16 @@ DataBuffer_Test::addData_test()
     testStruct.b = 42;
 
     // write data to buffer
-    UNITTEST(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(testBuffer.addData(&testStruct), true);
 
     // check metadata of the buffer
-    UNITTEST(testBuffer.numberOfBlocks, 10);
-    UNITTEST(testBuffer.bufferPosition, 10);
-    UNITTEST(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
+    TEST_EQUAL(testBuffer.numberOfBlocks, 10);
+    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // check content of the buffer
     uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
-    UNITTEST(static_cast<int>(dataByte[1]), 42);
+    TEST_EQUAL(static_cast<int>(dataByte[1]), 42);
 }
 
 /**
@@ -129,7 +130,7 @@ DataBuffer_Test::getBlock_test()
     memcpy(&dataByte[4096], &testStruct, sizeof(TestStruct));
 
     // check content of the buffer with getBlock-method
-    UNITTEST(static_cast<int>(testBuffer.getBlock(1)[1]), 42);
+    TEST_EQUAL(static_cast<int>(testBuffer.getBlock(1)[1]), 42);
 }
 
 /**
@@ -144,19 +145,19 @@ DataBuffer_Test::reset_test()
     testStruct.b = 42;
 
     // write data to buffer
-    UNITTEST(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(testBuffer.addData(&testStruct), true);
 
     // reset buffer
-    UNITTEST(testBuffer.reset(), true);
+    TEST_EQUAL(testBuffer.reset(), true);
 
     // check metadata of the buffer
-    UNITTEST(testBuffer.numberOfBlocks, 1);
-    UNITTEST(testBuffer.bufferPosition, 0);
-    UNITTEST(testBuffer.totalBufferSize, 1*testBuffer.blockSize);
+    TEST_EQUAL(testBuffer.numberOfBlocks, 1);
+    TEST_EQUAL(testBuffer.bufferPosition, 0);
+    TEST_EQUAL(testBuffer.totalBufferSize, 1*testBuffer.blockSize);
 
     // check content of the buffer
     uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
-    UNITTEST(static_cast<int>(dataByte[1]), 0);
+    TEST_EQUAL(static_cast<int>(dataByte[1]), 0);
 }
 
 } // namespace Common

@@ -9,7 +9,7 @@
 #ifndef TABLE_ITEM_TEST_H
 #define TABLE_ITEM_TEST_H
 
-#include <libKitsuneCommon/unit_test.h>
+#include <libKitsuneCommon/test.h>
 #include <libKitsuneCommon/common_items/table_item.h>
 
 namespace Kitsune
@@ -18,7 +18,7 @@ namespace Common
 {
 
 class TableItem_test
-        : public Kitsune::Common::UnitTest
+        : public Kitsune::Common::Test
 {
 public:
     TableItem_test();

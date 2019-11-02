@@ -9,7 +9,7 @@
 #ifndef VECTOR_METHODS_TEST_H
 #define VECTOR_METHODS_TEST_H
 
-#include <libKitsuneCommon/unit_test.h>
+#include <libKitsuneCommon/test.h>
 
 namespace Kitsune
 {
@@ -17,7 +17,7 @@ namespace Common
 {
 
 class TextFile_Test
-        : public Kitsune::Common::UnitTest
+        : public Kitsune::Common::Test
 {
 public:
     TextFile_Test();
