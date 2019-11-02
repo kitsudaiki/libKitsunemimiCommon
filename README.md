@@ -578,30 +578,42 @@ This is really a ultra simple statemachine, so the few functions can easily expl
 
 #include <libKitsuneCommon/statemachine.h>
 
+enum states
+{
+    SOURCE_STATE = 1,
+    TARGET_STATE = 2,
+    CHILD_STATE = 3,
+    NEXT_STATE = 4,
+    GO = 5,
+    GOGO = 6,
+};
+
 
 // create statemachine
 Statemachine testMachine;
 
 // init state
-statemachine.createNewState("sourceState");
-statemachine.createNewState("nextState");
-statemachine.createNewState("childState");
-statemachine.createNewState("targetState");
+statemachine.createNewState(SOURCE_STATE, "sourceState");
+statemachine.createNewState(NEXT_STATE, "nextState");
+statemachine.createNewState(CHILD_STATE, "childState");
+statemachine.createNewState(TARGET_STATE, "targetState");
 
 // build state-machine
-statemachine.addChildState("nextState", "childState");
-statemachine.setInitialChildState("nextState", "childState");
+statemachine.addChildState(NEXT_STATE, CHILD_STATE);
+statemachine.setInitialChildState(NEXT_STATE, CHILD_STATE);
 
-statemachine.addTransition("sourceState", "go", "nextState");
-statemachine.addTransition("nextState", "gogo", "targetState");
+statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
+statemachine.addTransition(NEXT_STATE, GOGO, TARGET_STATE);
 
 // try to go to next state
-bool success = testMachine.goToNextState("go");
+bool success = testMachine.goToNextState(GO);
 // success would be `true` in this case
 
 // get curren state
-std::string state = statemachine.getCurrentState();
-// state would be `nextState`
+const uint32_t stateId = statemachine.getCurrentStateId();
+// stateId would be 4
+const std::string stateName = statemachine.getCurrentStateName();
+// stateName would be `nextState`
 
 ```
 
