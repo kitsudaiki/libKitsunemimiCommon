@@ -1,5 +1,5 @@
 /**
- *  @file       unit_test.h
+ *  @file       test.h
  *
  *  @brief      This is in all my projects used for unit-tests.
  *
