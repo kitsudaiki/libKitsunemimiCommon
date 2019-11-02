@@ -16,7 +16,7 @@ namespace Common
 {
 
 StringMethods_Test::StringMethods_Test()
-    : Kitsune::Common::UnitTest("StringMethods_Test")
+    : Kitsune::Common::Test("StringMethods_Test")
 {
     splitStringByDelimiter_test();
     splitStringByLength_test();
@@ -35,16 +35,16 @@ StringMethods_Test::splitStringByDelimiter_test()
     std::vector<std::string> result = splitStringByDelimiter(testString, ' ');
 
     // check result
-    UNITTEST(result.size(), 4);
-    UNITTEST(result[0], "this");
-    UNITTEST(result[1], "is");
-    UNITTEST(result[2], "a");
-    UNITTEST(result[3], "test-string");
+    TEST_EQUAL(result.size(), 4);
+    TEST_EQUAL(result[0], "this");
+    TEST_EQUAL(result[1], "is");
+    TEST_EQUAL(result[2], "a");
+    TEST_EQUAL(result[3], "test-string");
 
     // make negative checks
     std::string testStringNeg = "";
     std::vector<std::string> resultNeg = splitStringByDelimiter(testStringNeg, ' ');
-    UNITTEST(resultNeg.size(), 0);
+    TEST_EQUAL(resultNeg.size(), 0);
 }
 
 /**
@@ -60,12 +60,12 @@ StringMethods_Test::splitStringByLength_test()
     std::vector<std::string> result = splitStringByLength(testString, 5);
 
     // check result
-    UNITTEST(result.size(), 5);
-    UNITTEST(result[0], "this ");
-    UNITTEST(result[1], "is a ");
-    UNITTEST(result[2], "test-");
-    UNITTEST(result[3], "strin");
-    UNITTEST(result[4], "g");
+    TEST_EQUAL(result.size(), 5);
+    TEST_EQUAL(result[0], "this ");
+    TEST_EQUAL(result[1], "is a ");
+    TEST_EQUAL(result[2], "test-");
+    TEST_EQUAL(result[3], "strin");
+    TEST_EQUAL(result[4], "g");
 }
 
 } // namespace Common

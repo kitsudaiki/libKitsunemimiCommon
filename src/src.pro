@@ -26,4 +26,4 @@ HEADERS += \
     ../include/libKitsuneCommon/thread.h \
     state.h \
     ../include/libKitsuneCommon/common_items/table_item.h \
-    ../include/libKitsuneCommon/unit_test.h
+    ../include/libKitsuneCommon/test.h

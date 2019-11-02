@@ -14,7 +14,7 @@ namespace Common
 {
 
 TableItem_test::TableItem_test()
-    : Kitsune::Common::UnitTest("TableItem_test")
+    : Kitsune::Common::Test("TableItem_test")
 {
     copy_contructor_test();
     assignment_operator_test();
@@ -50,7 +50,7 @@ TableItem_test::copy_contructor_test()
     TableItem testItem = getTestTableItem();
     TableItem copyItem = testItem;
 
-    UNITTEST(copyItem.toString(), testItem.toString());
+    TEST_EQUAL(copyItem.toString(), testItem.toString());
 }
 
 /**
@@ -64,7 +64,7 @@ TableItem_test::assignment_operator_test()
 
     assignedItem = testItem;
 
-    UNITTEST(assignedItem.toString(), testItem.toString());
+    TEST_EQUAL(assignedItem.toString(), testItem.toString());
 }
 
 /**
@@ -76,8 +76,8 @@ void TableItem_test::clearTable_test()
 
     testItem.clearTable();
 
-    UNITTEST(testItem.getNumberOfRows(), 0);
-    UNITTEST(testItem.getNumberOfColums(), 0);
+    TEST_EQUAL(testItem.getNumberOfRows(), 0);
+    TEST_EQUAL(testItem.getNumberOfColums(), 0);
 }
 
 /**
@@ -88,13 +88,13 @@ TableItem_test::addColumn_Test()
 {
     TableItem testItem;
 
-    UNITTEST(testItem.addColumn("asdf", "ASDF"), true);
-    UNITTEST(testItem.addColumn("poi"), true);
+    TEST_EQUAL(testItem.addColumn("asdf", "ASDF"), true);
+    TEST_EQUAL(testItem.addColumn("poi"), true);
 
     const std::string compare = "+------+-----+\n"
                                 "| ASDF | poi |\n"
                                 "+======+=====+\n";
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -107,13 +107,13 @@ TableItem_test::renameColume_Test()
 
     testItem.addColumn("asdf", "ASDF");
 
-    UNITTEST(testItem.renameColume("asdf", "XYZ"), true);
-    UNITTEST(testItem.renameColume("fail", "XYZ"), false);
+    TEST_EQUAL(testItem.renameColume("asdf", "XYZ"), true);
+    TEST_EQUAL(testItem.renameColume("fail", "XYZ"), false);
 
     const std::string compare = "+-----+\n"
                                 "| XYZ |\n"
                                 "+=====+\n";
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -127,13 +127,13 @@ TableItem_test::deleteColumn_Test()
     testItem.addColumn("asdf", "ASDF");
     testItem.addColumn("poi");
 
-    UNITTEST(testItem.deleteColumn("asdf"), true);
-    UNITTEST(testItem.deleteColumn("fail"), false);
+    TEST_EQUAL(testItem.deleteColumn("asdf"), true);
+    TEST_EQUAL(testItem.deleteColumn("fail"), false);
 
     const std::string compare = "+-----+\n"
                                 "| poi |\n"
                                 "+=====+\n";
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -147,8 +147,8 @@ TableItem_test::addRow_Test()
     testItem.addColumn("asdf", "ASDF");
     testItem.addColumn("poipoipoi");
 
-    UNITTEST(testItem.addRow(std::vector<std::string>{"this is a test", "k"}), true);
-    UNITTEST(testItem.addRow(std::vector<std::string>{"asdf", "qwert"}), true);
+    TEST_EQUAL(testItem.addRow(std::vector<std::string>{"this is a test", "k"}), true);
+    TEST_EQUAL(testItem.addRow(std::vector<std::string>{"asdf", "qwert"}), true);
 
     const std::string compare =
             "+----------------+-----------+\n"
@@ -159,7 +159,7 @@ TableItem_test::addRow_Test()
             "| asdf           | qwert     |\n"
             "+----------------+-----------+\n";
 
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -170,8 +170,8 @@ TableItem_test::deleteRow_Test()
 {
     TableItem testItem = getTestTableItem();
 
-    UNITTEST(testItem.deleteRow(0), true);
-    UNITTEST(testItem.deleteRow(1), false);
+    TEST_EQUAL(testItem.deleteRow(0), true);
+    TEST_EQUAL(testItem.deleteRow(1), false);
 
     const std::string compare =
             "+------+-----------+\n"
@@ -180,7 +180,7 @@ TableItem_test::deleteRow_Test()
             "| asdf | qwert     |\n"
             "+------+-----------+\n";
 
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -191,9 +191,9 @@ TableItem_test::setCell_Test()
 {
     TableItem testItem = getTestTableItem();
 
-    UNITTEST(testItem.setCell(1, 1, "hmmm"), true);
-    UNITTEST(testItem.setCell(1, 10, "hmmm"), false);
-    UNITTEST(testItem.setCell(10, 1, "hmmm"), false);
+    TEST_EQUAL(testItem.setCell(1, 1, "hmmm"), true);
+    TEST_EQUAL(testItem.setCell(1, 10, "hmmm"), false);
+    TEST_EQUAL(testItem.setCell(10, 1, "hmmm"), false);
 
     const std::string compare =
             "+----------------+-----------+\n"
@@ -204,7 +204,7 @@ TableItem_test::setCell_Test()
             "| asdf           | hmmm      |\n"
             "+----------------+-----------+\n";
 
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -215,9 +215,9 @@ TableItem_test::getCell_Test()
 {
     TableItem testItem = getTestTableItem();
 
-    UNITTEST(testItem.getCell(0, 1), "asdf");
-    UNITTEST(testItem.getCell(10, 1), "");
-    UNITTEST(testItem.getCell(0, 10), "");
+    TEST_EQUAL(testItem.getCell(0, 1), "asdf");
+    TEST_EQUAL(testItem.getCell(10, 1), "");
+    TEST_EQUAL(testItem.getCell(0, 10), "");
 }
 
 /**
@@ -228,9 +228,9 @@ TableItem_test::deleteCell_Test()
 {
     TableItem testItem = getTestTableItem();
 
-    UNITTEST(testItem.deleteCell(0, 1), true);
-    UNITTEST(testItem.deleteCell(10, 1), false);
-    UNITTEST(testItem.deleteCell(0, 10), false);
+    TEST_EQUAL(testItem.deleteCell(0, 1), true);
+    TEST_EQUAL(testItem.deleteCell(10, 1), false);
+    TEST_EQUAL(testItem.deleteCell(0, 10), false);
 
     const std::string compare =
             "+----------------+-----------+\n"
@@ -241,7 +241,7 @@ TableItem_test::deleteCell_Test()
             "|                | qwert     |\n"
             "+----------------+-----------+\n";
 
-    UNITTEST(testItem.toString(), compare);
+    TEST_EQUAL(testItem.toString(), compare);
 }
 
 /**
@@ -252,7 +252,7 @@ TableItem_test::getNumberOfColums_Test()
 {
     TableItem testItem = getTestTableItem();
 
-    UNITTEST(testItem.getNumberOfColums(), 2);
+    TEST_EQUAL(testItem.getNumberOfColums(), 2);
 }
 
 /**
@@ -263,9 +263,9 @@ TableItem_test::getNumberOfRows_Test()
 {
     TableItem testItem = getTestTableItem();
 
-    UNITTEST(testItem.getNumberOfRows(), 2);
+    TEST_EQUAL(testItem.getNumberOfRows(), 2);
     testItem.deleteRow(0);
-    UNITTEST(testItem.getNumberOfRows(), 1);
+    TEST_EQUAL(testItem.getNumberOfRows(), 1);
 }
 
 /**
@@ -300,7 +300,7 @@ TableItem_test::toString_test()
             "+-----------+-----------+\n";
 
     // test with a maximum cell width of 9
-    UNITTEST(testItem.toString(9), compare);
+    TEST_EQUAL(testItem.toString(9), compare);
 
     const std::string compareVertical =
             "+-----------+-----------+\n"
@@ -310,7 +310,7 @@ TableItem_test::toString_test()
             "| poipoipoi | k         |\n"
             "+-----------+-----------+\n";
 
-    UNITTEST(testItem.toString(9, true), compareVertical);
+    TEST_EQUAL(testItem.toString(9, true), compareVertical);
 }
 
 /**

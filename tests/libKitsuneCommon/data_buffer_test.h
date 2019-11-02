@@ -9,7 +9,7 @@
 #ifndef DATA_BUFFER_TEST_H
 #define DATA_BUFFER_TEST_H
 
-#include <libKitsuneCommon/unit_test.h>
+#include <libKitsuneCommon/test.h>
 
 namespace Kitsune
 {
@@ -17,7 +17,7 @@ namespace Common
 {
 
 class DataBuffer_Test
-        : public Kitsune::Common::UnitTest
+        : public Kitsune::Common::Test
 {
 public:
     DataBuffer_Test();

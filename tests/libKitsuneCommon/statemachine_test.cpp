@@ -16,7 +16,7 @@ namespace Common
 {
 
 Statemachine_Test::Statemachine_Test()
-    : Kitsune::Common::UnitTest("Statemachine_Test")
+    : Kitsune::Common::Test("Statemachine_Test")
 {
     createNewState_test();
     addTransition_test();
@@ -35,8 +35,8 @@ Statemachine_Test::createNewState_test()
 {
     Statemachine statemachine;
 
-    UNITTEST(statemachine.createNewState(SOURCE_STATE), true);
-    UNITTEST(statemachine.createNewState(SOURCE_STATE), false);
+    TEST_EQUAL(statemachine.createNewState(SOURCE_STATE), true);
+    TEST_EQUAL(statemachine.createNewState(SOURCE_STATE), false);
 }
 
 /**
@@ -50,8 +50,8 @@ Statemachine_Test::setCurrentState_test()
     statemachine.createNewState(SOURCE_STATE);
     statemachine.createNewState(NEXT_STATE);
 
-    UNITTEST(statemachine.setCurrentState(SOURCE_STATE), true);
-    UNITTEST(statemachine.setCurrentState(FAIL), false);
+    TEST_EQUAL(statemachine.setCurrentState(SOURCE_STATE), true);
+    TEST_EQUAL(statemachine.setCurrentState(FAIL), false);
 }
 
 /**
@@ -65,10 +65,10 @@ Statemachine_Test::addTransition_test()
     statemachine.createNewState(SOURCE_STATE);
     statemachine.createNewState(NEXT_STATE);
 
-    UNITTEST(statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE), true);
-    UNITTEST(statemachine.addTransition(FAIL, GO, NEXT_STATE), false);
-    UNITTEST(statemachine.addTransition(SOURCE_STATE, GO, FAIL), false);
-    UNITTEST(statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE), false);
+    TEST_EQUAL(statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE), true);
+    TEST_EQUAL(statemachine.addTransition(FAIL, GO, NEXT_STATE), false);
+    TEST_EQUAL(statemachine.addTransition(SOURCE_STATE, GO, FAIL), false);
+    TEST_EQUAL(statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE), false);
 }
 
 /**
@@ -83,9 +83,9 @@ Statemachine_Test::goToNextState_test()
     statemachine.createNewState(NEXT_STATE);
     statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
 
-    UNITTEST(statemachine.goToNextState(FAIL), false);
-    UNITTEST(statemachine.goToNextState(GO), true);
-    UNITTEST(statemachine.goToNextState(GO), false);
+    TEST_EQUAL(statemachine.goToNextState(FAIL), false);
+    TEST_EQUAL(statemachine.goToNextState(GO), true);
+    TEST_EQUAL(statemachine.goToNextState(GO), false);
 }
 
 /**
@@ -99,9 +99,9 @@ Statemachine_Test::setInitialChildState_test()
     statemachine.createNewState(SOURCE_STATE);
     statemachine.createNewState(NEXT_STATE);
 
-    UNITTEST(statemachine.setInitialChildState(SOURCE_STATE, NEXT_STATE), true);
-    UNITTEST(statemachine.setInitialChildState(FAIL, NEXT_STATE), false);
-    UNITTEST(statemachine.setInitialChildState(SOURCE_STATE, FAIL), false);
+    TEST_EQUAL(statemachine.setInitialChildState(SOURCE_STATE, NEXT_STATE), true);
+    TEST_EQUAL(statemachine.setInitialChildState(FAIL, NEXT_STATE), false);
+    TEST_EQUAL(statemachine.setInitialChildState(SOURCE_STATE, FAIL), false);
 }
 
 /**
@@ -115,9 +115,9 @@ Statemachine_Test::addChildState_test()
     statemachine.createNewState(SOURCE_STATE);
     statemachine.createNewState(NEXT_STATE);
 
-    UNITTEST(statemachine.addChildState(SOURCE_STATE, NEXT_STATE), true);
-    UNITTEST(statemachine.addChildState(FAIL, NEXT_STATE), false);
-    UNITTEST(statemachine.addChildState(SOURCE_STATE, FAIL), false);
+    TEST_EQUAL(statemachine.addChildState(SOURCE_STATE, NEXT_STATE), true);
+    TEST_EQUAL(statemachine.addChildState(FAIL, NEXT_STATE), false);
+    TEST_EQUAL(statemachine.addChildState(SOURCE_STATE, FAIL), false);
 }
 
 /**
@@ -128,7 +128,7 @@ Statemachine_Test::getCurrentStateId_test()
 {
     Statemachine statemachine;
 
-    UNITTEST(statemachine.getCurrentStateId(), 0);
+    TEST_EQUAL(statemachine.getCurrentStateId(), 0);
 
     // init state
     statemachine.createNewState(SOURCE_STATE);
@@ -142,15 +142,15 @@ Statemachine_Test::getCurrentStateId_test()
     statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
     statemachine.addTransition(NEXT_STATE, GOGO, TARGET_STATE);
 
-    UNITTEST(statemachine.getCurrentStateId(), SOURCE_STATE);
+    TEST_EQUAL(statemachine.getCurrentStateId(), SOURCE_STATE);
 
     statemachine.goToNextState(GO);
 
-    UNITTEST(statemachine.getCurrentStateId(), CHILD_STATE);
+    TEST_EQUAL(statemachine.getCurrentStateId(), CHILD_STATE);
 
     statemachine.goToNextState(GOGO);
 
-    UNITTEST(statemachine.getCurrentStateId(), TARGET_STATE);
+    TEST_EQUAL(statemachine.getCurrentStateId(), TARGET_STATE);
 }
 
 /**
@@ -161,7 +161,7 @@ Statemachine_Test::getCurrentStateName_test()
 {
     Statemachine statemachine;
 
-    UNITTEST(statemachine.getCurrentStateId(), 0);
+    TEST_EQUAL(statemachine.getCurrentStateId(), 0);
 
     // init state
     statemachine.createNewState(SOURCE_STATE, "SOURCE_STATE");
@@ -175,15 +175,15 @@ Statemachine_Test::getCurrentStateName_test()
     statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
     statemachine.addTransition(NEXT_STATE, GOGO, TARGET_STATE);
 
-    UNITTEST(statemachine.getCurrentStateId(), SOURCE_STATE);
+    TEST_EQUAL(statemachine.getCurrentStateId(), SOURCE_STATE);
 
     statemachine.goToNextState(GO);
 
-    UNITTEST(statemachine.getCurrentStateName(), "CHILD_STATE");
+    TEST_EQUAL(statemachine.getCurrentStateName(), "CHILD_STATE");
 
     statemachine.goToNextState(GOGO);
 
-    UNITTEST(statemachine.getCurrentStateName(), "TARGET_STATE");
+    TEST_EQUAL(statemachine.getCurrentStateName(), "TARGET_STATE");
 }
 
 /**
@@ -194,7 +194,7 @@ Statemachine_Test::isInState_test()
 {
     Statemachine statemachine;
 
-    UNITTEST(statemachine.getCurrentStateId(), 0);
+    TEST_EQUAL(statemachine.getCurrentStateId(), 0);
 
     // init state
     statemachine.createNewState(SOURCE_STATE);
@@ -208,14 +208,14 @@ Statemachine_Test::isInState_test()
     statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
     statemachine.addTransition(NEXT_STATE, GOGO, TARGET_STATE);
 
-    UNITTEST(statemachine.isInState(SOURCE_STATE), true);
-    UNITTEST(statemachine.isInState(FAIL), false);
+    TEST_EQUAL(statemachine.isInState(SOURCE_STATE), true);
+    TEST_EQUAL(statemachine.isInState(FAIL), false);
 
     statemachine.goToNextState(GO);
 
-    UNITTEST(statemachine.isInState(CHILD_STATE), true);
-    UNITTEST(statemachine.isInState(NEXT_STATE), true);
-    UNITTEST(statemachine.isInState(SOURCE_STATE), false);
+    TEST_EQUAL(statemachine.isInState(CHILD_STATE), true);
+    TEST_EQUAL(statemachine.isInState(NEXT_STATE), true);
+    TEST_EQUAL(statemachine.isInState(SOURCE_STATE), false);
 }
 
 } // namespace Common

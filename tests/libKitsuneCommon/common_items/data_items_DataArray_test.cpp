@@ -15,7 +15,7 @@ namespace Common
 {
 
 DataItems_DataArray_Test::DataItems_DataArray_Test()
-    : Kitsune::Common::UnitTest("DataItems_DataArray_Test")
+    : Kitsune::Common::Test("DataItems_DataArray_Test")
 {
     copy_assingment_constructor_test();
     copy_assingment_operator_test();
@@ -42,7 +42,7 @@ DataItems_DataArray_Test::copy_assingment_constructor_test()
 {
     DataArray array = initTestArray();
     DataArray arrayCopy = array;
-    UNITTEST(arrayCopy.toString(), array.toString());
+    TEST_EQUAL(arrayCopy.toString(), array.toString());
 }
 
 /**
@@ -54,7 +54,7 @@ DataItems_DataArray_Test::copy_assingment_operator_test()
     DataArray array = initTestArray();
     DataArray arrayCopy;
     arrayCopy = array;
-    UNITTEST(arrayCopy.toString(), array.toString());
+    TEST_EQUAL(arrayCopy.toString(), array.toString());
 }
 
 /**
@@ -75,7 +75,7 @@ DataItems_DataArray_Test::append_test()
     array.append(floatValue.copy());
     array.append(nullptr);
 
-    UNITTEST(array.size(), 5);
+    TEST_EQUAL(array.size(), 5);
 }
 
 /**
@@ -86,13 +86,13 @@ DataItems_DataArray_Test::operator_test()
 {
     DataArray array = initTestArray();
 
-    UNITTEST(array[1]->toString(), "test");
+    TEST_EQUAL(array[1]->toString(), "test");
 
     // negative tests
     bool isNullptr = array[10] == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
     isNullptr = array["2"] == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -103,13 +103,13 @@ DataItems_DataArray_Test::get_test()
 {
     DataArray array = initTestArray();
 
-    UNITTEST(array.get(1)->getString(), "test");
+    TEST_EQUAL(array.get(1)->getString(), "test");
 
     // negative tests
     bool isNullptr = array.get(10) == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
     isNullptr = array.get("2") == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -119,7 +119,7 @@ void
 DataItems_DataArray_Test::getSize_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.size(), 5);
+    TEST_EQUAL(array.size(), 5);
 }
 
 /**
@@ -129,14 +129,14 @@ void
 DataItems_DataArray_Test::remove_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.remove(1), true);
-    UNITTEST(array.remove("2"), true);
+    TEST_EQUAL(array.remove(1), true);
+    TEST_EQUAL(array.remove("2"), true);
 
-    UNITTEST(array.get(1)->getInt(), 42);
-    UNITTEST(array.size(), 3);
+    TEST_EQUAL(array.get(1)->getInt(), 42);
+    TEST_EQUAL(array.size(), 3);
 
     // negative tests
-    UNITTEST(array.remove(10), false);
+    TEST_EQUAL(array.remove(10), false);
 }
 
 /**
@@ -150,9 +150,9 @@ DataItems_DataArray_Test::copy_test()
     DataArray* arrayCopy = dynamic_cast<DataArray*>(array.copy());
 
     bool isNullptr = arrayCopy == nullptr;
-    UNITTEST(isNullptr, false);
+    TEST_EQUAL(isNullptr, false);
 
-    UNITTEST(array.toString(), arrayCopy->toString());
+    TEST_EQUAL(array.toString(), arrayCopy->toString());
 
     delete arrayCopy;
 }
@@ -166,7 +166,7 @@ DataItems_DataArray_Test::toString_test()
     DataArray array = initTestArray();
 
     std::string compare = "[\"\",\"test\",42,42.500000,null]";
-    UNITTEST(array.toString(), compare);
+    TEST_EQUAL(array.toString(), compare);
 
     compare = "[\n"
               "    \"\",\n"
@@ -175,7 +175,7 @@ DataItems_DataArray_Test::toString_test()
               "    42.500000,\n"
               "    null\n"
               "]";
-    UNITTEST(array.toString(true), compare);
+    TEST_EQUAL(array.toString(true), compare);
 }
 
 /**
@@ -185,7 +185,7 @@ void
 DataItems_DataArray_Test::getType_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.getType(), DataItem::ARRAY_TYPE);
+    TEST_EQUAL(array.getType(), DataItem::ARRAY_TYPE);
 }
 
 /**
@@ -195,9 +195,9 @@ void
 DataItems_DataArray_Test::isValue_isMap_isArray_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.isValue(), false);
-    UNITTEST(array.isMap(), false);
-    UNITTEST(array.isArray(), true);
+    TEST_EQUAL(array.isValue(), false);
+    TEST_EQUAL(array.isMap(), false);
+    TEST_EQUAL(array.isArray(), true);
 }
 
 /**
@@ -209,13 +209,13 @@ DataItems_DataArray_Test::toValue_toMap_toArray_test()
     DataArray array = initTestArray();
 
     bool isNullptr = array.toMap() == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 
     isNullptr = array.toArray() == nullptr;
-    UNITTEST(isNullptr, false);
+    TEST_EQUAL(isNullptr, false);
 
     isNullptr = array.toValue() == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -225,9 +225,9 @@ void
 DataItems_DataArray_Test::getString_getInt_getFloat_test()
 {
     DataArray array = initTestArray();
-    UNITTEST(array.getString(), "");
-    UNITTEST(array.getInt(), 0);
-    UNITTEST(array.getFloat(), 0.0f);
+    TEST_EQUAL(array.getString(), "");
+    TEST_EQUAL(array.getInt(), 0);
+    TEST_EQUAL(array.getFloat(), 0.0f);
 }
 
 /**

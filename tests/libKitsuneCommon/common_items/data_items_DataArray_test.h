@@ -9,7 +9,7 @@
 #ifndef DATAITEMS_DATAARRAY_TEST_H
 #define DATAITEMS_DATAARRAY_TEST_H
 
-#include <libKitsuneCommon/unit_test.h>
+#include <libKitsuneCommon/test.h>
 
 namespace Kitsune
 {
@@ -18,7 +18,7 @@ namespace Common
 class DataArray;
 
 class DataItems_DataArray_Test
-        : public Kitsune::Common::UnitTest
+        : public Kitsune::Common::Test
 {
 public:
     DataItems_DataArray_Test();

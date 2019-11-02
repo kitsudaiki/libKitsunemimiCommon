@@ -16,7 +16,7 @@ namespace Common
 {
 
 State_Test::State_Test()
-    : Kitsune::Common::UnitTest("State_Test")
+    : Kitsune::Common::Test("State_Test")
 {
     addTransition_test();
     next_test();
@@ -33,11 +33,11 @@ State_Test::addTransition_test()
     State sourceState(SOURCE_STATE);
     State nextState(NEXT_STATE);
 
-    UNITTEST(sourceState.addTransition(GO, &nextState), true);
-    UNITTEST(sourceState.addTransition(GOGO, &nextState), true);
-    UNITTEST(sourceState.addTransition(GO, &nextState), false);
+    TEST_EQUAL(sourceState.addTransition(GO, &nextState), true);
+    TEST_EQUAL(sourceState.addTransition(GOGO, &nextState), true);
+    TEST_EQUAL(sourceState.addTransition(GO, &nextState), false);
 
-    UNITTEST(sourceState.nextStates.size(), 2);
+    TEST_EQUAL(sourceState.nextStates.size(), 2);
 }
 
 /**
@@ -55,12 +55,12 @@ State_Test::next_test()
 
     selctedState = sourceState.next(GO);
     isNullptr = selctedState == nullptr;
-    UNITTEST(isNullptr, false);
-    UNITTEST(selctedState->id, NEXT_STATE);
+    TEST_EQUAL(isNullptr, false);
+    TEST_EQUAL(selctedState->id, NEXT_STATE);
 
     selctedState = sourceState.next(FAIL);
     isNullptr = selctedState == nullptr;
-    UNITTEST(isNullptr, true);
+    TEST_EQUAL(isNullptr, true);
 }
 
 /**
@@ -73,7 +73,7 @@ State_Test::setInitialChildState_test()
     State initialState(INITIAL_STATE);
 
     sourceState.setInitialChildState(&initialState);
-    UNITTEST(sourceState.initialChild->id, INITIAL_STATE);
+    TEST_EQUAL(sourceState.initialChild->id, INITIAL_STATE);
 }
 
 /**
@@ -86,7 +86,7 @@ State_Test::addChildState_test()
     State childState(CHILD_STATE);
 
     sourceState.addChildState(&childState);
-    UNITTEST(childState.parent->id, SOURCE_STATE);
+    TEST_EQUAL(childState.parent->id, SOURCE_STATE);
 }
 
 } // namespace Common
