@@ -12,9 +12,9 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsuneCommon/test.h>
+#include <libKitsunemimiCommon/test.h>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -37,4 +37,4 @@ Test::~Test()
 }
 
 } // namespace Common
-} // namespace Kitsune
+} // namespace Kitsunemimi

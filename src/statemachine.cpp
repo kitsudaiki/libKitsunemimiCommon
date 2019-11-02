@@ -10,10 +10,10 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsuneCommon/statemachine.h>
+#include <libKitsunemimiCommon/statemachine.h>
 #include <state.h>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -309,4 +309,4 @@ Statemachine::getState(const uint32_t stateId)
 }
 
 } // namespace Common
-} // namespace Kitsune
+} // namespace Kitsunemimi

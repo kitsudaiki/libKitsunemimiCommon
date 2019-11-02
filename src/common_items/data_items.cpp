@@ -12,9 +12,9 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsuneCommon/common_items/data_items.h>
+#include <libKitsunemimiCommon/common_items/data_items.h>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -1234,4 +1234,4 @@ DataArray::append(DataItem* item)
 
 
 }  // namespace Common
-}  // namespace Kitsune
+}  // namespace Kitsunemimi

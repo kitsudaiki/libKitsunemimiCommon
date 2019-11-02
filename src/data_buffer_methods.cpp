@@ -12,10 +12,10 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsuneCommon/data_buffer_methods.h>
-#include <libKitsuneCommon/data_buffer.h>
+#include <libKitsunemimiCommon/data_buffer_methods.h>
+#include <libKitsunemimiCommon/data_buffer.h>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -201,4 +201,4 @@ alignedFree(void* ptr)
 }
 
 } // namespace Common
-} // namespace Kitsune
+} // namespace Kitsunemimi

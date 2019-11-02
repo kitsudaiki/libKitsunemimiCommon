@@ -1,8 +1,8 @@
-# libKitsuneCommon
+# libKitsunemimiCommon
 
-![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/tobiasanker/libKitsuneCommon?label=build%20and%20test&style=flat-square)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tobiasanker/libKitsuneCommon?label=version&style=flat-square)
-![GitHub](https://img.shields.io/github/license/tobiasanker/libKitsuneCommon?style=flat-square)
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/tobiasanker/libKitsunemimiCommon?label=build%20and%20test&style=flat-square)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tobiasanker/libKitsunemimiCommon?label=version&style=flat-square)
+![GitHub](https://img.shields.io/github/license/tobiasanker/libKitsunemimiCommon?style=flat-square)
 ![C++Version](https://img.shields.io/badge/c%2B%2B-14-blue?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-Linux--x64-lightgrey?style=flat-square)
 
@@ -14,15 +14,15 @@ This library contains some functions, I need for my other projects. There are fu
 
 #### Data-Items
 
-*include-file:* `libKitsuneCommon/common_items/data_items.h`
+*include-file:* `libKitsunemimiCommon/common_items/data_items.h`
 
-These are classes for data-representation and comparable to the dict-objects of python. The data-items were originally the core data handling structure inside libKitsuneJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
+These are classes for data-representation and comparable to the dict-objects of python. The data-items were originally the core data handling structure inside libKitsunemimiJson for representing json-trees. Thats why the string output of these items still have json-format. The table-items are for table styled output of information. Internally it use the data-items.
 
 #### Tables
 
-*include-file:* `libKitsuneCommon/common_items/table_item.h`
+*include-file:* `libKitsunemimiCommon/common_items/table_item.h`
 
-This is for printing tables. Internally it use the data-items for handling the content. For example you could parse the json-formated content of an http message via libKitsuneJson, use the the resulting data-item-tree together with a header definition and print is as table. The results looks for example like this:
+This is for printing tables. Internally it use the data-items for handling the content. For example you could parse the json-formated content of an http message via libKitsunemimiJson, use the the resulting data-item-tree together with a header definition and print is as table. The results looks for example like this:
 
 ```
 +-----------------+---------+
@@ -40,31 +40,31 @@ This is for printing tables. Internally it use the data-items for handling the c
 
 #### Data buffer
 
-*include-file:* `libKitsuneCommon/data_buffer.h`
+*include-file:* `libKitsunemimiCommon/data_buffer.h`
 
-This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunePersistence.
+This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunemimiPersistence.
 
 #### Threads
 
-*include-file:* `libKitsuneCommon/thread.h`
+*include-file:* `libKitsunemimiCommon/thread.h`
 
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread.
 
 #### Tests
 
-*include-file:* `libKitsuneCommon/test.h`
+*include-file:* `libKitsunemimiCommon/test.h`
 
 This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
 
 #### Statemachine
 
-*include-file:* `libKitsuneCommon/statemachine.h`
+*include-file:* `libKitsunemimiCommon/statemachine.h`
 
 It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
 
 #### Common methods
 
-*include-file:* `libKitsuneCommon/common_methods/string_methods.h` and `libKitsuneCommon/common_methods/vector_methods.h`
+*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h` and `libKitsunemimiCommon/common_methods/vector_methods.h`
 
 These contains some commonly used mehtods. At the moment there are only two, but there will come more.
 
@@ -72,13 +72,13 @@ These contains some commonly used mehtods. At the moment there are only two, but
 
 Here some common information about my projects and my code-styling. It's not complete and a bit short. I will write a styling-guide for my projects, where I will write this a bit longer with more explanation, why I make it like this.
 
-### About my kitsune libraries
+### About my kitsunemimi libraries
 
-1. All my libraries beginning with `libKitsune`, because I needed a naming to identify my own libraries and I decided to use `Kitsune` as name, because Kitsunemimi are moe. ;)
+1. All my libraries beginning with `libKitsunemimi`, because I needed a naming to identify my own libraries and I decided to use `Kitsunemimi` as name, because Kitsunemimi are moe. ;)
 
-2. The namespace of the code within the libraries is identically to the name of the library. So for example all content of `libKitsuneCommon` has the namespace `Kitsune::Common`.
+2. The namespace of the code within the libraries is identically to the name of the library. So for example all content of `libKitsunemimiCommon` has the namespace `Kitsunemimi::Common`.
 
-3. If you only want to use the library, beside the binary you only ne the public methods and variables in the header-files, which are located in the `include`-directory of each `libKitsune`-repo. I try my best to make these as small and self-explaining, as possible. 
+3. If you only want to use the library, beside the binary you only ne the public methods and variables in the header-files, which are located in the `include`-directory of each `libKitsunemimi`-repo. I try my best to make these as small and self-explaining, as possible. 
 
 ### About my repositories in general
 
@@ -124,7 +124,7 @@ Before running the build-script:
 
 ```bash
 .
-└── libKitsuneCommon
+└── libKitsunemimiCommon
     ├── build.sh
     └── ...
 ```
@@ -134,19 +134,19 @@ After running the build-script:
 ```bash
 .
 ├── build
-│   └── libKitsuneCommon
+│   └── libKitsunemimiCommon
 │       ├── Makefile
 │       ├── src
 │       └── tests
-├── libKitsuneCommon
+├── libKitsunemimiCommon
 │   ├── build.sh
 │   └── ...
 └── result
     ├── include
-    │   └── libKitsuneCommon
-    ├── libKitsuneCommon.so.0 -> libKitsuneCommon.so.0.6.0
-    ├── libKitsuneCommon.so.0.6 -> libKitsuneCommon.so.0.6.0
-    └── libKitsuneCommon.so.0.6.0
+    │   └── libKitsunemimiCommon
+    ├── libKitsunemimiCommon.so.0 -> libKitsunemimiCommon.so.0.6.0
+    ├── libKitsunemimiCommon.so.0.6 -> libKitsunemimiCommon.so.0.6.0
+    └── libKitsunemimiCommon.so.0.6.0
 ```
 
 It create automatic a `build` and `result` directory in the directory, where you have cloned the project. At first it build all into the `build`-directory and after all build-steps are finished, it copy the include directory from the cloned repository and the build library into the `result`-directory. So you have all in one single place.
@@ -167,21 +167,21 @@ Here is a short documentation of the functions of the items. It doesn't descibe 
 There exist three different items which all inherit the `DataItem` for generic access:
 
 - `DataValue`
-	- simple value-item
-	- can be string, int-value or float-value
+    - simple value-item
+    - can be string, int-value or float-value
 - `DataMap`
-	- This is a map-object for key-value-pair with a string as identifier and a DataItem-pointer as value
-	- data can be added with the `insert`-method
+    - This is a map-object for key-value-pair with a string as identifier and a DataItem-pointer as value
+    - data can be added with the `insert`-method
 - `DataArray`
-	- It's a internally a vector of Dataitem-pointer
-	- data can be added with the `append`-method
+    - It's a internally a vector of Dataitem-pointer
+    - data can be added with the `append`-method
 
 IMPORTANT: all getter here only return a pointer to the internal object. If you want a copy, you have to use the `copy`-method of the objects to recursivly the data-item-tree behind the pointer.
 
 To see all offered possebilities, which are provided by the data-items, please see the header-file `common_items/data_items.h`. There is nearly all self-explaining, because there are basically only getter and setter. So the following is only a minimal example:
 
 ```cpp
-#include <libKitsuneCommon/common_items/data_items.h>
+#include <libKitsunemimiCommon/common_items/data_items.h>
 
 // init some value
 DataValue stringValue("test");
@@ -247,12 +247,12 @@ This is for printing informations as table on the commandline in form of this ex
 +-----------------+---------+
 ```
 
-Its primary to print informations coming from a REST-API response in form a json. So it can be filled manually or with content which was parsed with libKitsuneJson (coming soon open-source). If the content of a cell of the table contains a string with line breaks, its shown as multiple lines line in the last row of the example.
+Its primary to print informations coming from a REST-API response in form a json. So it can be filled manually or with content which was parsed with libKitsunemimiJson (coming soon open-source). If the content of a cell of the table contains a string with line breaks, its shown as multiple lines line in the last row of the example.
 
 - manual filling of the table:
 
 ```cpp
-#include <libKitsuneCommon/common_items/table_item.h>
+#include <libKitsunemimiCommon/common_items/table_item.h>
 
 
 TableItem testItem;
@@ -285,7 +285,7 @@ here ouput has nwo the content:
 - fill with predefined informations:
 
 ```cpp
-#include <libKitsuneCommon/common_items/table_item.h>
+#include <libKitsunemimiCommon/common_items/table_item.h>
 
 DataArray header;
 /**
@@ -377,7 +377,7 @@ One the first row is used here for the output
 The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
 
 ```cpp
-#include <libKitsuneCommon/data_buffer.h>
+#include <libKitsunemimiCommon/data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
@@ -401,7 +401,7 @@ testBuffer.reset();
 For more control you can also use the data-methods directly:
 
 ```cpp
-#include <libKitsuneCommon/data_buffer.h>
+#include <libKitsunemimiCommon/data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
@@ -428,58 +428,58 @@ The usage can be explained with the following examples:
 ```cpp
 // demo_thead.h
 
-#include <libKitsuneCommon/thread.h>
+#include <libKitsunemimiCommon/thread.h>
 
 
 class DemoThread 
-    : public Kitsune::Common::Thread
+    : public Kitsunemimi::Common::Thread
 {
 
 public:
     DemoThread();
 
     void run()
-	{
-	    while(!m_abort)
-	    {
-	    	if(m_block) {
-	            blockThread();
-	        }
-	    	// do something
-	    }
-	}
+    {
+        while(!m_abort)
+        {
+            if(m_block) {
+                blockThread();
+            }
+            // do something
+        }
+    }
 }
 ```
 
 - It can be called like this for example:
 
 ```cpp
-#include <libKitsuneCommon/demo_thead.h>
+#include <libKitsunemimiCommon/demo_thead.h>
 
 int main()
 {
-	// create a thread which is binded to cpu-thread with id 1
-	DemoThread testThread(1);
+    // create a thread which is binded to cpu-thread with id 1
+    DemoThread testThread(1);
 
-	// start thread
-	testThread.start();
+    // start thread
+    testThread.start();
 
-	// let the thrad pause the next time the next time it start the while-loop from beginning
-	testThread.initBlockThread();
+    // let the thrad pause the next time the next time it start the while-loop from beginning
+    testThread.initBlockThread();
 
-	// let the thread continue its work
-	testThread.continueThread();
+    // let the thread continue its work
+    testThread.continueThread();
 
-	// stop the thread and wait until he has finished his work
-	testThread.stop();
+    // stop the thread and wait until he has finished his work
+    testThread.stop();
 
-	return 0;
+    return 0;
 }
 ```
 
 ### Tests
 
-For using the unit-tests your test-class have to inherit the class `Kitsune::Common::UnitTest` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `UNITTEST(<VARIABLE_TO_CHECK> , <EXPECTED_VALUE);` and `UNITTEST_NEG(<VARIABLE_TO_CHECK> , <NOT_EXPECTED_VALUE);`. First is successful when equal and second one is successful, when unequal. 
+For using the unit-tests your test-class have to inherit the class `Kitsunemimi::Common::UnitTest` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `UNITTEST(<VARIABLE_TO_CHECK> , <EXPECTED_VALUE);` and `UNITTEST_NEG(<VARIABLE_TO_CHECK> , <NOT_EXPECTED_VALUE);`. First is successful when equal and second one is successful, when unequal. 
 
 - After a success the result would look like this:
 
@@ -513,10 +513,10 @@ Example:
 ```cpp
 // demo_test.h
 
-#include <libKitsuneCommon/test.h>
+#include <libKitsunemimiCommon/test.h>
 
 class Demo_Test 
-    : public Kitsune::Common::Test    // <-- connect with unit-tests
+    : public Kitsunemimi::Common::Test    // <-- connect with unit-tests
 {
 public:
     Demo_Test();
@@ -532,9 +532,9 @@ private:
 #include "demo_test.h"
 
 Demo_Test::Demo_Test() 
-    : Kitsune::Common::UnitTest("Demo_Test")    // <-- give the unit-test a name
+    : Kitsunemimi::Common::UnitTest("Demo_Test")    // <-- give the unit-test a name
 {
-    some_test();	// <-- call the test-method
+    some_test();    // <-- call the test-method
 }
 
 /**
@@ -548,7 +548,7 @@ DataBuffer_Test::some_test()
     // compare two values
     // first the is-value 
     // second the should-value
-    TEST_EQUAL(answerForAll, 42); 	// <-- single test
+    TEST_EQUAL(answerForAll, 42);   // <-- single test
 
     // inverted test
     TEST_NOT_EQUAL(answerForAll, 0);
@@ -576,7 +576,7 @@ This is really a ultra simple statemachine, so the few functions can easily expl
 
 ```cpp
 
-#include <libKitsuneCommon/statemachine.h>
+#include <libKitsunemimiCommon/statemachine.h>
 
 enum states
 {
@@ -632,7 +632,7 @@ Example:
 
 ```cpp
 
-#include <libKitsuneCommon/common_methods/string_methods.h>
+#include <libKitsunemimiCommon/common_methods/string_methods.h>
 
 
 std::string testString = "this is a test-string";
@@ -656,7 +656,7 @@ Example:
 
 ```cpp
 
-#include <libKitsuneCommon/common_methods/vector_methods.h>
+#include <libKitsunemimiCommon/common_methods/vector_methods.h>
 
 
 std::vector<std::string> testVector{"x","","y","z",""};
