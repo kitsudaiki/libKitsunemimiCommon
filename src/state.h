@@ -24,16 +24,19 @@ namespace Common
 
 struct State
 {
-    std::map<std::string, State*> nextStates;
+    std::map<uint32_t, State*> nextStates;
     std::string name = "";
+    uint32_t id = 0;
     State* parent = nullptr;
     State* initialChild = nullptr;
 
     /**
      * @brief constructor
      */
-    State(const std::string name)
+    State(const uint32_t id,
+          const std::string &name = "")
     {
+        this->id = id;
         this->name = name;
     }
 
@@ -46,16 +49,16 @@ struct State
      * @return false if key already registerd, else true
      */
     bool
-    addTransition(const std::string &key, State* nextState)
+    addTransition(const uint32_t &key, State* nextState)
     {
-        std::map<std::string, State*>::iterator it;
+        std::map<uint32_t, State*>::iterator it;
         it = nextStates.find(key);
 
         if(it != nextStates.end()) {
             return false;
         }
 
-        nextStates.insert(std::pair<std::string, State*>(key, nextState));
+        nextStates.insert(std::pair<uint32_t, State*>(key, nextState));
 
         return true;
     }
@@ -69,9 +72,9 @@ struct State
      *         returns null-pointer if the key is unknown
      */
     State*
-    next(const std::string &key)
+    next(const uint32_t &key)
     {
-        std::map<std::string, State*>::iterator it;
+        std::map<uint32_t, State*>::iterator it;
         it = nextStates.find(key);
 
         if(it != nextStates.end())
