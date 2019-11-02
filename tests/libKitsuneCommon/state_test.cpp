@@ -30,12 +30,12 @@ State_Test::State_Test()
 void
 State_Test::addTransition_test()
 {
-    State sourceState("source");
-    State nextState("next");
+    State sourceState(SOURCE_STATE);
+    State nextState(NEXT_STATE);
 
-    UNITTEST(sourceState.addTransition("go", &nextState), true);
-    UNITTEST(sourceState.addTransition("go_now", &nextState), true);
-    UNITTEST(sourceState.addTransition("go", &nextState), false);
+    UNITTEST(sourceState.addTransition(GO, &nextState), true);
+    UNITTEST(sourceState.addTransition(GOGO, &nextState), true);
+    UNITTEST(sourceState.addTransition(GO, &nextState), false);
 
     UNITTEST(sourceState.nextStates.size(), 2);
 }
@@ -46,19 +46,19 @@ State_Test::addTransition_test()
 void
 State_Test::next_test()
 {
-    State sourceState("source");
-    State nextState("next");
+    State sourceState(SOURCE_STATE);
+    State nextState(NEXT_STATE);
     State* selctedState = nullptr;
     bool isNullptr = false;
 
-    sourceState.addTransition("go", &nextState);
+    sourceState.addTransition(GO, &nextState);
 
-    selctedState = sourceState.next("go");
+    selctedState = sourceState.next(GO);
     isNullptr = selctedState == nullptr;
     UNITTEST(isNullptr, false);
-    UNITTEST(selctedState->name, "next");
+    UNITTEST(selctedState->name, NEXT_STATE);
 
-    selctedState = sourceState.next("fail");
+    selctedState = sourceState.next(FAIL);
     isNullptr = selctedState == nullptr;
     UNITTEST(isNullptr, true);
 }
@@ -69,11 +69,11 @@ State_Test::next_test()
 void
 State_Test::setInitialChildState_test()
 {
-    State sourceState("source");
-    State initialState("initial");
+    State sourceState(SOURCE_STATE);
+    State initialState(INITIAL_STATE);
 
     sourceState.setInitialChildState(&initialState);
-    UNITTEST(sourceState.initialChild->name, "initial");
+    UNITTEST(sourceState.initialChild->name, INITIAL_STATE);
 }
 
 /**
@@ -82,11 +82,11 @@ State_Test::setInitialChildState_test()
 void
 State_Test::addChildState_test()
 {
-    State sourceState("source");
-    State childState("child");
+    State sourceState(SOURCE_STATE);
+    State childState(CHILD_STATE);
 
     sourceState.addChildState(&childState);
-    UNITTEST(childState.parent->name, "source");
+    UNITTEST(childState.parent->name, SOURCE_STATE);
 }
 
 } // namespace Common

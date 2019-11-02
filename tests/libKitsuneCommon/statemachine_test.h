@@ -23,6 +23,18 @@ public:
     Statemachine_Test();
 
 private:
+
+    enum states
+    {
+        SOURCE_STATE = 1,
+        TARGET_STATE = 2,
+        CHILD_STATE = 3,
+        NEXT_STATE = 4,
+        GO = 5,
+        GOGO = 6,
+        FAIL = 7,
+    };
+
     void createNewState_test();
     void setCurrentState_test();
     void addTransition_test();

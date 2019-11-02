@@ -28,7 +28,7 @@ Statemachine::Statemachine() {}
  */
 Statemachine::~Statemachine()
 {
-    std::map<std::string, State*>::iterator it;
+    std::map<uint32_t, State*>::iterator it;
 
     // delete all states
     for(it = m_allStates.begin(); it != m_allStates.end(); it++)
@@ -50,7 +50,7 @@ Statemachine::~Statemachine()
  * @return false if state-name already exist, else true
  */
 bool
-Statemachine::createNewState(const std::string &stateName)
+Statemachine::createNewState(const uint32_t stateName)
 {
     // check if state already exist
     State* newState = getState(stateName);
@@ -60,7 +60,7 @@ Statemachine::createNewState(const std::string &stateName)
 
     // add new state
     newState = new State(stateName);
-    m_allStates.insert(std::pair<std::string, State*>(stateName, newState));
+    m_allStates.insert(std::pair<uint32_t, State*>(stateName, newState));
 
     // first created state is set as current stat to init the statemachine
     if(m_currentState == nullptr) {
@@ -78,7 +78,7 @@ Statemachine::createNewState(const std::string &stateName)
  * @return false, if state doesn't exist, else true
  */
 bool
-Statemachine::setCurrentState(const std::string &stateName)
+Statemachine::setCurrentState(const uint32_t stateName)
 {
     // check if state already exist
     State* state = getState(stateName);
@@ -101,9 +101,9 @@ Statemachine::setCurrentState(const std::string &stateName)
  * @return false if key already registerd or state or nextState doesn't exist, else true
  */
 bool
-Statemachine::addTransition(const std::string &stateName,
-                            const std::string &key,
-                            const std::string &nextStateName)
+Statemachine::addTransition(const uint32_t stateName,
+                            const uint32_t key,
+                            const uint32_t nextStateName)
 {
     State* sourceState = getState(stateName);
     State* nextState = getState(nextStateName);
@@ -129,8 +129,8 @@ Statemachine::addTransition(const std::string &stateName,
  * @return false, if names doesn't exist, else true
  */
 bool
-Statemachine::setInitialChildState(const std::string &stateName,
-                                   const std::string &initialChildStateName)
+Statemachine::setInitialChildState(const uint32_t stateName,
+                                   const uint32_t initialChildStateName)
 {
     State* sourceState = getState(stateName);
     State* initialChildState = getState(initialChildStateName);
@@ -155,8 +155,8 @@ Statemachine::setInitialChildState(const std::string &stateName,
  * @return false, if names doesn't exist, else true
  */
 bool
-Statemachine::addChildState(const std::string &stateName,
-                            const std::string &childStateName)
+Statemachine::addChildState(const uint32_t stateName,
+                            const uint32_t childStateName)
 {
     State* sourceState = getState(stateName);
     State* childState = getState(childStateName);
@@ -181,14 +181,14 @@ Statemachine::addChildState(const std::string &stateName,
  * @return true, if there was the next requested state
  */
 bool
-Statemachine::goToNextState(const std::string &nextStateName,
-                            const std::string &requiredPreState)
+Statemachine::goToNextState(const uint32_t nextStateName,
+                            const uint32_t requiredPreState)
 {
     bool result = false;
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
                  ; // spin
 
-    if(requiredPreState == ""
+    if(requiredPreState == 0
             || requiredPreState == m_currentState->name)
     {
         State* state = m_currentState;
@@ -215,10 +215,10 @@ Statemachine::goToNextState(const std::string &nextStateName,
  *
  * @return the state of the statemachine
  */
-std::string
+uint32_t
 Statemachine::getCurrentState()
 {
-    std::string result = "";
+    uint32_t result = 0;
 
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
                  ; // spin
@@ -239,7 +239,7 @@ Statemachine::getCurrentState()
  * @return true, if in requested state or in a child-state of the requested state, else false
  */
 bool
-Statemachine::isInState(const std::string &stateName)
+Statemachine::isInState(const uint32_t stateName)
 {
     bool result = false;
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
@@ -267,14 +267,14 @@ Statemachine::isInState(const std::string &stateName)
  * @return nullptr, if state-name was not found, else pointer to the state
  */
 State*
-Statemachine::getState(const std::string stateName)
+Statemachine::getState(const uint32_t stateName)
 {
     State* result = nullptr;
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
                  ; // spin
 
     // check and get source-state
-    std::map<std::string, State*>::iterator it;
+    std::map<uint32_t, State*>::iterator it;
     it = m_allStates.find(stateName);
     if(it != m_allStates.end()) {
         result = it->second;
