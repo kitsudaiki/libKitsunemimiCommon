@@ -1,9 +1,19 @@
 # Changelog
 
-## [Unreleased]
+## [0.7.0] - 2019-11-02
+
+### Changed
+- renamed repo from `libKitsuneCommon` to `libKitsunemimiCommon`
+- statemachine now uses primary int-values as identifier instead of strings
+- renamed unit-test-class, because its also used for functional tests and not only for unit-tests
+- renamed start- and stop-methods in thread to startThread and stopThread
 
 ### Added
 - parent-child-states to statemachine
+- spin-locks to thread-class
+
+### Fixed
+- statemachine now thread-save
 
 
 ## [0.6.0] - 2019-10-07
