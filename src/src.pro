@@ -1,6 +1,6 @@
 QT       -= qt core gui
 
-TARGET = KitsuneCommon
+TARGET = KitsunemimiCommon
 TEMPLATE = lib
 CONFIG += c++14
 VERSION = 0.6.0
@@ -17,13 +17,13 @@ SOURCES += \
     unit_test.cpp
 
 HEADERS += \
-    ../include/libKitsuneCommon/data_buffer.h \
-    ../include/libKitsuneCommon/data_buffer_methods.h \
-    ../include/libKitsuneCommon/common_methods/string_methods.h \
-    ../include/libKitsuneCommon/common_methods/vector_methods.h \
-    ../include/libKitsuneCommon/common_items/data_items.h \
-    ../include/libKitsuneCommon/statemachine.h \
-    ../include/libKitsuneCommon/thread.h \
+    ../include/libKitsunemimiCommon/data_buffer.h \
+    ../include/libKitsunemimiCommon/data_buffer_methods.h \
+    ../include/libKitsunemimiCommon/common_methods/string_methods.h \
+    ../include/libKitsunemimiCommon/common_methods/vector_methods.h \
+    ../include/libKitsunemimiCommon/common_items/data_items.h \
+    ../include/libKitsunemimiCommon/statemachine.h \
+    ../include/libKitsunemimiCommon/thread.h \
     state.h \
-    ../include/libKitsuneCommon/common_items/table_item.h \
-    ../include/libKitsuneCommon/test.h
+    ../include/libKitsunemimiCommon/common_items/table_item.h \
+    ../include/libKitsunemimiCommon/test.h

@@ -13,10 +13,10 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsuneCommon/thread.h>
-#include <libKitsuneCommon/data_buffer.h>
+#include <libKitsunemimiCommon/thread.h>
+#include <libKitsunemimiCommon/data_buffer.h>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -230,4 +230,4 @@ Thread::isActive() const
 }
 
 } // namespace Common
-} // namespace Kitsune
+} // namespace Kitsunemimi

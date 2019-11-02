@@ -14,12 +14,12 @@
  */
 
 
-#include <libKitsuneCommon/common_items/table_item.h>
-#include <libKitsuneCommon/common_items/data_items.h>
+#include <libKitsunemimiCommon/common_items/table_item.h>
+#include <libKitsunemimiCommon/common_items/data_items.h>
 
-#include <libKitsuneCommon/common_methods/string_methods.h>
+#include <libKitsunemimiCommon/common_methods/string_methods.h>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -814,4 +814,4 @@ TableItem::printHeaderBodyLine(TableItem::TableRow* headerContent,
 }
 
 }  // namespace Common
-}  // namespace Kitsune
+}  // namespace Kitsunemimi

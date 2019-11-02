@@ -17,7 +17,7 @@
 #include <vector>
 #include <utility>
 
-namespace Kitsune
+namespace Kitsunemimi
 {
 namespace Common
 {
@@ -113,6 +113,6 @@ struct State
 };
 
 } // namespace Common
-} // namespace Kitsune
+} // namespace Kitsunemimi
 
 #endif // STATE_H
