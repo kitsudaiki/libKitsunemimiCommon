@@ -25,15 +25,18 @@ namespace Common
 struct State
 {
     std::map<uint32_t, State*> nextStates;
-    uint32_t name = 0;
+    std::string name = "";
+    uint32_t id = 0;
     State* parent = nullptr;
     State* initialChild = nullptr;
 
     /**
      * @brief constructor
      */
-    State(const uint32_t name)
+    State(const uint32_t id,
+          const std::string &name = "")
     {
+        this->id = id;
         this->name = name;
     }
 

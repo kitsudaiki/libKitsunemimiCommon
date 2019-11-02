@@ -23,7 +23,7 @@ Statemachine_Test::Statemachine_Test()
     goToNextState_test();
     setInitialChildState_test();
     addChildState_test();
-    getCurrentState_test();
+    getCurrentStateId_test();
     isInState_test();
 }
 
@@ -121,14 +121,14 @@ Statemachine_Test::addChildState_test()
 }
 
 /**
- * getCurrentState_test
+ * getCurrentStateId_test
  */
 void
-Statemachine_Test::getCurrentState_test()
+Statemachine_Test::getCurrentStateId_test()
 {
     Statemachine statemachine;
 
-    UNITTEST(statemachine.getCurrentState(), 0);
+    UNITTEST(statemachine.getCurrentStateId(), 0);
 
     // init state
     statemachine.createNewState(SOURCE_STATE);
@@ -142,15 +142,48 @@ Statemachine_Test::getCurrentState_test()
     statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
     statemachine.addTransition(NEXT_STATE, GOGO, TARGET_STATE);
 
-    UNITTEST(statemachine.getCurrentState(), SOURCE_STATE);
+    UNITTEST(statemachine.getCurrentStateId(), SOURCE_STATE);
 
     statemachine.goToNextState(GO);
 
-    UNITTEST(statemachine.getCurrentState(), CHILD_STATE);
+    UNITTEST(statemachine.getCurrentStateId(), CHILD_STATE);
 
     statemachine.goToNextState(GOGO);
 
-    UNITTEST(statemachine.getCurrentState(), TARGET_STATE);
+    UNITTEST(statemachine.getCurrentStateId(), TARGET_STATE);
+}
+
+/**
+ * @brief getCurrentStateName_test
+ */
+void
+Statemachine_Test::getCurrentStateName_test()
+{
+    Statemachine statemachine;
+
+    UNITTEST(statemachine.getCurrentStateId(), 0);
+
+    // init state
+    statemachine.createNewState(SOURCE_STATE, "SOURCE_STATE");
+    statemachine.createNewState(NEXT_STATE, "NEXT_STATE");
+    statemachine.createNewState(CHILD_STATE, "CHILD_STATE");
+    statemachine.createNewState(TARGET_STATE, "TARGET_STATE");
+
+    // build state-machine
+    statemachine.addChildState(NEXT_STATE, CHILD_STATE);
+    statemachine.setInitialChildState(NEXT_STATE, CHILD_STATE);
+    statemachine.addTransition(SOURCE_STATE, GO, NEXT_STATE);
+    statemachine.addTransition(NEXT_STATE, GOGO, TARGET_STATE);
+
+    UNITTEST(statemachine.getCurrentStateId(), SOURCE_STATE);
+
+    statemachine.goToNextState(GO);
+
+    UNITTEST(statemachine.getCurrentStateName(), "CHILD_STATE");
+
+    statemachine.goToNextState(GOGO);
+
+    UNITTEST(statemachine.getCurrentStateName(), "TARGET_STATE");
 }
 
 /**
@@ -161,7 +194,7 @@ Statemachine_Test::isInState_test()
 {
     Statemachine statemachine;
 
-    UNITTEST(statemachine.getCurrentState(), 0);
+    UNITTEST(statemachine.getCurrentStateId(), 0);
 
     // init state
     statemachine.createNewState(SOURCE_STATE);

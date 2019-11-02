@@ -39,7 +39,8 @@ private:
     void setCurrentState_test();
     void addTransition_test();
     void goToNextState_test();
-    void getCurrentState_test();
+    void getCurrentStateId_test();
+    void getCurrentStateName_test();
     void setInitialChildState_test();
     void addChildState_test();
     void isInState_test();

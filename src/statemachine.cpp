@@ -45,22 +45,24 @@ Statemachine::~Statemachine()
 /**
  * @brief add a new state to the state-machine
  *
+ * @param stateId id of the new state
  * @param stateName name of the new state
  *
- * @return false if state-name already exist, else true
+ * @return false if state-id already exist, else true
  */
 bool
-Statemachine::createNewState(const uint32_t stateName)
+Statemachine::createNewState(const uint32_t stateId,
+                             const std::string &stateName)
 {
     // check if state already exist
-    State* newState = getState(stateName);
+    State* newState = getState(stateId);
     if(newState != nullptr) {
         return false;
     }
 
     // add new state
-    newState = new State(stateName);
-    m_allStates.insert(std::pair<uint32_t, State*>(stateName, newState));
+    newState = new State(stateId, stateName);
+    m_allStates.insert(std::pair<uint32_t, State*>(stateId, newState));
 
     // first created state is set as current stat to init the statemachine
     if(m_currentState == nullptr) {
@@ -73,15 +75,15 @@ Statemachine::createNewState(const uint32_t stateName)
 /**
  * @brief set the current state of the statemachine to a specific state
  *
- * @param stateName name of the new state
+ * @param stateId id of the new state
  *
  * @return false, if state doesn't exist, else true
  */
 bool
-Statemachine::setCurrentState(const uint32_t stateName)
+Statemachine::setCurrentState(const uint32_t stateId)
 {
     // check if state already exist
-    State* state = getState(stateName);
+    State* state = getState(stateId);
     if(state == nullptr) {
         return false;
     }
@@ -94,19 +96,19 @@ Statemachine::setCurrentState(const uint32_t stateName)
 /**
  * @brief add a ne transition to another state
  *
- * @param stateName source-state of the transition
+ * @param stateId source-state of the transition
  * @param key key-value which identify the transistion
- * @param nextStateName next state with belongs to the spezific key
+ * @param nextStateId next state with belongs to the spezific key
  *
  * @return false if key already registerd or state or nextState doesn't exist, else true
  */
 bool
-Statemachine::addTransition(const uint32_t stateName,
+Statemachine::addTransition(const uint32_t stateId,
                             const uint32_t key,
-                            const uint32_t nextStateName)
+                            const uint32_t nextStateId)
 {
-    State* sourceState = getState(stateName);
-    State* nextState = getState(nextStateName);
+    State* sourceState = getState(stateId);
+    State* nextState = getState(nextStateId);
 
     if(sourceState == nullptr
             || nextState == nullptr)
@@ -123,17 +125,17 @@ Statemachine::addTransition(const uint32_t stateName,
 /**
  * @brief set initial child state
  *
- * @param stateName source-state of the transition
- * @param initialChildStateName
+ * @param stateId source-state of the transition
+ * @param initialChildStateId
  *
- * @return false, if names doesn't exist, else true
+ * @return false, if id doesn't exist, else true
  */
 bool
-Statemachine::setInitialChildState(const uint32_t stateName,
-                                   const uint32_t initialChildStateName)
+Statemachine::setInitialChildState(const uint32_t stateId,
+                                   const uint32_t initialChildStateId)
 {
-    State* sourceState = getState(stateName);
-    State* initialChildState = getState(initialChildStateName);
+    State* sourceState = getState(stateId);
+    State* initialChildState = getState(initialChildStateId);
 
     if(sourceState == nullptr
             || initialChildState == nullptr)
@@ -149,17 +151,17 @@ Statemachine::setInitialChildState(const uint32_t stateName,
 /**
  * @brief add one state as child state for another one
  *
- * @param stateName source-state of the transition
- * @param childStateName
+ * @param stateId source-state of the transition
+ * @param childStateId
  *
- * @return false, if names doesn't exist, else true
+ * @return false, if id doesn't exist, else true
  */
 bool
-Statemachine::addChildState(const uint32_t stateName,
-                            const uint32_t childStateName)
+Statemachine::addChildState(const uint32_t stateId,
+                            const uint32_t childStateId)
 {
-    State* sourceState = getState(stateName);
-    State* childState = getState(childStateName);
+    State* sourceState = getState(stateId);
+    State* childState = getState(childStateId);
 
     if(sourceState == nullptr
             || childState == nullptr)
@@ -175,13 +177,13 @@ Statemachine::addChildState(const uint32_t stateName,
 /**
  * @brief got to the next state, if possible
  *
- * @param nextStateName the identifier of the next state of the statemachine
+ * @param nextStateId the identifier of the next state of the statemachine
  * @param requiredPreState
  *
  * @return true, if there was the next requested state
  */
 bool
-Statemachine::goToNextState(const uint32_t nextStateName,
+Statemachine::goToNextState(const uint32_t nextStateId,
                             const uint32_t requiredPreState)
 {
     bool result = false;
@@ -189,12 +191,12 @@ Statemachine::goToNextState(const uint32_t nextStateName,
                  ; // spin
 
     if(requiredPreState == 0
-            || requiredPreState == m_currentState->name)
+            || requiredPreState == m_currentState->id)
     {
         State* state = m_currentState;
         while(state != nullptr)
         {
-            State* nextState = state->next(nextStateName);
+            State* nextState = state->next(nextStateId);
             state = state->parent;
             if(nextState != nullptr)
             {
@@ -211,14 +213,35 @@ Statemachine::goToNextState(const uint32_t nextStateName,
 }
 
 /**
- * @brief getter for the current machine-state
+ * @brief getter for the current machine-state-id
  *
- * @return the state of the statemachine
+ * @return the state-id of the statemachine
  */
 uint32_t
-Statemachine::getCurrentState()
+Statemachine::getCurrentStateId()
 {
     uint32_t result = 0;
+
+    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
+                 ; // spin
+    if(m_currentState != nullptr) {
+        result = m_currentState->id;
+    }
+
+    m_state_lock.clear(std::memory_order_release);
+
+    return result;
+}
+
+/**
+ * @brief getter for the current machine-state-name
+ *
+ * @return the state-name of the statemachine
+ */
+const std::string
+Statemachine::getCurrentStateName()
+{
+    std::string result = "";
 
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
                  ; // spin
@@ -234,12 +257,12 @@ Statemachine::getCurrentState()
 /**
  * @brief check if in statemachine is in a specific state
  *
- * @param stateName name of the requested state
+ * @param stateId id of the requested state
  *
  * @return true, if in requested state or in a child-state of the requested state, else false
  */
 bool
-Statemachine::isInState(const uint32_t stateName)
+Statemachine::isInState(const uint32_t stateId)
 {
     bool result = false;
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
@@ -248,7 +271,7 @@ Statemachine::isInState(const uint32_t stateName)
     State* state = m_currentState;
     while(state != nullptr)
     {
-        if(state->name == stateName) {
+        if(state->id == stateId) {
             result = true;
         }
         state = state->parent;
@@ -260,14 +283,14 @@ Statemachine::isInState(const uint32_t stateName)
 }
 
 /**
- * @brief get state by name
+ * @brief get state by id
  *
- * @param stateName name of the state
+ * @param stateId id of the state
  *
- * @return nullptr, if state-name was not found, else pointer to the state
+ * @return nullptr, if state-id was not found, else pointer to the state
  */
 State*
-Statemachine::getState(const uint32_t stateName)
+Statemachine::getState(const uint32_t stateId)
 {
     State* result = nullptr;
     while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
@@ -275,7 +298,7 @@ Statemachine::getState(const uint32_t stateName)
 
     // check and get source-state
     std::map<uint32_t, State*>::iterator it;
-    it = m_allStates.find(stateName);
+    it = m_allStates.find(stateId);
     if(it != m_allStates.end()) {
         result = it->second;
     }

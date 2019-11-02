@@ -32,28 +32,30 @@ public:
     ~Statemachine();
 
     // init
-    bool createNewState(const uint32_t stateName);
-    bool setCurrentState(const uint32_t stateName);
-    bool addTransition(const uint32_t stateName,
+    bool createNewState(const uint32_t stateId,
+                        const std::string &stateName = "");
+    bool setCurrentState(const uint32_t stateId);
+    bool addTransition(const uint32_t stateId,
                        const uint32_t key,
-                       const uint32_t nextStateName);
-    bool setInitialChildState(const uint32_t stateName,
-                              const uint32_t initialChildStateName);
-    bool addChildState(const uint32_t stateName,
-                       const uint32_t childStateName);
+                       const uint32_t nextStateId);
+    bool setInitialChildState(const uint32_t stateId,
+                              const uint32_t initialChildStateId);
+    bool addChildState(const uint32_t stateId,
+                       const uint32_t childStateId);
 
     // runtime
-    bool goToNextState(const uint32_t nextStateName,
+    bool goToNextState(const uint32_t nextStateId,
                        const uint32_t requiredPreState = 0);
-    uint32_t getCurrentState();
-    bool isInState(const uint32_t stateName);
+    uint32_t getCurrentStateId();
+    const std::string getCurrentStateName();
+    bool isInState(const uint32_t stateId);
 
 private:
     std::map<uint32_t, State*> m_allStates;
     State* m_currentState = nullptr;
     std::atomic_flag m_state_lock = ATOMIC_FLAG_INIT;
 
-    State* getState(const uint32_t stateName);
+    State* getState(const uint32_t stateId);
 };
 
 } // namespace Common
