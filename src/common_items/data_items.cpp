@@ -446,7 +446,7 @@ DataValue::copy()
 /**
  * @brief return the content as string
  */
-std::string
+const std::string
 DataValue::toString(const bool,
                     std::string* output,
                     const uint32_t)
@@ -734,7 +734,7 @@ DataMap::size()
  *
  * @return string-list with the keys of the map
  */
-std::vector<std::string>
+const std::vector<std::string>
 DataMap::getKeys()
 {
     std::vector<std::string> result;
@@ -751,7 +751,7 @@ DataMap::getKeys()
  *
  * @return DataItem-list with the keys of the map
  */
-std::vector<DataItem*>
+const std::vector<DataItem*>
 DataMap::getValues()
 {
     std::vector<DataItem*> result;
@@ -885,10 +885,10 @@ DataMap::copy()
 /**
  * @brief return the content as string
  */
-std::string
+const std::string
 DataMap::toString(const bool indent,
-                     std::string* output,
-                     const uint32_t level)
+                  std::string* output,
+                  const uint32_t level)
 {
     std::string out = "";
     if(output == nullptr) {
@@ -1170,7 +1170,7 @@ DataArray::copy()
 /**
  * @brief return the content as string
  */
-std::string
+const std::string
 DataArray::toString(const bool indent,
                     std::string* output,
                     const uint32_t level)

@@ -65,9 +65,9 @@ public:
 
     // output
     virtual DataItem* copy() = 0;
-    virtual std::string toString(bool indent=false,
-                                 std::string* output=nullptr,
-                                 uint32_t step=0) = 0;
+    virtual const std::string toString(bool indent=false,
+                                       std::string* output=nullptr,
+                                       uint32_t step=0) = 0;
 
     // checker
     dataTypes getType() const;
@@ -137,9 +137,9 @@ public:
 
     // output
     DataItem* copy();
-    std::string toString(const bool=false,
-                         std::string* output=nullptr,
-                         const uint32_t=0);
+    const std::string toString(const bool indent=false,
+                               std::string* output=nullptr,
+                               const uint32_t=0);
 
     // content
     union DataValueContent
@@ -177,8 +177,8 @@ public:
     DataItem* get(const uint64_t index);
     uint64_t size();
 
-    std::vector<std::string> getKeys();
-    std::vector<DataItem*> getValues();
+    const std::vector<std::string> getKeys();
+    const std::vector<DataItem*> getValues();
     bool contains(const std::string &key);
 
     // get values by keys
@@ -192,9 +192,9 @@ public:
 
     // output
     DataItem* copy();
-    std::string toString(const bool=false,
-                         std::string* output=nullptr,
-                         const uint32_t level=0);
+    const std::string toString(const bool indent=false,
+                               std::string* output=nullptr,
+                               const uint32_t level=0);
 
     // content
     std::map<std::string, DataItem*> m_map;
@@ -228,9 +228,9 @@ public:
 
     // output
     DataItem* copy();
-    std::string toString(const bool indent=false,
-                         std::string* output=nullptr,
-                         const uint32_t level=0);
+    const std::string toString(const bool indent=false,
+                               std::string* output=nullptr,
+                               const uint32_t level=0);
 
     // content
     std::vector<DataItem*> m_array;
