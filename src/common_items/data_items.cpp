@@ -955,8 +955,8 @@ DataMap::toString(const bool indent,
  */
 bool
 DataMap::insert(const std::string &key,
-                   DataItem* value,
-                   bool force)
+                DataItem* value,
+                bool force)
 {
 
 

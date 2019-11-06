@@ -203,7 +203,7 @@ Thread::spinUnlock()
 void
 Thread::blockThread()
 {
-    m_block = false;
+    m_block = true;
     std::unique_lock<std::mutex> lock(m_cvMutex);
     m_cv.wait(lock);
     m_block = false;
