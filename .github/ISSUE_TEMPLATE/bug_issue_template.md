@@ -1,18 +1,17 @@
 # BUG-issue
 
-### What you wanted to do
+## What you wanted to do
 
-### Description of the bug you run into
+## Description of the bug you run into
 
-### Possible Solution
+## Possible Solution
 
-### Steps to Reproduce
+## Steps to Reproduce
 
 1.
 2.
 3.
-4.
 
-### Context (Environment)
+## Environment
 
-### Possible Implementation
+## Possible Implementation

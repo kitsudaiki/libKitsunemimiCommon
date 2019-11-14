@@ -1,9 +1,9 @@
 # Feature-request
 
-### Description
+## Description
 
-### Related Issue
+## Related Issue
 
-### Kitsunemimi-Repos, which have to be updated
+## Kitsunemimi-Repos, which have to be updated
 
-### Possible Implementation
+## Possible Implementation
