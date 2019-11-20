@@ -185,11 +185,10 @@ DataItem::getInt()
     if(m_valueType == INT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_content.intValue;
+        return static_cast<int>(value->m_content.longValue);
     }
     return 0;
 }
-
 
 /**
  * @brief request the flaot of the data-value, if it is from float-type
@@ -202,9 +201,41 @@ DataItem::getFloat()
     if(m_valueType == FLOAT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_content.floatValue;
+        return static_cast<float>(value->m_content.doubleValue);
     }
     return 0.0f;
+}
+
+/**
+ * @brief request the integer of the data-value, if it is from int-type
+ *
+ * @return integer of the data-value, if data-value is from int-type, else empty 0
+ */
+long
+DataItem::getLong()
+{
+    if(m_valueType == INT_TYPE)
+    {
+        DataValue* value = dynamic_cast<DataValue*>(this);
+        return value->m_content.longValue;
+    }
+    return 0l;
+}
+
+/**
+ * @brief request the flaot of the data-value, if it is from float-type
+ *
+ * @return float of the data-value, if data-value is from float-type, else empty 0.0
+ */
+double
+DataItem::getDouble()
+{
+    if(m_valueType == FLOAT_TYPE)
+    {
+        DataValue* value = dynamic_cast<DataValue*>(this);
+        return value->m_content.doubleValue;
+    }
+    return 0.0;
 }
 
 /**
@@ -292,7 +323,7 @@ DataValue::DataValue(const int value)
 {
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
-    m_content.intValue = value;
+    m_content.longValue = value;
 }
 
 /**
@@ -302,7 +333,27 @@ DataValue::DataValue(const float value)
 {
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
-    m_content.floatValue = value;
+    m_content.doubleValue = static_cast<double>(value);
+}
+
+/**
+ * @brief data-value for float
+ */
+DataValue::DataValue(const long value)
+{
+    m_type = VALUE_TYPE;
+    m_valueType = INT_TYPE;
+    m_content.longValue = value;
+}
+
+/**
+ * @brief data-value for double
+ */
+DataValue::DataValue(const double value)
+{
+    m_type = VALUE_TYPE;
+    m_valueType = FLOAT_TYPE;
+    m_content.doubleValue = value;
 }
 
 /**
@@ -432,10 +483,10 @@ DataValue::copy()
         tempItem = new DataValue(std::string(m_content.stringValue));
     }
     if(m_valueType == INT_TYPE) {
-        tempItem = new DataValue(m_content.intValue);
+        tempItem = new DataValue(m_content.longValue);
     }
     if(m_valueType == FLOAT_TYPE) {
-        tempItem = new DataValue(m_content.floatValue);
+        tempItem = new DataValue(m_content.doubleValue);
     }
     if(m_valueType == BOOL_TYPE) {
         tempItem = new DataValue(m_content.boolValue);
@@ -462,11 +513,11 @@ DataValue::toString(const bool,
     }
 
     if(m_valueType == INT_TYPE) {
-        output->append(std::to_string(m_content.intValue));
+        output->append(std::to_string(m_content.longValue));
     }
 
     if(m_valueType == FLOAT_TYPE) {
-        output->append(std::to_string(m_content.floatValue));
+        output->append(std::to_string(m_content.doubleValue));
     }
 
     if(m_valueType == BOOL_TYPE)
@@ -532,7 +583,7 @@ DataValue::setValue(const int &item)
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
 
-    m_content.intValue = item;
+    m_content.longValue = item;
 }
 
 /**
@@ -548,7 +599,39 @@ DataValue::setValue(const float &item)
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
 
-    m_content.floatValue = item;
+    m_content.doubleValue = static_cast<double>(item);
+}
+
+/**
+ * @brief writes a new long integer into the data-value
+ */
+void
+DataValue::setValue(const long &item)
+{
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
+    m_type = VALUE_TYPE;
+    m_valueType = INT_TYPE;
+
+    m_content.longValue = item;
+}
+
+/**
+ * @brief writes a new double into the data-value
+ */
+void
+DataValue::setValue(const double &item)
+{
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
+    m_type = VALUE_TYPE;
+    m_valueType = FLOAT_TYPE;
+
+    m_content.doubleValue = item;
 }
 
 /**

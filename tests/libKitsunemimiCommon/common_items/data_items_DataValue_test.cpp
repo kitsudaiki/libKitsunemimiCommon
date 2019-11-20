@@ -28,7 +28,7 @@ DataItems_DataValue_Test::DataItems_DataValue_Test()
     getType_test();
     isValue_isMap_isArray_test();
     toValue_toMap_toArray_test();
-    getString_getInt_getFloat_getBool_test();
+    getString_getInt_getFloat_getLong_getDouble_getBool_test();
 
     // value-exclusive
     getValueType_test();
@@ -123,6 +123,8 @@ DataItems_DataValue_Test::copy_test()
     DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
+    DataValue longValue(42l);
+    DataValue doubleValue(42.5);
     DataValue boolValue(true);
 
     // default-value
@@ -137,11 +139,19 @@ DataItems_DataValue_Test::copy_test()
 
     // int-value
     DataValue* intValueCopy = dynamic_cast<DataValue*>(intValue.copy());
-    TEST_EQUAL(intValue.m_content.intValue, intValueCopy->m_content.intValue);
+    TEST_EQUAL(intValue.m_content.longValue, intValueCopy->m_content.longValue);
 
     // float-value
     DataValue* floatValueCopy = dynamic_cast<DataValue*>(floatValue.copy());
-    TEST_EQUAL(floatValue.m_content.floatValue, floatValueCopy->m_content.floatValue);
+    TEST_EQUAL(floatValue.m_content.doubleValue, floatValueCopy->m_content.doubleValue);
+
+    // long-value
+    DataValue* longValueCopy = dynamic_cast<DataValue*>(longValue.copy());
+    TEST_EQUAL(longValue.m_content.longValue, longValueCopy->m_content.longValue);
+
+    // double-value
+    DataValue* doubleValueCopy = dynamic_cast<DataValue*>(doubleValue.copy());
+    TEST_EQUAL(doubleValue.m_content.doubleValue, doubleValueCopy->m_content.doubleValue);
 
     // bool-value
     DataValue* boolValueCopy = dynamic_cast<DataValue*>(boolValue.copy());
@@ -152,6 +162,8 @@ DataItems_DataValue_Test::copy_test()
     delete stringValueCopy;
     delete intValueCopy;
     delete floatValueCopy;
+    delete longValueCopy;
+    delete doubleValueCopy;
 }
 
 /**
@@ -164,12 +176,16 @@ DataItems_DataValue_Test::toString_test()
     DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
+    DataValue longValue(42l);
+    DataValue doubleValue(42.5);
     DataValue boolValue(true);
 
     TEST_EQUAL(defaultValue.toString(), "");
     TEST_EQUAL(stringValue.toString(), "test");
     TEST_EQUAL(intValue.toString(), "42");
     TEST_EQUAL(floatValue.toString(), "42.500000");
+    TEST_EQUAL(longValue.toString(), "42");
+    TEST_EQUAL(doubleValue.toString(), "42.500000");
     TEST_EQUAL(boolValue.toString(), "true");
 }
 
@@ -183,12 +199,16 @@ DataItems_DataValue_Test::getType_test()
     DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
+    DataValue longValue(42l);
+    DataValue doubleValue(42.5);
     DataValue boolValue(true);
 
     TEST_EQUAL(defaultValue.getType(), DataItem::VALUE_TYPE);
     TEST_EQUAL(stringValue.getType(), DataItem::VALUE_TYPE);
     TEST_EQUAL(intValue.getType(), DataItem::VALUE_TYPE);
     TEST_EQUAL(floatValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(longValue.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(doubleValue.getType(), DataItem::VALUE_TYPE);
     TEST_EQUAL(boolValue.getType(), DataItem::VALUE_TYPE);
 }
 
@@ -223,45 +243,73 @@ DataItems_DataValue_Test::toValue_toMap_toArray_test()
 }
 
 /**
- * getString_getInt_getFloat_test
+ * getString_getInt_getFloat_getLong_getDouble_getBool_test
  */
 void
-DataItems_DataValue_Test::getString_getInt_getFloat_getBool_test()
+DataItems_DataValue_Test::getString_getInt_getFloat_getLong_getDouble_getBool_test()
 {
     DataValue defaultValue;
     DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
+    DataValue longValue(42l);
+    DataValue doubleValue(42.5);
     DataValue boolValue(true);
 
     // default-value
     TEST_EQUAL(defaultValue.getString(), "");
     TEST_EQUAL(defaultValue.getInt(), 0);
     TEST_EQUAL(defaultValue.getFloat(), 0.0f);
+    TEST_EQUAL(defaultValue.getLong(), 0l);
+    TEST_EQUAL(defaultValue.getDouble(), 0.0);
     TEST_EQUAL(defaultValue.getBool(), false);
 
     // string-value
     TEST_EQUAL(stringValue.getString(), "test");
     TEST_EQUAL(stringValue.getInt(), 0);
     TEST_EQUAL(stringValue.getFloat(), 0.0f);
+    TEST_EQUAL(stringValue.getLong(), 0l);
+    TEST_EQUAL(stringValue.getDouble(), 0.0);
     TEST_EQUAL(stringValue.getBool(), false);
 
     // int-value
     TEST_EQUAL(intValue.getString(), "");
     TEST_EQUAL(intValue.getInt(), 42);
     TEST_EQUAL(intValue.getFloat(), 0.0f);
+    TEST_EQUAL(intValue.getLong(), 42l);
+    TEST_EQUAL(intValue.getDouble(), 0.0);
     TEST_EQUAL(intValue.getBool(), false);
 
     // float-value
     TEST_EQUAL(floatValue.getString(), "");
     TEST_EQUAL(floatValue.getInt(), 0);
     TEST_EQUAL(floatValue.getFloat(), 42.5f);
+    TEST_EQUAL(floatValue.getLong(), 0l);
+    TEST_EQUAL(floatValue.getDouble(), 42.5);
     TEST_EQUAL(floatValue.getBool(), false);
+
+    // long-value
+    TEST_EQUAL(longValue.getString(), "");
+    TEST_EQUAL(longValue.getInt(), 42);
+    TEST_EQUAL(longValue.getFloat(), 0.0f);
+    TEST_EQUAL(longValue.getLong(), 42l);
+    TEST_EQUAL(longValue.getDouble(), 0.0);
+    TEST_EQUAL(longValue.getBool(), false);
+
+    // double-value
+    TEST_EQUAL(doubleValue.getString(), "");
+    TEST_EQUAL(doubleValue.getInt(), 0);
+    TEST_EQUAL(doubleValue.getFloat(), 42.5f);
+    TEST_EQUAL(doubleValue.getLong(), 0l);
+    TEST_EQUAL(doubleValue.getDouble(), 42.5);
+    TEST_EQUAL(doubleValue.getBool(), false);
 
     // bool-value
     TEST_EQUAL(boolValue.getString(), "");
     TEST_EQUAL(boolValue.getInt(), 0);
     TEST_EQUAL(boolValue.getFloat(), 0.0f);
+    TEST_EQUAL(boolValue.getLong(), 0l);
+    TEST_EQUAL(boolValue.getDouble(), 0.0);
     TEST_EQUAL(boolValue.getBool(), true);
 }
 
@@ -275,12 +323,16 @@ DataItems_DataValue_Test::getValueType_test()
     DataValue stringValue("test");
     DataValue intValue(42);
     DataValue floatValue(42.5f);
+    DataValue longValue(42l);
+    DataValue doubleValue(42.5);
     DataValue boolValue(true);
 
     TEST_EQUAL(defaultValue.getValueType(), DataItem::STRING_TYPE);
     TEST_EQUAL(stringValue.getValueType(), DataItem::STRING_TYPE);
     TEST_EQUAL(intValue.getValueType(), DataItem::INT_TYPE);
     TEST_EQUAL(floatValue.getValueType(), DataItem::FLOAT_TYPE);
+    TEST_EQUAL(longValue.getValueType(), DataItem::INT_TYPE);
+    TEST_EQUAL(doubleValue.getValueType(), DataItem::FLOAT_TYPE);
     TEST_EQUAL(boolValue.getValueType(), DataItem::BOOL_TYPE);
 }
 
@@ -300,12 +352,22 @@ DataItems_DataValue_Test::setValue_test()
     // int-value
     defaultValue.setValue(42);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::INT_TYPE);
-    TEST_EQUAL(defaultValue.m_content.intValue, 42);
+    TEST_EQUAL(defaultValue.m_content.longValue, 42);
 
     // float-value
     defaultValue.setValue(42.5f);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
-    TEST_EQUAL(defaultValue.m_content.floatValue, 42.5f);
+    TEST_EQUAL(defaultValue.m_content.doubleValue, 42.5f);
+
+    // long-value
+    defaultValue.setValue(42l);
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::INT_TYPE);
+    TEST_EQUAL(defaultValue.m_content.longValue, 42l);
+
+    // double-value
+    defaultValue.setValue(42.5);
+    TEST_EQUAL(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
+    TEST_EQUAL(defaultValue.m_content.doubleValue, 42.5);
 
     // bool-value
     defaultValue.setValue(true);

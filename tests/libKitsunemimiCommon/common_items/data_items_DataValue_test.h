@@ -35,7 +35,7 @@ private:
     void getType_test();
     void isValue_isMap_isArray_test();
     void toValue_toMap_toArray_test();
-    void getString_getInt_getFloat_getBool_test();
+    void getString_getInt_getFloat_getLong_getDouble_getBool_test();
 
     void getValueType_test();
     void setValue_test();
