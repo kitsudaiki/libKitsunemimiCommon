@@ -88,6 +88,8 @@ public:
     const std::string getString() const;
     int getInt();
     float getFloat();
+    long getLong();
+    double getDouble();
     bool getBool();
 
 protected:
@@ -110,6 +112,8 @@ public:
     DataValue(const std::string &text);
     DataValue(const int value);
     DataValue(const float value);
+    DataValue(const long value);
+    DataValue(const double value);
     DataValue(const bool value);
     DataValue(const DataValue &other);
     ~DataValue();
@@ -122,6 +126,8 @@ public:
     void setValue(const std::string &item);
     void setValue(const int &item);
     void setValue(const float &item);
+    void setValue(const long &item);
+    void setValue(const double &item);
     void setValue(const bool &item);
 
     // getter
@@ -145,8 +151,8 @@ public:
     union DataValueContent
     {
         char* stringValue;
-        int intValue;
-        float floatValue;
+        long longValue;
+        double doubleValue;
         bool boolValue;
     };
 
