@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.8.0] - 2019-11-22
+
+### Added
+- new Barrier-class
+
+### Changed
+- data-items now support long and double
+- moved Thread-class in subdirectory
+
+### Fixed
+- little fixes in the data-items to avoid segmentation-faults
+
+
 ## [0.7.0] - 2019-11-02
 
 ### Changed
