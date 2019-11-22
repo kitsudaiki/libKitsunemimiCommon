@@ -13,7 +13,7 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsunemimiCommon/thread.h>
+#include <libKitsunemimiCommon/threading/thread.h>
 #include <libKitsunemimiCommon/data_buffer.h>
 
 namespace Kitsunemimi
