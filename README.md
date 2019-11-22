@@ -46,9 +46,15 @@ This is a simple buffer for binary-data. The primary advantage is the easier res
 
 #### Threads
 
-*include-file:* `libKitsunemimiCommon/thread.h`
+*include-file:* `libKitsunemimiCommon/threading/thread.h`
 
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread.
+
+#### Threads
+
+*include-file:* `libKitsunemimiCommon/threading/barrier.h`
+
+This class can block a number of threads and release automatically, if all have reached the barrier. To avoid dead-lock, they can also released manually.
 
 #### Tests
 
