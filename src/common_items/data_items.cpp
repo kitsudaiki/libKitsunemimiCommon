@@ -691,7 +691,9 @@ DataMap::~DataMap()
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         DataItem* tempItem = it->second;
-        delete tempItem;
+        if(tempItem != nullptr) {
+            delete tempItem;
+        }
     }
     m_map.clear();
 }
@@ -711,8 +713,10 @@ DataMap
         // clear map
         for(it = this->m_map.begin(); it != this->m_map.end(); it++)
         {
-            DataItem* item = it->second;
-            delete item;
+            DataItem* tempItem = it->second;
+            if(tempItem != nullptr) {
+                delete tempItem;
+            }
         }
         this->m_map.clear();
 
@@ -935,7 +939,9 @@ DataMap::remove(const uint64_t index)
         if(counter == index)
         {
             DataItem* tempItem = it->second;
-            delete tempItem;
+            if(tempItem != nullptr) {
+                delete tempItem;
+            }
             m_map.erase(it);
             return true;
         }
@@ -1118,8 +1124,10 @@ DataArray
         // clear list
         for(uint32_t i = 0; i < this->m_array.size(); i++)
         {
-            DataItem* item = this->m_array[i];
-            delete item;
+            DataItem* tempItem = this->m_array[i];
+            if(tempItem != nullptr) {
+                delete tempItem;
+            }
         }
         this->m_array.clear();
 
@@ -1208,7 +1216,9 @@ DataArray::remove(const std::string &key)
         return false;
     }
     DataItem* tempItem = m_array[index];
-    delete tempItem;
+    if(tempItem != nullptr) {
+        delete tempItem;
+    }
     m_array.erase(m_array.begin() + index);
     return true;
 }
@@ -1225,7 +1235,9 @@ DataArray::remove(const uint64_t index)
         return false;
     }
     DataItem* tempItem = m_array[index];
-    delete tempItem;
+    if(tempItem != nullptr) {
+        delete tempItem;
+    }
     m_array.erase(m_array.begin() + index);
     return true;
 }
