@@ -19,5 +19,3 @@ labels: bug
 3.
 
 ### Environment
-
-### Possible Implementation
