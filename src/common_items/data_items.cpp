@@ -1101,7 +1101,6 @@ DataArray::DataArray(const DataArray &other)
  */
 DataArray::~DataArray()
 {
-    //std::cout<<"DataArray: "<<this<<std::endl;
     for(uint32_t i = 0; i < m_array.size(); i++)
     {
         DataItem* tempItem = m_array[i];

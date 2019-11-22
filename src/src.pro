@@ -9,12 +9,13 @@ INCLUDEPATH += $$PWD \
             ../include
 
 SOURCES += \
-    thread.cpp \
+    threading/thread.cpp \
     statemachine.cpp \
     data_buffer_methods.cpp \
     common_items/data_items.cpp \
     common_items/table_item.cpp \
-    unit_test.cpp
+    unit_test.cpp \
+    threading/barrier.cpp
 
 HEADERS += \
     ../include/libKitsunemimiCommon/data_buffer.h \
@@ -23,7 +24,8 @@ HEADERS += \
     ../include/libKitsunemimiCommon/common_methods/vector_methods.h \
     ../include/libKitsunemimiCommon/common_items/data_items.h \
     ../include/libKitsunemimiCommon/statemachine.h \
-    ../include/libKitsunemimiCommon/thread.h \
+    ../include/libKitsunemimiCommon/threading/thread.h \
     state.h \
     ../include/libKitsunemimiCommon/common_items/table_item.h \
-    ../include/libKitsunemimiCommon/test.h
+    ../include/libKitsunemimiCommon/test.h \
+    ../include/libKitsunemimiCommon/threading/barrier.h
