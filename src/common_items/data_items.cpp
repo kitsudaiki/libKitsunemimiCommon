@@ -875,6 +875,9 @@ std::string
 DataMap::getStringByKey(const std::string &key)
 {
     DataItem* item = get(key);
+    if(item == nullptr) {
+        return std::string("");
+    }
     return item->getString();
 }
 
@@ -885,6 +888,9 @@ int
 DataMap::getIntByKey(const std::string &key)
 {
     DataItem* item = get(key);
+    if(item == nullptr) {
+        return 0;
+    }
     return item->getInt();
 }
 
@@ -895,6 +901,9 @@ float
 DataMap::getFloatByKey(const std::string &key)
 {
     DataItem* item = get(key);
+    if(item == nullptr) {
+        return 0.0f;
+    }
     return item->getFloat();
 }
 
