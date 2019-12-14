@@ -687,7 +687,7 @@ DataMap::DataMap(const DataMap &other)
  */
 DataMap::~DataMap()
 {
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         DataItem* tempItem = it->second;
@@ -708,7 +708,7 @@ DataMap
     {
         this->m_type = other.m_type;
         this->m_valueType = other.m_valueType;
-        std::map<std::string, DataItem*>::iterator it;
+        std::map<std::string, DataItem*>::const_iterator it;
 
         // clear map
         for(it = this->m_map.begin(); it != this->m_map.end(); it++)
@@ -768,7 +768,7 @@ DataMap::operator[](const uint64_t index)
 DataItem*
 DataMap::get(const std::string key)
 {
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     it = m_map.find(key);
 
     if(it != m_map.end()) {
@@ -791,7 +791,7 @@ DataMap::get(const uint64_t index)
     }
 
     uint32_t counter = 0;
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin();
         it != m_map.end();
         it++)
@@ -825,7 +825,7 @@ const std::vector<std::string>
 DataMap::getKeys()
 {
     std::vector<std::string> result;
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         result.push_back(it->first);
@@ -842,7 +842,7 @@ const std::vector<DataItem*>
 DataMap::getValues()
 {
     std::vector<DataItem*> result;
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         result.push_back(it->second);
@@ -858,7 +858,7 @@ DataMap::getValues()
 bool
 DataMap::contains(const std::string &key)
 {
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     it = m_map.find(key);
 
     if(it != m_map.end())
@@ -915,7 +915,7 @@ DataMap::getFloatByKey(const std::string &key)
 bool
 DataMap::remove(const std::string &key)
 {
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     it = m_map.find(key);
 
     if(it != m_map.end())
@@ -942,7 +942,7 @@ DataMap::remove(const uint64_t index)
     }
 
     uint32_t counter = 0;
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         if(counter == index)
@@ -968,7 +968,7 @@ DataItem*
 DataMap::copy()
 {
     DataMap* tempItem = new DataMap();
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         if(it->second == nullptr) {
@@ -997,7 +997,7 @@ DataMap::toString(const bool indent,
     bool firstRun = false;
     output->append("{");
 
-    std::map<std::string, DataItem*>::iterator it;
+    std::map<std::string, DataItem*>::const_iterator it;
     for(it = m_map.begin(); it != m_map.end(); it++)
     {
         if(firstRun) {
@@ -1056,8 +1056,6 @@ DataMap::insert(const std::string &key,
                 DataItem* value,
                 bool force)
 {
-
-
     std::map<std::string, DataItem*>::iterator it;
     it = m_map.find(key);
 
@@ -1287,7 +1285,7 @@ DataArray::toString(const bool indent,
     output->append("[");
     addIndent(output, indent, level+1);
 
-    std::vector<DataItem*>::iterator it;
+    std::vector<DataItem*>::const_iterator it;
     for(it = m_array.begin(); it != m_array.end(); it++)
     {
         // separate items of the array with comma
