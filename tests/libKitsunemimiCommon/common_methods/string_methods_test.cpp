@@ -20,6 +20,7 @@ StringMethods_Test::StringMethods_Test()
 {
     splitStringByDelimiter_test();
     splitStringByLength_test();
+    replaceSubstring_test();
 }
 
 /**
@@ -32,7 +33,8 @@ StringMethods_Test::splitStringByDelimiter_test()
     std::string testString = "this is a test-string";
 
     // run task
-    std::vector<std::string> result = splitStringByDelimiter(testString, ' ');
+    std::vector<std::string> result;
+    splitStringByDelimiter(result, testString, ' ');
 
     // check result
     TEST_EQUAL(result.size(), 4);
@@ -43,7 +45,9 @@ StringMethods_Test::splitStringByDelimiter_test()
 
     // make negative checks
     std::string testStringNeg = "";
-    std::vector<std::string> resultNeg = splitStringByDelimiter(testStringNeg, ' ');
+    std::vector<std::string> resultNeg;
+    splitStringByDelimiter(resultNeg, testStringNeg, ' ');
+
     TEST_EQUAL(resultNeg.size(), 0);
 }
 
@@ -57,7 +61,8 @@ StringMethods_Test::splitStringByLength_test()
     std::string testString = "this is a test-string";
 
     // run task
-    std::vector<std::string> result = splitStringByLength(testString, 5);
+    std::vector<std::string> result;
+    splitStringByLength(result, testString, 5);
 
     // check result
     TEST_EQUAL(result.size(), 5);
@@ -66,6 +71,22 @@ StringMethods_Test::splitStringByLength_test()
     TEST_EQUAL(result[2], "test-");
     TEST_EQUAL(result[3], "strin");
     TEST_EQUAL(result[4], "g");
+}
+
+/**
+ * replaceSubstring_test
+ */
+void
+StringMethods_Test::replaceSubstring_test()
+{
+    // init
+    std::string testString = "this is a test-string";
+
+    // run task
+    replaceSubstring(testString, "test", "bogus");
+
+    // check result
+    TEST_EQUAL(testString, "this is a bogus-string");
 }
 
 } // namespace Common

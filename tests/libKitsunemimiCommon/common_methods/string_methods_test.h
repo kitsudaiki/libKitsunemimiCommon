@@ -25,6 +25,7 @@ public:
 private:
     void splitStringByDelimiter_test();
     void splitStringByLength_test();
+    void replaceSubstring_test();
 };
 
 } // namespace Common
