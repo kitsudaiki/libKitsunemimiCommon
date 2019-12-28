@@ -77,6 +77,26 @@ splitStringByLength(const std::string &inputString,
     return result;
 }
 
+/**
+ * @brief replace a substring with another substring
+ *
+ * @param original original string, which should be changed
+ * @param oldSubstring old substring, which should be replace
+ * @param newSubstring new substring to replace the old one
+ */
+inline void
+replaceSubstring(std::string& original,
+                 const std::string& oldSubstring,
+                 const std::string& newSubstring)
+{
+    std::string::size_type pos = 0u;
+    while((pos = original.find(oldSubstring, pos)) != std::string::npos)
+    {
+        original.replace(pos, oldSubstring.length(), newSubstring);
+        pos += newSubstring.length();
+    }
+}
+
 } // namespace Common
 } // namespace Kitsunemimi
 

@@ -20,6 +20,7 @@ StringMethods_Test::StringMethods_Test()
 {
     splitStringByDelimiter_test();
     splitStringByLength_test();
+    replaceSubstring_test();
 }
 
 /**
@@ -66,6 +67,22 @@ StringMethods_Test::splitStringByLength_test()
     TEST_EQUAL(result[2], "test-");
     TEST_EQUAL(result[3], "strin");
     TEST_EQUAL(result[4], "g");
+}
+
+/**
+ * replaceSubstring_test
+ */
+void
+StringMethods_Test::replaceSubstring_test()
+{
+    // init
+    std::string testString = "this is a test-string";
+
+    // run task
+    replaceSubstring(testString, "test", "bogus");
+
+    // check result
+    TEST_EQUAL(testString, "this is a bogus-string");
 }
 
 } // namespace Common
