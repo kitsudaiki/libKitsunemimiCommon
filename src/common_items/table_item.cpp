@@ -559,13 +559,14 @@ TableItem::convertCellForOutput(TableCell* convertedCell,
                                 uint64_t* width,
                                 const uint32_t maxColumnWidth)
 {
-    *convertedCell = splitStringByDelimiter(cellContent, '\n');
+    splitStringByDelimiter(*convertedCell, cellContent, '\n');
     for(uint32_t line = 0; line < convertedCell->size(); line++)
     {
         if(convertedCell->at(line).size() > maxColumnWidth)
         {
-            std::vector<std::string> sub = splitStringByLength(convertedCell->at(line),
-                                                               maxColumnWidth);
+            std::vector<std::string> sub;
+            splitStringByLength(sub, convertedCell->at(line), maxColumnWidth);
+
             // delete old entry and replace it with the splitted content
             convertedCell->erase(convertedCell->begin() + line);
             convertedCell->insert(convertedCell->begin() + line,

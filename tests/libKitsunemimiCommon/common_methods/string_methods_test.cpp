@@ -33,7 +33,8 @@ StringMethods_Test::splitStringByDelimiter_test()
     std::string testString = "this is a test-string";
 
     // run task
-    std::vector<std::string> result = splitStringByDelimiter(testString, ' ');
+    std::vector<std::string> result;
+    splitStringByDelimiter(result, testString, ' ');
 
     // check result
     TEST_EQUAL(result.size(), 4);
@@ -44,7 +45,9 @@ StringMethods_Test::splitStringByDelimiter_test()
 
     // make negative checks
     std::string testStringNeg = "";
-    std::vector<std::string> resultNeg = splitStringByDelimiter(testStringNeg, ' ');
+    std::vector<std::string> resultNeg;
+    splitStringByDelimiter(resultNeg, testStringNeg, ' ');
+
     TEST_EQUAL(resultNeg.size(), 0);
 }
 
@@ -58,7 +61,8 @@ StringMethods_Test::splitStringByLength_test()
     std::string testString = "this is a test-string";
 
     // run task
-    std::vector<std::string> result = splitStringByLength(testString, 5);
+    std::vector<std::string> result;
+    splitStringByLength(result, testString, 5);
 
     // check result
     TEST_EQUAL(result.size(), 5);
