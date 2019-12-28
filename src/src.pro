@@ -15,7 +15,8 @@ SOURCES += \
     common_items/data_items.cpp \
     common_items/table_item.cpp \
     unit_test.cpp \
-    threading/barrier.cpp
+    threading/barrier.cpp \
+    process_execution.cpp
 
 HEADERS += \
     ../include/libKitsunemimiCommon/data_buffer.h \
@@ -28,4 +29,5 @@ HEADERS += \
     state.h \
     ../include/libKitsunemimiCommon/common_items/table_item.h \
     ../include/libKitsunemimiCommon/test.h \
-    ../include/libKitsunemimiCommon/threading/barrier.h
+    ../include/libKitsunemimiCommon/threading/barrier.h \
+    ../include/libKitsunemimiCommon/process_execution.h
