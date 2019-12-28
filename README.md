@@ -72,7 +72,7 @@ It's only a simple statemachine in the moment. Basically its only to change the 
 
 *include-file:* `libKitsunemimiCommon/common_methods/string_methods.h` and `libKitsunemimiCommon/common_methods/vector_methods.h`
 
-These contains some commonly used mehtods. At the moment there are only two, but there will come more.
+These contains some commonly used mehtods for strings and vectors, like for example replace substrings within a string.
 
 ## Common Information aboud my projects
 
@@ -632,7 +632,11 @@ This is really minimalistic at the moment, because here are only two methods now
 
 #### string methods
 
-The only function hier is the ability to split string at a specific character into a vector of strings or split them into a list of substring, where each substring has a maximum size.
+Following functions are supported:
+
+- split string at a specific character into a vector of strings 
+- split them into a list of substring, where each substring has a maximum size
+- replace a substring within a string
 
 Example:
 
@@ -642,15 +646,21 @@ Example:
 
 
 std::string testString = "this is a test-string";
-std::vector<std::string> result;
 
 // split by a delimiter
-result = splitStringByDelimiter(testString, ' ');
+std::vector<std::string> result1;
+splitStringByDelimiter(result1, testString, ' ');
 // the resulting list now contains ["this", "is", "a", "test-string"]
 
 // split into max sizes
-result = splitStringByLength(testString, 5);
+std::vector<std::string> result2;
+result = splitStringByLength(result2, testString, 5);
 // the resulting list now contains ["this ", "is a ", "test-", "strin", "g"]
+
+// replace substring
+std::string testString = "this is a test-string";
+replaceSubstring(testString, "test", "bogus");
+// variable teststring has not the content: "this is a bogus-string"
 
 ```
 
