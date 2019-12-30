@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.0] - 2019-12-30
+
+### Added
+- string-method to replace substring within a string
+- function to execute other executables
+
+### Changed
+- changed style of split-string functions
+- made some iterators in the data-items to const_iterator
+
+### Fixed
+- fixed some segmentaion-faults
+
+
 ## [0.8.0] - 2019-11-22
 
 ### Added
