@@ -171,7 +171,7 @@ DataItem::getString() const
         const DataValue* value = dynamic_cast<const DataValue*>(this);
         return std::string(value->m_content.stringValue);
     }
-    return "";
+    return std::string("");
 }
 
 /**
@@ -444,12 +444,17 @@ DataValue::get(const uint64_t)
 }
 
 /**
- * @brief fake-method which exist here only for the inheritance and returns everytime 0
+ * @brief return size of the values
+ *
+ * @return length of the string, if string-typed value, else 0
  */
 uint64_t
-DataValue::size()
+DataValue::size() const
 {
-    return getString().size();
+    if(m_valueType == STRING_TYPE) {
+        return getString().size();
+    }
+    return 0;
 }
 
 /**
@@ -811,7 +816,7 @@ DataMap::get(const uint64_t index)
  * @return number of elements in the key-value-list
  */
 uint64_t
-DataMap::size()
+DataMap::size() const
 {
     return m_map.size();
 }
@@ -1204,7 +1209,7 @@ DataArray::get(const uint64_t index)
  * @return number of elements in the array
  */
 uint64_t
-DataArray::size()
+DataArray::size() const
 {
     return m_array.size();
 }

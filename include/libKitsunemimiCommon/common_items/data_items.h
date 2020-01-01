@@ -57,7 +57,7 @@ public:
     virtual DataItem* operator[](const uint64_t index) = 0;
     virtual DataItem* get(const std::string key) = 0;
     virtual DataItem* get(const uint64_t index) = 0;
-    virtual uint64_t size() = 0;
+    virtual uint64_t size() const = 0;
 
     // delete
     virtual bool remove(const std::string &key) = 0;
@@ -135,7 +135,7 @@ public:
     DataItem* operator[](const uint64_t);
     DataItem* get(const std::string);
     DataItem* get(const uint64_t);
-    uint64_t size();
+    uint64_t size() const;
 
     // delete
     bool remove(const std::string&);
@@ -181,7 +181,7 @@ public:
     DataItem* operator[](const uint64_t index);
     DataItem* get(const std::string key);
     DataItem* get(const uint64_t index);
-    uint64_t size();
+    uint64_t size() const;
 
     const std::vector<std::string> getKeys();
     const std::vector<DataItem*> getValues();
@@ -226,7 +226,7 @@ public:
     DataItem* operator[](const uint64_t index);
     DataItem* get(const std::string);
     DataItem* get(const uint64_t index);
-    uint64_t size();
+    uint64_t size() const;
 
     // delete
     bool remove(const std::string &key);
