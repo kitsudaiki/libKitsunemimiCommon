@@ -23,8 +23,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 class DataArray;
 class DataMap;
 class DataValue;
@@ -242,7 +240,6 @@ public:
     std::vector<DataItem*> m_array;
 };
 
-}  // namespace Common
 }  // namespace Kitsunemimi
 
 #endif // DATAITEMS_H

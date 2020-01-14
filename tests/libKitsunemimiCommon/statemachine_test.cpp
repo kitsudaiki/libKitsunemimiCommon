@@ -12,11 +12,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 Statemachine_Test::Statemachine_Test()
-    : Kitsunemimi::Common::Test("Statemachine_Test")
+    : Kitsunemimi::Test("Statemachine_Test")
 {
     createNewState_test();
     addTransition_test();
@@ -218,5 +216,4 @@ Statemachine_Test::isInState_test()
     TEST_EQUAL(statemachine.isInState(SOURCE_STATE), false);
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

@@ -16,8 +16,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 Test::Test(const std::string testName)
 {
@@ -36,5 +34,4 @@ Test::~Test()
     }
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

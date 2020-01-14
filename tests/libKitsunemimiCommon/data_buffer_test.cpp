@@ -12,8 +12,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 struct TestStruct
 {
@@ -23,7 +21,7 @@ struct TestStruct
 } __attribute__((packed));
 
 DataBuffer_Test::DataBuffer_Test()
-    : Kitsunemimi::Common::Test("DataBuffer_Test")
+    : Kitsunemimi::Test("DataBuffer_Test")
 {
     structSize_test();
     constructor_test();
@@ -160,5 +158,4 @@ DataBuffer_Test::reset_test()
     TEST_EQUAL(static_cast<int>(dataByte[1]), 0);
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

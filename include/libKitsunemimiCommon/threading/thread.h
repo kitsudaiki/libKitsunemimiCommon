@@ -25,9 +25,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
-
 class DataBuffer;
 
 class Thread
@@ -71,7 +68,6 @@ protected:
     virtual void run() = 0;
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // THREAD_H

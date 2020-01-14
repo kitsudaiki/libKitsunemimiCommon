@@ -22,8 +22,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 struct DataBuffer;
 
@@ -39,7 +37,6 @@ void* alignedMalloc(const uint16_t blockSize,
                     const uint64_t numberOfBytes);
 bool alignedFree(void *ptr);
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // DATA_BUFFER_METHODS_H

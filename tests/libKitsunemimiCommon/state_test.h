@@ -13,11 +13,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class State_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     State_Test();
@@ -41,7 +39,6 @@ private:
     void addChildState_test();
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // STATE_TEST_H

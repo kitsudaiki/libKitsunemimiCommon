@@ -19,8 +19,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 struct State
 {
@@ -112,7 +110,6 @@ struct State
     }
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // STATE_H

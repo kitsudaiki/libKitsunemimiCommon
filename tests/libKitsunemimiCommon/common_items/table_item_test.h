@@ -14,11 +14,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class TableItem_test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     TableItem_test();
@@ -52,7 +50,6 @@ private:
     TableItem getTestTableItem();
 };
 
-}  // namespace Common
 }  // namespace Kitsunemimi
 
 #endif // TABLE_ITEM_TEST_H

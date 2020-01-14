@@ -24,18 +24,18 @@
 
 int main()
 {
-    Kitsunemimi::Common::DataBufferMethods_Test();
-    Kitsunemimi::Common::DataBuffer_Test();
+    Kitsunemimi::DataBufferMethods_Test();
+    Kitsunemimi::DataBuffer_Test();
 
-    Kitsunemimi::Common::StringMethods_Test();
-    Kitsunemimi::Common::TextFile_Test();
+    Kitsunemimi::StringMethods_Test();
+    Kitsunemimi::TextFile_Test();
 
-    Kitsunemimi::Common::State_Test();
-    Kitsunemimi::Common::Statemachine_Test();
+    Kitsunemimi::State_Test();
+    Kitsunemimi::Statemachine_Test();
 
-    Kitsunemimi::Common::DataItems_DataValue_Test();
-    Kitsunemimi::Common::DataItems_DataArray_Test();
-    Kitsunemimi::Common::DataItems_DataMap_Test();
+    Kitsunemimi::DataItems_DataValue_Test();
+    Kitsunemimi::DataItems_DataArray_Test();
+    Kitsunemimi::DataItems_DataMap_Test();
 
-    Kitsunemimi::Common::TableItem_test();
+    Kitsunemimi::TableItem_test();
 }

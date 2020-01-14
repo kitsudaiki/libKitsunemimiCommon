@@ -13,8 +13,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 struct TestStruct
 {
@@ -24,7 +22,7 @@ struct TestStruct
 } __attribute__((packed));
 
 DataBufferMethods_Test::DataBufferMethods_Test()
-    : Kitsunemimi::Common::Test("DataBufferMethods_Test")
+    : Kitsunemimi::Test("DataBufferMethods_Test")
 {
     addDataToBuffer_test();
     allocateBlocks_test();
@@ -122,5 +120,4 @@ DataBufferMethods_Test::resetBuffer_test()
     TEST_EQUAL(static_cast<int>(dataByte[1]), 0);
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

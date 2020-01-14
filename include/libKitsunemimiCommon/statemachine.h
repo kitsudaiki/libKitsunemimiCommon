@@ -21,8 +21,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 struct State;
 
 class Statemachine
@@ -58,7 +56,6 @@ private:
     State* getState(const uint32_t stateId);
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // STATEMACHINE_H

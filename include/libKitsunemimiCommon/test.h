@@ -20,8 +20,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class Test
 {
@@ -66,7 +64,6 @@ protected:
     uint32_t m_failedTests = 0;
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // TEST_H

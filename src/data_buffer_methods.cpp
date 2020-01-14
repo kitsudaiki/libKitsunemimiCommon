@@ -17,8 +17,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief copy data into the buffer and resize the buffer in necessary
@@ -200,5 +198,4 @@ alignedFree(void* ptr)
     return true;
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

@@ -21,8 +21,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief constructor
@@ -814,5 +812,4 @@ TableItem::printHeaderBodyLine(TableItem::TableRow* headerContent,
     return output;
 }
 
-}  // namespace Common
 }  // namespace Kitsunemimi

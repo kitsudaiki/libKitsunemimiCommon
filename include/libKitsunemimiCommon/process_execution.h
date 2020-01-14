@@ -18,8 +18,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 struct ProcressResult
 {
@@ -33,7 +31,6 @@ ProcressResult runSyncProcess(std::string command);
 ProcressResult runSyncProcess(const std::string &programm,
                               const std::vector<std::string> &args);
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // PROCESS_HANDLING_H

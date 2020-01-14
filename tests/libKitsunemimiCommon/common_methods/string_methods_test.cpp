@@ -12,11 +12,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 StringMethods_Test::StringMethods_Test()
-    : Kitsunemimi::Common::Test("StringMethods_Test")
+    : Kitsunemimi::Test("StringMethods_Test")
 {
     splitStringByDelimiter_test();
     splitStringByLength_test();
@@ -89,5 +87,4 @@ StringMethods_Test::replaceSubstring_test()
     TEST_EQUAL(testString, "this is a bogus-string");
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

@@ -18,8 +18,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief constructor
@@ -229,5 +227,4 @@ Thread::isActive() const
     return m_active;
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

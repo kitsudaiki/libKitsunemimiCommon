@@ -13,12 +13,10 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 class DataValue;
 
 class DataItems_DataValue_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     DataItems_DataValue_Test();
@@ -41,7 +39,6 @@ private:
     void setValue_test();
 };
 
-}  // namespace Common
 }  // namespace Kitsunemimi
 
 #endif // DATAITEMS_DATAVALUE_TEST_H

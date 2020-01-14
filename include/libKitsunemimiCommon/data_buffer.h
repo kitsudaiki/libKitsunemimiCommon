@@ -27,8 +27,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 struct DataBuffer
 {
@@ -159,7 +157,6 @@ struct DataBuffer
 
 } __attribute__((packed));
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // DATABUFFER_H

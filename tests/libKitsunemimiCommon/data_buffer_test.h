@@ -13,11 +13,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class DataBuffer_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     DataBuffer_Test();
@@ -31,7 +29,6 @@ private:
     void reset_test();
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // DATABUFFER_TEST_H

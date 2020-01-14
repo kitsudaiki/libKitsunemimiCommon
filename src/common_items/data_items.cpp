@@ -16,8 +16,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 //===================================================================
 // AbstractData
@@ -1338,6 +1336,4 @@ DataArray::append(DataItem* item)
     m_array.push_back(item);
 }
 
-
-}  // namespace Common
 }  // namespace Kitsunemimi

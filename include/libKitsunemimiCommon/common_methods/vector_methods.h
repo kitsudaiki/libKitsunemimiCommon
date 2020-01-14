@@ -18,8 +18,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * remove from a vector of strings all entries, which contains only a empty string
@@ -43,7 +41,6 @@ removeEmptyStrings(std::vector<std::string>* inputVector)
     return true;
 }
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // VECTORMETHODS_H

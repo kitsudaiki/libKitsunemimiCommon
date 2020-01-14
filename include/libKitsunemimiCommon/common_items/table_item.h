@@ -21,8 +21,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 class DataArray;
 class DataMap;
 class DataValue;
@@ -118,7 +116,6 @@ private:
                                          TableBodyAll* convertedBody);
 };
 
-}  // namespace Common
 }  // namespace Kitsunemimi
 
 #endif // TABLE_ITEM_H
