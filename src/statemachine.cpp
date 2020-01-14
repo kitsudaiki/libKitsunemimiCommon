@@ -15,8 +15,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief constructor
@@ -308,5 +306,4 @@ Statemachine::getState(const uint32_t stateId)
     return result;
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

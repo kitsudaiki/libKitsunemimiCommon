@@ -12,11 +12,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 State_Test::State_Test()
-    : Kitsunemimi::Common::Test("State_Test")
+    : Kitsunemimi::Test("State_Test")
 {
     addTransition_test();
     next_test();
@@ -89,5 +87,4 @@ State_Test::addChildState_test()
     TEST_EQUAL(childState.parent->id, SOURCE_STATE);
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

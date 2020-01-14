@@ -11,11 +11,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 DataItems_DataValue_Test::DataItems_DataValue_Test()
-    : Kitsunemimi::Common::Test("DataItems_DataValue_Test")
+    : Kitsunemimi::Test("DataItems_DataValue_Test")
 {
     copy_assingment_constructor_test();
     copy_assingment_operator_test();
@@ -375,5 +373,4 @@ DataItems_DataValue_Test::setValue_test()
     TEST_EQUAL(defaultValue.m_content.boolValue, true);
 }
 
-}  // namespace Common
 }  // namespace Kitsunemimi

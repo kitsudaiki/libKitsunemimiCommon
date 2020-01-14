@@ -11,11 +11,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 DataItems_DataMap_Test::DataItems_DataMap_Test()
-    : Kitsunemimi::Common::Test("DataItems_DataMap_Test")
+    : Kitsunemimi::Test("DataItems_DataMap_Test")
 {
     copy_assingment_constructor_test();
     copy_assingment_operator_test();
@@ -322,5 +320,4 @@ DataItems_DataMap_Test::initTestObject()
     return object;
 }
 
-}  // namespace Common
 }  // namespace Kitsunemimi

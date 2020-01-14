@@ -13,8 +13,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief run a programm synchrone
@@ -93,5 +91,4 @@ runSyncProcess(const std::string &programm,
     return result;
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

@@ -23,8 +23,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class Barrier
 {
@@ -44,7 +42,6 @@ private:
     bool m_abort = false;
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // BARRIER_H

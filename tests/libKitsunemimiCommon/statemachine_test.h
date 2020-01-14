@@ -13,11 +13,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class Statemachine_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     Statemachine_Test();
@@ -46,7 +44,6 @@ private:
     void isInState_test();
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // STATEMACHINE_TEST_H

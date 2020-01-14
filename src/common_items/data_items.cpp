@@ -16,8 +16,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 //===================================================================
 // AbstractData
@@ -677,7 +675,9 @@ DataMap::DataMap(const DataMap &other)
 
     std::map<std::string, DataItem*>::iterator it;
     std::map<std::string, DataItem*> otherMap = other.m_map;
-    for(it = otherMap.begin(); it != otherMap.end(); it++)
+    for(it = otherMap.begin();
+        it != otherMap.end();
+        it++)
     {
         if(it->second != nullptr) {
             m_map.insert(std::pair<std::string, DataItem*>(it->first, it->second->copy()));
@@ -693,7 +693,9 @@ DataMap::DataMap(const DataMap &other)
 DataMap::~DataMap()
 {
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin(); it != m_map.end(); it++)
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
     {
         DataItem* tempItem = it->second;
         if(tempItem != nullptr) {
@@ -716,7 +718,9 @@ DataMap
         std::map<std::string, DataItem*>::const_iterator it;
 
         // clear map
-        for(it = this->m_map.begin(); it != this->m_map.end(); it++)
+        for(it = this->m_map.begin();
+            it != this->m_map.end();
+            it++)
         {
             DataItem* tempItem = it->second;
             if(tempItem != nullptr) {
@@ -727,7 +731,9 @@ DataMap
 
         // refill map
         std::map<std::string, DataItem*> otherMap = other.m_map;
-        for(it = otherMap.begin(); it != otherMap.end(); it++)
+        for(it = otherMap.begin();
+            it != otherMap.end();
+            it++)
         {
             if(it->second != nullptr)
             {
@@ -831,7 +837,9 @@ DataMap::getKeys()
 {
     std::vector<std::string> result;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin(); it != m_map.end(); it++)
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
     {
         result.push_back(it->first);
     }
@@ -848,7 +856,9 @@ DataMap::getValues()
 {
     std::vector<DataItem*> result;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin(); it != m_map.end(); it++)
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
     {
         result.push_back(it->second);
     }
@@ -948,7 +958,9 @@ DataMap::remove(const uint64_t index)
 
     uint32_t counter = 0;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin(); it != m_map.end(); it++)
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
     {
         if(counter == index)
         {
@@ -974,7 +986,9 @@ DataMap::copy()
 {
     DataMap* tempItem = new DataMap();
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin(); it != m_map.end(); it++)
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
     {
         if(it->second == nullptr) {
             tempItem->insert(it->first, nullptr);
@@ -1003,7 +1017,9 @@ DataMap::toString(const bool indent,
     output->append("{");
 
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin(); it != m_map.end(); it++)
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
     {
         if(firstRun) {
             output->append(",");
@@ -1338,6 +1354,4 @@ DataArray::append(DataItem* item)
     m_array.push_back(item);
 }
 
-
-}  // namespace Common
 }  // namespace Kitsunemimi

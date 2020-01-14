@@ -18,8 +18,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief sptrit a string at a specific delimiter
@@ -95,7 +93,6 @@ replaceSubstring(std::string& original,
     }
 }
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // STRINGMETHODS_H

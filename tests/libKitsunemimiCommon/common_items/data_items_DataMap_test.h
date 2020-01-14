@@ -13,12 +13,10 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 class DataMap;
 
 class DataItems_DataMap_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     DataItems_DataMap_Test();
@@ -46,7 +44,6 @@ private:
     DataMap initTestObject();
 };
 
-}  // namespace Common
 }  // namespace Kitsunemimi
 
 #endif // DATAITEMS_DATAMAP_TEST_H

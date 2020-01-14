@@ -13,11 +13,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class TextFile_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     TextFile_Test();
@@ -26,7 +24,6 @@ private:
     void removeEmptyStrings_test();
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // VECTORMETHODS_TEST_H

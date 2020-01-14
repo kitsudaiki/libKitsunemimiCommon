@@ -13,12 +13,10 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 class DataArray;
 
 class DataItems_DataArray_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     DataItems_DataArray_Test();
@@ -42,7 +40,6 @@ private:
     DataArray initTestArray();
 };
 
-}  // namespace Common
 }  // namespace Kitsunemimi
 
 #endif // DATAITEMS_DATAARRAY_TEST_H

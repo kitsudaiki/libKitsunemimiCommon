@@ -15,8 +15,6 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 /**
  * @brief constructor
@@ -65,5 +63,4 @@ Barrier::releaseAll()
     m_cond.notify_all();
 }
 
-} // namespace Common
 } // namespace Kitsunemimi

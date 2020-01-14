@@ -10,11 +10,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 TableItem_test::TableItem_test()
-    : Kitsunemimi::Common::Test("TableItem_test")
+    : Kitsunemimi::Test("TableItem_test")
 {
     copy_contructor_test();
     assignment_operator_test();
@@ -331,5 +329,4 @@ TableItem_test::getTestTableItem()
     return testItem;
 }
 
-}  // namespace Common
 }  // namespace Kitsunemimi

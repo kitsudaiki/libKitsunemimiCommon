@@ -13,11 +13,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 class StringMethods_Test
-        : public Kitsunemimi::Common::Test
+        : public Kitsunemimi::Test
 {
 public:
     StringMethods_Test();
@@ -28,7 +26,6 @@ private:
     void replaceSubstring_test();
 };
 
-} // namespace Common
 } // namespace Kitsunemimi
 
 #endif // STRINGMETHODS_TEST_H

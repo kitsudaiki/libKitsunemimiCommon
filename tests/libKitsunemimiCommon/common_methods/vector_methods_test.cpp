@@ -12,11 +12,9 @@
 
 namespace Kitsunemimi
 {
-namespace Common
-{
 
 TextFile_Test::TextFile_Test()
-    : Kitsunemimi::Common::Test("VectorMethods_Test")
+    : Kitsunemimi::Test("VectorMethods_Test")
 {
     removeEmptyStrings_test();
 }
@@ -45,5 +43,4 @@ TextFile_Test::removeEmptyStrings_test()
     TEST_EQUAL(removeEmptyStrings(nullptr), false);
 }
 
-} // namespace Common
 } // namespace Kitsunemimi
