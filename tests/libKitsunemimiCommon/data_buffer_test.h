@@ -27,6 +27,10 @@ private:
     void addData_test();
     void getBlock_test();
     void reset_test();
+
+    void addDataToBuffer_test();
+    void allocateBlocks_test();
+    void resetBuffer_test();
 };
 
 } // namespace Kitsunemimi

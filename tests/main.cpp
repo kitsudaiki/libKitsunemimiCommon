@@ -9,7 +9,6 @@
 #include <iostream>
 
 #include <libKitsunemimiCommon/data_buffer_test.h>
-#include <libKitsunemimiCommon/data_buffer_methods_test.h>
 
 #include <libKitsunemimiCommon/common_methods/string_methods_test.h>
 #include <libKitsunemimiCommon/common_methods/vector_methods_test.h>
@@ -24,7 +23,6 @@
 
 int main()
 {
-    Kitsunemimi::DataBufferMethods_Test();
     Kitsunemimi::DataBuffer_Test();
 
     Kitsunemimi::StringMethods_Test();
