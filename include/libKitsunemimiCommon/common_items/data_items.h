@@ -19,6 +19,7 @@
 #include <string>
 #include <string.h>
 #include <vector>
+#include <assert.h>
 #include <map>
 
 namespace Kitsunemimi
@@ -120,13 +121,13 @@ public:
 
     // setter
     dataValueTypes getValueType();
-    void setValue(const char *item);
-    void setValue(const std::string &item);
-    void setValue(const int &item);
-    void setValue(const float &item);
-    void setValue(const long &item);
-    void setValue(const double &item);
-    void setValue(const bool &item);
+    void setValue(const char* value);
+    void setValue(const std::string &value);
+    void setValue(const int &value);
+    void setValue(const float &value);
+    void setValue(const long &value);
+    void setValue(const double &value);
+    void setValue(const bool &value);
 
     // getter
     DataItem* operator[](const std::string);
@@ -189,6 +190,8 @@ public:
     std::string getStringByKey(const std::string &key);
     int getIntByKey(const std::string &key);
     float getFloatByKey(const std::string &key);
+    long getLongByKey(const std::string &key);
+    double getDoubleByKey(const std::string &key);
 
     // delete
     bool remove(const std::string &key);

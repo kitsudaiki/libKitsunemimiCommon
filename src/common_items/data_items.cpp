@@ -294,7 +294,7 @@ DataValue::DataValue(const char *text)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    size_t len = strlen(text);
+    const size_t len = strlen(text);
 
     m_content.stringValue = new char[len+1];
     strncpy(m_content.stringValue, text, len);
@@ -335,7 +335,7 @@ DataValue::DataValue(const float value)
 }
 
 /**
- * @brief data-value for float
+ * @brief data-value for long
  */
 DataValue::DataValue(const long value)
 {
@@ -369,15 +369,41 @@ DataValue::DataValue(const bool value)
  */
 DataValue::DataValue(const DataValue &other)
 {
+    // free memory, if necessary
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+
+    // copy meta-data
     m_type = other.m_type;
     m_valueType = other.m_valueType;
-    m_content = other.m_content;
+
+    // copy content
+    if(other.m_valueType == STRING_TYPE)
+    {
+        const size_t len = strlen(other.m_content.stringValue);
+
+        m_content.stringValue = new char[len+1];
+        strncpy(m_content.stringValue, other.m_content.stringValue, len);
+        m_content.stringValue[len] = '\0';
+
+        assert(strlen(other.m_content.stringValue) == strlen(m_content.stringValue));
+    }
+    else
+    {
+        m_content = other.m_content;
+    }
 }
 
 /**
  * @brief destructor
  */
-DataValue::~DataValue() {}
+DataValue::~DataValue()
+{
+    if(m_valueType == STRING_TYPE) {
+        delete m_content.stringValue;
+    }
+}
 
 /**
  * @brief assignment operator
@@ -387,9 +413,30 @@ DataValue
 {
     if(this != &other)
     {
+        // free memory, if necessary
+        if(this->m_valueType == STRING_TYPE) {
+            delete this->m_content.stringValue;
+        }
+
+        // copy meta-data
         this->m_type = other.m_type;
         this->m_valueType = other.m_valueType;
-        this->m_content = other.m_content;
+
+        // copy content
+        if(other.m_valueType == STRING_TYPE)
+        {
+            const size_t len = strlen(other.m_content.stringValue);
+
+            this->m_content.stringValue = new char[len+1];
+            strncpy(this->m_content.stringValue, other.m_content.stringValue, len);
+            this->m_content.stringValue[len] = '\0';
+
+            assert(strlen(other.m_content.stringValue) == strlen(this->m_content.stringValue));
+        }
+        else
+        {
+            this->m_content = other.m_content;
+        }
     }
     return *this;
 }
@@ -539,7 +586,7 @@ DataValue::toString(const bool,
  * @brief writes a new string into the data-value
  */
 void
-DataValue::setValue(const char *item)
+DataValue::setValue(const char* value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -548,10 +595,10 @@ DataValue::setValue(const char *item)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    size_t len = strlen(item);
+    size_t len = strlen(value);
 
     m_content.stringValue = new char[len+1];
-    strncpy(m_content.stringValue, item, len);
+    strncpy(m_content.stringValue, value, len);
     m_content.stringValue[len] = '\0';
 }
 
@@ -559,7 +606,7 @@ DataValue::setValue(const char *item)
  * @brief writes a new string into the data-value
  */
 void
-DataValue::setValue(const std::string &item)
+DataValue::setValue(const std::string &value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -568,16 +615,16 @@ DataValue::setValue(const std::string &item)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    m_content.stringValue = new char[item.size()+1];
-    memcpy(m_content.stringValue, item.c_str(), item.size());
-    m_content.stringValue[item.size()] = '\0';
+    m_content.stringValue = new char[value.size()+1];
+    memcpy(m_content.stringValue, value.c_str(), value.size());
+    m_content.stringValue[value.size()] = '\0';
 }
 
 /**
  * @brief writes a new integer into the data-value
  */
 void
-DataValue::setValue(const int &item)
+DataValue::setValue(const int &value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -586,14 +633,14 @@ DataValue::setValue(const int &item)
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
 
-    m_content.longValue = item;
+    m_content.longValue = value;
 }
 
 /**
- * @brief writes a new integer into the data-value
+ * @brief writes a new float into the data-value
  */
 void
-DataValue::setValue(const float &item)
+DataValue::setValue(const float &value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -602,14 +649,14 @@ DataValue::setValue(const float &item)
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
 
-    m_content.doubleValue = static_cast<double>(item);
+    m_content.doubleValue = static_cast<double>(value);
 }
 
 /**
  * @brief writes a new long integer into the data-value
  */
 void
-DataValue::setValue(const long &item)
+DataValue::setValue(const long &value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -618,14 +665,14 @@ DataValue::setValue(const long &item)
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
 
-    m_content.longValue = item;
+    m_content.longValue = value;
 }
 
 /**
  * @brief writes a new double into the data-value
  */
 void
-DataValue::setValue(const double &item)
+DataValue::setValue(const double &value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -634,14 +681,14 @@ DataValue::setValue(const double &item)
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
 
-    m_content.doubleValue = item;
+    m_content.doubleValue = value;
 }
 
 /**
  * @brief writes a new boolean into the data-value
  */
 void
-DataValue::setValue(const bool &item)
+DataValue::setValue(const bool &value)
 {
     if(m_valueType == STRING_TYPE) {
         delete m_content.stringValue;
@@ -650,7 +697,7 @@ DataValue::setValue(const bool &item)
     m_type = VALUE_TYPE;
     m_valueType = BOOL_TYPE;
 
-    m_content.boolValue = item;
+    m_content.boolValue = value;
 }
 
 //===================================================================
@@ -670,11 +717,25 @@ DataMap::DataMap()
  */
 DataMap::DataMap(const DataMap &other)
 {
+    std::map<std::string, DataItem*> otherMap = other.m_map;
+    std::map<std::string, DataItem*>::iterator it;
+
+    // clear old map
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
+    {
+        if(it->second != nullptr) {
+            delete it->second;
+        }
+    }
+    m_map.clear();
+
+    // copy meta-data
     m_type = other.m_type;
     m_valueType = other.m_valueType;
 
-    std::map<std::string, DataItem*>::iterator it;
-    std::map<std::string, DataItem*> otherMap = other.m_map;
+    // copy content
     for(it = otherMap.begin();
         it != otherMap.end();
         it++)
@@ -713,24 +774,25 @@ DataMap
 {
     if(this != &other)
     {
-        this->m_type = other.m_type;
-        this->m_valueType = other.m_valueType;
+        std::map<std::string, DataItem*> otherMap = other.m_map;
         std::map<std::string, DataItem*>::const_iterator it;
 
-        // clear map
+        // clear old map
         for(it = this->m_map.begin();
             it != this->m_map.end();
             it++)
         {
-            DataItem* tempItem = it->second;
-            if(tempItem != nullptr) {
-                delete tempItem;
+            if(it->second != nullptr) {
+                delete it->second;
             }
         }
         this->m_map.clear();
 
-        // refill map
-        std::map<std::string, DataItem*> otherMap = other.m_map;
+        // copy meta-data
+        this->m_type = other.m_type;
+        this->m_valueType = other.m_valueType;
+
+        // copy content
         for(it = otherMap.begin();
             it != otherMap.end();
             it++)
@@ -923,6 +985,32 @@ DataMap::getFloatByKey(const std::string &key)
 }
 
 /**
+ * @brief get the long-value behind the key inside the data-map
+ */
+long
+DataMap::getLongByKey(const std::string &key)
+{
+    DataItem* item = get(key);
+    if(item == nullptr) {
+        return 0l;
+    }
+    return item->getLong();
+}
+
+/**
+ * @brief get the double-value behind the key inside the data-map
+ */
+double
+DataMap::getDoubleByKey(const std::string &key)
+{
+    DataItem* item = get(key);
+    if(item == nullptr) {
+        return 0.0;
+    }
+    return item->getDouble();
+}
+
+/**
  * @brief remove an item from the key-value-list
  *
  * @return false if the key doesn't exist, else true
@@ -935,8 +1023,9 @@ DataMap::remove(const std::string &key)
 
     if(it != m_map.end())
     {
-        DataItem* tempItem = it->second;
-        delete tempItem;
+        if(it->second != nullptr) {
+            delete it->second;
+        }
         m_map.erase(it);
         return true;
     }
@@ -964,9 +1053,8 @@ DataMap::remove(const uint64_t index)
     {
         if(counter == index)
         {
-            DataItem* tempItem = it->second;
-            if(tempItem != nullptr) {
-                delete tempItem;
+            if(it->second != nullptr) {
+                delete it->second;
             }
             m_map.erase(it);
             return true;
@@ -1086,9 +1174,15 @@ DataMap::insert(const std::string &key,
         return false;
     }
 
-    if(it != m_map.end()) {
+    if(it != m_map.end())
+    {
+        if(it->second != nullptr) {
+            delete it->second;
+        }
         it->second = value;
-    } else {
+    }
+    else
+    {
         m_map.insert(std::pair<std::string, DataItem*>(key, value));
     }
     return true;
@@ -1111,9 +1205,21 @@ DataArray::DataArray()
  */
 DataArray::DataArray(const DataArray &other)
 {
+    // clear old array
+    for(uint32_t i = 0; i < m_array.size(); i++)
+    {
+        DataItem* tempItem = m_array[i];
+        if(tempItem != nullptr) {
+            delete tempItem;
+        }
+    }
+    m_array.clear();
+
+    // copy meta-data
     m_type = other.m_type;
     m_valueType = other.m_valueType;
 
+    // copy content
     for(uint32_t i = 0; i < other.m_array.size(); i++)
     {
         if(other.m_array[i] != nullptr) {
@@ -1132,7 +1238,9 @@ DataArray::~DataArray()
     for(uint32_t i = 0; i < m_array.size(); i++)
     {
         DataItem* tempItem = m_array[i];
-        delete tempItem;
+        if(tempItem != nullptr) {
+            delete tempItem;
+        }
     }
     m_array.clear();
 }
@@ -1145,10 +1253,7 @@ DataArray
 {
     if(this != &other)
     {
-        this->m_type = other.m_type;
-        this->m_valueType = other.m_valueType;
-
-        // clear list
+        // clear old array
         for(uint32_t i = 0; i < this->m_array.size(); i++)
         {
             DataItem* tempItem = this->m_array[i];
@@ -1158,7 +1263,11 @@ DataArray
         }
         this->m_array.clear();
 
-        // refill list
+        // copy meta-data
+        this->m_type = other.m_type;
+        this->m_valueType = other.m_valueType;
+
+        // copy content
         for(uint32_t i = 0; i < other.m_array.size(); i++)
         {
             if(other.m_array[i] != nullptr) {
@@ -1242,6 +1351,7 @@ DataArray::remove(const std::string &key)
     if(m_array.size() <= index) {
         return false;
     }
+
     DataItem* tempItem = m_array[index];
     if(tempItem != nullptr) {
         delete tempItem;
@@ -1261,11 +1371,12 @@ DataArray::remove(const uint64_t index)
     if(m_array.size() <= index) {
         return false;
     }
+
     DataItem* tempItem = m_array[index];
     if(tempItem != nullptr) {
         delete tempItem;
     }
-    m_array.erase(m_array.begin() + index);
+    m_array.erase(m_array.begin() + static_cast<uint32_t>(index));
     return true;
 }
 
