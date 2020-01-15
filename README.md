@@ -82,9 +82,7 @@ Here some common information about my projects and my code-styling. It's not com
 
 1. All my libraries beginning with `libKitsunemimi`, because I needed a naming to identify my own libraries and I decided to use `Kitsunemimi` as name, because Kitsunemimi are moe. ;)
 
-2. The namespace of the code within the libraries is identically to the name of the library. So for example all content of `libKitsunemimiCommon` has the namespace `Kitsunemimi::Common`.
-
-3. If you only want to use the library, beside the binary you only ne the public methods and variables in the header-files, which are located in the `include`-directory of each `libKitsunemimi`-repo. I try my best to make these as small and self-explaining, as possible. 
+2. If you only want to use the library, beside the binary you only ne the public methods and variables in the header-files, which are located in the `include`-directory of each `libKitsunemimi`-repo. I try my best to make these as small and self-explaining, as possible. 
 
 ### About my repositories in general
 
@@ -150,9 +148,9 @@ After running the build-script:
 └── result
     ├── include
     │   └── libKitsunemimiCommon
-    ├── libKitsunemimiCommon.so.0 -> libKitsunemimiCommon.so.0.9.0
-    ├── libKitsunemimiCommon.so.0.9 -> libKitsunemimiCommon.so.0.9.0
-    └── libKitsunemimiCommon.so.0.9.0
+    ├── libKitsunemimiCommon.so.0 -> libKitsunemimiCommon.so.0.10.0
+    ├── libKitsunemimiCommon.so.0.10 -> libKitsunemimiCommon.so.0.10.0
+    └── libKitsunemimiCommon.so.0.10.0
 ```
 
 It create automatic a `build` and `result` directory in the directory, where you have cloned the project. At first it build all into the `build`-directory and after all build-steps are finished, it copy the include directory from the cloned repository and the build library into the `result`-directory. So you have all in one single place.
@@ -393,26 +391,11 @@ int value = 42;
 // write data to buffer a the position pointed by the value `testBuffer.bufferPosition`
 // you can set the bufferPosition directly to write at a custom location
 // or write your data directly with memcpy to any position of `testBuffer.data`
-bool success = testBuffer.addData(&value);
+bool success = addData(&testBuffer, &value);
 
-// This example is a bit stupid, because it is the fist value in the data-buffer
+// This example is a bit pointless, because it is the first value in the data-buffer
 // It get the block with id 0 from the buffer as int-array and from with it gets the first element
-int readValue = static_cast<int>(testBuffer.getBlock(0))[0];
-
-// clear buffer and reset to only one allocated block
-testBuffer.reset();
-
-```
-
-For more control you can also use the data-methods directly:
-
-```cpp
-#include <libKitsunemimiCommon/data_buffer.h>
-
-// initialize new data-buffer with 10 x 4KiB
-DataBuffer testBuffer(10);
-
-int value = 42;
+int readValue = static_cast<int>(getBlock(&testBuffer, 0))[0];
 
 // write data to buffer a the position pointed by the value `testBuffer.bufferPosition`
 bool success = addDataToBuffer(&testBuffer, static_cast<void*>(value), sizeof(int);
@@ -438,7 +421,7 @@ The usage can be explained with the following examples:
 
 
 class DemoThread 
-    : public Kitsunemimi::Common::Thread
+    : public Kitsunemimi::Thread
 {
 
 public:
@@ -485,7 +468,7 @@ int main()
 
 ### Tests
 
-For using the unit-tests your test-class have to inherit the class `Kitsunemimi::Common::UnitTest` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `UNITTEST(<VARIABLE_TO_CHECK> , <EXPECTED_VALUE);` and `UNITTEST_NEG(<VARIABLE_TO_CHECK> , <NOT_EXPECTED_VALUE);`. First is successful when equal and second one is successful, when unequal. 
+For using the unit-tests your test-class have to inherit the class `Kitsunemimi::UnitTest` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `UNITTEST(<VARIABLE_TO_CHECK> , <EXPECTED_VALUE);` and `UNITTEST_NEG(<VARIABLE_TO_CHECK> , <NOT_EXPECTED_VALUE);`. First is successful when equal and second one is successful, when unequal. 
 
 - After a success the result would look like this:
 
@@ -522,7 +505,7 @@ Example:
 #include <libKitsunemimiCommon/test.h>
 
 class Demo_Test 
-    : public Kitsunemimi::Common::Test    // <-- connect with unit-tests
+    : public Kitsunemimi::Test    // <-- connect with unit-tests
 {
 public:
     Demo_Test();
@@ -538,7 +521,7 @@ private:
 #include "demo_test.h"
 
 Demo_Test::Demo_Test() 
-    : Kitsunemimi::Common::UnitTest("Demo_Test")    // <-- give the unit-test a name
+    : Kitsunemimi::UnitTest("Demo_Test")    // <-- give the unit-test a name
 {
     some_test();    // <-- call the test-method
 }
