@@ -28,6 +28,7 @@ private:
     void get_test();
     void getSize_test();
     void remove_test();
+    void clear_test();
     void copy_test();
     void toString_test();
     void getType_test();

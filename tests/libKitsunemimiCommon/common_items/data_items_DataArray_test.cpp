@@ -21,6 +21,7 @@ DataItems_DataArray_Test::DataItems_DataArray_Test()
     get_test();
     getSize_test();
     remove_test();
+    clear_test();
     copy_test();
     toString_test();
     getType_test();
@@ -135,6 +136,17 @@ DataItems_DataArray_Test::remove_test()
 
     // negative tests
     TEST_EQUAL(array.remove(10), false);
+}
+
+/**
+ * @brief clear_test
+ */
+void
+DataItems_DataArray_Test::clear_test()
+{
+    DataArray array = initTestArray();
+    array.clear();
+    TEST_EQUAL(array.size(), 0);
 }
 
 /**

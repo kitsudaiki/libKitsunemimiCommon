@@ -21,6 +21,7 @@ DataItems_DataMap_Test::DataItems_DataMap_Test()
     get_test();
     getSize_test();
     remove_test();
+    clear_test();
     copy_test();
     toString_test();
     getType_test();
@@ -120,6 +121,17 @@ DataItems_DataMap_Test::remove_test()
 
     // negative tests
     TEST_EQUAL(object.remove(10), false);
+}
+
+/**
+ * @brief clear_test
+ */
+void
+DataItems_DataMap_Test::clear_test()
+{
+    DataMap object = initTestObject();
+    object.clear();
+    TEST_EQUAL(object.size(), 0);
 }
 
 /**

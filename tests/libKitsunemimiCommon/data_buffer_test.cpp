@@ -73,7 +73,7 @@ DataBuffer_Test::copyConstructor_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(addData(&testBuffer, &testStruct), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -105,7 +105,7 @@ DataBuffer_Test::addData_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(addData(&testBuffer, &testStruct), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -132,7 +132,7 @@ DataBuffer_Test::getBlock_test()
     memcpy(&dataByte[4096], &testStruct, sizeof(TestStruct));
 
     // check content of the buffer with getBlock-method
-    TEST_EQUAL(static_cast<int>(testBuffer.getBlock(1)[1]), 42);
+    TEST_EQUAL(static_cast<int>(getBlock(&testBuffer, 1)[1]), 42);
 }
 
 /**
@@ -147,10 +147,10 @@ DataBuffer_Test::reset_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(addData(&testBuffer, &testStruct), true);
 
     // reset buffer
-    TEST_EQUAL(testBuffer.reset(), true);
+    TEST_EQUAL(resetBuffer(&testBuffer, 1), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 1);
@@ -202,7 +202,7 @@ DataBuffer_Test::allocateBlocks_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(addData(&testBuffer, &testStruct), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -238,7 +238,7 @@ DataBuffer_Test::resetBuffer_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(testBuffer.addData(&testStruct), true);
+    TEST_EQUAL(addData(&testBuffer, &testStruct), true);
 
     // reset buffer
     TEST_EQUAL(resetBuffer(&testBuffer, 2), true);
