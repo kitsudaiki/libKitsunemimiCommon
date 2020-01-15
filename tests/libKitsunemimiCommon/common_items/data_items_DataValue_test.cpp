@@ -21,6 +21,7 @@ DataItems_DataValue_Test::DataItems_DataValue_Test()
     get_test();
     getSize_test();
     remove_test();
+    clear_test();
     copy_test();
     toString_test();
     getType_test();
@@ -108,6 +109,20 @@ DataItems_DataValue_Test::remove_test()
 {
     DataValue defaultValue;
     TEST_EQUAL(defaultValue.remove(1), false);
+}
+
+/**
+ * @brief clear_test
+ */
+void
+DataItems_DataValue_Test::clear_test()
+{
+    DataValue value("test");
+    value.clear();
+
+    TEST_EQUAL(value.getType(), DataItem::VALUE_TYPE);
+    TEST_EQUAL(value.getValueType(), DataItem::INT_TYPE);
+    TEST_EQUAL(value.getInt(), 0);
 }
 
 /**

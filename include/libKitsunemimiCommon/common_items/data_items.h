@@ -61,6 +61,7 @@ public:
     // delete
     virtual bool remove(const std::string &key) = 0;
     virtual bool remove(const uint64_t index) = 0;
+    virtual void clear() = 0;
 
     // output
     virtual DataItem* copy() = 0;
@@ -139,6 +140,7 @@ public:
     // delete
     bool remove(const std::string&);
     bool remove(const uint64_t);
+    void clear();
 
     // output
     DataItem* copy();
@@ -196,6 +198,7 @@ public:
     // delete
     bool remove(const std::string &key);
     bool remove(const uint64_t index);
+    void clear();
 
     // output
     DataItem* copy();
@@ -232,6 +235,7 @@ public:
     // delete
     bool remove(const std::string &key);
     bool remove(const uint64_t index);
+    void clear();
 
     // output
     DataItem* copy();

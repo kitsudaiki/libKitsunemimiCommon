@@ -369,10 +369,7 @@ DataValue::DataValue(const bool value)
  */
 DataValue::DataValue(const DataValue &other)
 {
-    // free memory, if necessary
-    if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
-    }
+    clear();
 
     // copy meta-data
     m_type = other.m_type;
@@ -400,9 +397,7 @@ DataValue::DataValue(const DataValue &other)
  */
 DataValue::~DataValue()
 {
-    if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
-    }
+    clear();
 }
 
 /**
@@ -413,10 +408,7 @@ DataValue
 {
     if(this != &other)
     {
-        // free memory, if necessary
-        if(this->m_valueType == STRING_TYPE) {
-            delete this->m_content.stringValue;
-        }
+        clear();
 
         // copy meta-data
         this->m_type = other.m_type;
@@ -518,6 +510,23 @@ bool
 DataValue::remove(const uint64_t)
 {
     return false;
+}
+
+/**
+ * @brief reset content to int-type with value 0
+ */
+void
+DataValue::clear()
+{
+    if(m_valueType == STRING_TYPE
+            && m_content.stringValue != nullptr)
+    {
+        delete m_content.stringValue;
+    }
+
+    m_type = VALUE_TYPE;
+    m_valueType = INT_TYPE;
+    m_content.longValue = 0l;
 }
 
 /**
@@ -718,24 +727,16 @@ DataMap::DataMap()
 DataMap::DataMap(const DataMap &other)
 {
     std::map<std::string, DataItem*> otherMap = other.m_map;
-    std::map<std::string, DataItem*>::iterator it;
 
     // clear old map
-    for(it = m_map.begin();
-        it != m_map.end();
-        it++)
-    {
-        if(it->second != nullptr) {
-            delete it->second;
-        }
-    }
-    m_map.clear();
+    clear();
 
     // copy meta-data
     m_type = other.m_type;
     m_valueType = other.m_valueType;
 
     // copy content
+    std::map<std::string, DataItem*>::iterator it;
     for(it = otherMap.begin();
         it != otherMap.end();
         it++)
@@ -753,17 +754,7 @@ DataMap::DataMap(const DataMap &other)
  */
 DataMap::~DataMap()
 {
-    std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
-        it++)
-    {
-        DataItem* tempItem = it->second;
-        if(tempItem != nullptr) {
-            delete tempItem;
-        }
-    }
-    m_map.clear();
+    clear();
 }
 
 /**
@@ -775,24 +766,16 @@ DataMap
     if(this != &other)
     {
         std::map<std::string, DataItem*> otherMap = other.m_map;
-        std::map<std::string, DataItem*>::const_iterator it;
 
         // clear old map
-        for(it = this->m_map.begin();
-            it != this->m_map.end();
-            it++)
-        {
-            if(it->second != nullptr) {
-                delete it->second;
-            }
-        }
-        this->m_map.clear();
+        clear();
 
         // copy meta-data
         this->m_type = other.m_type;
         this->m_valueType = other.m_valueType;
 
         // copy content
+        std::map<std::string, DataItem*>::const_iterator it;
         for(it = otherMap.begin();
             it != otherMap.end();
             it++)
@@ -1065,6 +1048,26 @@ DataMap::remove(const uint64_t index)
 }
 
 /**
+ * @brief delete all elements from the map
+ */
+void
+DataMap::clear()
+{
+    std::map<std::string, DataItem*>::iterator it;
+    for(it = m_map.begin();
+        it != m_map.end();
+        it++)
+    {
+        DataItem* tempItem = it->second;
+        if(tempItem != nullptr) {
+            delete tempItem;
+        }
+    }
+    m_map.clear();
+
+}
+
+/**
  * @brief copy the object with all elements
  *
  * @return pointer to a copy of the object
@@ -1206,14 +1209,7 @@ DataArray::DataArray()
 DataArray::DataArray(const DataArray &other)
 {
     // clear old array
-    for(uint32_t i = 0; i < m_array.size(); i++)
-    {
-        DataItem* tempItem = m_array[i];
-        if(tempItem != nullptr) {
-            delete tempItem;
-        }
-    }
-    m_array.clear();
+    clear();
 
     // copy meta-data
     m_type = other.m_type;
@@ -1235,14 +1231,7 @@ DataArray::DataArray(const DataArray &other)
  */
 DataArray::~DataArray()
 {
-    for(uint32_t i = 0; i < m_array.size(); i++)
-    {
-        DataItem* tempItem = m_array[i];
-        if(tempItem != nullptr) {
-            delete tempItem;
-        }
-    }
-    m_array.clear();
+    clear();
 }
 
 /**
@@ -1254,14 +1243,7 @@ DataArray
     if(this != &other)
     {
         // clear old array
-        for(uint32_t i = 0; i < this->m_array.size(); i++)
-        {
-            DataItem* tempItem = this->m_array[i];
-            if(tempItem != nullptr) {
-                delete tempItem;
-            }
-        }
-        this->m_array.clear();
+        clear();
 
         // copy meta-data
         this->m_type = other.m_type;
@@ -1378,6 +1360,22 @@ DataArray::remove(const uint64_t index)
     }
     m_array.erase(m_array.begin() + static_cast<uint32_t>(index));
     return true;
+}
+
+/**
+ * @brief delete all elements from the array
+ */
+void
+DataArray::clear()
+{
+    for(uint32_t i = 0; i < this->m_array.size(); i++)
+    {
+        DataItem* tempItem = this->m_array[i];
+        if(tempItem != nullptr) {
+            delete tempItem;
+        }
+    }
+    this->m_array.clear();
 }
 
 /**
