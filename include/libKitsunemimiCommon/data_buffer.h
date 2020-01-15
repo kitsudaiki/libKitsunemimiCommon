@@ -30,6 +30,7 @@ inline bool addDataToBuffer(DataBuffer* buffer, const void* data, const uint64_t
 inline bool resetBuffer(DataBuffer* buffer, const uint64_t numberOfBlocks);
 inline void* alignedMalloc(const uint16_t blockSize, const uint64_t numberOfBytes);
 inline bool alignedFree(void* ptr);
+inline uint8_t* getBlock(DataBuffer* buffer, const uint32_t blockPosition);
 
 struct DataBuffer
 {
@@ -114,50 +115,6 @@ struct DataBuffer
             numberOfBlocks = 0;
         }
     }
-
-    /**
-     * @brief get a pointer to a specific block inside the buffer
-     *
-     * @param blockPosition number of the block inside the buffer
-     *
-     * @return pointer to the buffer-position
-     */
-    uint8_t*
-    getBlock(const uint32_t blockPosition)
-    {
-        // precheck
-        if(blockPosition >= numberOfBlocks) {
-            return nullptr;
-        }
-
-        // get specific block of the data
-        uint8_t* dataByte = static_cast<uint8_t*>(data);
-        return &dataByte[blockPosition * blockSize];
-    }
-
-    /**
-     * @brief add an object to the buffer
-     *
-     * @param data pointer to the object, which shoulb be written to the buffer
-     */
-    template <typename T>
-    bool
-    addData(T* data)
-    {
-        return addDataToBuffer(this, data, sizeof(T));
-    }
-
-    /**
-     * @brief reset a buffer and clears the data, so it is like the buffer is totally new
-     *
-     * @return false if precheck or allocation failed, else true
-     */
-    bool
-    reset()
-    {
-        return resetBuffer(this, 1);
-    }
-
 } __attribute__((packed));
 
 
@@ -300,6 +257,21 @@ addDataToBuffer(DataBuffer* buffer,
 }
 
 /**
+ * @brief add an object to the buffer
+ *
+ * @param buffer pointer to buffer-object
+ * @param data pointer to the object, which shoulb be written to the buffer
+ *
+ * @return false if precheck or allocation failed, else true
+ */
+template <typename T>
+inline bool
+addData(DataBuffer* buffer, T* data)
+{
+    return addDataToBuffer(buffer, data, sizeof(T));
+}
+
+/**
  * @brief reset a buffer and clears the data, so it is like the buffer is totally new
  *
  * @param buffer pointer to buffer-object
@@ -339,6 +311,28 @@ resetBuffer(DataBuffer* buffer,
     buffer->numberOfBlocks = numberOfBlocks;
 
     return true;
+}
+
+/**
+ * @brief get a pointer to a specific block inside the buffer
+ *
+ * @param buffer pointer to buffer-object
+ * @param blockPosition number of the block inside the buffer
+ *
+ * @return pointer to the buffer-position
+ */
+inline uint8_t*
+getBlock(DataBuffer* buffer,
+         const uint32_t blockPosition)
+{
+    // precheck
+    if(blockPosition >= buffer->numberOfBlocks) {
+        return nullptr;
+    }
+
+    // get specific block of the data
+    uint8_t* dataByte = static_cast<uint8_t*>(buffer->data);
+    return &dataByte[blockPosition * buffer->blockSize];
 }
 
 } // namespace Kitsunemimi
