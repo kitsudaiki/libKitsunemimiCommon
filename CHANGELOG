@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.10.1] - 2020-01-18
+
+### Fixed
+- fixed spin-lock to be not removed while optimizing by the compiler
+
 
 ## [0.10.0] - 2020-01-15
 
