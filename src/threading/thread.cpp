@@ -182,8 +182,17 @@ Thread::mutexUnlock()
 void
 Thread::spinLock()
 {
-    while (m_spin_lock.test_and_set(std::memory_order_acquire))  // acquire lock
-                 ; // spin
+    while (m_spin_lock.test_and_set(std::memory_order_acquire))
+    {
+        asm("");
+        /**
+         * Explaination from stack overflow:
+         *
+         * What's more, if you use volatile, gcc will store those variables in RAM and add a bunch
+         * of ldd and std to copy them to temporary registers.
+         * This approach, on the other hand, doesn't use volatile and generates no such overhead.
+         */
+    }
 }
 
 /**

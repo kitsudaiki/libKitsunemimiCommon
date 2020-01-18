@@ -185,8 +185,9 @@ Statemachine::goToNextState(const uint32_t nextStateId,
                             const uint32_t requiredPreState)
 {
     bool result = false;
-    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
-                 ; // spin
+    while(m_state_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
 
     if(requiredPreState == 0
             || requiredPreState == m_currentState->id)
@@ -220,8 +221,10 @@ Statemachine::getCurrentStateId()
 {
     uint32_t result = 0;
 
-    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
-                 ; // spin
+    while(m_state_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
+
     if(m_currentState != nullptr) {
         result = m_currentState->id;
     }
@@ -241,8 +244,10 @@ Statemachine::getCurrentStateName()
 {
     std::string result = "";
 
-    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
-                 ; // spin
+    while(m_state_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
+
     if(m_currentState != nullptr) {
         result = m_currentState->name;
     }
@@ -263,8 +268,9 @@ bool
 Statemachine::isInState(const uint32_t stateId)
 {
     bool result = false;
-    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
-                 ; // spin
+    while(m_state_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
 
     State* state = m_currentState;
     while(state != nullptr)
@@ -291,8 +297,9 @@ State*
 Statemachine::getState(const uint32_t stateId)
 {
     State* result = nullptr;
-    while(m_state_lock.test_and_set(std::memory_order_acquire))  // acquire lock
-                 ; // spin
+    while(m_state_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
 
     // check and get source-state
     std::map<uint32_t, State*>::iterator it;
