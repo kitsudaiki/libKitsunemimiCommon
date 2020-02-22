@@ -305,6 +305,7 @@ resetBuffer(DataBuffer* buffer,
     }
 
     // reset metadata of the buffer
+    buffer->data = newBuffer;
     buffer->inUse = 1;
     buffer->bufferPosition = 0;
     buffer->totalBufferSize = numberOfBlocks * buffer->blockSize;
