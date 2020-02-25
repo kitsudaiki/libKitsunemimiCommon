@@ -58,9 +58,9 @@ This class can block a number of threads and release automatically, if all have 
 
 #### Tests
 
-*include-file:* `libKitsunemimiCommon/test.h`
+*include-file:* `libKitsunemimiCommon/test_helper/compare_test_helper.h` and `libKitsunemimiCommon/test_helper/speed_test_helper.h`
 
-This is my very little test-framework. These are used for all unit-tests in all of my projects. Thats to macros it shows the exactly position in the failing test inside the code for easier debugging.
+These are little test-helper classes which provides basic functionallity for unit- and benchmark-tests.
 
 #### Statemachine
 
@@ -78,45 +78,20 @@ These contains some commonly used mehtods for strings and vectors, like for exam
 
 Here some common information about my projects and my code-styling. It's not complete and a bit short. I will write a styling-guide for my projects, where I will write this a bit longer with more explanation, why I make it like this.
 
-### About my kitsunemimi libraries
-
-1. All my libraries beginning with `libKitsunemimi`, because I needed a naming to identify my own libraries and I decided to use `Kitsunemimi` as name, because Kitsunemimi are moe. ;)
-
-2. If you only want to use the library, beside the binary you only ne the public methods and variables in the header-files, which are located in the `include`-directory of each `libKitsunemimi`-repo. I try my best to make these as small and self-explaining, as possible. 
-
-### About my repositories in general
-
-1. I programming only on Linux. Sorry, but I have no time for supporting Windows and Mac.
-
-2. All my projects are mirrored to gitlab, where I have still my gitlab-ci runner.
-
-3. In each project-repository is an `build.sh`-script to make it easier for you to build the project by yourself. It download and link all required git-repositories in the correct version and link it all. This script is also used by the gitlab-ci-runner and so it is everytime up-to-date.
-
-4. All my projects have unit-tests, which are executed by the ci-runner in each commit. Most of the functions are tested. Primary some negative-tests are missing. I try to avoid mocks in the tests as much as possible. Even tcp-socket-tests using the localhost for real data-transfer-tests.
-
-5. For the naming of variables, methods and classes, I use camel case and for the names of files and directories, I use snake case.
-
-6. About my comments:
-
-    - Many comments in my code seems to be a bit useless, but I like to use them for optical separation. I also write them, when I think I finished the programming task and while writing the comments I recheck the code under the comment again and often I find improvements or bugs while this.
-
-    - At first I planned to use doxygen comment-style for methods and files, but I think I will change this, because while writing the current state of the code, I don't like it to write big comments for each simple self-explaining method.
-
-    - I don't like it to write much comments into header-files. More exactly I absolutly hate it, when I have to search the provided functions of a header between a massive amount of comments. Header-files are for me primary to have an overview of all provided functions, which I want to see as fast as possible. Comments of functions, parameters and return-values in my code are only written into the source-files. So when something is unclear for a specific method, then look into the source-file. If the comment there are not helpful for you, then please write me a mail or an issue to fix this. 
-
-7. I try to avoid templates and macros as much as possible. I don't dislike them, but I only use them, when I don't have another solution. 
-
-
 ## Build
 
 ### Requirements
 
-paket | version
---- | ---
-g++ | 6.3.0
-qt5-qmake | 5.7.1
+name | repository | version | task
+--- | --- | --- | ---
+g++ | g++ | 6.x | Compiler for the C++ code.
+qmake | qt5-qmake | 5.x | This package provides the tool qmake, which is 
 
-This are the version I have installed under Debian Stable via apt. Some older or newer version should work as well. I write my projects with the Qt-creator, but without Qt itself. Thats why qmake is required to build my projects.
+Installation on Ubuntu/Debian:
+
+```bash
+sudo apt-get install g++ qt5-qmake
+```
 
 IMPORTANT: All my projects are only tested on Linux. 
 
@@ -124,33 +99,14 @@ IMPORTANT: All my projects are only tested on Linux.
 
 In all of my repositories you will find a `build.sh`. You only have to run this script. It doesn't required sudo, because you have to install required tool via apt, for example, by yourself. But if other projects from me are required, it download them from github and build them in the correct version too. This script is also use by the ci-pipeline, so its tested with every commit.
 
-Before running the build-script:
 
-```bash
-.
-└── libKitsunemimiCommon
-    ├── build.sh
-    └── ...
+Run the following commands:
+
 ```
-
-After running the build-script:
-
-```bash
-.
-├── build
-│   └── libKitsunemimiCommon
-│       ├── Makefile
-│       ├── src
-│       └── tests
-├── libKitsunemimiCommon
-│   ├── build.sh
-│   └── ...
-└── result
-    ├── include
-    │   └── libKitsunemimiCommon
-    ├── libKitsunemimiCommon.so.0 -> libKitsunemimiCommon.so.0.10.1
-    ├── libKitsunemimiCommon.so.0.10 -> libKitsunemimiCommon.so.0.10.1
-    └── libKitsunemimiCommon.so.0.10.1
+git clone https://github.com/tobiasanker/libKitsunemimiCommon.git
+cd libKitsunemimiCommon
+./build.sh
+cd ../result
 ```
 
 It create automatic a `build` and `result` directory in the directory, where you have cloned the project. At first it build all into the `build`-directory and after all build-steps are finished, it copy the include directory from the cloned repository and the build library into the `result`-directory. So you have all in one single place.
@@ -466,9 +422,9 @@ int main()
 }
 ```
 
-### Tests
+### Compare Tests
 
-For using the unit-tests your test-class have to inherit the class `Kitsunemimi::UnitTest` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `UNITTEST(<VARIABLE_TO_CHECK> , <EXPECTED_VALUE);` and `UNITTEST_NEG(<VARIABLE_TO_CHECK> , <NOT_EXPECTED_VALUE);`. First is successful when equal and second one is successful, when unequal. 
+For using the unit-tests your test-class have to inherit the class `Kitsunemimi::CompareTestHelper` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `TEST_EQUAL(<VARIABLE_TO_CHECK> , <EXPECTED_VALUE);` and `TEST_NOT_EQUAL(<VARIABLE_TO_CHECK> , <NOT_EXPECTED_VALUE);`. First is successful when equal and second one is successful, when unequal. 
 
 - After a success the result would look like this:
 
@@ -502,10 +458,10 @@ Example:
 ```cpp
 // demo_test.h
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 class Demo_Test 
-    : public Kitsunemimi::Test    // <-- connect with unit-tests
+    : public Kitsunemimi::CompareTestHelper    // <-- connect with unit-tests
 {
 public:
     Demo_Test();
@@ -521,7 +477,7 @@ private:
 #include "demo_test.h"
 
 Demo_Test::Demo_Test() 
-    : Kitsunemimi::UnitTest("Demo_Test")    // <-- give the unit-test a name
+    : Kitsunemimi::CompareTestHelper("Demo_Test")    // <-- give the unit-test a name
 {
     some_test();    // <-- call the test-method
 }
