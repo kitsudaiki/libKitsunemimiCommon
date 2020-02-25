@@ -1,6 +1,8 @@
 /**
  *  @file       speed_test_helper.cpp
  *
+ *  @brief      Helper class for benchmark-tests
+ *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright  MIT License
@@ -18,6 +20,10 @@ SpeedTestHelper::SpeedTestHelper()
     m_result.addColumn("standard deviation");
 }
 
+/**
+ * @brief add timeslot-object to the result-output. It calculates the duration and
+ *        standard deviation of the timeslot-object.
+ */
 void
 SpeedTestHelper::addToResult(const SpeedTestHelper::TimerSlot timeSlot)
 {
@@ -58,6 +64,9 @@ SpeedTestHelper::addToResult(const SpeedTestHelper::TimerSlot timeSlot)
                                              standardDeviationObj.str() + " " + timeSlot.unitName});
 }
 
+/**
+ * @brief print result as table
+ */
 void
 SpeedTestHelper::printResult()
 {

@@ -1,11 +1,11 @@
 /**
  *  @file       compare_test_helper.h
  *
- *  @brief      This is in all my projects used for unit-tests.
+ *  @brief      Helper class for compare-tests like unit-tests
  *
- *  @details    It counts all successful and failed
- *              calls of the TEST_EQUAL and TEST_NOT_EQUAL macro. In case of a failed macro-call, it
- *              shows the file-name, linenumer and method-name of the failed test.
+ *  @details    It counts all successful and failed calls of the TEST_EQUAL and TEST_NOT_EQUAL
+ *              macro. In case of a failed macro-call, it shows the file-name, linenumer and
+ *              method-name of the failed test.
  *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *

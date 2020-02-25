@@ -1,6 +1,8 @@
 /**
  *  @file       speed_test_helper.h
  *
+ *  @brief      Helper class for benchmark-tests
+ *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright  MIT License
