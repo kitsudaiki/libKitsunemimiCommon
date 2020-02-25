@@ -14,7 +14,7 @@ namespace Kitsunemimi
 {
 
 TextFile_Test::TextFile_Test()
-    : Kitsunemimi::Test("VectorMethods_Test")
+    : Kitsunemimi::CompareTestHelper("VectorMethods_Test")
 {
     removeEmptyStrings_test();
 }

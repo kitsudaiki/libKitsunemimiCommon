@@ -14,7 +14,7 @@ namespace Kitsunemimi
 {
 
 State_Test::State_Test()
-    : Kitsunemimi::Test("State_Test")
+    : Kitsunemimi::CompareTestHelper("State_Test")
 {
     addTransition_test();
     next_test();

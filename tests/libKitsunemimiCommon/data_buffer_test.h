@@ -9,13 +9,13 @@
 #ifndef DATA_BUFFER_TEST_H
 #define DATA_BUFFER_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 
 class DataBuffer_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     DataBuffer_Test();

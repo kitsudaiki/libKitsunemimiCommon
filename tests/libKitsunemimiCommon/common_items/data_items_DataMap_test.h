@@ -9,14 +9,14 @@
 #ifndef DATAITEMS_DATAMAP_TEST_H
 #define DATAITEMS_DATAMAP_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 class DataMap;
 
 class DataItems_DataMap_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     DataItems_DataMap_Test();

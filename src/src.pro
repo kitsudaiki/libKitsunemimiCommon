@@ -13,22 +13,22 @@ SOURCES += \
     statemachine.cpp \
     common_items/data_items.cpp \
     common_items/table_item.cpp \
-    unit_test.cpp \
     threading/barrier.cpp \
     process_execution.cpp \
-    benchmark_test.cpp
+    test_helper/compare_test_helper.cpp \
+    test_helper/speed_test_helper.cpp
 
 
 HEADERS += \
+    state.h \
     ../include/libKitsunemimiCommon/data_buffer.h \
     ../include/libKitsunemimiCommon/common_methods/string_methods.h \
     ../include/libKitsunemimiCommon/common_methods/vector_methods.h \
     ../include/libKitsunemimiCommon/common_items/data_items.h \
     ../include/libKitsunemimiCommon/statemachine.h \
     ../include/libKitsunemimiCommon/threading/thread.h \
-    state.h \
     ../include/libKitsunemimiCommon/common_items/table_item.h \
-    ../include/libKitsunemimiCommon/test.h \
     ../include/libKitsunemimiCommon/threading/barrier.h \
     ../include/libKitsunemimiCommon/process_execution.h \
-    ../include/libKitsunemimiCommon/benchmark_test.h
+    ../include/libKitsunemimiCommon/test_helper/compare_test_helper.h \
+    ../include/libKitsunemimiCommon/test_helper/speed_test_helper.h

@@ -9,14 +9,14 @@
 #ifndef DATAITEMS_DATAVALUE_TEST_H
 #define DATAITEMS_DATAVALUE_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 class DataValue;
 
 class DataItems_DataValue_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     DataItems_DataValue_Test();

@@ -1,5 +1,5 @@
 /**
- *  @file       unit_test.cpp
+ *  @file       compare_test_helper.cpp
  *
  *  @brief      This is in all my projects used for unit-tests.
  *
@@ -12,18 +12,18 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 
-Test::Test(const std::string testName)
+CompareTestHelper::CompareTestHelper(const std::string testName)
 {
     std::cout << "------------------------------" << std::endl;
     std::cout << "start " << testName << std::endl << std::endl;
 }
 
-Test::~Test()
+CompareTestHelper::~CompareTestHelper()
 {
     std::cout << "tests succeeded: " << m_successfulTests <<std::endl;
     std::cout << "tests failed: " << m_failedTests << std::endl;

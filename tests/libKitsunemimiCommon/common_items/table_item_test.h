@@ -9,14 +9,14 @@
 #ifndef TABLE_ITEM_TEST_H
 #define TABLE_ITEM_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 #include <libKitsunemimiCommon/common_items/table_item.h>
 
 namespace Kitsunemimi
 {
 
 class TableItem_test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     TableItem_test();

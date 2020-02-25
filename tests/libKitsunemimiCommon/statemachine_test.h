@@ -9,13 +9,13 @@
 #ifndef STATEMACHINE_TEST_H
 #define STATEMACHINE_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 
 class Statemachine_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     Statemachine_Test();
