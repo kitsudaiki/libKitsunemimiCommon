@@ -1,5 +1,18 @@
 # Changelog
 
+
+## [0.11.0] - 2020-02-25
+
+### Added 
+- added `SpeedTestHelper`-class for performance-tests
+
+### Fixed
+- fixed broken reset-function in the DataBuffer
+
+### Changed
+- renamed generic `Test`-class to `CompareTestHelper` and moved the class to a subdirectory
+
+
 ## [0.10.1] - 2020-01-18
 
 ### Fixed
