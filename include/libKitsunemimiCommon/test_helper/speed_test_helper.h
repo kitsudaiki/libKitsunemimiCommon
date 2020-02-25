@@ -1,19 +1,24 @@
 /**
- *  @file       benchmark_test.h
+ *  @file       speed_test_helper.h
+ *
+ *  @brief      Helper class for benchmark-tests
  *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright  MIT License
  */
 
-#ifndef BENCHMARK_TEST_H
-#define BENCHMARK_TEST_H
+#ifndef SPEED_TEST_HELPER_H
+#define SPEED_TEST_HELPER_H
 
 #include <string>
 #include <iostream>
 #include <chrono>
 #include <map>
+#include <vector>
 #include <iomanip>
+#include <math.h>
+
 #include <libKitsunemimiCommon/common_items/table_item.h>
 
 namespace Kitsunemimi
@@ -26,7 +31,7 @@ typedef std::chrono::seconds chronoSec;
 typedef std::chrono::high_resolution_clock::time_point chronoTimePoint;
 typedef std::chrono::high_resolution_clock chronoClock;
 
-class BenchmarkTest
+class SpeedTestHelper
 {
 
 public:
@@ -72,7 +77,7 @@ public:
         }
     };
 
-    BenchmarkTest();
+    SpeedTestHelper();
 
     void addToResult(const TimerSlot timeSlot);
     void printResult();
@@ -85,4 +90,4 @@ private:
 
 } // namespace Kitsunemimi
 
-#endif // BENCHMARK_TEST_H
+#endif // SPEED_TEST_HELPER_H

@@ -12,7 +12,7 @@ namespace Kitsunemimi
 {
 
 TableItem_test::TableItem_test()
-    : Kitsunemimi::Test("TableItem_test")
+    : Kitsunemimi::CompareTestHelper("TableItem_test")
 {
     copy_contructor_test();
     assignment_operator_test();

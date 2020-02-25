@@ -13,7 +13,7 @@ namespace Kitsunemimi
 {
 
 DataItems_DataValue_Test::DataItems_DataValue_Test()
-    : Kitsunemimi::Test("DataItems_DataValue_Test")
+    : Kitsunemimi::CompareTestHelper("DataItems_DataValue_Test")
 {
     copy_assingment_constructor_test();
     copy_assingment_operator_test();

@@ -14,7 +14,7 @@ namespace Kitsunemimi
 {
 
 StringMethods_Test::StringMethods_Test()
-    : Kitsunemimi::Test("StringMethods_Test")
+    : Kitsunemimi::CompareTestHelper("StringMethods_Test")
 {
     splitStringByDelimiter_test();
     splitStringByLength_test();

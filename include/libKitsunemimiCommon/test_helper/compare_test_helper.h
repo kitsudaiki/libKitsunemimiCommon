@@ -1,19 +1,19 @@
 /**
- *  @file       test.h
+ *  @file       compare_test_helper.h
  *
- *  @brief      This is in all my projects used for unit-tests.
+ *  @brief      Helper class for compare-tests like unit-tests
  *
- *  @details    It counts all successful and failed
- *              calls of the TEST_EQUAL and TEST_NOT_EQUAL macro. In case of a failed macro-call, it
- *              shows the file-name, linenumer and method-name of the failed test.
+ *  @details    It counts all successful and failed calls of the TEST_EQUAL and TEST_NOT_EQUAL
+ *              macro. In case of a failed macro-call, it shows the file-name, linenumer and
+ *              method-name of the failed test.
  *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright  MIT License
  */
 
-#ifndef TEST_H
-#define TEST_H
+#ifndef COMPARE_TEST_HELPER_H
+#define COMPARE_TEST_HELPER_H
 
 #include <string>
 #include <iostream>
@@ -21,7 +21,7 @@
 namespace Kitsunemimi
 {
 
-class Test
+class CompareTestHelper
 {
 #define TEST_EQUAL(IS_VAL, SHOULD_VAL) if(IS_VAL != SHOULD_VAL) \
 {  \
@@ -56,8 +56,8 @@ class Test
     }
 
 public:
-    Test(const std::string testName);
-    ~Test();
+    CompareTestHelper(const std::string testName);
+    ~CompareTestHelper();
 
 protected:
     uint32_t m_successfulTests = 0;
@@ -66,4 +66,4 @@ protected:
 
 } // namespace Kitsunemimi
 
-#endif // TEST_H
+#endif // COMPARE_TEST_HELPER_H

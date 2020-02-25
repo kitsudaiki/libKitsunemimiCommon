@@ -21,7 +21,7 @@ struct TestStruct
 } __attribute__((packed));
 
 DataBuffer_Test::DataBuffer_Test()
-    : Kitsunemimi::Test("DataBuffer_Test")
+    : Kitsunemimi::CompareTestHelper("DataBuffer_Test")
 {
     structSize_test();
     constructor_test();

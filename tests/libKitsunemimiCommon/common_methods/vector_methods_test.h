@@ -9,13 +9,13 @@
 #ifndef VECTOR_METHODS_TEST_H
 #define VECTOR_METHODS_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 
 class TextFile_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     TextFile_Test();

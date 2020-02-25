@@ -9,13 +9,13 @@
 #ifndef STRING_METHODS_TEST_H
 #define STRING_METHODS_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 
 class StringMethods_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     StringMethods_Test();

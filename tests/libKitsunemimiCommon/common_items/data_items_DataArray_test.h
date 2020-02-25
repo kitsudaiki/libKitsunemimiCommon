@@ -9,14 +9,14 @@
 #ifndef DATAITEMS_DATAARRAY_TEST_H
 #define DATAITEMS_DATAARRAY_TEST_H
 
-#include <libKitsunemimiCommon/test.h>
+#include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 class DataArray;
 
 class DataItems_DataArray_Test
-        : public Kitsunemimi::Test
+        : public Kitsunemimi::CompareTestHelper
 {
 public:
     DataItems_DataArray_Test();
