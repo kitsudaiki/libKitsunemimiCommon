@@ -21,7 +21,7 @@ SOURCES += \
 
 HEADERS += \
     state.h \
-    ../include/libKitsunemimiCommon/data_buffer.h \
+    ../include/libKitsunemimiCommon/buffer/ring_buffer.h \
     ../include/libKitsunemimiCommon/common_methods/string_methods.h \
     ../include/libKitsunemimiCommon/common_methods/vector_methods.h \
     ../include/libKitsunemimiCommon/common_items/data_items.h \
@@ -31,4 +31,5 @@ HEADERS += \
     ../include/libKitsunemimiCommon/threading/barrier.h \
     ../include/libKitsunemimiCommon/process_execution.h \
     ../include/libKitsunemimiCommon/test_helper/compare_test_helper.h \
-    ../include/libKitsunemimiCommon/test_helper/speed_test_helper.h
+    ../include/libKitsunemimiCommon/test_helper/speed_test_helper.h \
+    ../include/libKitsunemimiCommon/buffer/data_buffer.h
