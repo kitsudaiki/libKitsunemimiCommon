@@ -1,13 +1,13 @@
 /**
- *  @file    message_ring_buffer.h
+ *  @file    ring_buffer.h
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright MIT License
  */
 
-#ifndef MESSAGE_RING_BUFFER_H
-#define MESSAGE_RING_BUFFER_H
+#ifndef RING_BUFFER_H
+#define RING_BUFFER_H
 
 #include <cinttypes>
 #include <string.h>
@@ -15,13 +15,11 @@
 
 namespace Kitsunemimi
 {
-namespace Network
-{
 
 #define RING_BUFFER_SIZE 16*1024*1024
 
 
-struct MessageRingBuffer
+struct RingBuffer
 {
     uint8_t* data = static_cast<uint8_t*>(alignedMalloc(4096, RING_BUFFER_SIZE));
     uint64_t totalBufferSize = RING_BUFFER_SIZE;
@@ -32,9 +30,9 @@ struct MessageRingBuffer
     // in the data-object
     uint8_t* overflowBuffer = static_cast<uint8_t*>(alignedMalloc(4096, RING_BUFFER_SIZE));
 
-    MessageRingBuffer() {}
+    RingBuffer() {}
 
-    ~MessageRingBuffer()
+    ~RingBuffer()
     {
         delete data;
         delete overflowBuffer;
@@ -47,7 +45,7 @@ struct MessageRingBuffer
  * @return
  */
 uint64_t
-getWritePosition(MessageRingBuffer &recvBuffer)
+getWritePosition(RingBuffer &recvBuffer)
 {
     return (recvBuffer.readPosition + recvBuffer.readWriteDiff) % recvBuffer.totalBufferSize;
 }
@@ -58,7 +56,7 @@ getWritePosition(MessageRingBuffer &recvBuffer)
  * @return
  */
 uint64_t
-getSpaceToEnd(MessageRingBuffer &recvBuffer)
+getSpaceToEnd(RingBuffer &recvBuffer)
 {
     const uint64_t writePosition = getWritePosition(recvBuffer);
 
@@ -80,7 +78,7 @@ getSpaceToEnd(MessageRingBuffer &recvBuffer)
  * @return false, if data are bigger than the available space inside the buffer, else true
  */
 inline bool
-addDataToBuffer(MessageRingBuffer &recvBuffer,
+addDataToBuffer(RingBuffer &recvBuffer,
                 const void* data,
                 const uint64_t dataSize)
 {
@@ -117,7 +115,7 @@ addDataToBuffer(MessageRingBuffer &recvBuffer,
  *         block is too big
  */
 inline const uint8_t*
-getDataPointer(MessageRingBuffer &recvBuffer,
+getDataPointer(RingBuffer &recvBuffer,
                const uint64_t size)
 {
     if(recvBuffer.readWriteDiff < size) {
@@ -147,7 +145,7 @@ getDataPointer(MessageRingBuffer &recvBuffer,
  * @param numberOfBytes
  */
 inline void
-moveBufferForward(MessageRingBuffer &recvBuffer,
+moveBufferForward(RingBuffer &recvBuffer,
                   const uint64_t numberOfBytes)
 {
     recvBuffer.readPosition = (recvBuffer.readPosition + numberOfBytes)
@@ -164,14 +162,13 @@ moveBufferForward(MessageRingBuffer &recvBuffer,
  */
 template <typename T>
 inline const T*
-getObjectFromBuffer(MessageRingBuffer* recvBuffer)
+getObjectFromBuffer(RingBuffer* recvBuffer)
 {
     const void* data = static_cast<const void*>(getDataPointer(*recvBuffer, sizeof(T)));
 
     return static_cast<const T*>(data);
 }
 
-} // namespace Network
 } // namespace Kitsunemimi
 
-#endif // MESSAGE_RING_BUFFER_H
+#endif // RING_BUFFER_H
