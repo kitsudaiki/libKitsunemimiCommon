@@ -14,7 +14,7 @@
  */
 
 #include <libKitsunemimiCommon/threading/thread.h>
-#include <libKitsunemimiCommon/data_buffer.h>
+#include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 namespace Kitsunemimi
 {

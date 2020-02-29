@@ -8,7 +8,7 @@
 
 #include "data_buffer_test.h"
 
-#include <libKitsunemimiCommon/data_buffer.h>
+#include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 namespace Kitsunemimi
 {

@@ -23,16 +23,14 @@ namespace Network
 
 struct MessageRingBuffer
 {
-    //uint8_t* data = static_cast<uint8_t*>(alignedMalloc(4096, RECV_BUFFER_SIZE));
-    uint8_t data[RECV_BUFFER_SIZE];
+    uint8_t* data = static_cast<uint8_t*>(alignedMalloc(4096, RECV_BUFFER_SIZE));
     uint64_t totalBufferSize = RECV_BUFFER_SIZE;
     uint64_t readPosition = 0;
     uint64_t readWriteDiff = 0;
 
     // backup-buffer to collect messages, which are splitted
     // in the data-object
-    //uint8_t* overflowBuffer = static_cast<uint8_t*>(alignedMalloc(4096, RECV_BUFFER_SIZE));
-    uint8_t overflowBuffer[RECV_BUFFER_SIZE];
+    uint8_t* overflowBuffer = static_cast<uint8_t*>(alignedMalloc(4096, RECV_BUFFER_SIZE));
 };
 
 /**
@@ -59,8 +57,8 @@ getDataPointer(MessageRingBuffer &recvBuffer,
     {
         // copy the two parts of the requested block into the overflow-buffer
         const uint64_t firstPart = size - ((startPosition + size) % recvBuffer.totalBufferSize);
-        mempcpy(&recvBuffer.overflowBuffer[0], &recvBuffer.data[startPosition], firstPart);
-        mempcpy(&recvBuffer.overflowBuffer[firstPart], &recvBuffer.data[0], size - firstPart);
+        memcpy(&recvBuffer.overflowBuffer[0], &recvBuffer.data[startPosition], firstPart);
+        memcpy(&recvBuffer.overflowBuffer[firstPart], &recvBuffer.data[0], size - firstPart);
         return &recvBuffer.overflowBuffer[0];
     }
 
