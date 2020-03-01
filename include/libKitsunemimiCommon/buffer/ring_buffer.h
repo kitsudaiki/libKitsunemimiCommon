@@ -24,7 +24,7 @@ struct RingBuffer
     uint8_t* data = static_cast<uint8_t*>(alignedMalloc(4096, RING_BUFFER_SIZE));
     uint64_t totalBufferSize = RING_BUFFER_SIZE;
     uint64_t readPosition = 0;
-    uint64_t readWriteDiff = 0;
+    uint64_t usedSize = 0;
 
     // backup-buffer to collect messages, which are splitted
     // in the data-object
@@ -44,10 +44,10 @@ struct RingBuffer
  * @param recvBuffer
  * @return
  */
-uint64_t
+inline uint64_t
 getWritePosition(RingBuffer &recvBuffer)
 {
-    return (recvBuffer.readPosition + recvBuffer.readWriteDiff) % recvBuffer.totalBufferSize;
+    return (recvBuffer.readPosition + recvBuffer.usedSize) % recvBuffer.totalBufferSize;
 }
 
 /**
@@ -55,7 +55,7 @@ getWritePosition(RingBuffer &recvBuffer)
  * @param recvBuffer
  * @return
  */
-uint64_t
+inline uint64_t
 getSpaceToEnd(RingBuffer &recvBuffer)
 {
     const uint64_t writePosition = getWritePosition(recvBuffer);
@@ -82,7 +82,7 @@ addDataToBuffer(RingBuffer &recvBuffer,
                 const void* data,
                 const uint64_t dataSize)
 {
-    if(dataSize + recvBuffer.readWriteDiff > recvBuffer.totalBufferSize) {
+    if(dataSize + recvBuffer.usedSize > recvBuffer.totalBufferSize) {
         return false;
     }
 
@@ -118,7 +118,7 @@ inline const uint8_t*
 getDataPointer(RingBuffer &recvBuffer,
                const uint64_t size)
 {
-    if(recvBuffer.readWriteDiff < size) {
+    if(recvBuffer.usedSize < size) {
         return nullptr;
     }
 
@@ -150,7 +150,7 @@ moveBufferForward(RingBuffer &recvBuffer,
 {
     recvBuffer.readPosition = (recvBuffer.readPosition + numberOfBytes)
                                % recvBuffer.totalBufferSize;
-    recvBuffer.readWriteDiff -= numberOfBytes;
+    recvBuffer.usedSize -= numberOfBytes;
 }
 
 /**

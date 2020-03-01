@@ -10,13 +10,13 @@
 #include <deque>
 
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
-#include <libKitsunemimiCommon/buffer/block_buffer_reserve.h>
+#include <libKitsunemimiCommon/buffer/stack_buffer_reserve.h>
 
 namespace Kitsunemimi
 {
-static Kitsunemimi::BlockBufferReserve* m_bufferReserve = nullptr;
+static Kitsunemimi::StackBufferReserve* m_bufferReserve = nullptr;
 
-struct BlockBuffer
+struct StackBuffer
 {
     uint32_t preOffset = 0;
     uint32_t postOffset = 0;
@@ -25,7 +25,7 @@ struct BlockBuffer
 
     std::deque<DataBuffer*> blocks;
 
-    BlockBuffer(const uint32_t preOffset=0,
+    StackBuffer(const uint32_t preOffset=0,
                 const uint32_t postOffset=0)
     {
         this->preOffset = preOffset;
@@ -33,11 +33,11 @@ struct BlockBuffer
         this->effectiveBlockSize = blockSize - preOffset - postOffset;
 
         if(Kitsunemimi::m_bufferReserve == nullptr) {
-            Kitsunemimi::m_bufferReserve = new BlockBufferReserve();
+            Kitsunemimi::m_bufferReserve = new StackBufferReserve();
         }
     }
 
-    ~BlockBuffer()
+    ~StackBuffer()
     {
         std::deque<DataBuffer*>::iterator it;
         for(it = blocks.begin();
@@ -58,7 +58,7 @@ struct BlockBuffer
  * @return
  */
 inline bool
-writeDataIntoBuffer(BlockBuffer &blockBuffer,
+writeDataIntoBuffer(StackBuffer &blockBuffer,
                     const void* data,
                     const uint64_t dataSize)
 {
@@ -71,7 +71,7 @@ writeDataIntoBuffer(BlockBuffer &blockBuffer,
 
     if(estimatedSize > blockBuffer.effectiveBlockSize)
     {
-        DataBuffer* newBlock = Kitsunemimi::m_bufferReserve->getBlock();
+        DataBuffer* newBlock = Kitsunemimi::m_bufferReserve->getStage();
         blockBuffer.blocks.push_back(newBlock);
         currentBlock = newBlock;
         currentBlock->bufferPosition += blockBuffer.preOffset;
@@ -90,7 +90,7 @@ writeDataIntoBuffer(BlockBuffer &blockBuffer,
  * @return
  */
 inline DataBuffer*
-getFirstBlock(BlockBuffer &blockBuffer)
+getFirstBlock(StackBuffer &blockBuffer)
 {
     if(blockBuffer.blocks.size() == 0) {
         return nullptr;
@@ -107,7 +107,7 @@ getFirstBlock(BlockBuffer &blockBuffer)
  * @return
  */
 inline bool
-moveForward(BlockBuffer &blockBuffer)
+moveForward(StackBuffer &blockBuffer)
 {
     if(blockBuffer.blocks.size() == 0) {
         return false;
@@ -115,7 +115,7 @@ moveForward(BlockBuffer &blockBuffer)
 
     DataBuffer* temp = blockBuffer.blocks.front();
     blockBuffer.blocks.pop_front();
-    m_bufferReserve->addBlock(temp);
+    m_bufferReserve->addStage(temp);
 
     return true;
 }

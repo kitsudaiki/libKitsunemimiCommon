@@ -12,14 +12,15 @@
 namespace Kitsunemimi
 {
 
-class BlockBufferReserve
+class StackBufferReserve
 {
 public:
-    BlockBufferReserve();
-    ~BlockBufferReserve();
+    StackBufferReserve();
+    ~StackBufferReserve();
 
-    DataBuffer* getBlock();
-    void addBlock(DataBuffer* buffer);
+    DataBuffer* getStage();
+    void addStage(DataBuffer* buffer);
+    uint64_t getNumberOfStages();
 
 private:
     std::vector<DataBuffer*> m_reserve;

@@ -1,4 +1,4 @@
-#include <libKitsunemimiCommon/buffer/block_buffer_reserve.h>
+#include <libKitsunemimiCommon/buffer/stack_buffer_reserve.h>
 
 namespace Kitsunemimi
 {
@@ -6,7 +6,7 @@ namespace Kitsunemimi
 /**
  * @brief constructor
  */
-BlockBufferReserve::BlockBufferReserve()
+StackBufferReserve::StackBufferReserve()
 {
     assert(BLOCK_BUFFER_BLOCK_SIZE % 4096 == 0);
 }
@@ -14,7 +14,7 @@ BlockBufferReserve::BlockBufferReserve()
 /**
  * @brief destructor
  */
-BlockBufferReserve::~BlockBufferReserve()
+StackBufferReserve::~StackBufferReserve()
 {
     while (m_lock.test_and_set(std::memory_order_acquire)) {
         asm("");
@@ -30,11 +30,11 @@ BlockBufferReserve::~BlockBufferReserve()
 }
 
 /**
- * @brief BlockBufferReserve::getBlock
+ * @brief StackBufferReserve::getBlock
  * @return
  */
 DataBuffer*
-BlockBufferReserve::getBlock()
+StackBufferReserve::getStage()
 {
     while (m_lock.test_and_set(std::memory_order_acquire)) {
         asm("");
@@ -54,11 +54,11 @@ BlockBufferReserve::getBlock()
 }
 
 /**
- * @brief BlockBufferReserve::addBlock
+ * @brief StackBufferReserve::addBlock
  * @param buffer
  */
 void
-BlockBufferReserve::addBlock(DataBuffer* buffer)
+StackBufferReserve::addStage(DataBuffer* buffer)
 {
     while (m_lock.test_and_set(std::memory_order_acquire)) {
         asm("");
@@ -75,6 +75,21 @@ BlockBufferReserve::addBlock(DataBuffer* buffer)
     }
 
     m_lock.clear(std::memory_order_release);
+}
+
+/**
+ * @brief StackBufferReserve::getNumberOfStages
+ * @return
+ */
+uint64_t
+StackBufferReserve::getNumberOfStages()
+{
+    while (m_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
+    const uint64_t result = m_reserve.size();
+    m_lock.clear(std::memory_order_release);
+    return result;
 }
 
 }
