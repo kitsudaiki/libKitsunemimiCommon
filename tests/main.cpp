@@ -10,6 +10,8 @@
 
 #include <libKitsunemimiCommon/buffer/data_buffer_test.h>
 #include <libKitsunemimiCommon/buffer/ring_buffer_test.h>
+#include <libKitsunemimiCommon/buffer/stack_buffer_reserve_test.h>
+#include <libKitsunemimiCommon/buffer/stack_buffer_test.h>
 
 #include <libKitsunemimiCommon/common_methods/string_methods_test.h>
 #include <libKitsunemimiCommon/common_methods/vector_methods_test.h>
@@ -24,7 +26,10 @@
 
 int main()
 {
-    /*Kitsunemimi::DataBuffer_Test();
+    Kitsunemimi::DataBuffer_Test();
+    Kitsunemimi::RingBuffer_Test();
+    Kitsunemimi::StackBufferReserve_Test();
+    Kitsunemimi::StackBuffer_Test();
 
     Kitsunemimi::StringMethods_Test();
     Kitsunemimi::TextFile_Test();
@@ -36,7 +41,5 @@ int main()
     Kitsunemimi::DataItems_DataArray_Test();
     Kitsunemimi::DataItems_DataMap_Test();
 
-    Kitsunemimi::TableItem_test();*/
-    Kitsunemimi::RingBuffer_Test();
-
+    Kitsunemimi::TableItem_test();
 }

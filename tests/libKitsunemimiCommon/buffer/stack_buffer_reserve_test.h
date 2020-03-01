@@ -11,6 +11,11 @@ class StackBufferReserve_Test
 {
 public:
     StackBufferReserve_Test();
+
+private:
+    void addBuffer_test();
+    void getNumberOfBuffers_test();
+    void getBuffer_test();
 };
 
 } // namespace Kitsunemimi

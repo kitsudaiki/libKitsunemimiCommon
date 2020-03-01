@@ -14,14 +14,14 @@
 
 namespace Kitsunemimi
 {
-static Kitsunemimi::StackBufferReserve* m_bufferReserve = nullptr;
+static Kitsunemimi::StackBufferReserve* m_stackBufferReserve = nullptr;
 
 struct StackBuffer
 {
     uint32_t preOffset = 0;
     uint32_t postOffset = 0;
     uint32_t effectiveBlockSize = 0;
-    uint32_t blockSize = BLOCK_BUFFER_BLOCK_SIZE;
+    uint32_t blockSize = STACK_BUFFER_BLOCK_SIZE;
 
     std::deque<DataBuffer*> blocks;
 
@@ -32,8 +32,8 @@ struct StackBuffer
         this->postOffset = postOffset;
         this->effectiveBlockSize = blockSize - preOffset - postOffset;
 
-        if(Kitsunemimi::m_bufferReserve == nullptr) {
-            Kitsunemimi::m_bufferReserve = new StackBufferReserve();
+        if(Kitsunemimi::m_stackBufferReserve == nullptr) {
+            Kitsunemimi::m_stackBufferReserve = new StackBufferReserve();
         }
     }
 
@@ -46,36 +46,60 @@ struct StackBuffer
         {
             DataBuffer* temp = *it;
             delete temp;
+            //m_stackBufferReserve->addBuffer(temp);
         }
     }
 } __attribute__((packed));
 
 /**
+ * @brief addNewEmptyBuffer
+ * @param stackBuffer
+ */
+inline void
+addNewEmptyBuffer(StackBuffer &stackBuffer)
+{
+    DataBuffer* newBlock = Kitsunemimi::m_stackBufferReserve->getBuffer();
+    newBlock->bufferPosition += stackBuffer.preOffset;
+    stackBuffer.blocks.push_back(newBlock);
+}
+
+/**
  * @brief writeDataIntoBuffer
- * @param blockBuffer
+ * @param stackBuffer
  * @param data
  * @param dataSize
  * @return
  */
 inline bool
-writeDataIntoBuffer(StackBuffer &blockBuffer,
+writeDataIntoBuffer(StackBuffer &stackBuffer,
                     const void* data,
                     const uint64_t dataSize)
 {
-    if(dataSize > blockBuffer.effectiveBlockSize) {
+    if(dataSize > stackBuffer.effectiveBlockSize) {
         return false;
     }
 
-    DataBuffer* currentBlock = blockBuffer.blocks.back();
-    const uint64_t estimatedSize = currentBlock->bufferPosition + blockBuffer.postOffset + dataSize;
+    DataBuffer* currentBlock = nullptr;
 
-    if(estimatedSize > blockBuffer.effectiveBlockSize)
+    if(stackBuffer.blocks.size() == 0)
     {
-        DataBuffer* newBlock = Kitsunemimi::m_bufferReserve->getStage();
-        blockBuffer.blocks.push_back(newBlock);
-        currentBlock = newBlock;
-        currentBlock->bufferPosition += blockBuffer.preOffset;
+        addNewEmptyBuffer(stackBuffer);
+        currentBlock = stackBuffer.blocks.back();
     }
+    else
+    {
+        currentBlock = stackBuffer.blocks.back();
+        const uint64_t estimatedSize = currentBlock->bufferPosition
+                                       + stackBuffer.postOffset
+                                       + dataSize;
+
+        if(estimatedSize > stackBuffer.effectiveBlockSize)
+        {
+            addNewEmptyBuffer(stackBuffer);
+            currentBlock = stackBuffer.blocks.back();
+        }
+    }
+
 
     uint8_t* dataPos = static_cast<uint8_t*>(currentBlock->data);
     memcpy(&dataPos[currentBlock->bufferPosition], data, dataSize);
@@ -86,36 +110,36 @@ writeDataIntoBuffer(StackBuffer &blockBuffer,
 
 /**
  * @brief getFirstBlock
- * @param blockBuffer
+ * @param stackBuffer
  * @return
  */
 inline DataBuffer*
-getFirstBlock(StackBuffer &blockBuffer)
+getFirstBlock(StackBuffer &stackBuffer)
 {
-    if(blockBuffer.blocks.size() == 0) {
+    if(stackBuffer.blocks.size() == 0) {
         return nullptr;
     }
 
-    DataBuffer* buffer = blockBuffer.blocks.front();
+    DataBuffer* buffer = stackBuffer.blocks.front();
 
     return buffer;
 }
 
 /**
  * @brief moveForward
- * @param blockBuffer
+ * @param stackBuffer
  * @return
  */
 inline bool
-moveForward(StackBuffer &blockBuffer)
+moveForward(StackBuffer &stackBuffer)
 {
-    if(blockBuffer.blocks.size() == 0) {
+    if(stackBuffer.blocks.size() == 0) {
         return false;
     }
 
-    DataBuffer* temp = blockBuffer.blocks.front();
-    blockBuffer.blocks.pop_front();
-    m_bufferReserve->addStage(temp);
+    DataBuffer* temp = stackBuffer.blocks.front();
+    stackBuffer.blocks.pop_front();
+    m_stackBufferReserve->addBuffer(temp);
 
     return true;
 }

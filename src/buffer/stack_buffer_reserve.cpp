@@ -8,7 +8,7 @@ namespace Kitsunemimi
  */
 StackBufferReserve::StackBufferReserve()
 {
-    assert(BLOCK_BUFFER_BLOCK_SIZE % 4096 == 0);
+    assert(STACK_BUFFER_BLOCK_SIZE % 4096 == 0);
 }
 
 /**
@@ -30,36 +30,16 @@ StackBufferReserve::~StackBufferReserve()
 }
 
 /**
- * @brief StackBufferReserve::getBlock
- * @return
- */
-DataBuffer*
-StackBufferReserve::getStage()
-{
-    while (m_lock.test_and_set(std::memory_order_acquire)) {
-        asm("");
-    }
-
-    if(m_reserve.size() == 0)
-    {
-        m_lock.clear(std::memory_order_release);
-        return new DataBuffer(BLOCK_BUFFER_BLOCK_SIZE/4096, 4096);
-    }
-
-    DataBuffer* result = m_reserve.back();
-    m_reserve.pop_back();
-    m_lock.clear(std::memory_order_release);
-
-    return result;
-}
-
-/**
  * @brief StackBufferReserve::addBlock
  * @param buffer
  */
-void
-StackBufferReserve::addStage(DataBuffer* buffer)
+bool
+StackBufferReserve::addBuffer(DataBuffer* buffer)
 {
+    if(buffer == nullptr) {
+        return false;
+    }
+
     while (m_lock.test_and_set(std::memory_order_acquire)) {
         asm("");
     }
@@ -75,6 +55,8 @@ StackBufferReserve::addStage(DataBuffer* buffer)
     }
 
     m_lock.clear(std::memory_order_release);
+
+    return true;
 }
 
 /**
@@ -82,13 +64,37 @@ StackBufferReserve::addStage(DataBuffer* buffer)
  * @return
  */
 uint64_t
-StackBufferReserve::getNumberOfStages()
+StackBufferReserve::getNumberOfBuffers()
 {
     while (m_lock.test_and_set(std::memory_order_acquire)) {
         asm("");
     }
     const uint64_t result = m_reserve.size();
     m_lock.clear(std::memory_order_release);
+    return result;
+}
+
+/**
+ * @brief StackBufferReserve::getBlock
+ * @return
+ */
+DataBuffer*
+StackBufferReserve::getBuffer()
+{
+    while (m_lock.test_and_set(std::memory_order_acquire)) {
+        asm("");
+    }
+
+    if(m_reserve.size() == 0)
+    {
+        m_lock.clear(std::memory_order_release);
+        return new DataBuffer(STACK_BUFFER_BLOCK_SIZE/4096, 4096);
+    }
+
+    DataBuffer* result = m_reserve.back();
+    m_reserve.pop_back();
+    m_lock.clear(std::memory_order_release);
+
     return result;
 }
 
