@@ -26,7 +26,7 @@ DataBuffer_Test::DataBuffer_Test()
     structSize_test();
     constructor_test();
     copyConstructor_test();
-    addData_test();
+    addObjectToBuffer_test();
     getBlock_test();
     reset_test();
 
@@ -97,7 +97,7 @@ DataBuffer_Test::copyConstructor_test()
  * addData_test
  */
 void
-DataBuffer_Test::addData_test()
+DataBuffer_Test::addObjectToBuffer_test()
 {
     // init
     DataBuffer testBuffer(10);

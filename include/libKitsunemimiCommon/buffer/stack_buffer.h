@@ -25,6 +25,12 @@ struct StackBuffer
 
     std::deque<DataBuffer*> blocks;
 
+    /**
+     * @brief constructor
+     *
+     * @param preOffset
+     * @param postOffset
+     */
     StackBuffer(const uint32_t preOffset=0,
                 const uint32_t postOffset=0)
     {
@@ -37,6 +43,9 @@ struct StackBuffer
         }
     }
 
+    /**
+     * @brief destructor
+     */
     ~StackBuffer()
     {
         std::deque<DataBuffer*>::iterator it;
@@ -106,6 +115,21 @@ writeDataIntoBuffer(StackBuffer &stackBuffer,
     currentBlock->bufferPosition += dataSize;
 
     return true;
+}
+
+/**
+ * @brief add an object to the buffer
+ *
+ * @param recvBuffer reference to ringbuffer-object
+ * @param data pointer to the object, which shoulb be written to the buffer
+ *
+ * @return false if precheck or allocation failed, else true
+ */
+template <typename T>
+inline bool
+addObjectToBuffer(StackBuffer &stackBuffer, T* data)
+{
+    return writeDataIntoBuffer(stackBuffer, data, sizeof(T));
 }
 
 /**

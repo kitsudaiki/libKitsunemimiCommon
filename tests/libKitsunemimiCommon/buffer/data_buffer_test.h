@@ -24,7 +24,7 @@ private:
     void constructor_test();
     void structSize_test();
     void copyConstructor_test();
-    void addData_test();
+    void addObjectToBuffer_test();
     void getBlock_test();
     void reset_test();
 

@@ -10,6 +10,7 @@ StackBuffer_Test::StackBuffer_Test()
     constructor_test();
     addNewEmptyBuffer_test();
     writeDataIntoBuffer_test();
+    addObjectToBuffer_test();
     getFirstBlock_test();
     moveForward_test();
 }
@@ -75,6 +76,21 @@ StackBuffer_Test::writeDataIntoBuffer_test()
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
     TEST_EQUAL(writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 2);
+}
+
+/**
+ * @brief addObjectToBuffer_test
+ */
+void
+StackBuffer_Test::addObjectToBuffer_test()
+{
+    // init
+    StackBuffer stackBuffer;
+    uint64_t testValue = 42;
+
+    // run test
+    TEST_EQUAL(addObjectToBuffer(stackBuffer, &testValue), true);
+    TEST_EQUAL(stackBuffer.blocks.at(0)->bufferPosition, sizeof(testValue));
 }
 
 /**

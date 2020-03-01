@@ -9,6 +9,7 @@ RingBuffer_Test::RingBuffer_Test()
     : Kitsunemimi::CompareTestHelper("RingBuffer_Test")
 {
     addDataToBuffer_test();
+    addObjectToBuffer_test();
     getWritePosition_test();
     getSpaceToEnd_test();
     getDataPointer_test();
@@ -43,6 +44,22 @@ RingBuffer_Test::addDataToBuffer_test()
     TEST_EQUAL(addDataToBuffer(ringBuffer, data, ringBuffer.totalBufferSize), false);
     TEST_EQUAL(ringBuffer.usedSize, 4096);
     alignedFree(data);
+}
+
+/**
+ * @brief addObjectToBuffer_test
+ */
+void
+RingBuffer_Test::addObjectToBuffer_test()
+{
+    // init
+    RingBuffer ringBuffer;
+    uint64_t testValue = 42;
+
+    // run test
+    TEST_EQUAL(addObjectToBuffer(ringBuffer, &testValue), true);
+    TEST_EQUAL(ringBuffer.readPosition, 0);
+    TEST_EQUAL(ringBuffer.usedSize, sizeof(testValue));
 }
 
 /**

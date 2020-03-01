@@ -14,6 +14,7 @@ public:
 
 private:
     void addDataToBuffer_test();
+    void addObjectToBuffer_test();
     void getWritePosition_test();
     void getSpaceToEnd_test();
     void getDataPointer_test();

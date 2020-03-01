@@ -178,7 +178,7 @@ alignedFree(void* ptr)
  * @brief allocate more memory for the buffer.
  *        It allocates a bigger memory-block an copy the old buffer-content into the new.
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param numberOfBlocks number of blocks to allocate
  *
  * @return true, if successful, else false
@@ -220,7 +220,7 @@ allocateBlocks(DataBuffer &buffer,
 /**
  * @brief copy data into the buffer and resize the buffer in necessary
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param data pointer the the data, which should be written into the buffer
  * @param dataSize number of bytes to write
  *
@@ -259,7 +259,7 @@ addDataToBuffer(DataBuffer &buffer,
 /**
  * @brief add an object to the buffer
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param data pointer to the object, which shoulb be written to the buffer
  *
  * @return false if precheck or allocation failed, else true
@@ -274,7 +274,7 @@ addObjectToBuffer(DataBuffer &buffer, T* data)
 /**
  * @brief reset a buffer and clears the data, so it is like the buffer is totally new
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param numberOfBlocks number of new allocated blocks after buffer-reset
  *
  * @return false if precheck or allocation failed, else true
@@ -315,7 +315,7 @@ resetBuffer(DataBuffer &buffer,
 /**
  * @brief get a pointer to a specific block inside the buffer
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param blockPosition number of the block inside the buffer
  *
  * @return pointer to the buffer-position
