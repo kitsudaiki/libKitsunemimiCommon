@@ -102,6 +102,8 @@ addDataToBuffer(RingBuffer &recvBuffer,
         memcpy(&recvBuffer.data[0], &dataPos[spaceToEnd], remaining);
     }
 
+    recvBuffer.usedSize += dataSize;
+
     return true;
 }
 
@@ -162,9 +164,9 @@ moveBufferForward(RingBuffer &recvBuffer,
  */
 template <typename T>
 inline const T*
-getObjectFromBuffer(RingBuffer* recvBuffer)
+getObjectFromBuffer(RingBuffer &recvBuffer)
 {
-    const void* data = static_cast<const void*>(getDataPointer(*recvBuffer, sizeof(T)));
+    const void* data = static_cast<const void*>(getDataPointer(recvBuffer, sizeof(T)));
 
     return static_cast<const T*>(data);
 }
