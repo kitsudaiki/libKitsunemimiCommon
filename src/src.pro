@@ -16,12 +16,13 @@ SOURCES += \
     threading/barrier.cpp \
     process_execution.cpp \
     test_helper/compare_test_helper.cpp \
-    test_helper/speed_test_helper.cpp
+    test_helper/speed_test_helper.cpp \
+    buffer/stack_buffer_reserve.cpp
 
 
 HEADERS += \
     state.h \
-    ../include/libKitsunemimiCommon/data_buffer.h \
+    ../include/libKitsunemimiCommon/buffer/ring_buffer.h \
     ../include/libKitsunemimiCommon/common_methods/string_methods.h \
     ../include/libKitsunemimiCommon/common_methods/vector_methods.h \
     ../include/libKitsunemimiCommon/common_items/data_items.h \
@@ -31,4 +32,7 @@ HEADERS += \
     ../include/libKitsunemimiCommon/threading/barrier.h \
     ../include/libKitsunemimiCommon/process_execution.h \
     ../include/libKitsunemimiCommon/test_helper/compare_test_helper.h \
-    ../include/libKitsunemimiCommon/test_helper/speed_test_helper.h
+    ../include/libKitsunemimiCommon/test_helper/speed_test_helper.h \
+    ../include/libKitsunemimiCommon/buffer/data_buffer.h \
+    ../include/libKitsunemimiCommon/buffer/stack_buffer.h \
+    ../include/libKitsunemimiCommon/buffer/stack_buffer_reserve.h

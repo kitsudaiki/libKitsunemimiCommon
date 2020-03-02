@@ -25,12 +25,12 @@
 namespace Kitsunemimi
 {
 struct DataBuffer;
-inline bool allocateBlocks(DataBuffer* buffer, const uint64_t numberOfBlocks);
-inline bool addDataToBuffer(DataBuffer* buffer, const void* data, const uint64_t dataSize);
-inline bool resetBuffer(DataBuffer* buffer, const uint64_t numberOfBlocks);
+inline bool allocateBlocks(DataBuffer &buffer, const uint64_t numberOfBlocks);
+inline bool addDataToBuffer(DataBuffer &buffer, const void* data, const uint64_t dataSize);
+inline bool resetBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
 inline void* alignedMalloc(const uint16_t blockSize, const uint64_t numberOfBytes);
 inline bool alignedFree(void* ptr);
-inline uint8_t* getBlock(DataBuffer* buffer, const uint32_t blockPosition);
+inline uint8_t* getBlock(DataBuffer &buffer, const uint32_t blockPosition);
 
 struct DataBuffer
 {
@@ -57,9 +57,9 @@ struct DataBuffer
         this->blockSize = blockSize;
         assert(this->blockSize % 512 == 0);
         if(numberOfBlocks < 1) {
-            allocateBlocks(this, 1);
+            allocateBlocks(*this, 1);
         }
-        allocateBlocks(this, numberOfBlocks);
+        allocateBlocks(*this, numberOfBlocks);
     }
 
     /**
@@ -69,7 +69,7 @@ struct DataBuffer
     {
         // copy blockSize first to make sure, that the reset reallocate the correct total memroy
         blockSize = other.blockSize;
-        allocateBlocks(this, other.numberOfBlocks);
+        allocateBlocks(*this, other.numberOfBlocks);
         assert(totalBufferSize == other.totalBufferSize);
 
         inUse = other.inUse;
@@ -95,7 +95,7 @@ struct DataBuffer
             totalBufferSize = blockSize * numberOfBlocks;
 
             if(size % blockSize != 0) {
-                allocateBlocks(this, 1);
+                allocateBlocks(*this, 1);
             }
         }
     }
@@ -178,13 +178,13 @@ alignedFree(void* ptr)
  * @brief allocate more memory for the buffer.
  *        It allocates a bigger memory-block an copy the old buffer-content into the new.
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param numberOfBlocks number of blocks to allocate
  *
  * @return true, if successful, else false
  */
 inline bool
-allocateBlocks(DataBuffer* buffer,
+allocateBlocks(DataBuffer &buffer,
                const uint64_t numberOfBlocks)
 {
     // precheck
@@ -193,26 +193,26 @@ allocateBlocks(DataBuffer* buffer,
     }
 
     // create the new buffer
-    uint64_t newSize = numberOfBlocks + buffer->numberOfBlocks;
-    void* newBuffer =  alignedMalloc(buffer->blockSize,
-                                     newSize * buffer->blockSize);
+    uint64_t newSize = numberOfBlocks + buffer.numberOfBlocks;
+    void* newBuffer =  alignedMalloc(buffer.blockSize,
+                                     newSize * buffer.blockSize);
     if(newBuffer == nullptr) {
         return false;
     }
 
     // copy the content of the old buffer to the new and deallocate the old
-    if(buffer->data != nullptr
-            && buffer->inUse == 1)
+    if(buffer.data != nullptr
+            && buffer.inUse == 1)
     {
-        memcpy(newBuffer, buffer->data, numberOfBlocks * buffer->blockSize);
-        alignedFree(buffer->data);
+        memcpy(newBuffer, buffer.data, numberOfBlocks * buffer.blockSize);
+        alignedFree(buffer.data);
     }
 
     // set the new values
-    buffer->inUse = 1;
-    buffer->numberOfBlocks = newSize;
-    buffer->totalBufferSize = newSize * buffer->blockSize;
-    buffer->data = newBuffer;
+    buffer.inUse = 1;
+    buffer.numberOfBlocks = newSize;
+    buffer.totalBufferSize = newSize * buffer.blockSize;
+    buffer.data = newBuffer;
 
     return true;
 }
@@ -220,38 +220,38 @@ allocateBlocks(DataBuffer* buffer,
 /**
  * @brief copy data into the buffer and resize the buffer in necessary
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param data pointer the the data, which should be written into the buffer
  * @param dataSize number of bytes to write
  *
  * @return false if precheck or allocation failed, else true
  */
 inline bool
-addDataToBuffer(DataBuffer* buffer,
+addDataToBuffer(DataBuffer &buffer,
                 const void* data,
                 const uint64_t dataSize)
 {
     // precheck
     if(dataSize == 0
             || data == nullptr
-            || buffer->bufferPosition + dataSize > buffer->totalBufferSize)
+            || buffer.bufferPosition + dataSize > buffer.totalBufferSize)
     {
         return false;
     }
 
     // check buffer-size and allocate more memory if necessary
-    if(buffer->bufferPosition + dataSize >= buffer->numberOfBlocks * buffer->blockSize)
+    if(buffer.bufferPosition + dataSize >= buffer.numberOfBlocks * buffer.blockSize)
     {
-        const uint64_t newBlockNum = (dataSize / buffer->blockSize) + 1;
+        const uint64_t newBlockNum = (dataSize / buffer.blockSize) + 1;
         if(allocateBlocks(buffer, newBlockNum) == false) {
             return false;
         }
     }
 
     // copy the new data into the buffer
-    uint8_t* dataByte = static_cast<uint8_t*>(buffer->data);
-    memcpy(&dataByte[buffer->bufferPosition], data, dataSize);
-    buffer->bufferPosition += dataSize;
+    uint8_t* dataByte = static_cast<uint8_t*>(buffer.data);
+    memcpy(&dataByte[buffer.bufferPosition], data, dataSize);
+    buffer.bufferPosition += dataSize;
 
     return true;
 }
@@ -259,14 +259,14 @@ addDataToBuffer(DataBuffer* buffer,
 /**
  * @brief add an object to the buffer
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param data pointer to the object, which shoulb be written to the buffer
  *
  * @return false if precheck or allocation failed, else true
  */
 template <typename T>
 inline bool
-addData(DataBuffer* buffer, T* data)
+addObjectToBuffer(DataBuffer &buffer, T* data)
 {
     return addDataToBuffer(buffer, data, sizeof(T));
 }
@@ -274,42 +274,40 @@ addData(DataBuffer* buffer, T* data)
 /**
  * @brief reset a buffer and clears the data, so it is like the buffer is totally new
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param numberOfBlocks number of new allocated blocks after buffer-reset
  *
  * @return false if precheck or allocation failed, else true
  */
 inline bool
-resetBuffer(DataBuffer* buffer,
+resetBuffer(DataBuffer &buffer,
             const uint64_t numberOfBlocks)
 {
     // precheck
-    if(buffer == nullptr
-            || numberOfBlocks == 0)
-    {
+    if(numberOfBlocks == 0) {
         return false;
     }
 
     // deallocate ald buffer if possible
-    if(buffer->data != nullptr
-            && buffer->inUse == 1)
+    if(buffer.data != nullptr
+            && buffer.inUse == 1)
     {
-        alignedFree(buffer->data);
+        alignedFree(buffer.data);
     }
 
     // allocate at least one single block as new buffer-data
-    void* newBuffer = alignedMalloc(buffer->blockSize,
-                                    numberOfBlocks * buffer->blockSize);
+    void* newBuffer = alignedMalloc(buffer.blockSize,
+                                    numberOfBlocks * buffer.blockSize);
     if(newBuffer == nullptr) {
         return false;
     }
 
     // reset metadata of the buffer
-    buffer->data = newBuffer;
-    buffer->inUse = 1;
-    buffer->bufferPosition = 0;
-    buffer->totalBufferSize = numberOfBlocks * buffer->blockSize;
-    buffer->numberOfBlocks = numberOfBlocks;
+    buffer.data = newBuffer;
+    buffer.inUse = 1;
+    buffer.bufferPosition = 0;
+    buffer.totalBufferSize = numberOfBlocks * buffer.blockSize;
+    buffer.numberOfBlocks = numberOfBlocks;
 
     return true;
 }
@@ -317,23 +315,23 @@ resetBuffer(DataBuffer* buffer,
 /**
  * @brief get a pointer to a specific block inside the buffer
  *
- * @param buffer pointer to buffer-object
+ * @param buffer reference to buffer-object
  * @param blockPosition number of the block inside the buffer
  *
  * @return pointer to the buffer-position
  */
 inline uint8_t*
-getBlock(DataBuffer* buffer,
+getBlock(DataBuffer &buffer,
          const uint32_t blockPosition)
 {
     // precheck
-    if(blockPosition >= buffer->numberOfBlocks) {
+    if(blockPosition >= buffer.numberOfBlocks) {
         return nullptr;
     }
 
     // get specific block of the data
-    uint8_t* dataByte = static_cast<uint8_t*>(buffer->data);
-    return &dataByte[blockPosition * buffer->blockSize];
+    uint8_t* dataByte = static_cast<uint8_t*>(buffer.data);
+    return &dataByte[blockPosition * buffer.blockSize];
 }
 
 } // namespace Kitsunemimi
