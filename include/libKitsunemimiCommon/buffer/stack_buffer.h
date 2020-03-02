@@ -28,8 +28,8 @@ struct StackBuffer
     /**
      * @brief constructor
      *
-     * @param preOffset
-     * @param postOffset
+     * @param preOffset offset at the beginning of the buffer
+     * @param postOffset offset at the end of the buffer
      */
     StackBuffer(const uint32_t preOffset=0,
                 const uint32_t postOffset=0)
@@ -61,8 +61,9 @@ struct StackBuffer
 } __attribute__((packed));
 
 /**
- * @brief addNewEmptyBuffer
- * @param stackBuffer
+ * @brief add new empty buffer on top of the stack-buffer
+ *
+ * @param stackBuffer reference to stack-buffer-object
  */
 inline void
 addNewEmptyBuffer(StackBuffer &stackBuffer)
@@ -73,17 +74,20 @@ addNewEmptyBuffer(StackBuffer &stackBuffer)
 }
 
 /**
- * @brief writeDataIntoBuffer
- * @param stackBuffer
- * @param data
- * @param dataSize
- * @return
+ * @brief add data to the buffer
+ *
+ * @param stackBuffer reference to stack-buffer-object
+ * @param data pointer to the data
+ * @param dataSize size of the data
+ *
+ * @return false, if data ore too big, else true
  */
 inline bool
 writeDataIntoBuffer(StackBuffer &stackBuffer,
                     const void* data,
                     const uint64_t dataSize)
 {
+    // precheck
     if(dataSize > stackBuffer.effectiveBlockSize) {
         return false;
     }
@@ -109,7 +113,6 @@ writeDataIntoBuffer(StackBuffer &stackBuffer,
         }
     }
 
-
     uint8_t* dataPos = static_cast<uint8_t*>(currentBlock->data);
     memcpy(&dataPos[currentBlock->bufferPosition], data, dataSize);
     currentBlock->bufferPosition += dataSize;
@@ -133,17 +136,21 @@ addObjectToBuffer(StackBuffer &stackBuffer, T* data)
 }
 
 /**
- * @brief getFirstBlock
- * @param stackBuffer
+ * @brief get first element of the stack
+ *
+ * @param stackBuffer reference to stack-buffer-object
+ *
  * @return
  */
 inline DataBuffer*
-getFirstBlock(StackBuffer &stackBuffer)
+getFirstElement(StackBuffer &stackBuffer)
 {
+    // precheck
     if(stackBuffer.blocks.size() == 0) {
         return nullptr;
     }
 
+    // get first element of the stack
     DataBuffer* buffer = stackBuffer.blocks.front();
 
     return buffer;
@@ -151,16 +158,18 @@ getFirstBlock(StackBuffer &stackBuffer)
 
 /**
  * @brief moveForward
- * @param stackBuffer
+ * @param stackBuffer reference to stack-buffer-object
  * @return
  */
 inline bool
 moveForward(StackBuffer &stackBuffer)
 {
+    // precheck
     if(stackBuffer.blocks.size() == 0) {
         return false;
     }
 
+    // move buffer from the stack into the reserve
     DataBuffer* temp = stackBuffer.blocks.front();
     stackBuffer.blocks.pop_front();
     m_stackBufferReserve->addBuffer(temp);

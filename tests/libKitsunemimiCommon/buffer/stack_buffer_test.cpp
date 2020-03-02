@@ -11,7 +11,7 @@ StackBuffer_Test::StackBuffer_Test()
     addNewEmptyBuffer_test();
     writeDataIntoBuffer_test();
     addObjectToBuffer_test();
-    getFirstBlock_test();
+    getFirstElement_test();
     moveForward_test();
 }
 
@@ -94,10 +94,10 @@ StackBuffer_Test::addObjectToBuffer_test()
 }
 
 /**
- * @brief getFirstBlock
+ * @brief getFirstElement_test
  */
 void
-StackBuffer_Test::getFirstBlock_test()
+StackBuffer_Test::getFirstElement_test()
 {
     // init
     StackBuffer stackBuffer;
@@ -106,7 +106,7 @@ StackBuffer_Test::getFirstBlock_test()
     DataBuffer* result = nullptr;
 
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    result = getFirstBlock(stackBuffer);
+    result = getFirstElement(stackBuffer);
     isNullptr = result == nullptr;
     TEST_EQUAL(isNullptr, true);
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
@@ -117,7 +117,7 @@ StackBuffer_Test::getFirstBlock_test()
     writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
 
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    result = getFirstBlock(stackBuffer);
+    result = getFirstElement(stackBuffer);
     isNullptr = result == nullptr;
     TEST_EQUAL(isNullptr, false);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);

@@ -17,7 +17,7 @@ private:
     void addNewEmptyBuffer_test();
     void writeDataIntoBuffer_test();
     void addObjectToBuffer_test();
-    void getFirstBlock_test();
+    void getFirstElement_test();
     void moveForward_test();
 };
 
