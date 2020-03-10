@@ -8,11 +8,11 @@ StackBuffer_Test::StackBuffer_Test()
     : Kitsunemimi::CompareTestHelper("StackBuffer_Test")
 {
     constructor_test();
-    addNewEmptyBuffer_test();
+    addNewToStack_test();
     writeDataIntoBuffer_test();
     addObjectToBuffer_test();
     getFirstElement_test();
-    moveForward_test();
+    removeLastFromStack_test();
 }
 
 /**
@@ -41,17 +41,17 @@ StackBuffer_Test::constructor_test()
 }
 
 /**
- * @brief addNewEmptyBuffer_test
+ * @brief addNewToStack_test
  */
 void
-StackBuffer_Test::addNewEmptyBuffer_test()
+StackBuffer_Test::addNewToStack_test()
 {
     // init
     StackBuffer stackBuffer;
 
     // run test
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    addNewEmptyBuffer(stackBuffer);
+    addNewToStack(stackBuffer);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
 }
 
@@ -127,10 +127,10 @@ StackBuffer_Test::getFirstElement_test()
 }
 
 /**
- * @brief moveForward
+ * @brief removeLastFromStack_test
  */
 void
-StackBuffer_Test::moveForward_test()
+StackBuffer_Test::removeLastFromStack_test()
 {
     // init
     StackBuffer stackBuffer;
@@ -142,11 +142,11 @@ StackBuffer_Test::moveForward_test()
 
     // run test
     TEST_EQUAL(stackBuffer.blocks.size(), 2);
-    TEST_EQUAL(moveForward(stackBuffer), true);
+    TEST_EQUAL(removeLastFromStack(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    TEST_EQUAL(moveForward(stackBuffer), true);
+    TEST_EQUAL(removeLastFromStack(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    TEST_EQUAL(moveForward(stackBuffer), false);
+    TEST_EQUAL(removeLastFromStack(stackBuffer), false);
 }
 
 } // namespace Kitsunemimi
