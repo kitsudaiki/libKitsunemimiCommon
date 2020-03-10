@@ -7,7 +7,7 @@
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 #define MAX_RESERVE_SIZE 100
-#define STACK_BUFFER_BLOCK_SIZE 128*1024
+#define STACK_BUFFER_BLOCK_SIZE 256*1024
 
 namespace Kitsunemimi
 {

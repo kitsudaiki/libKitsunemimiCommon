@@ -16,34 +16,35 @@
 namespace Kitsunemimi
 {
 
-#define RING_BUFFER_SIZE 16*1024*1024
-
+// if this buffer is too big, it doesn't fit into the cpu-cache anymore and this makes the buffer
+// much slower
+#define DEFAULT_RING_BUFFER_SIZE 2*1024*1024
 
 struct RingBuffer
 {
-    uint8_t* data = static_cast<uint8_t*>(alignedMalloc(4096, RING_BUFFER_SIZE));
-    uint64_t totalBufferSize = RING_BUFFER_SIZE;
+    uint8_t* data = nullptr;
+    uint64_t totalBufferSize = DEFAULT_RING_BUFFER_SIZE;
     uint64_t readPosition = 0;
     uint64_t usedSize = 0;
 
     // backup-buffer to collect messages, which are splitted
     // in the data-object
-    uint8_t* overflowBuffer = static_cast<uint8_t*>(alignedMalloc(4096, RING_BUFFER_SIZE));
+    uint8_t* overflowBuffer = nullptr;
 
-    /**
-     * @brief constructor
-     */
-    RingBuffer() {}
+    RingBuffer(const uint64_t ringBufferSize=DEFAULT_RING_BUFFER_SIZE)
+    {
+        totalBufferSize = ringBufferSize;
+        data = static_cast<uint8_t*>(alignedMalloc(4096, ringBufferSize));
+        overflowBuffer = static_cast<uint8_t*>(alignedMalloc(4096, ringBufferSize));
+    }
 
-    /**
-     * @brief destructor
-     */
     ~RingBuffer()
     {
         delete data;
         delete overflowBuffer;
     }
 };
+
 
 /**
  * @brief getWritePosition
