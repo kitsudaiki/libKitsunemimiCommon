@@ -33,7 +33,7 @@ struct RingBuffer
     // in the data-object
     uint8_t* overflowBuffer = nullptr;
 
-    RingBuffer(const uint64_t ringBufferSize=DEFAULT_RING_BUFFER_SIZE)
+    RingBuffer(const uint64_t ringBufferSize = DEFAULT_RING_BUFFER_SIZE)
     {
         totalBufferSize = ringBufferSize;
         data = static_cast<uint8_t*>(alignedMalloc(4096, ringBufferSize));
