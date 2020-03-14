@@ -97,7 +97,7 @@ Here some common information about my projects and my code-styling. It's not com
 name | repository | version | task
 --- | --- | --- | ---
 g++ | g++ | 6.x | Compiler for the C++ code.
-qmake | qt5-qmake | 5.x | This package provides the tool qmake, which is 
+qmake | qt5-qmake | 5.x | This package provides the tool qmake, to build the project
 
 Installation on Ubuntu/Debian:
 
@@ -349,7 +349,7 @@ One the first row is used here for the output
 The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
 
 ```cpp
-#include <libKitsunemimiCommon/data_buffer.h>
+#include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 // initialize new data-buffer with 10 x 4KiB
 DataBuffer testBuffer(10);
