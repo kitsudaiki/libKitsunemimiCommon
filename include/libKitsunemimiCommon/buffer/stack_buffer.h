@@ -187,7 +187,7 @@ getFirstElement(StackBuffer &stackBuffer)
  * @return
  */
 inline bool
-removeLastFromStack(StackBuffer &stackBuffer)
+removeFirstFromStack(StackBuffer &stackBuffer)
 {
     // precheck
     if(stackBuffer.blocks.size() == 0) {

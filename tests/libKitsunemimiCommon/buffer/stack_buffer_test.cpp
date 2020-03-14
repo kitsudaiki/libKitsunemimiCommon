@@ -12,7 +12,7 @@ StackBuffer_Test::StackBuffer_Test()
     writeDataIntoBuffer_test();
     addObjectToBuffer_test();
     getFirstElement_test();
-    removeLastFromStack_test();
+    removeFirstFromStack_test();
 }
 
 /**
@@ -127,10 +127,10 @@ StackBuffer_Test::getFirstElement_test()
 }
 
 /**
- * @brief removeLastFromStack_test
+ * @brief removeFirstFromStack_test
  */
 void
-StackBuffer_Test::removeLastFromStack_test()
+StackBuffer_Test::removeFirstFromStack_test()
 {
     // init
     StackBuffer stackBuffer;
@@ -142,11 +142,11 @@ StackBuffer_Test::removeLastFromStack_test()
 
     // run test
     TEST_EQUAL(stackBuffer.blocks.size(), 2);
-    TEST_EQUAL(removeLastFromStack(stackBuffer), true);
+    TEST_EQUAL(removeFirstFromStack(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    TEST_EQUAL(removeLastFromStack(stackBuffer), true);
+    TEST_EQUAL(removeFirstFromStack(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    TEST_EQUAL(removeLastFromStack(stackBuffer), false);
+    TEST_EQUAL(removeFirstFromStack(stackBuffer), false);
 }
 
 } // namespace Kitsunemimi
