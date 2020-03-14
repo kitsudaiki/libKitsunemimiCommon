@@ -1,9 +1,11 @@
 /**
- *  @file    ring_buffer.h
+ *  @file       ring_buffer.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      Ring-buffer to fast continuously read and write data.
  *
- *  @copyright MIT License
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright  MIT License
  */
 
 #ifndef RING_BUFFER_H
@@ -31,7 +33,7 @@ struct RingBuffer
     // in the data-object
     uint8_t* overflowBuffer = nullptr;
 
-    RingBuffer(const uint64_t ringBufferSize=DEFAULT_RING_BUFFER_SIZE)
+    RingBuffer(const uint64_t ringBufferSize = DEFAULT_RING_BUFFER_SIZE)
     {
         totalBufferSize = ringBufferSize;
         data = static_cast<uint8_t*>(alignedMalloc(4096, ringBufferSize));
@@ -47,11 +49,11 @@ struct RingBuffer
 
 
 /**
- * @brief getWritePosition
+ * @brief get position to append new data
  *
  * @param ringBuffer reference to ringbuffer-object
  *
- * @return
+ * @return position within the ring-buffer in bytes
  */
 inline uint64_t
 getWritePosition(RingBuffer &ringBuffer)
@@ -60,11 +62,12 @@ getWritePosition(RingBuffer &ringBuffer)
 }
 
 /**
- * @brief getSpaceToEnd
+ * @brief Get number of bytes until the the end of the byte-array or until the the read-positoin.
+ *        It doesn't return the total available space of the ring-buffer.
  *
- * @param ringBuffer
+ * @param ringBuffer reference to ringbuffer-object
  *
- * @return
+ * @return number of bytes until next blocker (end of array or read-position)
  */
 inline uint64_t
 getSpaceToEnd(RingBuffer &ringBuffer)
@@ -166,10 +169,10 @@ getDataPointer(RingBuffer &ringBuffer,
 }
 
 /**
- * @brief moveBufferForward
+ * @brief move the read-position of the ring-buffer forward
  *
  * @param ringBuffer reference to ringbuffer-object
- * @param numberOfBytes
+ * @param numberOfBytes number of bytes to move forward
  */
 inline void
 moveBufferForward(RingBuffer &ringBuffer,
@@ -181,11 +184,12 @@ moveBufferForward(RingBuffer &ringBuffer,
 }
 
 /**
- * @brief getObjectFromBuffer
+ * @brief get a pointer to an object at the beginning of the ring-buffer
  *
  * @param ringBuffer reference to ringbuffer-object
  *
- * @return
+ * @return pointer to requested object within the ring-buffer, but nullptr if there are not enough
+ *         data within the ring-buffer for the requested object
  */
 template <typename T>
 inline const T*

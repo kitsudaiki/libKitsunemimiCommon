@@ -40,9 +40,21 @@ This is for printing tables. Internally it use the data-items for handling the c
 
 #### Data buffer
 
-*include-file:* `libKitsunemimiCommon/data_buffer.h`
+*include-file:* `libKitsunemimiCommon/buffer/data_buffer.h`
 
 This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunemimiPersistence.
+
+#### Ring buffer
+
+*include-file:* `libKitsunemimiCommon/buffer/ring_buffer.h`
+
+Ring buffer to fast continuously read and write data. Its actually used as buffer for incoming messages in the network library libKitsunemimiNetwork for fast message-caching.
+
+#### Stack buffer
+
+*include-file:* `libKitsunemimiCommon/buffer/stack_buffer.h`
+
+Stack of multiple data-buffer together with a reserve-class to avoid unnecessary memory allocation.
 
 #### Threads
 
@@ -332,7 +344,7 @@ One the first row is used here for the output
 ```
 
 
-### Data buffer
+### Data Buffer
 
 The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
 
@@ -363,6 +375,14 @@ success = allocateBlocks(&testBuffer, 10);
 success = resetBuffer(&testBuffer, 10);
 
 ```
+
+### Ring Buffer
+
+// TODO
+
+### Stack Buffer
+
+// TODO
 
 ### Threads
 

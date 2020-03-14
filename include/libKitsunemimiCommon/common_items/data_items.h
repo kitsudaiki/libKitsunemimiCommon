@@ -65,9 +65,9 @@ public:
 
     // output
     virtual DataItem* copy() = 0;
-    virtual const std::string toString(bool indent=false,
-                                       std::string* output=nullptr,
-                                       uint32_t step=0) = 0;
+    virtual const std::string toString(bool indent = false,
+                                       std::string* output = nullptr,
+                                       uint32_t step = 0) = 0;
 
     // checker
     dataTypes getType() const;
@@ -144,9 +144,9 @@ public:
 
     // output
     DataItem* copy();
-    const std::string toString(const bool indent=false,
-                               std::string* output=nullptr,
-                               const uint32_t=0);
+    const std::string toString(const bool indent = false,
+                               std::string* output = nullptr,
+                               const uint32_t = 0);
 
     // content
     union DataValueContent
@@ -202,9 +202,9 @@ public:
 
     // output
     DataItem* copy();
-    const std::string toString(const bool indent=false,
-                               std::string* output=nullptr,
-                               const uint32_t level=0);
+    const std::string toString(const bool indent = false,
+                               std::string* output = nullptr,
+                               const uint32_t level = 0);
 
     // content
     std::map<std::string, DataItem*> m_map;
@@ -239,9 +239,9 @@ public:
 
     // output
     DataItem* copy();
-    const std::string toString(const bool indent=false,
-                               std::string* output=nullptr,
-                               const uint32_t level=0);
+    const std::string toString(const bool indent = false,
+                               std::string* output = nullptr,
+                               const uint32_t level = 0);
 
     // content
     std::vector<DataItem*> m_array;

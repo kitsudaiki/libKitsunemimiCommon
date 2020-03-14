@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.12.0] - 2020-03-14
+
+### Added
+- add ring-buffer
+- add stack-buffer and stack-buffer-reserve
+
 
 ## [0.11.0] - 2020-02-25
 

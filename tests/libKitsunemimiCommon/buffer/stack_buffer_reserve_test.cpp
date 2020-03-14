@@ -34,7 +34,8 @@ void
 StackBufferReserve_Test::getNumberOfBuffers_test()
 {
     // init
-    StackBufferReserve stackBufferReserve;
+    uint32_t reserveSize = 10;
+    StackBufferReserve stackBufferReserve(reserveSize);
     DataBuffer* newBuffer = new DataBuffer();
 
     // test normal add
@@ -43,12 +44,12 @@ StackBufferReserve_Test::getNumberOfBuffers_test()
     TEST_EQUAL(stackBufferReserve.getNumberOfBuffers(), 1);
 
     // test max size
-    for(uint32_t i = 0; i < MAX_RESERVE_SIZE+10; i++)
+    for(uint32_t i = 0; i < reserveSize+10; i++)
     {
         stackBufferReserve.addBuffer(new DataBuffer());
     }
 
-    TEST_EQUAL(stackBufferReserve.getNumberOfBuffers(), MAX_RESERVE_SIZE);
+    TEST_EQUAL(stackBufferReserve.getNumberOfBuffers(), reserveSize);
 }
 
 /**

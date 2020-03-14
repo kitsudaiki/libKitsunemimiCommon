@@ -18,7 +18,7 @@ private:
     void writeDataIntoBuffer_test();
     void addObjectToBuffer_test();
     void getFirstElement_test();
-    void removeLastFromStack_test();
+    void removeFirstFromStack_test();
 };
 
 } // namespace Kitsunemimi

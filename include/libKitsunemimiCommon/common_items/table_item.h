@@ -31,7 +31,7 @@ public:
     TableItem();
     TableItem(const TableItem &other);
     TableItem(DataArray* body,
-              DataArray* header=nullptr);
+              DataArray* header = nullptr);
     ~TableItem();
     TableItem& operator=(const TableItem& other);
 
@@ -39,13 +39,13 @@ public:
 
     // column
     bool addColumn(const std::string &internalName,
-                   const std::string &shownName="");
+                   const std::string &shownName = "");
     bool renameColume(const std::string &internalName,
                       const std::string &newShownName);
     bool deleteColumn(const uint64_t x,
-                      const bool withBody=false);
+                      const bool withBody = false);
     bool deleteColumn(const std::string &internalName,
-                      const bool withBody=false);
+                      const bool withBody = false);
 
     // row
     bool addRow(const std::vector<std::string> rowContent);
@@ -65,8 +65,8 @@ public:
     uint64_t getNumberOfRows();
 
     // output
-    const std::string toString(const uint32_t maxColumnWidth=500,
-                               const bool showOne=false);
+    const std::string toString(const uint32_t maxColumnWidth = 500,
+                               const bool showOne = false);
 
 private:
     DataArray* m_body = nullptr;
@@ -80,7 +80,7 @@ private:
     // helper functions for the output
     const std::vector<std::string> getInnerName();
     const std::string getLimitLine(const std::vector<uint64_t> &sizes,
-                                   const bool bigLine=false);
+                                   const bool bigLine = false);
 
     // content-converter for easier output-handline
     void convertCellForOutput(TableCell* convertedCell,
