@@ -1,3 +1,12 @@
+/**
+ *  @file       stack_buffer.h
+ *
+ *  @brief      Stack of multiple data-buffer
+ *
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright  MIT License
+ */
 
 #ifndef BLOCK_BUFFER_H
 #define BLOCK_BUFFER_H
@@ -32,8 +41,8 @@ struct StackBuffer
      * @param preOffset offset at the beginning of the buffer
      * @param postOffset offset at the end of the buffer
      */
-    StackBuffer(const uint32_t preOffset=0,
-                const uint32_t postOffset=0)
+    StackBuffer(const uint32_t preOffset = 0,
+                const uint32_t postOffset = 0)
     {
         this->preOffset = preOffset;
         this->postOffset = postOffset;
@@ -163,7 +172,7 @@ addObjectToBuffer(StackBuffer &stackBuffer, T* data)
  *
  * @param stackBuffer reference to stack-buffer-object
  *
- * @return
+ * @return pointer to the first buffer of the stack
  */
 inline DataBuffer*
 getFirstElement(StackBuffer &stackBuffer)
@@ -180,11 +189,11 @@ getFirstElement(StackBuffer &stackBuffer)
 }
 
 /**
- * @brief moveForward
+ * @brief remove the first buffer of the stack
  *
  * @param stackBuffer reference to stack-buffer-object
  *
- * @return
+ * @return false, if stack is empty, else true
  */
 inline bool
 removeFirstFromStack(StackBuffer &stackBuffer)

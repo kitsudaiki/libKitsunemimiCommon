@@ -1,9 +1,11 @@
 /**
- *  @file    ring_buffer.h
+ *  @file       ring_buffer.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @brief      Ring-buffer to fast continuously read and write data.
  *
- *  @copyright MIT License
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright  MIT License
  */
 
 #ifndef RING_BUFFER_H

@@ -6,9 +6,11 @@ namespace Kitsunemimi
 /**
  * @brief constructor
  */
-StackBufferReserve::StackBufferReserve()
+StackBufferReserve::StackBufferReserve(const uint32_t reserveSize)
 {
     assert(STACK_BUFFER_BLOCK_SIZE % 4096 == 0);
+
+    m_reserveSize = reserveSize;
 }
 
 /**
@@ -16,10 +18,9 @@ StackBufferReserve::StackBufferReserve()
  */
 StackBufferReserve::~StackBufferReserve()
 {
-    while (m_lock.test_and_set(std::memory_order_acquire)) {
-        asm("");
-    }
+    while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
 
+    // delete all buffer within the reserve and free the memory
     for(uint64_t i = 0; i < m_reserve.size(); i++)
     {
         DataBuffer* temp = m_reserve.at(i);
@@ -30,26 +31,30 @@ StackBufferReserve::~StackBufferReserve()
 }
 
 /**
- * @brief StackBufferReserve::addBlock
- * @param buffer
+ * @brief add buffer to the reserve
+ *
+ * @param buffer data-buffer-pointer to add
+ *
+ * @return false, if buffer was nullptr, else true
  */
 bool
 StackBufferReserve::addBuffer(DataBuffer* buffer)
 {
+    // precheck
     if(buffer == nullptr) {
         return false;
     }
 
-    while (m_lock.test_and_set(std::memory_order_acquire)) {
-        asm("");
-    }
+    while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
 
-    if(m_reserve.size() >= MAX_RESERVE_SIZE)
+    if(m_reserve.size() >= m_reserveSize)
     {
+        // delete given buffer, if there are already too much within the reserve
         delete buffer;
     }
     else
     {
+        // reset buffer and add to reserve
         buffer->bufferPosition = 0;
         m_reserve.push_back(buffer);
     }
@@ -60,39 +65,42 @@ StackBufferReserve::addBuffer(DataBuffer* buffer)
 }
 
 /**
- * @brief StackBufferReserve::getNumberOfStages
- * @return
+ * @brief get number of buffer within the reserve
+ *
+ * @return number of data-buffer
  */
 uint64_t
 StackBufferReserve::getNumberOfBuffers()
 {
-    while (m_lock.test_and_set(std::memory_order_acquire)) {
-        asm("");
-    }
+    while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+
     const uint64_t result = m_reserve.size();
+
     m_lock.clear(std::memory_order_release);
+
     return result;
 }
 
 /**
- * @brief StackBufferReserve::getBlock
- * @return
+ * @brief get data-buffer from the reserve
+ *
+ * @return pointer to the data-buffer
  */
 DataBuffer*
 StackBufferReserve::getBuffer()
 {
-    while (m_lock.test_and_set(std::memory_order_acquire)) {
-        asm("");
-    }
+    while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
 
     if(m_reserve.size() == 0)
     {
         m_lock.clear(std::memory_order_release);
+
         return new DataBuffer(STACK_BUFFER_BLOCK_SIZE/4096, 4096);
     }
 
     DataBuffer* result = m_reserve.back();
     m_reserve.pop_back();
+
     m_lock.clear(std::memory_order_release);
 
     return result;
