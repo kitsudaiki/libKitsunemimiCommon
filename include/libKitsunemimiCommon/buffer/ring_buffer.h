@@ -42,8 +42,8 @@ struct RingBuffer
 
     ~RingBuffer()
     {
-        delete data;
-        delete overflowBuffer;
+        alignedFree(data);
+        alignedFree(overflowBuffer);
     }
 };
 
@@ -145,7 +145,7 @@ addObjectToBuffer(RingBuffer &ringBuffer, T* data)
  * @return pointer to the beginning of the requested datablock, or nullptr if the requested
  *         block is too big
  */
-inline const uint8_t*
+inline uint8_t*
 getDataPointer(RingBuffer &ringBuffer,
                const uint64_t size)
 {
@@ -192,12 +192,12 @@ moveBufferForward(RingBuffer &ringBuffer,
  *         data within the ring-buffer for the requested object
  */
 template <typename T>
-inline const T*
+inline T*
 getObjectFromBuffer(RingBuffer &ringBuffer)
 {
-    const void* data = static_cast<const void*>(getDataPointer(ringBuffer, sizeof(T)));
+    void* data = static_cast<void*>(getDataPointer(ringBuffer, sizeof(T)));
 
-    return static_cast<const T*>(data);
+    return static_cast<T*>(data);
 }
 
 } // namespace Kitsunemimi
