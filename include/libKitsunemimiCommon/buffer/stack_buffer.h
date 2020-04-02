@@ -73,7 +73,7 @@ struct StackBuffer
             m_stackBufferReserve->addBuffer(localReserve);
         }
     }
-} __attribute__((packed));
+};
 
 /**
  * @brief add new empty buffer on top of the stack-buffer
@@ -216,6 +216,34 @@ removeFirstFromStack(StackBuffer &stackBuffer)
     }
 
     return true;
+}
+
+/**
+ * @brief reset stack-buffer
+ *
+ * @param stackBuffer reference to stack-buffer-object
+ */
+inline void
+resetBuffer(StackBuffer &stackBuffer)
+{
+    // add all buffer within the current stack-buffer to the stack-buffer-reserve
+    std::deque<DataBuffer*>::iterator it;
+    for(it = stackBuffer.blocks.begin();
+        it != stackBuffer.blocks.end();
+        it++)
+    {
+        DataBuffer* temp = *it;
+        m_stackBufferReserve->addBuffer(temp);
+
+        // move local reserve to central stack-buffer-reserve
+        if(stackBuffer.localReserve == nullptr) {
+            stackBuffer.localReserve = temp;
+        } else {
+            m_stackBufferReserve->addBuffer(stackBuffer.localReserve);
+        }
+    }
+
+    stackBuffer.blocks.clear();
 }
 
 } // namespace Kitsunemimi

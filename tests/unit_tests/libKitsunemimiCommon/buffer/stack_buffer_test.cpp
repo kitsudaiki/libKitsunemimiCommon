@@ -13,6 +13,7 @@ StackBuffer_Test::StackBuffer_Test()
     addObjectToBuffer_test();
     getFirstElement_test();
     removeFirstFromStack_test();
+    resetBuffer_test();
 }
 
 /**
@@ -147,6 +148,29 @@ StackBuffer_Test::removeFirstFromStack_test()
     TEST_EQUAL(removeFirstFromStack(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
     TEST_EQUAL(removeFirstFromStack(stackBuffer), false);
+}
+
+/**
+ * @brief resetBuffer_test
+ */
+void
+StackBuffer_Test::resetBuffer_test()
+{
+    // init
+    StackBuffer stackBuffer;
+    DataBuffer buffer(STACK_BUFFER_BLOCK_SIZE/4096);
+
+    // prepare test-buffer
+    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+
+    // run test
+    resetBuffer(stackBuffer);
+
+    // check result
+    TEST_EQUAL(stackBuffer.blocks.size(), 0);
+    bool isNullptr = stackBuffer.localReserve == nullptr;
+    TEST_EQUAL(isNullptr, false);
 }
 
 } // namespace Kitsunemimi
