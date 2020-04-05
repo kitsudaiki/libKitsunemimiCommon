@@ -66,16 +66,12 @@ StackBuffer_Test::writeDataIntoBuffer_test()
     StackBuffer stackBuffer;
     DataBuffer buffer(STACK_BUFFER_BLOCK_SIZE/4096);
 
-    // negative test
-    TEST_EQUAL(writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize+10), false);
-    TEST_EQUAL(stackBuffer.blocks.size(), 0);
-
     // run test
-    TEST_EQUAL(writeDataIntoBuffer(stackBuffer, buffer.data, 1000), true);
+    writeDataIntoBuffer(stackBuffer, buffer.data, 1000);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    TEST_EQUAL(writeDataIntoBuffer(stackBuffer, buffer.data, 1000), true);
+    writeDataIntoBuffer(stackBuffer, buffer.data, 1000);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    TEST_EQUAL(writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize), true);
+    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
     TEST_EQUAL(stackBuffer.blocks.size(), 2);
 }
 
@@ -90,7 +86,7 @@ StackBuffer_Test::addObjectToBuffer_test()
     uint64_t testValue = 42;
 
     // run test
-    TEST_EQUAL(addObjectToBuffer(stackBuffer, &testValue), true);
+    addObjectToBuffer(stackBuffer, &testValue);
     TEST_EQUAL(stackBuffer.blocks.at(0)->bufferPosition, sizeof(testValue));
 }
 

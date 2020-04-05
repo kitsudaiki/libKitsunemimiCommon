@@ -188,9 +188,7 @@ allocateBlocks(DataBuffer &buffer,
                const uint64_t numberOfBlocks)
 {
     // precheck
-    if(numberOfBlocks == 0) {
-        return true;
-    }
+    assert(numberOfBlocks >= 0);
 
     // create the new buffer
     uint64_t newSize = numberOfBlocks + buffer.numberOfBlocks;

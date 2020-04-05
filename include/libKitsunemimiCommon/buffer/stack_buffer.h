@@ -34,6 +34,7 @@ struct StackBuffer
 
     std::deque<DataBuffer*> blocks;
     DataBuffer* localReserve = nullptr;
+    StackBufferReserve* stackBufferReserve = nullptr;
 
     /**
      * @brief constructor
@@ -51,6 +52,7 @@ struct StackBuffer
         if(Kitsunemimi::m_stackBufferReserve == nullptr) {
             Kitsunemimi::m_stackBufferReserve = new StackBufferReserve();
         }
+        stackBufferReserve = Kitsunemimi::m_stackBufferReserve;
     }
 
     /**
@@ -65,12 +67,12 @@ struct StackBuffer
             it++)
         {
             DataBuffer* temp = *it;
-            m_stackBufferReserve->addBuffer(temp);
+            stackBufferReserve->addBuffer(temp);
         }
 
         // move local reserve to central stack-buffer-reserve
         if(localReserve != nullptr) {
-            m_stackBufferReserve->addBuffer(localReserve);
+            stackBufferReserve->addBuffer(localReserve);
         }
     }
 };
@@ -93,7 +95,7 @@ addNewToStack(StackBuffer &stackBuffer)
     }
     else
     {
-        newBlock = Kitsunemimi::m_stackBufferReserve->getBuffer();
+        newBlock = stackBuffer.stackBufferReserve->getBuffer();
     }
 
     // set pre-offset inside the new buffer and add it to the new buffer
@@ -119,6 +121,7 @@ writeDataIntoBuffer(StackBuffer &stackBuffer,
     if(dataSize > stackBuffer.effectiveBlockSize) {
         return false;
     }
+    assert(dataSize <= stackBuffer.effectiveBlockSize);
 
     DataBuffer* currentBlock = nullptr;
 
@@ -212,7 +215,7 @@ removeFirstFromStack(StackBuffer &stackBuffer)
     if(stackBuffer.localReserve == nullptr) {
         stackBuffer.localReserve = temp;
     } else {
-        m_stackBufferReserve->addBuffer(temp);
+        stackBuffer.stackBufferReserve->addBuffer(temp);
     }
 
     return true;
@@ -233,13 +236,13 @@ resetBuffer(StackBuffer &stackBuffer)
         it++)
     {
         DataBuffer* temp = *it;
-        m_stackBufferReserve->addBuffer(temp);
+        temp->bufferPosition = 0;
 
         // move local reserve to central stack-buffer-reserve
         if(stackBuffer.localReserve == nullptr) {
             stackBuffer.localReserve = temp;
         } else {
-            m_stackBufferReserve->addBuffer(stackBuffer.localReserve);
+            stackBuffer.stackBufferReserve->addBuffer(temp);
         }
     }
 
