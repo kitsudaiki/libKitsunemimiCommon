@@ -187,9 +187,6 @@ inline bool
 allocateBlocks(DataBuffer &buffer,
                const uint64_t numberOfBlocks)
 {
-    // precheck
-    assert(numberOfBlocks >= 0);
-
     // create the new buffer
     uint64_t newSize = numberOfBlocks + buffer.numberOfBlocks;
     void* newBuffer =  alignedMalloc(buffer.blockSize,
