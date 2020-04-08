@@ -83,7 +83,7 @@ struct StackBuffer
  * @param stackBuffer reference to stack-buffer-object
  */
 inline void
-addNewToStack(StackBuffer &stackBuffer)
+addNewToStackBuffer(StackBuffer &stackBuffer)
 {
     DataBuffer* newBlock = nullptr;
 
@@ -113,9 +113,9 @@ addNewToStack(StackBuffer &stackBuffer)
  * @return false, if data ore too big, else true
  */
 inline bool
-writeDataIntoBuffer(StackBuffer &stackBuffer,
-                    const void* data,
-                    const uint64_t dataSize)
+writeDataIntoStackBuffer(StackBuffer &stackBuffer,
+                         const void* data,
+                         const uint64_t dataSize)
 {
     // precheck
     if(dataSize > stackBuffer.effectiveBlockSize) {
@@ -128,7 +128,7 @@ writeDataIntoBuffer(StackBuffer &stackBuffer,
     if(stackBuffer.blocks.size() == 0)
     {
         // init first buffer on the stack
-        addNewToStack(stackBuffer);
+        addNewToStackBuffer(stackBuffer);
         currentBlock = stackBuffer.blocks.back();
     }
     else
@@ -142,7 +142,7 @@ writeDataIntoBuffer(StackBuffer &stackBuffer,
         // if estimated size is to big for the current buffer, add a new empty buffer to the stack
         if(estimatedSize > stackBuffer.effectiveBlockSize)
         {
-            addNewToStack(stackBuffer);
+            addNewToStackBuffer(stackBuffer);
             currentBlock = stackBuffer.blocks.back();
         }
     }
@@ -165,9 +165,9 @@ writeDataIntoBuffer(StackBuffer &stackBuffer,
  */
 template <typename T>
 inline bool
-addObjectToBuffer(StackBuffer &stackBuffer, T* data)
+addObjectToStackBuffer(StackBuffer &stackBuffer, T* data)
 {
-    return writeDataIntoBuffer(stackBuffer, data, sizeof(T));
+    return writeDataIntoStackBuffer(stackBuffer, data, sizeof(T));
 }
 
 /**
@@ -178,7 +178,7 @@ addObjectToBuffer(StackBuffer &stackBuffer, T* data)
  * @return pointer to the first buffer of the stack
  */
 inline DataBuffer*
-getFirstElement(StackBuffer &stackBuffer)
+getFirstElementFromStackBuffer(StackBuffer &stackBuffer)
 {
     // precheck
     if(stackBuffer.blocks.size() == 0) {
@@ -199,7 +199,7 @@ getFirstElement(StackBuffer &stackBuffer)
  * @return false, if stack is empty, else true
  */
 inline bool
-removeFirstFromStack(StackBuffer &stackBuffer)
+removeFirstFromStackBuffer(StackBuffer &stackBuffer)
 {
     // precheck
     if(stackBuffer.blocks.size() == 0) {
@@ -227,7 +227,7 @@ removeFirstFromStack(StackBuffer &stackBuffer)
  * @param stackBuffer reference to stack-buffer-object
  */
 inline void
-resetBuffer(StackBuffer &stackBuffer)
+resetStackBuffer(StackBuffer &stackBuffer)
 {
     // add all buffer within the current stack-buffer to the stack-buffer-reserve
     std::deque<DataBuffer*>::iterator it;

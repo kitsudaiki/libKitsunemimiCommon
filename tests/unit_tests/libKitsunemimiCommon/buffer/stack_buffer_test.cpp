@@ -52,7 +52,7 @@ StackBuffer_Test::addNewToStack_test()
 
     // run test
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    addNewToStack(stackBuffer);
+    addNewToStackBuffer(stackBuffer);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
 }
 
@@ -67,11 +67,11 @@ StackBuffer_Test::writeDataIntoBuffer_test()
     DataBuffer buffer(STACK_BUFFER_BLOCK_SIZE/4096);
 
     // run test
-    writeDataIntoBuffer(stackBuffer, buffer.data, 1000);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, 1000);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    writeDataIntoBuffer(stackBuffer, buffer.data, 1000);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, 1000);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
     TEST_EQUAL(stackBuffer.blocks.size(), 2);
 }
 
@@ -86,7 +86,7 @@ StackBuffer_Test::addObjectToBuffer_test()
     uint64_t testValue = 42;
 
     // run test
-    addObjectToBuffer(stackBuffer, &testValue);
+    addObjectToStackBuffer(stackBuffer, &testValue);
     TEST_EQUAL(stackBuffer.blocks.at(0)->bufferPosition, sizeof(testValue));
 }
 
@@ -103,7 +103,7 @@ StackBuffer_Test::getFirstElement_test()
     DataBuffer* result = nullptr;
 
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    result = getFirstElement(stackBuffer);
+    result = getFirstElementFromStackBuffer(stackBuffer);
     isNullptr = result == nullptr;
     TEST_EQUAL(isNullptr, true);
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
@@ -111,10 +111,10 @@ StackBuffer_Test::getFirstElement_test()
     // prepare test-buffer
     uint64_t testValue = 42;
     addObjectToBuffer(buffer, &testValue);
-    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
 
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    result = getFirstElement(stackBuffer);
+    result = getFirstElementFromStackBuffer(stackBuffer);
     isNullptr = result == nullptr;
     TEST_EQUAL(isNullptr, false);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
@@ -134,16 +134,16 @@ StackBuffer_Test::removeFirstFromStack_test()
     DataBuffer buffer(STACK_BUFFER_BLOCK_SIZE/4096);
 
     // prepare test-buffer
-    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
-    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
 
     // run test
     TEST_EQUAL(stackBuffer.blocks.size(), 2);
-    TEST_EQUAL(removeFirstFromStack(stackBuffer), true);
+    TEST_EQUAL(removeFirstFromStackBuffer(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 1);
-    TEST_EQUAL(removeFirstFromStack(stackBuffer), true);
+    TEST_EQUAL(removeFirstFromStackBuffer(stackBuffer), true);
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
-    TEST_EQUAL(removeFirstFromStack(stackBuffer), false);
+    TEST_EQUAL(removeFirstFromStackBuffer(stackBuffer), false);
 }
 
 /**
@@ -157,11 +157,11 @@ StackBuffer_Test::resetBuffer_test()
     DataBuffer buffer(STACK_BUFFER_BLOCK_SIZE/4096);
 
     // prepare test-buffer
-    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
-    writeDataIntoBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
+    writeDataIntoStackBuffer(stackBuffer, buffer.data, buffer.totalBufferSize);
 
     // run test
-    resetBuffer(stackBuffer);
+    resetStackBuffer(stackBuffer);
 
     // check result
     TEST_EQUAL(stackBuffer.blocks.size(), 0);
