@@ -237,6 +237,7 @@ resetStackBuffer(StackBuffer &stackBuffer)
     {
         DataBuffer* temp = *it;
         temp->bufferPosition = 0;
+        *it = nullptr;
 
         // move local reserve to central stack-buffer-reserve
         if(stackBuffer.localReserve == nullptr) {
