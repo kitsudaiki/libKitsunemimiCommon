@@ -188,9 +188,9 @@ allocateBlocks(DataBuffer &buffer,
                const uint64_t numberOfBlocks)
 {
     // create the new buffer
-    uint64_t newSize = numberOfBlocks + buffer.numberOfBlocks;
+    uint64_t newNumberOfBlocks = numberOfBlocks + buffer.numberOfBlocks;
     void* newBuffer =  alignedMalloc(buffer.blockSize,
-                                     newSize * buffer.blockSize);
+                                     newNumberOfBlocks * buffer.blockSize);
     if(newBuffer == nullptr) {
         return false;
     }
@@ -199,14 +199,14 @@ allocateBlocks(DataBuffer &buffer,
     if(buffer.data != nullptr
             && buffer.inUse == 1)
     {
-        memcpy(newBuffer, buffer.data, numberOfBlocks * buffer.blockSize);
+        memcpy(newBuffer, buffer.data, buffer.numberOfBlocks * buffer.blockSize);
         alignedFree(buffer.data);
     }
 
     // set the new values
     buffer.inUse = 1;
-    buffer.numberOfBlocks = newSize;
-    buffer.totalBufferSize = newSize * buffer.blockSize;
+    buffer.numberOfBlocks = newNumberOfBlocks;
+    buffer.totalBufferSize = newNumberOfBlocks * buffer.blockSize;
     buffer.data = newBuffer;
 
     return true;
