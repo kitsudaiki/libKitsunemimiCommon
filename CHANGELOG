@@ -3,7 +3,7 @@
 ## [0.13.0] - 2020-04.13
 
 ### Changed
-- renamed the methods of the stack-buffer, to have unique names, because there were configs with the methods of the data-buffer
+- renamed the methods of the data-, ring- and stack-buffer, to have unique names, because there were conflicts
 
 ### Fixed
 - bugfix for the allocateBlocks-method of the data-buffer, because there could be a dataloss if the new allocated block-number was smaller than the actual number
