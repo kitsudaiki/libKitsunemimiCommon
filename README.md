@@ -346,7 +346,7 @@ One the first row is used here for the output
 
 ### Data Buffer
 
-The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData` and `getBlock` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
+The data-buffer is only a struct with some external functions for easier byte-buffer-handling. The internal byte-array is a alligned memory with a size of a multiple of the defined block-size. This is necessary for direct read- and write-operations to the storage. Beside this, the struct contains the current size of the buffer in number of bytes and number of allocated blocks. It is possible to use the `data` as mormal byte-array for read and write operations or use the `addData_DataBuffer` and `getBlock_DataBuffer` for access. The `addData` allocates automatically the required number of block, if the buffer is not big enough. 
 
 ```cpp
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
@@ -359,20 +359,20 @@ int value = 42;
 // write data to buffer a the position pointed by the value `testBuffer.bufferPosition`
 // you can set the bufferPosition directly to write at a custom location
 // or write your data directly with memcpy to any position of `testBuffer.data`
-bool success = addData(&testBuffer, &value);
+bool success = addObject_DataBuffer(&testBuffer, &value);
 
 // This example is a bit pointless, because it is the first value in the data-buffer
 // It get the block with id 0 from the buffer as int-array and from with it gets the first element
-int readValue = static_cast<int>(getBlock(&testBuffer, 0))[0];
+int readValue = static_cast<int>(getBlock_DataBuffer(&testBuffer, 0))[0];
 
 // write data to buffer a the position pointed by the value `testBuffer.bufferPosition`
-bool success = addDataToBuffer(&testBuffer, static_cast<void*>(value), sizeof(int);
+bool success = addData_DataBuffer(&testBuffer, static_cast<void*>(value), sizeof(int);
 
 // additional allocate 10 more block
-success = allocateBlocks(&testBuffer, 10);
+success = allocateBlocks_DataBuffer(&testBuffer, 10);
 
 // clear the buffer and reduce it to 10 block again
-success = resetBuffer(&testBuffer, 10);
+success = reset_DataBuffer(&testBuffer, 10);
 
 ```
 
