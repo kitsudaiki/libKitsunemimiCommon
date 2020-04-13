@@ -13,13 +13,13 @@ public:
     RingBuffer_Test();
 
 private:
-    void addDataToBuffer_test();
-    void addObjectToBuffer_test();
-    void getWritePosition_test();
-    void getSpaceToEnd_test();
-    void getDataPointer_test();
-    void moveBufferForward_test();
-    void getObjectFromBuffer_test();
+    void addData_RingBuffer_test();
+    void addObject_RingBuffer_test();
+    void getWritePosition_RingBuffer_test();
+    void getSpaceToEnd_RingBuffer_test();
+    void getDataPointer_RingBuffer_test();
+    void moveForward_RingBuffer_test();
+    void getObject_RingBuffer_test();
 };
 
 } // namespace Kitsunemimi

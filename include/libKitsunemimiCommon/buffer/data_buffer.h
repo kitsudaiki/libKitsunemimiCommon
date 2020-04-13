@@ -25,12 +25,12 @@
 namespace Kitsunemimi
 {
 struct DataBuffer;
-inline bool allocateBlocks(DataBuffer &buffer, const uint64_t numberOfBlocks);
-inline bool addDataToBuffer(DataBuffer &buffer, const void* data, const uint64_t dataSize);
-inline bool resetBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
+inline bool allocateBlocks_DataBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
+inline bool addData_DataBuffer(DataBuffer &buffer, const void* data, const uint64_t dataSize);
+inline bool reset_DataBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
+inline uint8_t* getBlock_DataBuffer(DataBuffer &buffer, const uint32_t blockPosition);
 inline void* alignedMalloc(const uint16_t blockSize, const uint64_t numberOfBytes);
 inline bool alignedFree(void* ptr);
-inline uint8_t* getBlock(DataBuffer &buffer, const uint32_t blockPosition);
 
 struct DataBuffer
 {
@@ -57,9 +57,9 @@ struct DataBuffer
         this->blockSize = blockSize;
         assert(this->blockSize % 512 == 0);
         if(numberOfBlocks < 1) {
-            allocateBlocks(*this, 1);
+            allocateBlocks_DataBuffer(*this, 1);
         }
-        allocateBlocks(*this, numberOfBlocks);
+        allocateBlocks_DataBuffer(*this, numberOfBlocks);
     }
 
     /**
@@ -69,7 +69,7 @@ struct DataBuffer
     {
         // copy blockSize first to make sure, that the reset reallocate the correct total memroy
         blockSize = other.blockSize;
-        allocateBlocks(*this, other.numberOfBlocks);
+        allocateBlocks_DataBuffer(*this, other.numberOfBlocks);
         assert(totalBufferSize == other.totalBufferSize);
 
         inUse = other.inUse;
@@ -95,7 +95,7 @@ struct DataBuffer
             totalBufferSize = blockSize * numberOfBlocks;
 
             if(size % blockSize != 0) {
-                allocateBlocks(*this, 1);
+                allocateBlocks_DataBuffer(*this, 1);
             }
         }
     }
@@ -184,8 +184,8 @@ alignedFree(void* ptr)
  * @return true, if successful, else false
  */
 inline bool
-allocateBlocks(DataBuffer &buffer,
-               const uint64_t numberOfBlocks)
+allocateBlocks_DataBuffer(DataBuffer &buffer,
+                          const uint64_t numberOfBlocks)
 {
     // create the new buffer
     uint64_t newNumberOfBlocks = numberOfBlocks + buffer.numberOfBlocks;
@@ -222,9 +222,9 @@ allocateBlocks(DataBuffer &buffer,
  * @return false if precheck or allocation failed, else true
  */
 inline bool
-addDataToBuffer(DataBuffer &buffer,
-                const void* data,
-                const uint64_t dataSize)
+addData_DataBuffer(DataBuffer &buffer,
+                   const void* data,
+                   const uint64_t dataSize)
 {
     // precheck
     if(dataSize == 0
@@ -238,7 +238,7 @@ addDataToBuffer(DataBuffer &buffer,
     if(buffer.bufferPosition + dataSize >= buffer.numberOfBlocks * buffer.blockSize)
     {
         const uint64_t newBlockNum = (dataSize / buffer.blockSize) + 1;
-        if(allocateBlocks(buffer, newBlockNum) == false) {
+        if(allocateBlocks_DataBuffer(buffer, newBlockNum) == false) {
             return false;
         }
     }
@@ -261,9 +261,9 @@ addDataToBuffer(DataBuffer &buffer,
  */
 template <typename T>
 inline bool
-addObjectToBuffer(DataBuffer &buffer, T* data)
+addObject_DataBuffer(DataBuffer &buffer, T* data)
 {
-    return addDataToBuffer(buffer, data, sizeof(T));
+    return addData_DataBuffer(buffer, data, sizeof(T));
 }
 
 /**
@@ -275,8 +275,8 @@ addObjectToBuffer(DataBuffer &buffer, T* data)
  * @return false if precheck or allocation failed, else true
  */
 inline bool
-resetBuffer(DataBuffer &buffer,
-            const uint64_t numberOfBlocks)
+reset_DataBuffer(DataBuffer &buffer,
+                 const uint64_t numberOfBlocks)
 {
     // precheck
     if(numberOfBlocks == 0) {
@@ -316,8 +316,8 @@ resetBuffer(DataBuffer &buffer,
  * @return pointer to the buffer-position
  */
 inline uint8_t*
-getBlock(DataBuffer &buffer,
-         const uint32_t blockPosition)
+getBlock_DataBuffer(DataBuffer &buffer,
+                    const uint32_t blockPosition)
 {
     // precheck
     if(blockPosition >= buffer.numberOfBlocks) {

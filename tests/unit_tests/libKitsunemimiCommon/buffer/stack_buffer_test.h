@@ -14,12 +14,12 @@ public:
 
 private:
     void constructor_test();
-    void addNewToStack_test();
-    void writeDataIntoBuffer_test();
-    void addObjectToBuffer_test();
-    void getFirstElement_test();
-    void removeFirstFromStack_test();
-    void resetBuffer_test();
+    void extendBuffer_StackBuffer_test();
+    void addData_StackBuffer_test();
+    void addObject_StackBuffer_test();
+    void getFirstElement_StackBuffer_test();
+    void removeFirst_StackBuffer_test();
+    void reset_StackBuffer_test();
 };
 
 } // namespace Kitsunemimi
