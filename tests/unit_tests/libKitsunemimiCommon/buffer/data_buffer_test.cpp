@@ -26,13 +26,12 @@ DataBuffer_Test::DataBuffer_Test()
     structSize_test();
     constructor_test();
     copyConstructor_test();
-    addObjectToBuffer_test();
-    getBlock_test();
-    reset_test();
+    addObject_DataBuffer_test();
+    getBlock_DataBuffer_test();
+    reset_DataBuffer_test();
 
-    addDataToBuffer_test();
-    allocateBlocks_test();
-    resetBuffer_test();
+    addData_DataBuffer_test();
+    allocateBlocks_DataBuffer_test();
 }
 
 /**
@@ -73,7 +72,7 @@ DataBuffer_Test::copyConstructor_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(addObjectToBuffer(testBuffer, &testStruct), true);
+    TEST_EQUAL(addObject_DataBuffer(testBuffer, &testStruct), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -94,10 +93,10 @@ DataBuffer_Test::copyConstructor_test()
 }
 
 /**
- * addData_test
+ * addObject_DataBuffer_test
  */
 void
-DataBuffer_Test::addObjectToBuffer_test()
+DataBuffer_Test::addObject_DataBuffer_test()
 {
     // init
     DataBuffer testBuffer(10);
@@ -105,7 +104,7 @@ DataBuffer_Test::addObjectToBuffer_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(addObjectToBuffer(testBuffer, &testStruct), true);
+    TEST_EQUAL(addObject_DataBuffer(testBuffer, &testStruct), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -118,10 +117,10 @@ DataBuffer_Test::addObjectToBuffer_test()
 }
 
 /**
- * getBlock_test
+ * getBlock_DataBuffer_test
  */
 void
-DataBuffer_Test::getBlock_test()
+DataBuffer_Test::getBlock_DataBuffer_test()
 {
     // init
     DataBuffer testBuffer(10);
@@ -132,14 +131,14 @@ DataBuffer_Test::getBlock_test()
     memcpy(&dataByte[4096], &testStruct, sizeof(TestStruct));
 
     // check content of the buffer with getBlock-method
-    TEST_EQUAL(static_cast<int>(getBlock(testBuffer, 1)[1]), 42);
+    TEST_EQUAL(static_cast<int>(getBlock_DataBuffer(testBuffer, 1)[1]), 42);
 }
 
 /**
- * reset_test
+ * reset_DataBuffer_test
  */
 void
-DataBuffer_Test::reset_test()
+DataBuffer_Test::reset_DataBuffer_test()
 {
     // init
     DataBuffer testBuffer(10);
@@ -147,10 +146,10 @@ DataBuffer_Test::reset_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(addObjectToBuffer(testBuffer, &testStruct), true);
+    TEST_EQUAL(addObject_DataBuffer(testBuffer, &testStruct), true);
 
     // reset buffer
-    TEST_EQUAL(resetBuffer(testBuffer, 1), true);
+    TEST_EQUAL(reset_DataBuffer(testBuffer, 1), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 1);
@@ -163,10 +162,10 @@ DataBuffer_Test::reset_test()
 }
 
 /**
- * addDataToBuffer_test
+ * addData_DataBuffer_test
  */
 void
-DataBuffer_Test::addDataToBuffer_test()
+DataBuffer_Test::addData_DataBuffer_test()
 {
     // init
     DataBuffer testBuffer(10);
@@ -178,7 +177,7 @@ DataBuffer_Test::addDataToBuffer_test()
 
     // add data to buffer
     void* testStructPtr = static_cast<void*>(&testStruct);
-    TEST_EQUAL(addDataToBuffer(testBuffer, testStructPtr, sizeof(TestStruct)), true);
+    TEST_EQUAL(addData_DataBuffer(testBuffer, testStructPtr, sizeof(TestStruct)), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -191,10 +190,10 @@ DataBuffer_Test::addDataToBuffer_test()
 }
 
 /**
- * allocateBlocks_test
+ * allocateBlocks_DataBuffer_test
  */
 void
-DataBuffer_Test::allocateBlocks_test()
+DataBuffer_Test::allocateBlocks_DataBuffer_test()
 {
     // init
     DataBuffer testBuffer(10);
@@ -202,7 +201,7 @@ DataBuffer_Test::allocateBlocks_test()
     testStruct.b = 42;
 
     // write data to buffer
-    TEST_EQUAL(addObjectToBuffer(testBuffer, &testStruct), true);
+    TEST_EQUAL(addObject_DataBuffer(testBuffer, &testStruct), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
@@ -214,7 +213,7 @@ DataBuffer_Test::allocateBlocks_test()
     TEST_EQUAL(static_cast<int>(dataByte[1]), 42);
 
     // resize
-    TEST_EQUAL(allocateBlocks(testBuffer, 1), true);
+    TEST_EQUAL(allocateBlocks_DataBuffer(testBuffer, 1), true);
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 11);
@@ -224,33 +223,6 @@ DataBuffer_Test::allocateBlocks_test()
     // check content of the buffer
     dataByte = static_cast<uint8_t*>(testBuffer.data);
     TEST_EQUAL(static_cast<int>(dataByte[1]), 42);
-}
-
-/**
- * resetBuffer_test
- */
-void
-DataBuffer_Test::resetBuffer_test()
-{
-    // init
-    DataBuffer testBuffer(10);
-    TestStruct testStruct;
-    testStruct.b = 42;
-
-    // write data to buffer
-    TEST_EQUAL(addObjectToBuffer(testBuffer, &testStruct), true);
-
-    // reset buffer
-    TEST_EQUAL(resetBuffer(testBuffer, 2), true);
-
-    // check metadata of the buffer
-    TEST_EQUAL(testBuffer.numberOfBlocks, 2);
-    TEST_EQUAL(testBuffer.bufferPosition, 0);
-    TEST_EQUAL(testBuffer.totalBufferSize, 2*testBuffer.blockSize);
-
-    // check content of the buffer
-    uint8_t* dataByte = static_cast<uint8_t*>(testBuffer.data);
-    TEST_EQUAL(static_cast<int>(dataByte[1]), 0);
 }
 
 } // namespace Kitsunemimi

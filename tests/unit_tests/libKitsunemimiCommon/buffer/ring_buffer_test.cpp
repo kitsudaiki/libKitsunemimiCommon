@@ -8,20 +8,20 @@ namespace Kitsunemimi
 RingBuffer_Test::RingBuffer_Test()
     : Kitsunemimi::CompareTestHelper("RingBuffer_Test")
 {
-    addDataToBuffer_test();
-    addObjectToBuffer_test();
-    getWritePosition_test();
-    getSpaceToEnd_test();
-    getDataPointer_test();
-    moveBufferForward_test();
-    getObjectFromBuffer_test();
+    addData_RingBuffer_test();
+    addObject_RingBuffer_test();
+    getWritePosition_RingBuffer_test();
+    getSpaceToEnd_RingBuffer_test();
+    getDataPointer_RingBuffer_test();
+    moveForward_RingBuffer_test();
+    getObject_RingBuffer_test();
 }
 
 /**
- * @brief addDataToBuffer_test
+ * @brief addData_RingBuffer_test
  */
 void
-RingBuffer_Test::addDataToBuffer_test()
+RingBuffer_Test::addData_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
@@ -29,141 +29,141 @@ RingBuffer_Test::addDataToBuffer_test()
 
     // negative test
     data = alignedMalloc(4096, ringBuffer.totalBufferSize+4096);
-    TEST_EQUAL(addDataToBuffer(ringBuffer, data, ringBuffer.totalBufferSize+4096), false);
+    TEST_EQUAL(addData_RingBuffer(ringBuffer, data, ringBuffer.totalBufferSize+4096), false);
     alignedFree(data);
 
     // normal test
     data = alignedMalloc(4096, 4096);
-    TEST_EQUAL(addDataToBuffer(ringBuffer, data, 4096), true);
+    TEST_EQUAL(addData_RingBuffer(ringBuffer, data, 4096), true);
     TEST_EQUAL(ringBuffer.readPosition, 0);
     TEST_EQUAL(ringBuffer.usedSize, 4096);
     alignedFree(data);
 
     // second negative test
     data = alignedMalloc(4096, ringBuffer.totalBufferSize);
-    TEST_EQUAL(addDataToBuffer(ringBuffer, data, ringBuffer.totalBufferSize), false);
+    TEST_EQUAL(addData_RingBuffer(ringBuffer, data, ringBuffer.totalBufferSize), false);
     TEST_EQUAL(ringBuffer.usedSize, 4096);
     alignedFree(data);
 }
 
 /**
- * @brief addObjectToBuffer_test
+ * @brief addObject_RingBuffer_test
  */
 void
-RingBuffer_Test::addObjectToBuffer_test()
+RingBuffer_Test::addObject_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
     uint64_t testValue = 42;
 
     // run test
-    TEST_EQUAL(addObjectToBuffer(ringBuffer, &testValue), true);
+    TEST_EQUAL(addObject_RingBuffer(ringBuffer, &testValue), true);
     TEST_EQUAL(ringBuffer.readPosition, 0);
     TEST_EQUAL(ringBuffer.usedSize, sizeof(testValue));
 }
 
 /**
- * @brief getWritePosition_test
+ * @brief getWritePosition_RingBuffer_test
  */
 void
-RingBuffer_Test::getWritePosition_test()
+RingBuffer_Test::getWritePosition_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
     void* data = nullptr;
 
     data = alignedMalloc(4096, 4096);
-    TEST_EQUAL(getWritePosition(ringBuffer), 0);
-    addDataToBuffer(ringBuffer, data, 4096);
-    TEST_EQUAL(getWritePosition(ringBuffer), 4096);
+    TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 0);
+    addData_RingBuffer(ringBuffer, data, 4096);
+    TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 4096);
     alignedFree(data);
 }
 
 /**
- * @brief getSpaceToEnd_test
+ * @brief getSpaceToEnd_RingBuffer_test
  */
 void
-RingBuffer_Test::getSpaceToEnd_test()
+RingBuffer_Test::getSpaceToEnd_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
     void* data = alignedMalloc(4096, 4096);
 
     // first test
-    TEST_EQUAL(getSpaceToEnd(ringBuffer), ringBuffer.totalBufferSize);
+    TEST_EQUAL(getSpaceToEnd_RingBuffer(ringBuffer), ringBuffer.totalBufferSize);
 
     // second test
-    addDataToBuffer(ringBuffer, data, 4096);
-    TEST_EQUAL(getSpaceToEnd(ringBuffer), ringBuffer.totalBufferSize-4096);
+    addData_RingBuffer(ringBuffer, data, 4096);
+    TEST_EQUAL(getSpaceToEnd_RingBuffer(ringBuffer), ringBuffer.totalBufferSize-4096);
 
     alignedFree(data);
 }
 
 /**
- * @brief getDataPointer_test
+ * @brief getDataPointer_RingBuffer_test
  */
 void
-RingBuffer_Test::getDataPointer_test()
+RingBuffer_Test::getDataPointer_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
     void* data = alignedMalloc(4096, 4096);
     bool isNullptr = false;
-    addDataToBuffer(ringBuffer, data, 4096);
+    addData_RingBuffer(ringBuffer, data, 4096);
 
     // negative test
-    isNullptr = getDataPointer(ringBuffer, 5000) == nullptr;
+    isNullptr = getDataPointer_RingBuffer(ringBuffer, 5000) == nullptr;
     TEST_EQUAL(isNullptr, true);
 
     // normal test
-    isNullptr = getDataPointer(ringBuffer, 1000) == nullptr;
+    isNullptr = getDataPointer_RingBuffer(ringBuffer, 1000) == nullptr;
     TEST_EQUAL(isNullptr, false);
 
     alignedFree(data);
 }
 
 /**
- * @brief moveBufferForward_test
+ * @brief moveForward_RingBuffer_test
  */
 void
-RingBuffer_Test::moveBufferForward_test()
+RingBuffer_Test::moveForward_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
     void* data = alignedMalloc(4096, 8192);
-    addDataToBuffer(ringBuffer, data, 8192);
+    addData_RingBuffer(ringBuffer, data, 8192);
 
     // prepare tests
     TEST_EQUAL(ringBuffer.readPosition, 0);
     TEST_EQUAL(ringBuffer.usedSize, 8192);
-    TEST_EQUAL(getWritePosition(ringBuffer), 8192);
+    TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 8192);
 
     // run task
-    moveBufferForward(ringBuffer, 4096);
+    moveForward_RingBuffer(ringBuffer, 4096);
 
     // check result
     TEST_EQUAL(ringBuffer.readPosition, 4096);
     TEST_EQUAL(ringBuffer.usedSize, 4096);
-    TEST_EQUAL(getWritePosition(ringBuffer), 8192);
+    TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 8192);
 
     alignedFree(data);
 }
 
 /**
- * @brief getObjectFromBuffer_test
+ * @brief getObject_RingBuffer_test
  */
 void
-RingBuffer_Test::getObjectFromBuffer_test()
+RingBuffer_Test::getObject_RingBuffer_test()
 {
     // init
     RingBuffer ringBuffer;
     uint64_t testValue = 1234567;
 
     // run task
-    addDataToBuffer(ringBuffer, static_cast<void*>(&testValue), sizeof(testValue));
+    addData_RingBuffer(ringBuffer, static_cast<void*>(&testValue), sizeof(testValue));
 
     // check result
-    const uint64_t* returnVal = getObjectFromBuffer<uint64_t>(ringBuffer);
+    const uint64_t* returnVal = getObject_RingBuffer<uint64_t>(ringBuffer);
     TEST_EQUAL(*returnVal, testValue);
 }
 

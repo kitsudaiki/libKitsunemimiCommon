@@ -56,7 +56,7 @@ struct RingBuffer
  * @return position within the ring-buffer in bytes
  */
 inline uint64_t
-getWritePosition(RingBuffer &ringBuffer)
+getWritePosition_RingBuffer(RingBuffer &ringBuffer)
 {
     return (ringBuffer.readPosition + ringBuffer.usedSize) % ringBuffer.totalBufferSize;
 }
@@ -70,9 +70,9 @@ getWritePosition(RingBuffer &ringBuffer)
  * @return number of bytes until next blocker (end of array or read-position)
  */
 inline uint64_t
-getSpaceToEnd(RingBuffer &ringBuffer)
+getSpaceToEnd_RingBuffer(RingBuffer &ringBuffer)
 {
-    const uint64_t writePosition = getWritePosition(ringBuffer);
+    const uint64_t writePosition = getWritePosition_RingBuffer(ringBuffer);
 
     uint64_t spaceToEnd = ringBuffer.totalBufferSize - writePosition;
     if(writePosition < ringBuffer.readPosition) {
@@ -92,16 +92,16 @@ getSpaceToEnd(RingBuffer &ringBuffer)
  * @return false, if data are bigger than the available space inside the buffer, else true
  */
 inline bool
-addDataToBuffer(RingBuffer &ringBuffer,
-                const void* data,
-                const uint64_t dataSize)
+addData_RingBuffer(RingBuffer &ringBuffer,
+                   const void* data,
+                   const uint64_t dataSize)
 {
     if(dataSize + ringBuffer.usedSize > ringBuffer.totalBufferSize) {
         return false;
     }
 
-    const uint64_t writePosition = getWritePosition(ringBuffer);
-    const uint64_t spaceToEnd = getSpaceToEnd(ringBuffer);
+    const uint64_t writePosition = getWritePosition_RingBuffer(ringBuffer);
+    const uint64_t spaceToEnd = getSpaceToEnd_RingBuffer(ringBuffer);
 
     if(dataSize <= spaceToEnd)
     {
@@ -131,9 +131,9 @@ addDataToBuffer(RingBuffer &ringBuffer,
  */
 template <typename T>
 inline bool
-addObjectToBuffer(RingBuffer &ringBuffer, T* data)
+addObject_RingBuffer(RingBuffer &ringBuffer, T* data)
 {
-    return addDataToBuffer(ringBuffer, data, sizeof(T));
+    return addData_RingBuffer(ringBuffer, data, sizeof(T));
 }
 
 /**
@@ -146,8 +146,8 @@ addObjectToBuffer(RingBuffer &ringBuffer, T* data)
  *         block is too big
  */
 inline uint8_t*
-getDataPointer(RingBuffer &ringBuffer,
-               const uint64_t size)
+getDataPointer_RingBuffer(RingBuffer &ringBuffer,
+                          const uint64_t size)
 {
     if(ringBuffer.usedSize < size) {
         return nullptr;
@@ -175,8 +175,8 @@ getDataPointer(RingBuffer &ringBuffer,
  * @param numberOfBytes number of bytes to move forward
  */
 inline void
-moveBufferForward(RingBuffer &ringBuffer,
-                  const uint64_t numberOfBytes)
+moveForward_RingBuffer(RingBuffer &ringBuffer,
+                       const uint64_t numberOfBytes)
 {
     ringBuffer.readPosition = (ringBuffer.readPosition + numberOfBytes)
                                % ringBuffer.totalBufferSize;
@@ -193,9 +193,9 @@ moveBufferForward(RingBuffer &ringBuffer,
  */
 template <typename T>
 inline T*
-getObjectFromBuffer(RingBuffer &ringBuffer)
+getObject_RingBuffer(RingBuffer &ringBuffer)
 {
-    void* data = static_cast<void*>(getDataPointer(ringBuffer, sizeof(T)));
+    void* data = static_cast<void*>(getDataPointer_RingBuffer(ringBuffer, sizeof(T)));
 
     return static_cast<T*>(data);
 }

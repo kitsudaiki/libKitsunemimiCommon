@@ -24,13 +24,12 @@ private:
     void constructor_test();
     void structSize_test();
     void copyConstructor_test();
-    void addObjectToBuffer_test();
-    void getBlock_test();
-    void reset_test();
+    void addObject_DataBuffer_test();
+    void getBlock_DataBuffer_test();
+    void reset_DataBuffer_test();
 
-    void addDataToBuffer_test();
-    void allocateBlocks_test();
-    void resetBuffer_test();
+    void addData_DataBuffer_test();
+    void allocateBlocks_DataBuffer_test();
 };
 
 } // namespace Kitsunemimi
