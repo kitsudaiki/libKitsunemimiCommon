@@ -24,6 +24,7 @@ private:
     void splitStringByDelimiter_test();
     void splitStringByLength_test();
     void replaceSubstring_test();
+    void removeWhitespaces_test();
 };
 
 } // namespace Kitsunemimi

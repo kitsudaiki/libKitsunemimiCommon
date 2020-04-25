@@ -19,6 +19,7 @@ StringMethods_Test::StringMethods_Test()
     splitStringByDelimiter_test();
     splitStringByLength_test();
     replaceSubstring_test();
+    removeWhitespaces_test();
 }
 
 /**
@@ -85,6 +86,22 @@ StringMethods_Test::replaceSubstring_test()
 
     // check result
     TEST_EQUAL(testString, "this is a bogus-string");
+}
+
+/**
+ * removeWhitespaces_test
+ */
+void
+StringMethods_Test::removeWhitespaces_test()
+{
+    // init
+    std::string testString = "this is a test-string";
+
+    // run task
+    removeWhitespaces(testString);
+
+    // check result
+    TEST_EQUAL(testString, "thisisatest-string");
 }
 
 } // namespace Kitsunemimi

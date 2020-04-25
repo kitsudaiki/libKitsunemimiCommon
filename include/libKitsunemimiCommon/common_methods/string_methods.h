@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
 namespace Kitsunemimi
 {
@@ -91,6 +92,18 @@ replaceSubstring(std::string& original,
         original.replace(pos, oldSubstring.length(), newSubstring);
         pos += newSubstring.length();
     }
+}
+
+/**
+ * @brief remove whitespaces from a string
+ *
+ * @param input input-string, from which the whitespaces should be removed
+ */
+inline void
+removeWhitespaces(std::string& input)
+{
+    input.erase(std::remove_if(input.begin(), input.end(), isspace),
+                               input.end());
 }
 
 } // namespace Kitsunemimi
