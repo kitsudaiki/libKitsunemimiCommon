@@ -17,7 +17,9 @@ SOURCES += \
     process_execution.cpp \
     test_helper/compare_test_helper.cpp \
     test_helper/speed_test_helper.cpp \
-    buffer/stack_buffer_reserve.cpp
+    buffer/stack_buffer_reserve.cpp \
+    common_methods/string_methods.cpp \
+    common_methods/vector_methods.cpp
 
 
 HEADERS += \
