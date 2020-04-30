@@ -25,7 +25,8 @@ DataBuffer_Test::DataBuffer_Test()
 {
     structSize_test();
     constructor_test();
-    copyConstructor_test();
+    copy_assingment_constructor_test();
+    copy_assingment_operator_test();
     addObject_DataBuffer_test();
     getBlock_DataBuffer_test();
     reset_DataBuffer_test();
@@ -61,10 +62,10 @@ DataBuffer_Test::constructor_test()
 }
 
 /**
- * copyConstructor_test
+ * copy_assingment_constructor_test
  */
 void
-DataBuffer_Test::copyConstructor_test()
+DataBuffer_Test::copy_assingment_constructor_test()
 {
     // init
     DataBuffer testBuffer(10);
@@ -81,6 +82,39 @@ DataBuffer_Test::copyConstructor_test()
 
     // use copy contstructor
     DataBuffer bufferCopy(testBuffer);
+
+    // check metadata of the new buffer
+    TEST_EQUAL(bufferCopy.numberOfBlocks, 10);
+    TEST_EQUAL(bufferCopy.bufferPosition, 10);
+    TEST_EQUAL(bufferCopy.totalBufferSize, 10*bufferCopy.blockSize);
+
+    // check content of the new buffer
+    uint8_t* dataByte = static_cast<uint8_t*>(bufferCopy.data);
+    TEST_EQUAL(static_cast<int>(dataByte[1]), 42);
+}
+
+/**
+ * copy_assingment_operator_test
+ */
+void
+DataBuffer_Test::copy_assingment_operator_test()
+{
+    // init
+    DataBuffer testBuffer(10);
+    TestStruct testStruct;
+    testStruct.b = 42;
+
+    // write data to buffer
+    TEST_EQUAL(addObject_DataBuffer(testBuffer, &testStruct), true);
+
+    // check metadata of the buffer
+    TEST_EQUAL(testBuffer.numberOfBlocks, 10);
+    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
+
+    // use copy assignment
+    DataBuffer bufferCopy(1);
+    bufferCopy = testBuffer;
 
     // check metadata of the new buffer
     TEST_EQUAL(bufferCopy.numberOfBlocks, 10);

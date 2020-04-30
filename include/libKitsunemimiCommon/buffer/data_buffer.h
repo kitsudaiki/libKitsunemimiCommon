@@ -68,13 +68,14 @@ struct DataBuffer
     DataBuffer(const DataBuffer &other)
     {
         // copy blockSize first to make sure, that the reset reallocate the correct total memroy
-        blockSize = other.blockSize;
+        this->blockSize = other.blockSize;
         allocateBlocks_DataBuffer(*this, other.numberOfBlocks);
-        assert(totalBufferSize == other.totalBufferSize);
+        assert(this->totalBufferSize == other.totalBufferSize);
+        assert(this->numberOfBlocks == other.numberOfBlocks);
 
-        inUse = other.inUse;
-        bufferPosition = other.bufferPosition;
-        memcpy(data, other.data, bufferPosition);
+        this->inUse = other.inUse;
+        this->bufferPosition = other.bufferPosition;
+        memcpy(data, other.data, this->bufferPosition);
     }
 
     /**
@@ -101,9 +102,37 @@ struct DataBuffer
     }
 
     /**
+     * @brief copy-assignment operator
+     */
+    DataBuffer &operator=(const DataBuffer &other)
+    {
+        if(this != &other)
+        {
+            clear();
+
+            // copy blockSize first to make sure, that the reset reallocate the correct total memroy
+            this->blockSize = other.blockSize;
+            allocateBlocks_DataBuffer(*this, other.numberOfBlocks);
+            assert(this->totalBufferSize == other.totalBufferSize);
+            assert(this->numberOfBlocks == other.numberOfBlocks);
+
+            this->inUse = other.inUse;
+            this->bufferPosition = other.bufferPosition;
+            memcpy(data, other.data, this->bufferPosition);
+        }
+
+        return *this;
+    }
+
+    /**
      * @brief destructor to clear the allocated memory inside this object
      */
     ~DataBuffer()
+    {
+        clear();
+    }
+
+    bool clear()
     {
         // deallocate the buffer
         if(data != nullptr
@@ -113,8 +142,13 @@ struct DataBuffer
             inUse = 0;
             data = nullptr;
             numberOfBlocks = 0;
+
+            return true;
         }
+
+        return false;
     }
+
 } __attribute__((packed));
 
 
