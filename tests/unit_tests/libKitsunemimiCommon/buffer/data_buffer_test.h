@@ -23,7 +23,8 @@ public:
 private:
     void constructor_test();
     void structSize_test();
-    void copyConstructor_test();
+    void copy_assingment_constructor_test();
+    void copy_assingment_operator_test();
     void addObject_DataBuffer_test();
     void getBlock_DataBuffer_test();
     void reset_DataBuffer_test();
