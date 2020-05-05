@@ -44,6 +44,7 @@ DataItem::isValue() const
     {
         return true;
     }
+
     return false;
 }
 
@@ -56,6 +57,7 @@ DataItem::isMap() const
     if(m_type == MAP_TYPE) {
         return true;
     }
+
     return false;
 }
 
@@ -68,6 +70,7 @@ DataItem::isArray() const
     if(m_type == ARRAY_TYPE) {
         return true;
     }
+
     return false;
 }
 
@@ -80,6 +83,7 @@ DataItem::isStringValue() const
     if(m_valueType == STRING_TYPE) {
         return true;
     }
+
     return false;
 }
 
@@ -92,6 +96,7 @@ DataItem::isIntValue() const
     if(m_valueType == INT_TYPE) {
         return true;
     }
+
     return false;
 }
 
@@ -104,6 +109,7 @@ DataItem::isFloatValue() const
     if(m_valueType == FLOAT_TYPE) {
         return true;
     }
+
     return false;
 }
 
@@ -116,6 +122,7 @@ DataItem::isBoolValue() const
     if(m_valueType == BOOL_TYPE) {
         return true;
     }
+
     return false;
 }
 
@@ -128,6 +135,7 @@ DataItem::toArray()
     if(m_type == ARRAY_TYPE) {
         return static_cast<DataArray*>(this);
     }
+
     return nullptr;
 }
 
@@ -140,6 +148,7 @@ DataItem::toMap()
     if(m_type == MAP_TYPE) {
         return static_cast<DataMap*>(this);
     }
+
     return nullptr;
 }
 
@@ -153,6 +162,7 @@ DataItem::toValue()
     {
         return static_cast<DataValue*>(this);
     }
+
     return nullptr;
 }
 
@@ -169,6 +179,7 @@ DataItem::getString() const
         const DataValue* value = dynamic_cast<const DataValue*>(this);
         return std::string(value->m_content.stringValue);
     }
+
     return std::string("");
 }
 
@@ -185,6 +196,7 @@ DataItem::getInt()
         DataValue* value = dynamic_cast<DataValue*>(this);
         return static_cast<int>(value->m_content.longValue);
     }
+
     return 0;
 }
 
@@ -201,6 +213,7 @@ DataItem::getFloat()
         DataValue* value = dynamic_cast<DataValue*>(this);
         return static_cast<float>(value->m_content.doubleValue);
     }
+
     return 0.0f;
 }
 
@@ -217,6 +230,7 @@ DataItem::getLong()
         DataValue* value = dynamic_cast<DataValue*>(this);
         return value->m_content.longValue;
     }
+
     return 0l;
 }
 
@@ -233,6 +247,7 @@ DataItem::getDouble()
         DataValue* value = dynamic_cast<DataValue*>(this);
         return value->m_content.doubleValue;
     }
+
     return 0.0;
 }
 
@@ -249,6 +264,7 @@ DataItem::getBool()
         DataValue* value = dynamic_cast<DataValue*>(this);
         return value->m_content.boolValue;
     }
+
     return false;
 }
 
@@ -430,6 +446,7 @@ DataValue
             this->m_content = other.m_content;
         }
     }
+
     return *this;
 }
 
@@ -538,18 +555,23 @@ DataItem*
 DataValue::copy()
 {
     DataValue* tempItem = nullptr;
+
     if(m_valueType == STRING_TYPE) {
         tempItem = new DataValue(std::string(m_content.stringValue));
     }
+
     if(m_valueType == INT_TYPE) {
         tempItem = new DataValue(m_content.longValue);
     }
+
     if(m_valueType == FLOAT_TYPE) {
         tempItem = new DataValue(m_content.doubleValue);
     }
+
     if(m_valueType == BOOL_TYPE) {
         tempItem = new DataValue(m_content.boolValue);
     }
+
     return tempItem;
 }
 
@@ -791,6 +813,7 @@ DataMap
             }
         }
     }
+
     return *this;
 }
 
@@ -888,6 +911,7 @@ DataMap::getKeys()
     {
         result.push_back(it->first);
     }
+
     return result;
 }
 
@@ -907,6 +931,7 @@ DataMap::getValues()
     {
         result.push_back(it->second);
     }
+
     return result;
 }
 
@@ -925,6 +950,7 @@ DataMap::contains(const std::string &key)
     {
         return true;
     }
+
     return false;
 }
 
@@ -938,6 +964,7 @@ DataMap::getStringByKey(const std::string &key)
     if(item == nullptr) {
         return std::string("");
     }
+
     return item->getString();
 }
 
@@ -951,6 +978,7 @@ DataMap::getIntByKey(const std::string &key)
     if(item == nullptr) {
         return 0;
     }
+
     return item->getInt();
 }
 
@@ -964,6 +992,7 @@ DataMap::getFloatByKey(const std::string &key)
     if(item == nullptr) {
         return 0.0f;
     }
+
     return item->getFloat();
 }
 
@@ -977,6 +1006,7 @@ DataMap::getLongByKey(const std::string &key)
     if(item == nullptr) {
         return 0l;
     }
+
     return item->getLong();
 }
 
@@ -990,6 +1020,7 @@ DataMap::getDoubleByKey(const std::string &key)
     if(item == nullptr) {
         return 0.0;
     }
+
     return item->getDouble();
 }
 
@@ -1044,6 +1075,7 @@ DataMap::remove(const uint64_t index)
         }
         counter++;
     }
+
     return false;
 }
 
@@ -1063,8 +1095,8 @@ DataMap::clear()
             delete tempItem;
         }
     }
-    m_map.clear();
 
+    m_map.clear();
 }
 
 /**
@@ -1087,6 +1119,7 @@ DataMap::copy()
             tempItem->insert(it->first, it->second->copy());
         }
     }
+
     return tempItem;
 }
 
@@ -1099,6 +1132,7 @@ DataMap::toString(const bool indent,
                   const uint32_t level)
 {
     std::string out = "";
+
     if(output == nullptr) {
         output = &out;
     }
@@ -1188,6 +1222,7 @@ DataMap::insert(const std::string &key,
     {
         m_map.insert(std::pair<std::string, DataItem*>(key, value));
     }
+
     return true;
 }
 
@@ -1259,6 +1294,7 @@ DataArray
             }
         }
     }
+
     return *this;
 }
 
@@ -1330,6 +1366,7 @@ bool
 DataArray::remove(const std::string &key)
 {
     const uint32_t index = static_cast<uint32_t>(std::stoi(key));
+
     if(m_array.size() <= index) {
         return false;
     }
@@ -1338,7 +1375,9 @@ DataArray::remove(const std::string &key)
     if(tempItem != nullptr) {
         delete tempItem;
     }
+
     m_array.erase(m_array.begin() + index);
+
     return true;
 }
 
@@ -1358,7 +1397,9 @@ DataArray::remove(const uint64_t index)
     if(tempItem != nullptr) {
         delete tempItem;
     }
+
     m_array.erase(m_array.begin() + static_cast<uint32_t>(index));
+
     return true;
 }
 
@@ -1375,6 +1416,7 @@ DataArray::clear()
             delete tempItem;
         }
     }
+
     this->m_array.clear();
 }
 
@@ -1387,6 +1429,7 @@ DataItem*
 DataArray::copy()
 {
     DataArray* tempItem = new DataArray();
+
     for(uint32_t i = 0; i < m_array.size(); i++)
     {
         if(m_array[i] == nullptr) {
@@ -1395,6 +1438,7 @@ DataArray::copy()
             tempItem->append(m_array[i]->copy());
         }
     }
+
     return tempItem;
 }
 
@@ -1407,6 +1451,7 @@ DataArray::toString(const bool indent,
                     const uint32_t level)
 {
     std::string out = "";
+
     if(output == nullptr) {
         output = &out;
     }
