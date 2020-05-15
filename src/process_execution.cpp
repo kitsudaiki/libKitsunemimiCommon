@@ -22,7 +22,7 @@ namespace Kitsunemimi
  *
  * @return result with all information like exit-status and std-output
  */
-ProcressResult
+ProcessResult
 runSyncProcess(std::string command)
 {
     std::vector<std::string> args;
@@ -42,11 +42,11 @@ runSyncProcess(std::string command)
  *
  * @return result with all information like exit-status and std-output
  */
-ProcressResult
+ProcessResult
 runSyncProcess(const std::string &programm,
                const std::vector<std::string> &args)
 {
-    ProcressResult result;
+    ProcessResult result;
 
     // prepare command
     std::string call = programm;

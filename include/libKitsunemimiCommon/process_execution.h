@@ -19,7 +19,7 @@
 namespace Kitsunemimi
 {
 
-struct ProcressResult
+struct ProcessResult
 {
     bool success = true;
     int exitStatus = 0;
@@ -27,9 +27,9 @@ struct ProcressResult
     std::string errorMessage = "";
 };
 
-ProcressResult runSyncProcess(std::string command);
-ProcressResult runSyncProcess(const std::string &programm,
-                              const std::vector<std::string> &args);
+ProcessResult runSyncProcess(std::string command);
+ProcessResult runSyncProcess(const std::string &programm,
+                             const std::vector<std::string> &args);
 
 } // namespace Kitsunemimi
 
