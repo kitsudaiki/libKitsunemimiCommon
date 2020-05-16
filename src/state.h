@@ -56,7 +56,7 @@ struct State
             return false;
         }
 
-        nextStates.insert(std::pair<uint32_t, State*>(key, nextState));
+        nextStates.insert(std::make_pair(key, nextState));
 
         return true;
     }

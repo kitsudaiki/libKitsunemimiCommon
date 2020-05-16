@@ -60,7 +60,7 @@ Statemachine::createNewState(const uint32_t stateId,
 
     // add new state
     newState = new State(stateId, stateName);
-    m_allStates.insert(std::pair<uint32_t, State*>(stateId, newState));
+    m_allStates.insert(std::make_pair(stateId, newState));
 
     // first created state is set as current stat to init the statemachine
     if(m_currentState == nullptr) {

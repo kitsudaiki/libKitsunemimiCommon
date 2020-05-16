@@ -764,9 +764,9 @@ DataMap::DataMap(const DataMap &other)
         it++)
     {
         if(it->second != nullptr) {
-            m_map.insert(std::pair<std::string, DataItem*>(it->first, it->second->copy()));
+            m_map.insert(std::make_pair(it->first, it->second->copy()));
         } else {
-            m_map.insert(std::pair<std::string, DataItem*>(it->first, nullptr));
+            m_map.insert(std::make_pair(it->first, nullptr));
         }
     }
 }
@@ -802,14 +802,10 @@ DataMap
             it != otherMap.end();
             it++)
         {
-            if(it->second != nullptr)
-            {
-                this->m_map.insert(std::pair<std::string, DataItem*>(it->first,
-                                                                     it->second->copy()));
-            }
-            else
-            {
-                this->m_map.insert(std::pair<std::string, DataItem*>(it->first, nullptr));
+            if(it->second != nullptr) {
+                this->m_map.insert(make_pair(it->first, it->second->copy()));
+            } else {
+                this->m_map.insert(std::make_pair(it->first, nullptr));
             }
         }
     }
@@ -1220,7 +1216,7 @@ DataMap::insert(const std::string &key,
     }
     else
     {
-        m_map.insert(std::pair<std::string, DataItem*>(key, value));
+        m_map.insert(std::make_pair(key, value));
     }
 
     return true;
