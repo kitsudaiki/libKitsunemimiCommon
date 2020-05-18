@@ -27,7 +27,7 @@ runSyncProcess(std::string command)
 {
     std::vector<std::string> args;
     args.push_back("-c");
-    replaceSubstring(command, "\"", "\\\"");
+    // replaceSubstring(command, "\"", "\\\"");
     args.push_back("\"" + command + "\"");
 
     return runSyncProcess(std::string("/bin/sh"), args);
