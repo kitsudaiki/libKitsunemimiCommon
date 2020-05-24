@@ -20,6 +20,9 @@ StringMethods_Test::StringMethods_Test()
     splitStringByLength_test();
     replaceSubstring_test();
     removeWhitespaces_test();
+    ltrim_test();
+    rtrim_test();
+    trim_test();
 }
 
 /**
@@ -102,6 +105,54 @@ StringMethods_Test::removeWhitespaces_test()
 
     // check result
     TEST_EQUAL(testString, "thisisatest-string");
+}
+
+/**
+ * ltrim_test
+ */
+void
+StringMethods_Test::ltrim_test()
+{
+    // init
+    std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
+
+    // run task
+    ltrim(testString);
+
+    // check result
+    TEST_EQUAL(testString, "this is a test-string  \t  \n \r  ");
+}
+
+/**
+ * rtrim_test
+ */
+void
+StringMethods_Test::rtrim_test()
+{
+    // init
+    std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
+
+    // run task
+    rtrim(testString);
+
+    // check result
+    TEST_EQUAL(testString, "  \t  \n \r  this is a test-string");
+}
+
+/**
+ * trim_test
+ */
+void
+StringMethods_Test::trim_test()
+{
+    // init
+    std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
+
+    // run task
+    trim(testString);
+
+    // check result
+    TEST_EQUAL(testString, "this is a test-string");
 }
 
 } // namespace Kitsunemimi

@@ -99,4 +99,45 @@ removeWhitespaces(std::string& input)
                                input.end());
 }
 
+/**
+ * @brief trim string on the left side
+ *
+ * @param original string, which should be changed
+ * @param chars chars to remove
+ */
+void
+ltrim(std::string& original,
+      const std::string &chars)
+{
+    original.erase(0, original.find_first_not_of(chars));
+}
+
+/**
+ * @brief trim string on the right side
+ *
+ * @param original string, which should be changed
+ * @param chars chars to remove
+ */
+void
+rtrim(std::string& original,
+      const std::string& chars)
+{
+    original.erase(original.find_last_not_of(chars) + 1);
+}
+
+/**
+ * @brief trim string on both sides
+ *
+ * @param original string, which should be changed
+ * @param chars chars to remove
+ */
+void
+trim(std::string& original,
+     const std::string& chars)
+{
+    ltrim(original, chars);
+    rtrim(original, chars);
+}
+
+
 } // namespace Kitsunemimi

@@ -1198,15 +1198,17 @@ DataMap::insert(const std::string &key,
                 DataItem* value,
                 bool force)
 {
+    // check if key already exist
     std::map<std::string, DataItem*>::iterator it;
     it = m_map.find(key);
-
     if(it != m_map.end()
             && force == false)
     {
         return false;
     }
 
+    // if already exist and should be overwritten,
+    // then delete the old one at first and insert the new one
     if(it != m_map.end())
     {
         if(it->second != nullptr) {

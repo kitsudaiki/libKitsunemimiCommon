@@ -621,6 +621,11 @@ std::string testString = "this is a test-string";
 replaceSubstring(testString, "test", "bogus");
 // variable teststring has not the content: "this is a bogus-string"
 
+// trim string
+std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
+trim(testString);
+// variable teststring has not the content: "this is a test-string"
+
 ```
 
 #### vector methods
