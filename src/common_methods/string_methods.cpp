@@ -100,9 +100,10 @@ removeWhitespaces(std::string& input)
 }
 
 /**
- * @brief ltrim
- * @param original
- * @param chars
+ * @brief trim string on the left side
+ *
+ * @param original string, which should be changed
+ * @param chars chars to remove
  */
 void
 ltrim(std::string& original,
@@ -112,9 +113,10 @@ ltrim(std::string& original,
 }
 
 /**
- * @brief ltrim
- * @param original
- * @param chars
+ * @brief trim string on the right side
+ *
+ * @param original string, which should be changed
+ * @param chars chars to remove
  */
 void
 rtrim(std::string& original,
@@ -124,9 +126,10 @@ rtrim(std::string& original,
 }
 
 /**
- * @brief ltrim
- * @param original
- * @param chars
+ * @brief trim string on both sides
+ *
+ * @param original string, which should be changed
+ * @param chars chars to remove
  */
 void
 trim(std::string& original,
