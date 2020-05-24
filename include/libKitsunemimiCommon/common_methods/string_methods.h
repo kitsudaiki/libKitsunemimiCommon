@@ -31,6 +31,15 @@ void replaceSubstring(std::string& original,
                       const std::string& newSubstring);
 void removeWhitespaces(std::string& input);
 
+
+void ltrim(std::string& original,
+           const std::string &chars = "\t\n\v\f\r ");
+void rtrim(std::string& original,
+           const std::string& chars = "\t\n\v\f\r ");
+void trim(std::string& original,
+          const std::string& chars = "\t\n\v\f\r ");
+
+
 } // namespace Kitsunemimi
 
 #endif // STRINGMETHODS_H

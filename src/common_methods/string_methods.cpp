@@ -99,4 +99,42 @@ removeWhitespaces(std::string& input)
                                input.end());
 }
 
+/**
+ * @brief ltrim
+ * @param original
+ * @param chars
+ */
+void
+ltrim(std::string& original,
+      const std::string &chars)
+{
+    original.erase(0, original.find_first_not_of(chars));
+}
+
+/**
+ * @brief ltrim
+ * @param original
+ * @param chars
+ */
+void
+rtrim(std::string& original,
+      const std::string& chars)
+{
+    original.erase(original.find_last_not_of(chars) + 1);
+}
+
+/**
+ * @brief ltrim
+ * @param original
+ * @param chars
+ */
+void
+trim(std::string& original,
+     const std::string& chars)
+{
+    ltrim(original, chars);
+    rtrim(original, chars);
+}
+
+
 } // namespace Kitsunemimi
