@@ -8,8 +8,8 @@
  *  @copyright  MIT License
  */
 
-#ifndef BLOCK_BUFFER_RESERVE_H
-#define BLOCK_BUFFER_RESERVE_H
+#ifndef STACK_BUFFER_RESERVE_H
+#define STACK_BUFFER_RESERVE_H
 
 #include <iostream>
 #include <atomic>
@@ -39,4 +39,4 @@ private:
 
 }
 
-#endif // BLOCK_BUFFER_RESERVE_H
+#endif // STACK_BUFFER_RESERVE_H

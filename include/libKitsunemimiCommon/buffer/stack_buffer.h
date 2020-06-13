@@ -8,8 +8,8 @@
  *  @copyright  MIT License
  */
 
-#ifndef BLOCK_BUFFER_H
-#define BLOCK_BUFFER_H
+#ifndef STACK_BUFFER_H
+#define STACK_BUFFER_H
 
 #include <stdint.h>
 #include <atomic>
@@ -252,4 +252,4 @@ reset_StackBuffer(StackBuffer &stackBuffer)
 
 } // namespace Kitsunemimi
 
-#endif // BLOCK_BUFFER_H
+#endif // STACK_BUFFER_H
