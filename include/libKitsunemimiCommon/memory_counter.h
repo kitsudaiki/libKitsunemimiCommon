@@ -30,7 +30,7 @@ struct MemoryCounter
     std::atomic_flag lock = ATOMIC_FLAG_INIT;
     uint8_t padding[7];
 
-    static Kitsunemimi::MemoryCounter* globalMemoryCounter;
+    static Kitsunemimi::MemoryCounter globalMemoryCounter;
 
     MemoryCounter() {}
 };

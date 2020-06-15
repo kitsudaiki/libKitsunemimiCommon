@@ -12,7 +12,8 @@
 
 #include <stdio.h>
 
-Kitsunemimi::MemoryCounter* Kitsunemimi::MemoryCounter::globalMemoryCounter = nullptr;
+Kitsunemimi::MemoryCounter Kitsunemimi::MemoryCounter::globalMemoryCounter;
+
 
 void*
 operator new(size_t size)
@@ -59,17 +60,11 @@ namespace Kitsunemimi
 void
 increaseGlobalMemoryCounter(size_t size)
 {
-    if(MemoryCounter::globalMemoryCounter == nullptr)
-    {
-        MemoryCounter::globalMemoryCounter =
-                static_cast<MemoryCounter*>(malloc(sizeof(MemoryCounter)));
-    }
-
-    while(MemoryCounter::globalMemoryCounter->lock.test_and_set(std::memory_order_acquire)) {
+    while(Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.test_and_set(std::memory_order_acquire)) {
         asm("");
     }
-    Kitsunemimi::MemoryCounter::globalMemoryCounter->actualAllocatedSize += size;
-    Kitsunemimi::MemoryCounter::globalMemoryCounter->lock.clear(std::memory_order_release);
+    Kitsunemimi::MemoryCounter::globalMemoryCounter.actualAllocatedSize += size;
+    Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
 }
 
 /**
@@ -79,17 +74,12 @@ increaseGlobalMemoryCounter(size_t size)
 void
 decreaseGlobalMemoryCounter(size_t size)
 {
-    if(MemoryCounter::globalMemoryCounter == nullptr)
-    {
-        MemoryCounter::globalMemoryCounter =
-                static_cast<MemoryCounter*>(malloc(sizeof(MemoryCounter)));
-    }
 
-    while(MemoryCounter::globalMemoryCounter->lock.test_and_set(std::memory_order_acquire)) {
+    while(Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.test_and_set(std::memory_order_acquire)) {
         asm("");
     }
-    MemoryCounter::globalMemoryCounter->actualAllocatedSize -= size;
-    MemoryCounter::globalMemoryCounter->lock.clear(std::memory_order_release);
+    MemoryCounter::globalMemoryCounter.actualAllocatedSize -= size;
+    Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
 }
 
 }
