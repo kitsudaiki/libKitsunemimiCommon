@@ -22,8 +22,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include <libKitsunemimiCommon/memory_counter.h>
+
 namespace Kitsunemimi
 {
+
 struct DataBuffer;
 inline bool allocateBlocks_DataBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
 inline bool addData_DataBuffer(DataBuffer &buffer, const void* data, const uint64_t dataSize);
@@ -180,6 +183,9 @@ alignedMalloc(const uint16_t blockSize,
         return nullptr;
     }
 
+    const size_t memSize = *((size_t*)ptr - 1);
+    Kitsunemimi::increaseGlobalMemoryCounter(memSize);
+
     // init memory
     memset(ptr, 0, numberOfBytes);
 
@@ -201,6 +207,9 @@ alignedFree(void* ptr)
     if(ptr == nullptr) {
         return false;
     }
+
+    const size_t memSize = *((size_t*)ptr - 1);
+    Kitsunemimi::decreaseGlobalMemoryCounter(memSize);
 
     // free data
     free(ptr);

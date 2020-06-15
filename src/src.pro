@@ -19,7 +19,8 @@ SOURCES += \
     test_helper/speed_test_helper.cpp \
     buffer/stack_buffer_reserve.cpp \
     common_methods/string_methods.cpp \
-    common_methods/vector_methods.cpp
+    common_methods/vector_methods.cpp \
+    memory_counter.cpp
 
 
 HEADERS += \
@@ -37,4 +38,5 @@ HEADERS += \
     ../include/libKitsunemimiCommon/test_helper/speed_test_helper.h \
     ../include/libKitsunemimiCommon/buffer/data_buffer.h \
     ../include/libKitsunemimiCommon/buffer/stack_buffer.h \
-    ../include/libKitsunemimiCommon/buffer/stack_buffer_reserve.h
+    ../include/libKitsunemimiCommon/buffer/stack_buffer_reserve.h \
+    ../include/libKitsunemimiCommon/memory_counter.h
