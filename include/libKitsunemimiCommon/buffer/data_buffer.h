@@ -33,7 +33,7 @@ inline bool addData_DataBuffer(DataBuffer &buffer, const void* data, const uint6
 inline bool reset_DataBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
 inline uint8_t* getBlock_DataBuffer(DataBuffer &buffer, const uint32_t blockPosition);
 inline void* alignedMalloc(const uint16_t blockSize, const uint64_t numberOfBytes);
-inline bool alignedFree(void* ptr);
+inline bool alignedFree(void* ptr, const uint64_t numberOfBytes);
 
 struct DataBuffer
 {
@@ -141,7 +141,7 @@ struct DataBuffer
         if(data != nullptr
                 && inUse == 1)
         {
-            alignedFree(data);
+            alignedFree(data, totalBufferSize);
             inUse = 0;
             data = nullptr;
             numberOfBlocks = 0;
@@ -183,8 +183,7 @@ alignedMalloc(const uint16_t blockSize,
         return nullptr;
     }
 
-    const size_t memSize = *((size_t*)ptr - 1);
-    Kitsunemimi::increaseGlobalMemoryCounter(memSize);
+    Kitsunemimi::increaseGlobalMemoryCounter(numberOfBytes);
 
     // init memory
     memset(ptr, 0, numberOfBytes);
@@ -197,19 +196,20 @@ alignedMalloc(const uint16_t blockSize,
  *        this method is a bit useless, but I wanted a equivalent for the alignedMalloc-method
  *
  * @param  ptr pointer to the memory to free
+ * @param numberOfBytes bytes to free (only used for the memory-counter)
  *
  * @return true, if pointer not nullptr, else false
  */
 inline bool
-alignedFree(void* ptr)
+alignedFree(void* ptr,
+            const uint64_t numberOfBytes)
 {
     // precheck
     if(ptr == nullptr) {
         return false;
     }
 
-    const size_t memSize = *((size_t*)ptr - 1);
-    Kitsunemimi::decreaseGlobalMemoryCounter(memSize);
+    Kitsunemimi::decreaseGlobalMemoryCounter(numberOfBytes);
 
     // free data
     free(ptr);
@@ -243,7 +243,7 @@ allocateBlocks_DataBuffer(DataBuffer &buffer,
             && buffer.inUse == 1)
     {
         memcpy(newBuffer, buffer.data, buffer.numberOfBlocks * buffer.blockSize);
-        alignedFree(buffer.data);
+        alignedFree(buffer.data, buffer.totalBufferSize);
     }
 
     // set the new values
@@ -330,7 +330,7 @@ reset_DataBuffer(DataBuffer &buffer,
     if(buffer.data != nullptr
             && buffer.inUse == 1)
     {
-        alignedFree(buffer.data);
+        alignedFree(buffer.data, buffer.totalBufferSize);
     }
 
     // allocate at least one single block as new buffer-data
