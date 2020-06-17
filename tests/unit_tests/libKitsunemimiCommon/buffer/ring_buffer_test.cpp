@@ -30,20 +30,20 @@ RingBuffer_Test::addData_RingBuffer_test()
     // negative test
     data = alignedMalloc(4096, ringBuffer.totalBufferSize+4096);
     TEST_EQUAL(addData_RingBuffer(ringBuffer, data, ringBuffer.totalBufferSize+4096), false);
-    alignedFree(data);
+    alignedFree(data, ringBuffer.totalBufferSize+4096);
 
     // normal test
     data = alignedMalloc(4096, 4096);
     TEST_EQUAL(addData_RingBuffer(ringBuffer, data, 4096), true);
     TEST_EQUAL(ringBuffer.readPosition, 0);
     TEST_EQUAL(ringBuffer.usedSize, 4096);
-    alignedFree(data);
+    alignedFree(data, 4096);
 
     // second negative test
     data = alignedMalloc(4096, ringBuffer.totalBufferSize);
     TEST_EQUAL(addData_RingBuffer(ringBuffer, data, ringBuffer.totalBufferSize), false);
     TEST_EQUAL(ringBuffer.usedSize, 4096);
-    alignedFree(data);
+    alignedFree(data, 4096);
 }
 
 /**
@@ -76,7 +76,7 @@ RingBuffer_Test::getWritePosition_RingBuffer_test()
     TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 0);
     addData_RingBuffer(ringBuffer, data, 4096);
     TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 4096);
-    alignedFree(data);
+    alignedFree(data, 4096);
 }
 
 /**
@@ -96,7 +96,7 @@ RingBuffer_Test::getSpaceToEnd_RingBuffer_test()
     addData_RingBuffer(ringBuffer, data, 4096);
     TEST_EQUAL(getSpaceToEnd_RingBuffer(ringBuffer), ringBuffer.totalBufferSize-4096);
 
-    alignedFree(data);
+    alignedFree(data, 4096);
 }
 
 /**
@@ -119,7 +119,7 @@ RingBuffer_Test::getDataPointer_RingBuffer_test()
     isNullptr = getDataPointer_RingBuffer(ringBuffer, 1000) == nullptr;
     TEST_EQUAL(isNullptr, false);
 
-    alignedFree(data);
+    alignedFree(data, 4096);
 }
 
 /**
@@ -146,7 +146,7 @@ RingBuffer_Test::moveForward_RingBuffer_test()
     TEST_EQUAL(ringBuffer.usedSize, 4096);
     TEST_EQUAL(getWritePosition_RingBuffer(ringBuffer), 8192);
 
-    alignedFree(data);
+    alignedFree(data, 8192);
 }
 
 /**

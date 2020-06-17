@@ -14,72 +14,87 @@
 
 Kitsunemimi::MemoryCounter Kitsunemimi::MemoryCounter::globalMemoryCounter;
 
+//==================================================================================================
+// Overrides for new and delete
+//==================================================================================================
+
+/**
+ * Info: I do not override "void operator delete(void* ptr, size_t size)", which is also available
+ *       since c++14, because it not every time used, for example std::map use only the variant
+ *       without the size-parameter. So I don't have the size-value in each delete, which is the
+ *       reason, why I write this additonally in my allocated memory.
+ */
 
 void*
 operator new(size_t size)
 {
-    void* ptr = malloc(size);
-    const size_t memSize = *((size_t*)ptr - 1);
-    Kitsunemimi::increaseGlobalMemoryCounter(memSize);
-    return ptr;
+    void* ptr = malloc(sizeof(size_t) + size);
+    *((size_t*)ptr) = size;
+    Kitsunemimi::increaseGlobalMemoryCounter(size);
+    return (void*) ((size_t *)ptr + 1);
 }
 
 void*
 operator new[](size_t size)
 {
-    void* ptr = malloc(size);
-    const size_t memSize = *((size_t*)ptr - 1);
-    Kitsunemimi::increaseGlobalMemoryCounter(memSize);
-    return ptr;
+    void* ptr = malloc(sizeof(size_t) + size);
+    *((size_t*)ptr) = size;
+    Kitsunemimi::increaseGlobalMemoryCounter(size);
+    return (void*) ((size_t *)ptr + 1);
 }
 
 void
 operator delete(void* ptr)
 {
-    const size_t memSize = *((size_t*)ptr - 1);
-    Kitsunemimi::decreaseGlobalMemoryCounter(memSize);
+    ptr = (size_t*)ptr - 1;
+    const size_t size = *((size_t*)ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(size);
     free(ptr);
 }
 
 void
 operator delete[](void* ptr)
 {
-    const size_t memSize = *((size_t*)ptr - 1);
-    Kitsunemimi::decreaseGlobalMemoryCounter(memSize);
+    ptr = (size_t*)ptr - 1;
+    const size_t size = *((size_t*)ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(size);
     free(ptr);
 }
 
+//==================================================================================================
 
 namespace Kitsunemimi
 {
 
-    /**
- * @brief increaseGlobalMemoryCounter
- * @param size
+using Kitsunemimi::MemoryCounter;
+
+/**
+ * @brief increase global memory-counter
+ * @param size amount of bytes to increase the counter
  */
 void
-increaseGlobalMemoryCounter(size_t size)
+increaseGlobalMemoryCounter(const size_t size)
 {
-    while(Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.test_and_set(std::memory_order_acquire)) {
+    while(MemoryCounter::globalMemoryCounter.lock.test_and_set(std::memory_order_acquire)) {
         asm("");
     }
-    Kitsunemimi::MemoryCounter::globalMemoryCounter.actualAllocatedSize += size;
-    Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
+    MemoryCounter::globalMemoryCounter.actualAllocatedSize += size;
+    MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
 }
 
 /**
- * @brief decreaseGlobalMemoryCounter
- * @param size
+ * @brief decrease global memory-counter
+ * @param size amount of bytes to decrease the counter
  */
 void
-decreaseGlobalMemoryCounter(size_t size)
+decreaseGlobalMemoryCounter(const size_t size)
 {
 
-    while(Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.test_and_set(std::memory_order_acquire)) {
+    while(MemoryCounter::globalMemoryCounter.lock.test_and_set(std::memory_order_acquire)) {
         asm("");
     }
     MemoryCounter::globalMemoryCounter.actualAllocatedSize -= size;
-    Kitsunemimi::MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
+    MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
 }
 
 }

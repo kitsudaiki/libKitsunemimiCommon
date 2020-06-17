@@ -42,8 +42,8 @@ struct RingBuffer
 
     ~RingBuffer()
     {
-        alignedFree(data);
-        alignedFree(overflowBuffer);
+        alignedFree(data, totalBufferSize);
+        alignedFree(overflowBuffer, totalBufferSize);
     }
 };
 
