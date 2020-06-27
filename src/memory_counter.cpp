@@ -29,35 +29,37 @@ void*
 operator new(size_t size)
 {
     void* ptr = malloc(sizeof(size_t) + size);
-    *((size_t*)ptr) = size;
-    Kitsunemimi::increaseGlobalMemoryCounter(size);
-    return (void*) ((size_t *)ptr + 1);
+    //*((size_t*)ptr) = size;
+    Kitsunemimi::increaseGlobalMemoryCounter(0);
+    //return (void*) ((size_t *)ptr + 1);
+    return ptr;
 }
 
 void*
 operator new[](size_t size)
 {
     void* ptr = malloc(sizeof(size_t) + size);
-    *((size_t*)ptr) = size;
-    Kitsunemimi::increaseGlobalMemoryCounter(size);
-    return (void*) ((size_t *)ptr + 1);
+    //*((size_t*)ptr) = size;
+    Kitsunemimi::increaseGlobalMemoryCounter(0);
+    //return (void*) ((size_t *)ptr + 1);
+    return ptr;
 }
 
 void
 operator delete(void* ptr)
 {
-    ptr = (size_t*)ptr - 1;
-    const size_t size = *((size_t*)ptr);
-    Kitsunemimi::decreaseGlobalMemoryCounter(size);
+    //ptr = (size_t*)ptr - 1;
+    //const size_t size = *((size_t*)ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(0);
     free(ptr);
 }
 
 void
 operator delete[](void* ptr)
 {
-    ptr = (size_t*)ptr - 1;
-    const size_t size = *((size_t*)ptr);
-    Kitsunemimi::decreaseGlobalMemoryCounter(size);
+    //ptr = (size_t*)ptr - 1;
+    //const size_t size = *((size_t*)ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(0);
     free(ptr);
 }
 
@@ -79,6 +81,7 @@ increaseGlobalMemoryCounter(const size_t size)
         asm("");
     }
     MemoryCounter::globalMemoryCounter.actualAllocatedSize += size;
+    MemoryCounter::globalMemoryCounter.numberOfActiveAllocations++;
     MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
 }
 
@@ -94,6 +97,7 @@ decreaseGlobalMemoryCounter(const size_t size)
         asm("");
     }
     MemoryCounter::globalMemoryCounter.actualAllocatedSize -= size;
+    MemoryCounter::globalMemoryCounter.numberOfActiveAllocations--;
     MemoryCounter::globalMemoryCounter.lock.clear(std::memory_order_release);
 }
 

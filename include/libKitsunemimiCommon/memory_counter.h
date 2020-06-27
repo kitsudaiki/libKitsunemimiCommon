@@ -27,6 +27,7 @@ namespace Kitsunemimi
 struct MemoryCounter
 {
     int64_t actualAllocatedSize = 0;
+    int64_t numberOfActiveAllocations = 0;
     std::atomic_flag lock = ATOMIC_FLAG_INIT;
     uint8_t padding[7];
 
