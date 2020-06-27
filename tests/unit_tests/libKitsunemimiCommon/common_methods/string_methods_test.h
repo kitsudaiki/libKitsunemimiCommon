@@ -28,6 +28,7 @@ private:
     void ltrim_test();
     void rtrim_test();
     void trim_test();
+    void hexlify_test();
 };
 
 } // namespace Kitsunemimi

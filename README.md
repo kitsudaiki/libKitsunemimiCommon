@@ -626,6 +626,18 @@ std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
 trim(testString);
 // variable teststring has not the content: "this is a test-string"
 
+// convert object into hexlified string
+struct testStruct {
+    int a = 2343466;
+    uint32_t b = 246;
+    uint64_t x = 124;
+};
+testStruct testObject;
+std::string output = "";
+hexlify(output, &testObject);
+// variable output has not the content: "000000000000007c000000f60023c22a" 
+// which presents the hexlified version of the struct
+
 ```
 
 #### vector methods
