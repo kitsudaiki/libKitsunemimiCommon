@@ -82,9 +82,9 @@ It's only a simple statemachine in the moment. Basically its only to change the 
 
 #### Common methods
 
-*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h` and `libKitsunemimiCommon/common_methods/vector_methods.h`
+*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h`, `libKitsunemimiCommon/common_methods/vector_methods.h` and `libKitsunemimiCommon/common_methods/object_methods.h`
 
-These contains some commonly used mehtods for strings and vectors, like for example replace substrings within a string.
+These contains some commonly used mehtods for strings, vectors and objects, like for example replace substrings within a string.
 
 ## Common Information aboud my projects
 
@@ -625,19 +625,6 @@ replaceSubstring(testString, "test", "bogus");
 std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
 trim(testString);
 // variable teststring has not the content: "this is a test-string"
-
-// convert object into hexlified string
-struct testStruct {
-    int a = 2343466;
-    uint32_t b = 246;
-    uint64_t x = 124;
-};
-testStruct testObject;
-std::string output = "";
-hexlify(output, &testObject);
-// variable output has not the content: "000000000000007c000000f60023c22a" 
-// which presents the hexlified version of the struct
-
 ```
 
 #### vector methods
@@ -656,6 +643,29 @@ std::vector<std::string> testVector{"x","","y","z",""};
 removeEmptyStrings(&testVector);
 
 // after this testVector only contains ["x", "y", "z"]
+
+```
+
+#### object methods
+
+Generic object functions, but contains at the moment only a hexlify for objects to covert a value or a struct in it hex representation.
+
+Example:
+
+```cpp
+#include <libKitsunemimiCommon/common_methods/object_methods.h>
+
+// convert object into hexlified string
+struct testStruct {
+    int a = 2343466;
+    uint32_t b = 246;
+    uint64_t x = 124;
+};
+testStruct testObject;
+std::string output = "";
+hexlify(output, &testObject);
+// variable output has not the content: "000000000000007c000000f60023c22a" 
+// which presents the hexlified version of the struct
 
 ```
 
