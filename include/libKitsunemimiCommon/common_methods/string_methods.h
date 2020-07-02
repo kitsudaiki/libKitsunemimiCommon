@@ -39,18 +39,6 @@ void rtrim(std::string& original,
 void trim(std::string& original,
           const std::string& chars = "\t\n\v\f\r ");
 
-
-void hexlify(std::string &outputString,
-             void* object,
-             const uint64_t size);
-
-template <typename T>
-void
-hexlify(std::string &outputString, T* object)
-{
-    hexlify(outputString, object, sizeof(T));
-}
-
 } // namespace Kitsunemimi
 
 #endif // STRINGMETHODS_H

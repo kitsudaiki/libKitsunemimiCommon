@@ -23,7 +23,6 @@ StringMethods_Test::StringMethods_Test()
     ltrim_test();
     rtrim_test();
     trim_test();
-    hexlify_test();
 }
 
 /**
@@ -154,29 +153,6 @@ StringMethods_Test::trim_test()
 
     // check result
     TEST_EQUAL(testString, "this is a test-string");
-}
-
-/**
- * hexlify_test
- */
-void
-StringMethods_Test::hexlify_test()
-{
-    struct testStruct {
-        int a = 2343466;
-        uint32_t b = 246;
-        uint64_t x = 124;
-    };
-
-    // init
-    testStruct testObject;
-    std::string output = "";
-
-    // run task
-    hexlify(output, &testObject);
-
-    // check result
-    TEST_EQUAL(output, "000000000000007c000000f60023c22a");
 }
 
 } // namespace Kitsunemimi
