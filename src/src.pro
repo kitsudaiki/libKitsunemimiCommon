@@ -20,7 +20,8 @@ SOURCES += \
     buffer/stack_buffer_reserve.cpp \
     common_methods/string_methods.cpp \
     common_methods/vector_methods.cpp \
-    memory_counter.cpp
+    memory_counter.cpp \
+    common_methods/object_methods.cpp
 
 
 HEADERS += \
@@ -39,4 +40,5 @@ HEADERS += \
     ../include/libKitsunemimiCommon/buffer/data_buffer.h \
     ../include/libKitsunemimiCommon/buffer/stack_buffer.h \
     ../include/libKitsunemimiCommon/buffer/stack_buffer_reserve.h \
-    ../include/libKitsunemimiCommon/memory_counter.h
+    ../include/libKitsunemimiCommon/memory_counter.h \
+    ../include/libKitsunemimiCommon/common_methods/object_methods.h

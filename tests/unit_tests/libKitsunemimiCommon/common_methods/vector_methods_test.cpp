@@ -13,7 +13,7 @@
 namespace Kitsunemimi
 {
 
-TextFile_Test::TextFile_Test()
+VectorMethods_Test::VectorMethods_Test()
     : Kitsunemimi::CompareTestHelper("VectorMethods_Test")
 {
     removeEmptyStrings_test();
@@ -23,7 +23,7 @@ TextFile_Test::TextFile_Test()
  * removeEmptyStrings_test
  */
 void
-TextFile_Test::removeEmptyStrings_test()
+VectorMethods_Test::removeEmptyStrings_test()
 {
     // init
     std::vector<std::string> testVector{"x","","y","z",""};

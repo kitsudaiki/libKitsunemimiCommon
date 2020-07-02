@@ -20,7 +20,8 @@ HEADERS += \
     libKitsunemimiCommon/buffer/data_buffer_test.h \
     libKitsunemimiCommon/buffer/ring_buffer_test.h \
     libKitsunemimiCommon/buffer/stack_buffer_reserve_test.h \
-    libKitsunemimiCommon/buffer/stack_buffer_test.h
+    libKitsunemimiCommon/buffer/stack_buffer_test.h \
+    libKitsunemimiCommon/common_methods/object_methods_test.h
 
 SOURCES += \
     main.cpp \
@@ -35,4 +36,5 @@ SOURCES += \
     libKitsunemimiCommon/buffer/data_buffer_test.cpp \
     libKitsunemimiCommon/buffer/ring_buffer_test.cpp \
     libKitsunemimiCommon/buffer/stack_buffer_reserve_test.cpp \
-    libKitsunemimiCommon/buffer/stack_buffer_test.cpp
+    libKitsunemimiCommon/buffer/stack_buffer_test.cpp \
+    libKitsunemimiCommon/common_methods/object_methods_test.cpp

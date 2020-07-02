@@ -1,29 +1,29 @@
 /**
- *  @file    vector_methods_test.h
+ *  @file    object_methods_test.h
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
  *  @copyright MIT License
  */
 
-#ifndef VECTOR_METHODS_TEST_H
-#define VECTOR_METHODS_TEST_H
+#ifndef OBJECT_METHODS_TEST_H
+#define OBJECT_METHODS_TEST_H
 
 #include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
 namespace Kitsunemimi
 {
 
-class VectorMethods_Test
+class ObjectMethods_Test
         : public Kitsunemimi::CompareTestHelper
 {
 public:
-    VectorMethods_Test();
+    ObjectMethods_Test();
 
 private:
-    void removeEmptyStrings_test();
+    void hexlify_test();
 };
 
 } // namespace Kitsunemimi
 
-#endif // VECTORMETHODS_TEST_H
+#endif // OBJECT_METHODS_TEST_H
