@@ -62,6 +62,7 @@ void
 Barrier::releaseAll()
 {
     m_cond.notify_all();
+    m_counter = m_numberOfThreads;
 }
 
 } // namespace Kitsunemimi
