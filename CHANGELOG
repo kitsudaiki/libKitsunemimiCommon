@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.14.0] - 2020-08-3
+
+### Added
+- method to remove whitespaces from a string
+- copy-assignment operator to DataBuffer
+- trim-function for strings
+- simple memory-counter to count new- and delete-calls for memory-leak-tests
+- hexlify-function to convert objects into hex-represenation
+
+### Changed
+- vector-method changed to use object-reference instead of pointer
+
+### Fixed
+- manually trigger in barrier-class to reset counter again
+- some smaller naming fixes
+
+
 ## [0.13.0] - 2020-04.13
 
 ### Changed
