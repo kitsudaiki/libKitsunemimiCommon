@@ -59,8 +59,7 @@ splitStringByLength(std::vector<std::string> &result,
 
     // split string
     // number of string +1 to handle leftovers
-    for(uint64_t i = 0; i < numberOfSubstrings + 1; i++)
-    {
+    for(uint64_t i = 0; i < numberOfSubstrings + 1; i++) {
         result.push_back(inputString.substr(i * splitLength, splitLength));
     }
 

@@ -31,8 +31,7 @@ SpeedTestHelper::addToResult(const SpeedTestHelper::TimerSlot timeSlot)
     double standardDeviation = 0.0;
 
     // calculate duration
-    for(uint32_t i = 0; i < timeSlot.values.size(); i++)
-    {
+    for(uint32_t i = 0; i < timeSlot.values.size(); i++) {
         duration += timeSlot.values.at(i);
     }
     duration /= static_cast<double>(timeSlot.values.size());

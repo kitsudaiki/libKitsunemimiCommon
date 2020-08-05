@@ -279,8 +279,7 @@ DataItem::addIndent(std::string* output,
     if(indent == true)
     {
         output->append("\n");
-        for(uint32_t i = 0; i < level; i++)
-        {
+        for(uint32_t i = 0; i < level; i++) {
             output->append("    ");
         }
     }
