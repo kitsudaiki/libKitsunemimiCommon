@@ -17,6 +17,7 @@ mkdir -p $RESULT_DIR
 function build_kitsune_lib_repo () {
     REPO_NAME=$1
     NUMBER_OF_THREADS=$2
+    ADDITIONAL_CONFIGS=$3
 
     # create build directory for repo and go into this directory
     REPO_DIR="$BUILD_DIR/$REPO_NAME"
@@ -24,12 +25,14 @@ function build_kitsune_lib_repo () {
     cd $REPO_DIR
 
     # build repo library with qmake
-    /usr/lib/x86_64-linux-gnu/qt5/bin/qmake "$PARENT_DIR/$REPO_NAME/$REPO_NAME.pro" -spec linux-g++ "CONFIG += optimize_full staticlib run_tests"
+    /usr/lib/x86_64-linux-gnu/qt5/bin/qmake "$PARENT_DIR/$REPO_NAME/$REPO_NAME.pro" -spec linux-g++ "CONFIG += optimize_full $ADDITIONAL_CONFIGS"
     /usr/bin/make -j$NUMBER_OF_THREADS
 
     # copy build-result and include-files into the result-directory
     cp $REPO_DIR/src/$REPO_NAME.a $RESULT_DIR/
     cp -r $PARENT_DIR/$REPO_NAME/include $RESULT_DIR/
+    ls -l $RESULT_DIR/include/
+    ls -l $RESULT_DIR
 }
 
 function get_required_kitsune_lib_repo () {
@@ -48,6 +51,10 @@ function get_required_kitsune_lib_repo () {
 
 #-----------------------------------------------------------------------------------------------------------------
 
-build_kitsune_lib_repo "libKitsunemimiCommon" 4
+if [ $1 = "test" ]; then
+	build_kitsune_lib_repo "libKitsunemimiCommon" 4 "staticlib run_tests"
+else
+	build_kitsune_lib_repo "libKitsunemimiCommon" 4 "staticlib"
+fi
 
 #-----------------------------------------------------------------------------------------------------------------
