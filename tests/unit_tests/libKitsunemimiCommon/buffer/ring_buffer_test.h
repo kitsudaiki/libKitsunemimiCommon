@@ -1,3 +1,11 @@
+/**
+ *  @file    ring_buffer_test.h
+ *
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright MIT License
+ */
+
 #ifndef RING_BUFFER_TEST_H
 #define RING_BUFFER_TEST_H
 

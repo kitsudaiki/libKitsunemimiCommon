@@ -1,3 +1,11 @@
+/**
+ *  @file    stack_buffer_reserve_test.cpp
+ *
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright MIT License
+ */
+
 #include "stack_buffer_reserve_test.h"
 #include <libKitsunemimiCommon/buffer/stack_buffer_reserve.h>
 

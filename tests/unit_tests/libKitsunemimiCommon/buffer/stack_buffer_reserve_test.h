@@ -1,5 +1,13 @@
-#ifndef BLOCK_BUFFER_RESERVE_TEST_H
-#define BLOCK_BUFFER_RESERVE_TEST_H
+/**
+ *  @file    stack_buffer_reserve_test.h
+ *
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright MIT License
+ */
+
+#ifndef STACK_BUFFER_RESERVE_TEST_H
+#define STACK_BUFFER_RESERVE_TEST_H
 
 #include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
 
@@ -20,4 +28,4 @@ private:
 
 } // namespace Kitsunemimi
 
-#endif // BLOCK_BUFFER_RESERVE_TEST_H
+#endif // STACK_BUFFER_RESERVE_TEST_H

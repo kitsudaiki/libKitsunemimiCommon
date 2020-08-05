@@ -1,3 +1,11 @@
+/**
+ *  @file    ring_buffer_test.cpp
+ *
+ *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *
+ *  @copyright MIT License
+ */
+
 #include "ring_buffer_test.h"
 
 #include <libKitsunemimiCommon/buffer/ring_buffer.h>
