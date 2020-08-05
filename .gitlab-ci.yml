@@ -7,7 +7,6 @@ build:
     - cd /builds/tobiasanker/libKitsunemimiCommon
     - ./build.sh
 
-    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/builds/tobiasanker/result'
     - /builds/tobiasanker/build/libKitsunemimiCommon/tests/unit_tests/unit_tests
 
   tags:
