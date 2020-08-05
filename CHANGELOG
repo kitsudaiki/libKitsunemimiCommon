@@ -1,6 +1,15 @@
 # Changelog
 
-## [0.14.0] - 2020-08-3
+## [0.14.1] - 2020-08-05
+
+### Changed
+- build tests only in the ci-pipeline, but not everytime when running the build-script
+
+### Fixed
+- smaller style-fixes
+
+
+## [0.14.0] - 2020-08-03
 
 ### Added
 - method to remove whitespaces from a string
