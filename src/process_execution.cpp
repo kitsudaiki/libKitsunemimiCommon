@@ -50,8 +50,7 @@ runSyncProcess(const std::string &programm,
 
     // prepare command
     std::string call = programm;
-    for(uint32_t i = 0; i < args.size(); i++)
-    {
+    for(uint32_t i = 0; i < args.size(); i++) {
         call += " " + args[i];
     }
     call.append(" 2>&1");

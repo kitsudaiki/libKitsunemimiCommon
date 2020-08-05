@@ -44,8 +44,7 @@ StackBufferReserve_Test::getNumberOfBuffers_test()
     TEST_EQUAL(stackBufferReserve.getNumberOfBuffers(), 1);
 
     // test max size
-    for(uint32_t i = 0; i < reserveSize+10; i++)
-    {
+    for(uint32_t i = 0; i < reserveSize+10; i++) {
         stackBufferReserve.addBuffer(new DataBuffer());
     }
 

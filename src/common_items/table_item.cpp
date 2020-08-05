@@ -188,8 +188,7 @@ TableItem::deleteColumn(const uint64_t x,
     {
         const uint64_t size = m_body->size();
 
-        for(uint64_t y = 0; y < size; y++)
-        {
+        for(uint64_t y = 0; y < size; y++) {
             m_body->get(y)->toMap()->remove(name);
         }
     }
@@ -534,8 +533,7 @@ TableItem::getInnerName()
 {
     std::vector<std::string> result;
 
-    for(uint64_t x = 0; x < getNumberOfColums(); x++)
-    {
+    for(uint64_t x = 0; x < getNumberOfColums(); x++) {
         result.push_back(m_header->get(x)->get("inner")->getString());
     }
 
