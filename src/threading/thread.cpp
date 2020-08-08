@@ -14,10 +14,14 @@
  */
 
 #include <libKitsunemimiCommon/threading/thread.h>
+#include <libKitsunemimiCommon/threading/event.h>
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
+#include <libKitsunemimiCommon/threading/thread_handler.h>
 
 namespace Kitsunemimi
 {
+
+Kitsunemimi::ThreadHandler* Thread::m_threadHandler = nullptr;
 
 /**
  * @brief constructor
@@ -25,6 +29,12 @@ namespace Kitsunemimi
 Thread::Thread(int coreId)
 {
     m_coreId = coreId;
+
+    if(m_threadHandler == nullptr) {
+        m_threadHandler = new Kitsunemimi::ThreadHandler();
+    }
+
+    Kitsunemimi::Thread::m_threadHandler->registerThread(this);
 }
 
 /**
@@ -32,6 +42,7 @@ Thread::Thread(int coreId)
  */
 Thread::~Thread()
 {
+    Kitsunemimi::Thread::m_threadHandler->unregisterThread();
     stopThread();
 }
 
@@ -65,6 +76,44 @@ Thread::bindThreadToCore(const int coreId)
         return false;
     }
     return true;
+}
+
+/**
+ * @brief add a new event to the queue
+ * @param newEvent new event
+ */
+void
+Thread::addEventToQueue(Event* newEvent)
+{
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+    m_eventQueue.push_back(newEvent);
+    m_eventQueue_lock.clear(std::memory_order_release);
+
+}
+
+/**
+ * @brief get the next event from the queue
+ *
+ * @return nullptr, if the queue is empty, else the next event of the queue
+ */
+Event*
+Thread::getEventFromQueue()
+{
+    Event* result = nullptr;
+
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+
+    // get the next from the queue
+    if(m_eventQueue.empty() == false)
+    {
+        result = m_eventQueue.front();
+        m_eventQueue.pop_front();
+    }
+
+    m_eventQueue_lock.clear(std::memory_order_release);
+
+    return result;
+
 }
 
 /**
@@ -234,6 +283,14 @@ bool
 Thread::isActive() const
 {
     return m_active;
+}
+
+/**
+ * @brief add event
+ */
+bool addEvent(Event* newEvent)
+{
+    return Kitsunemimi::Thread::m_threadHandler->addEvent(newEvent);
 }
 
 } // namespace Kitsunemimi
