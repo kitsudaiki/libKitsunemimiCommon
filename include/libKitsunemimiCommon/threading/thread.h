@@ -22,10 +22,12 @@
 #include <pthread.h>
 #include <vector>
 #include <atomic>
+#include <deque>
 
 namespace Kitsunemimi
 {
 class DataBuffer;
+class Event;
 
 class Thread
 {
@@ -42,6 +44,8 @@ public:
 
     bool isActive() const;
     bool bindThreadToCore(const int coreId);
+
+    void addEventToQueue(Event* newEvent);
 
 protected:
     std::thread* m_thread = nullptr;
@@ -64,6 +68,11 @@ protected:
     void mutexUnlock();
     void spinLock();
     void spinUnlock();
+
+    // event-queue
+    std::atomic_flag m_eventQueue_lock = ATOMIC_FLAG_INIT;
+    std::deque<Event*> m_eventQueue;
+    Event* getEventFromQueue();
 
     virtual void run() = 0;
 };

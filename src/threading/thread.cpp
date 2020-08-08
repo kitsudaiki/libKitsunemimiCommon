@@ -14,6 +14,7 @@
  */
 
 #include <libKitsunemimiCommon/threading/thread.h>
+#include <libKitsunemimiCommon/threading/event.h>
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 namespace Kitsunemimi
@@ -65,6 +66,44 @@ Thread::bindThreadToCore(const int coreId)
         return false;
     }
     return true;
+}
+
+/**
+ * @brief add a new event to the queue
+ * @param newEvent new event
+ */
+void
+Thread::addEventToQueue(Event* newEvent)
+{
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+    m_eventQueue.push_back(newEvent);
+    m_eventQueue_lock.clear(std::memory_order_release);
+
+}
+
+/**
+ * @brief get the next event from the queue
+ *
+ * @return nullptr, if the queue is empty, else the next event of the queue
+ */
+Event*
+Thread::getEventFromQueue()
+{
+    Event* result = nullptr;
+
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+
+    // get the next from the queue
+    if(m_eventQueue.empty() == false)
+    {
+        result = m_eventQueue.front();
+        m_eventQueue.pop_front();
+    }
+
+    m_eventQueue_lock.clear(std::memory_order_release);
+
+    return result;
+
 }
 
 /**
