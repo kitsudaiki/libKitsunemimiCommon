@@ -24,10 +24,15 @@
 #include <atomic>
 #include <deque>
 
+#define ADD_EVENT Kitsunemimi::addEvent
+
 namespace Kitsunemimi
 {
 class DataBuffer;
 class Event;
+class ThreadHandler;
+
+bool addEvent(Event* newEvent);
 
 class Thread
 {
@@ -46,6 +51,8 @@ public:
     bool bindThreadToCore(const int coreId);
 
     void addEventToQueue(Event* newEvent);
+
+    static Kitsunemimi::ThreadHandler* m_threadHandler;
 
 protected:
     std::thread* m_thread = nullptr;

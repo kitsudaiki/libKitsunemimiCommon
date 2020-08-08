@@ -16,9 +16,12 @@
 #include <libKitsunemimiCommon/threading/thread.h>
 #include <libKitsunemimiCommon/threading/event.h>
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
+#include <libKitsunemimiCommon/threading/thread_handler.h>
 
 namespace Kitsunemimi
 {
+
+Kitsunemimi::ThreadHandler* Thread::m_threadHandler = nullptr;
 
 /**
  * @brief constructor
@@ -26,6 +29,12 @@ namespace Kitsunemimi
 Thread::Thread(int coreId)
 {
     m_coreId = coreId;
+
+    if(m_threadHandler == nullptr) {
+        m_threadHandler = new Kitsunemimi::ThreadHandler();
+    }
+
+    Kitsunemimi::Thread::m_threadHandler->registerThread(this);
 }
 
 /**
@@ -33,6 +42,7 @@ Thread::Thread(int coreId)
  */
 Thread::~Thread()
 {
+    Kitsunemimi::Thread::m_threadHandler->unregisterThread();
     stopThread();
 }
 
@@ -273,6 +283,14 @@ bool
 Thread::isActive() const
 {
     return m_active;
+}
+
+/**
+ * @brief add event
+ */
+bool addEvent(Event* newEvent)
+{
+    return Kitsunemimi::Thread::m_threadHandler->addEvent(newEvent);
 }
 
 } // namespace Kitsunemimi
