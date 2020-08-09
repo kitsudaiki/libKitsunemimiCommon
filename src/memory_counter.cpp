@@ -28,7 +28,8 @@ Kitsunemimi::MemoryCounter Kitsunemimi::MemoryCounter::globalMemoryCounter;
 void*
 operator new(size_t size)
 {
-    void* ptr = malloc(sizeof(size_t) + size);
+    void* ptr = malloc(size);
+    //void* ptr = malloc(sizeof(size_t) + size);
     //*((size_t*)ptr) = size;
     Kitsunemimi::increaseGlobalMemoryCounter(0);
     //return (void*) ((size_t *)ptr + 1);
@@ -38,7 +39,8 @@ operator new(size_t size)
 void*
 operator new[](size_t size)
 {
-    void* ptr = malloc(sizeof(size_t) + size);
+    void* ptr = malloc(size);
+    //void* ptr = malloc(sizeof(size_t) + size);
     //*((size_t*)ptr) = size;
     Kitsunemimi::increaseGlobalMemoryCounter(0);
     //return (void*) ((size_t *)ptr + 1);
