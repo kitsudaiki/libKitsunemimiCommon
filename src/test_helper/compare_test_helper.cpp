@@ -22,7 +22,7 @@ namespace Kitsunemimi
  *
  * @param testName name for output to identify the test within the output
  */
-CompareTestHelper::CompareTestHelper(const std::string testName)
+CompareTestHelper::CompareTestHelper(const std::string &testName)
 {
     std::cout << "------------------------------" << std::endl;
     std::cout << "start " << testName << std::endl << std::endl;
