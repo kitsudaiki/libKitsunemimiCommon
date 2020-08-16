@@ -31,7 +31,7 @@ DataBuffer_Test::create_delete_test()
     DataBuffer* testBuffer = new DataBuffer(10);
     delete testBuffer;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 /**
@@ -47,7 +47,7 @@ DataBuffer_Test::fill_reset_test()
     allocateBlocks_DataBuffer(*testBuffer, 42);
     reset_DataBuffer(*testBuffer, 10);
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 
     delete testBuffer;
 }

@@ -37,7 +37,7 @@ TableItem_test::create_delete_test()
 
     delete testItem;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 /**
@@ -48,12 +48,15 @@ TableItem_test::add_delete_col_test()
 {
     TableItem testItem;
 
-    REINIT_TEST();
-
     testItem.addColumn("asdf", "ASDF");
     testItem.deleteColumn("asdf");
 
-    CHECK_MEMORY(1);
+    REINIT_TEST();
+
+    testItem.addColumn("xyz", "ASDF");
+    testItem.deleteColumn("xyz");
+
+    CHECK_MEMORY();
 }
 
 /**
@@ -67,12 +70,15 @@ TableItem_test::add_delete_row_test()
     testItem.addColumn("asdf", "ASDF");
     testItem.addColumn("poipoipoi");
 
+    testItem.addRow(std::vector<std::string>{"this is a test", "k"});
+    testItem.deleteRow(0);
+
     REINIT_TEST();
 
     testItem.addRow(std::vector<std::string>{"this is a test", "k"});
     testItem.deleteRow(0);
 
-    CHECK_MEMORY(1);
+    CHECK_MEMORY();
 }
 
 }  // namespace Kitsunemimi

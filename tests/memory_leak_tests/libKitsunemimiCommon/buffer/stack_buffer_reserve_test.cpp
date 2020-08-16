@@ -31,7 +31,7 @@ StackBufferReserve_Test::create_delete_test()
     testBuffer->addBuffer(input);
     delete testBuffer;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 } // namespace Kitsunemimi

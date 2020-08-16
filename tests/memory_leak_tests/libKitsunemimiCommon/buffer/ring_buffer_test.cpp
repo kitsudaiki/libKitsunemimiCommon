@@ -30,7 +30,7 @@ RingBuffer_Test::create_delete_test()
     RingBuffer*  testBuffer = new RingBuffer();
     delete testBuffer;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 } // namespace Kitsunemimi

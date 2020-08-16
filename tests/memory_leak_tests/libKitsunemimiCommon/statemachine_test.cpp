@@ -32,7 +32,7 @@ Statemachine_Test::create_delete_test()
     testMachine->createNewState(2);
     delete testMachine;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 

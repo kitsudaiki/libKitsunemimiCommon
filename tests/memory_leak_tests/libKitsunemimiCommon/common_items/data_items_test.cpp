@@ -45,7 +45,7 @@ DataItems_Test::map_create_delete_test()
 
     delete object;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 /**
@@ -63,7 +63,7 @@ DataItems_Test::map_insert_remove_test()
     object.insert("poi", defaultValue.copy());
     object.remove("poi");
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 /**
@@ -89,7 +89,7 @@ DataItems_Test::array_create_delete_test()
 
     delete array;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 /**
@@ -102,14 +102,15 @@ DataItems_Test::array_append_remove_test()
 
     DataArray array;
 
+    array.append(defaultValue.copy());
+    array.remove(0);
+
     REINIT_TEST();
 
     array.append(defaultValue.copy());
-    array.append(defaultValue.copy());
-    array.remove(0);
     array.remove(0);
 
-    CHECK_MEMORY(1);
+    CHECK_MEMORY();
 }
 
 }  // namespace Kitsunemimi

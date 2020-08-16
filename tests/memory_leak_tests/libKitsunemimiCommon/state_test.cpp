@@ -30,7 +30,7 @@ State_Test::create_delete_test()
     State* testState = new State(42, "test-state");
     delete testState;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 } // namespace Kitsunemimi

@@ -33,7 +33,7 @@ StackBuffer_Test::create_delete_test()
     StackBuffer* testBuffer = new StackBuffer();
     delete testBuffer;
 
-    CHECK_MEMORY(0);
+    CHECK_MEMORY();
 }
 
 } // namespace Kitsunemimi
