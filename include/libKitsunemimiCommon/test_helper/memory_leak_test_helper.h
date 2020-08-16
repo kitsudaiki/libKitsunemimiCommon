@@ -22,6 +22,10 @@ using Kitsunemimi::MemoryCounter;
 
 class MemoryLeakTestHelpter
 {
+#define REINIT_TEST() \
+    m_currentAllocations = MemoryCounter::globalMemoryCounter.numberOfActiveAllocations; \
+    m_currentSize = MemoryCounter::globalMemoryCounter.actualAllocatedSize;
+
 #define CHECK_MEMORY() \
     MemoryCounter::globalMemoryCounter.actualAllocatedSize; \
      \
