@@ -27,13 +27,11 @@ class MemoryLeakTestHelpter
     m_currentSize = MemoryCounter::globalMemoryCounter.actualAllocatedSize;
 
 #define CHECK_MEMORY() \
-    MemoryCounter::globalMemoryCounter.actualAllocatedSize; \
-     \
-    if(m_currentAllocations - MemoryCounter::globalMemoryCounter.numberOfActiveAllocations > 0) \
+    if(MemoryCounter::globalMemoryCounter.numberOfActiveAllocations - m_currentAllocations > 0) \
     {  \
-        int64_t nbytes = m_currentSize - MemoryCounter::globalMemoryCounter.actualAllocatedSize; \
-        int64_t ndiff = m_currentAllocations \
-                       - MemoryCounter::globalMemoryCounter.numberOfActiveAllocations; \
+        int64_t nbytes = MemoryCounter::globalMemoryCounter.actualAllocatedSize - m_currentSize; \
+        int64_t ndiff = MemoryCounter::globalMemoryCounter.numberOfActiveAllocations \
+                        - m_currentAllocations; \
         std::cout << std::endl; \
         std::cout << "Memory-leak detected" << std::endl; \
         std::cout << "   File: " << __FILE__ << std::endl; \
@@ -56,7 +54,7 @@ public:
     MemoryLeakTestHelpter(const std::string &testName);
     ~MemoryLeakTestHelpter();
 
-private:
+protected:
     int64_t m_currentSize = 0;
     int64_t m_currentAllocations = 0;
 
