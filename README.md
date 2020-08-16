@@ -377,14 +377,6 @@ success = reset_DataBuffer(&testBuffer, 10);
 
 ```
 
-### Ring Buffer
-
-// TODO
-
-### Stack Buffer
-
-// TODO
-
 ### Threads
 
 The usage can be explained with the following examples:
