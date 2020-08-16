@@ -1,13 +1,43 @@
 image: registry.gitlab.com/kitsune_other/kitsune_docker_unittest:0.1.0
 
+stages:
+  - build
+  - test
+
 build:
+  stage: build
   script:
     - echo Working on branch $CI_COMMIT_REF_NAME
-
-    - cd /builds/tobiasanker/libKitsunemimiCommon
+    - pwd
     - ./build.sh test
+    - mkdir upload
+    - cp ../result/libKitsunemimiCommon.a upload/
+    - cp -r ../result/include upload/
+    - cp ../build/libKitsunemimiCommon/tests/unit_tests/unit_tests upload/
+    - cp ../build/libKitsunemimiCommon/tests/memory_leak_tests/memory_leak_tests upload/
+  artifacts:
+    paths:
+      - upload
+    expire_in: 1 week
+  tags:
+    - docker
 
-    - /builds/tobiasanker/build/libKitsunemimiCommon/tests/unit_tests/unit_tests
+unit_tests:
+  stage: test
+  script: 
+    - ls -l
+    - upload/unit_tests
+  dependencies:
+    - build
+  tags:
+    - docker
 
+memory_leak_tests:
+  stage: test
+  script: 
+    - ls -l
+    - upload/memory_leak_tests
+  dependencies:
+    - build
   tags:
     - docker

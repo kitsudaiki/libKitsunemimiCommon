@@ -262,8 +262,7 @@ bool
 TableItem::deleteRow(const uint64_t y)
 {
     // precheck
-    if(y >= m_body->size())
-    {
+    if(y >= m_body->size()) {
         return false;
     }
 

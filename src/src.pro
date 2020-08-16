@@ -23,7 +23,8 @@ SOURCES += \
     memory_counter.cpp \
     common_methods/object_methods.cpp \
     threading/event.cpp \
-    threading/thread_handler.cpp
+    threading/thread_handler.cpp \
+    test_helper/memory_leak_test_helper.cpp
 
 
 HEADERS += \
@@ -45,4 +46,5 @@ HEADERS += \
     ../include/libKitsunemimiCommon/memory_counter.h \
     ../include/libKitsunemimiCommon/common_methods/object_methods.h \
     ../include/libKitsunemimiCommon/threading/event.h \
-    ../include/libKitsunemimiCommon/threading/thread_handler.h
+    ../include/libKitsunemimiCommon/threading/thread_handler.h \
+    ../include/libKitsunemimiCommon/test_helper/memory_leak_test_helper.h

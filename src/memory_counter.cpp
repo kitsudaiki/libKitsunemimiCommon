@@ -28,40 +28,36 @@ Kitsunemimi::MemoryCounter Kitsunemimi::MemoryCounter::globalMemoryCounter;
 void*
 operator new(size_t size)
 {
-    void* ptr = malloc(size);
-    //void* ptr = malloc(sizeof(size_t) + size);
-    //*((size_t*)ptr) = size;
-    Kitsunemimi::increaseGlobalMemoryCounter(0);
-    //return (void*) ((size_t *)ptr + 1);
-    return ptr;
+    void* ptr = malloc(sizeof(size_t) + size);
+    *((size_t*)ptr) = size;
+    Kitsunemimi::increaseGlobalMemoryCounter(size);
+    return (void*) ((size_t *)ptr + 1);
 }
 
 void*
 operator new[](size_t size)
 {
-    void* ptr = malloc(size);
-    //void* ptr = malloc(sizeof(size_t) + size);
-    //*((size_t*)ptr) = size;
-    Kitsunemimi::increaseGlobalMemoryCounter(0);
-    //return (void*) ((size_t *)ptr + 1);
-    return ptr;
+    void* ptr = malloc(sizeof(size_t) + size);
+    *((size_t*)ptr) = size;
+    Kitsunemimi::increaseGlobalMemoryCounter(size);
+    return (void*) ((size_t *)ptr + 1);
 }
 
 void
 operator delete(void* ptr)
 {
-    //ptr = (size_t*)ptr - 1;
-    //const size_t size = *((size_t*)ptr);
-    Kitsunemimi::decreaseGlobalMemoryCounter(0);
+    ptr = (size_t*)ptr - 1;
+    const size_t size = *((size_t*)ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(size);
     free(ptr);
 }
 
 void
 operator delete[](void* ptr)
 {
-    //ptr = (size_t*)ptr - 1;
-    //const size_t size = *((size_t*)ptr);
-    Kitsunemimi::decreaseGlobalMemoryCounter(0);
+    ptr = (size_t*)ptr - 1;
+    const size_t size = *((size_t*)ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(size);
     free(ptr);
 }
 
