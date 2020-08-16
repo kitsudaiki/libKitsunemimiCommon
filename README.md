@@ -549,7 +549,6 @@ Memory-leak detected
    File: "<file-path where thre failed test is located>"
    Method: "<method name where thre failed test is located>"
    Line: "<line-number of the failed test inside the test-class>"
-   Leaked Bytes: "<number of leaked bytes>"
    Number of missing deallocations: "<number of deallocations, which are missing>"
 ```
 
