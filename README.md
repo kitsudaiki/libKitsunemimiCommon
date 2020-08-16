@@ -70,9 +70,9 @@ This class can block a number of threads and release automatically, if all have 
 
 #### Tests
 
-*include-file:* `libKitsunemimiCommon/test_helper/compare_test_helper.h` and `libKitsunemimiCommon/test_helper/speed_test_helper.h`
+*include-file:* `libKitsunemimiCommon/test_helper/compare_test_helper.h`, `libKitsunemimiCommon/test_helper/speed_test_helper.h` and `libKitsunemimiCommon/test_helper/memory_leak_test_helper.h`
 
-These are little test-helper classes which provides basic functionallity for unit- and benchmark-tests.
+These are little test-helper classes which provides basic functionallity for unit-, benchmark-, and memory-leak-tests.
 
 #### Statemachine
 
@@ -528,6 +528,94 @@ The result would be:
 start Demo_Test
 
 tests succeeded: 2
+tests failed: 0
+------------------------------
+```
+
+For more examples you could also use the tests in the test-directory of this repository.
+
+
+### Memory-Leak Tests
+
+The memory-leak-tests can check, if there are some delete-calls are missing inside your code. The test-structure is really similar to the compare-tests. For using the memory-leak-tests your test-class have to inherit the class `Kitsunemimi::MemoryLeakTestHelpter` and give the header fo the constructur a name for the test as string. Inside the single tests you can than call the two macros `REINIT_TEST();` and `CHECK_MEMORY();`. The first one has to be called every time at the beginning of a test-case, after all required data-structures for the test are initialized. The other has to be called at the end of the test-case. If there were some memory-leaks since the REINIT_TEST-call, a error-message is printed.
+
+- After a success the result would look like this:
+
+```cpp
+------------------------------
+start <name of the tests>
+
+tests succeeded: <number of successful tests>
+tests failed: <number of failed tests>
+------------------------------
+```
+
+- When a test failed, the output looks like this:
+
+```cpp
+Memory-leak detected
+   File: "<file-path where thre failed test is located>"
+   Method: "<method name where thre failed test is located>"
+   Line: "<line-number of the failed test inside the test-class>"
+   Leaked Bytes: "<number of leaked bytes>"
+   Number of missing deallocations: "<number of deallocations, which are missing>"
+```
+
+Example:
+
+- Header-file:
+
+```cpp
+// demo_test.h
+
+#include <libKitsunemimiCommon/test_helper/memory_leak_test_helper.h>
+
+class Demo_Test 
+    : public Kitsunemimi::MemoryLeakTestHelpter    // <-- connect with memory-leak-tests
+{
+public:
+    Demo_Test();
+
+private:
+    void some_test();
+};
+```
+
+- Source-file:
+
+```cpp
+#include "demo_test.h"
+
+Demo_Test::Demo_Test() 
+    : Kitsunemimi::MemoryLeakTestHelpter("Demo_Test")    // <-- give the memory-leak-test a name
+{
+    some_test();    // <-- call the test-method
+}
+
+/**
+ * some_test
+ */
+void
+DataBuffer_Test::some_test()
+{
+    // reset memory-counter
+    REINIT_TEST();
+
+    DataBuffer* testBuffer = new DataBuffer(10);
+    delete testBuffer;
+
+    // check if there were some memory-leaks since the REINIT_TEST
+    CHECK_MEMORY();
+}
+```
+
+The result would be:
+
+```
+------------------------------
+start Demo_Test
+
+tests succeeded: 1
 tests failed: 0
 ------------------------------
 ```
