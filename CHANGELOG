@@ -1,5 +1,17 @@
 # Changelog
 
+
+## [0.15.0] - 2020-08-16
+
+### Added
+- memory-leak-test-helper
+- memory-leak-tests
+- event-queue for threads
+
+### Changed
+- update gitlab-ci
+
+
 ## [0.14.1] - 2020-08-05
 
 ### Changed
