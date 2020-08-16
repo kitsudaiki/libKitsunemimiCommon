@@ -21,7 +21,6 @@ namespace Kitsunemimi
 MemoryLeakTestHelpter::MemoryLeakTestHelpter(const std::string &testName)
 {
     m_currentAllocations = MemoryCounter::globalMemoryCounter.numberOfActiveAllocations;
-    m_currentSize = MemoryCounter::globalMemoryCounter.actualAllocatedSize;
 
     std::cout << "------------------------------" << std::endl;
     std::cout << "start " << testName << std::endl << std::endl;
