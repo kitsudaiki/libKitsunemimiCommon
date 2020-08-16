@@ -8,6 +8,7 @@ build:
     - ./build.sh test
 
     - /builds/tobiasanker/build/libKitsunemimiCommon/tests/unit_tests/unit_tests
+    - /builds/tobiasanker/build/libKitsunemimiCommon/tests/memory_leak_tests/memory_leak_tests
 
   tags:
     - docker
