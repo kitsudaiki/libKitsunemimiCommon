@@ -28,37 +28,31 @@ Kitsunemimi::MemoryCounter Kitsunemimi::MemoryCounter::globalMemoryCounter;
 void*
 operator new(size_t size)
 {
-    void* ptr = malloc(sizeof(size_t) + size);
-    *((size_t*)ptr) = size;
-    Kitsunemimi::increaseGlobalMemoryCounter(size);
-    return (void*) ((size_t *)ptr + 1);
+    void* ptr = malloc(size);
+    Kitsunemimi::increaseGlobalMemoryCounter(0);
+    return ptr;
 }
 
 void*
 operator new[](size_t size)
 {
-    void* ptr = malloc(sizeof(size_t) + size);
-    *((size_t*)ptr) = size;
-    Kitsunemimi::increaseGlobalMemoryCounter(size);
-    return (void*) ((size_t *)ptr + 1);
+    void* ptr = malloc(size);
+    Kitsunemimi::increaseGlobalMemoryCounter(0);
+    return ptr;
 }
 
 void
 operator delete(void* ptr)
 {
-    ptr = (size_t*)ptr - 1;
-    const size_t size = *((size_t*)ptr);
-    Kitsunemimi::decreaseGlobalMemoryCounter(size);
     free(ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(0);
 }
 
 void
 operator delete[](void* ptr)
 {
-    ptr = (size_t*)ptr - 1;
-    const size_t size = *((size_t*)ptr);
-    Kitsunemimi::decreaseGlobalMemoryCounter(size);
     free(ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(0);
 }
 
 //==================================================================================================
