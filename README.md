@@ -116,7 +116,7 @@ In all of my repositories you will find a `build.sh`. You only have to run this 
 Run the following commands:
 
 ```
-git clone https://github.com/tobiasanker/libKitsunemimiCommon.git
+git clone https://github.com/kitsudaiki/libKitsunemimiCommon.git
 cd libKitsunemimiCommon
 ./build.sh
 cd ../result
