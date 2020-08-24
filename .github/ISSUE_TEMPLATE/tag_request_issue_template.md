@@ -3,7 +3,7 @@ name: tag-request template
 about: Tag check-list
 ---
 
-## Feature-request
+## Tag-request
 
 ### Checklist
 
