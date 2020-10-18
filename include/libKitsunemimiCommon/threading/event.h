@@ -24,7 +24,6 @@ class Event
 public:
     virtual ~Event();
 
-protected:
     virtual bool processEvent() = 0;
 };
 
@@ -37,7 +36,6 @@ public:
     SleepEvent(const uint64_t milliSeconds);
     ~SleepEvent();
 
-protected:
     bool processEvent();
 
 private:
