@@ -40,8 +40,7 @@ DataItem::getType() const
 bool
 DataItem::isValue() const
 {
-    if(m_type == VALUE_TYPE)
-    {
+    if(m_type == VALUE_TYPE) {
         return true;
     }
 
@@ -158,8 +157,7 @@ DataItem::toMap()
 DataValue*
 DataItem::toValue()
 {
-    if(m_type == VALUE_TYPE)
-    {
+    if(m_type == VALUE_TYPE) {
         return static_cast<DataValue*>(this);
     }
 
