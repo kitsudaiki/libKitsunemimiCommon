@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.15.2] - 2020-10-18
+
+###  Fixed
+- fixed events for the event-queue
+
+
 ## [0.15.1] - 2020-08-16
 
 ### Changed
