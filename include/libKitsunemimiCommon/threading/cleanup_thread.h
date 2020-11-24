@@ -6,8 +6,8 @@
  *  @copyright MIT License
  */
 
-#ifndef CLEANUP_THREAD_H
-#define CLEANUP_THREAD_H
+#ifndef KITSUNEMIMI_CLEANUP_THREAD_H
+#define KITSUNEMIMI_CLEANUP_THREAD_H
 
 #include <queue>
 
@@ -15,7 +15,6 @@
 
 namespace Kitsunemimi
 {
-class AbstractSocket;
 
 class CleanupThread
         : public Kitsunemimi::Thread
@@ -37,4 +36,4 @@ private:
 
 } // namespace Kitsunemimi
 
-#endif // CLEANUP_THREAD_H
+#endif // KITSUNEMIMI_CLEANUP_THREAD_H
