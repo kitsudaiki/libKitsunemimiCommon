@@ -151,40 +151,11 @@ Thread::scheduleThreadForDeletion()
 }
 
 /**
- * @brief wait until the thread has finished its task
- *
- * @return false if not actire or not joinable, else true
- */
-bool
-Thread::waitForFinish()
-{
-    // TODO: check that the thread doesn't try to wait for himself,
-    //       because it results into a deadlock
-
-    // precheck
-    if(m_active == false) {
-        return false;
-    }
-
-    //
-    if(m_thread->joinable()) {
-        m_thread->join();
-    } else {
-        return false;
-    }
-
-    return true;
-}
-
-/**
  * @brief stop a thread without killing the thread
  */
 void
 Thread::stopThread()
 {
-    // TODO: check that the thread doesn't try to stop itself,
-    //       because it results into a deadlock
-
     // precheck
     if(m_active == false) {
         return;
@@ -192,10 +163,13 @@ Thread::stopThread()
 
     // give thread abort-flag and wait until its end
     m_abort = true;
-    waitForFinish();
+
+    if(m_thread->joinable()) {
+        m_thread->join();
+    }
+
     m_active = false;
 }
-
 
 /**
  * @brief say the thread, he should wait at the next barrier

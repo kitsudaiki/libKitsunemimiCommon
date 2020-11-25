@@ -29,6 +29,7 @@ protected:
 
 private:
     CleanupThread();
+    ~CleanupThread();
 
     std::queue<Thread*> m_cleanupQueue;
     static CleanupThread* m_instance;

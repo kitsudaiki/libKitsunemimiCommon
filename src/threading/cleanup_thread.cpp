@@ -28,6 +28,8 @@ Kitsunemimi::CleanupThread* CleanupThread::m_instance = nullptr;
 CleanupThread::CleanupThread()
     : Kitsunemimi::Thread() {}
 
+CleanupThread::~CleanupThread() {}
+
 /**
  * @brief static methode to get instance of the interface
  *

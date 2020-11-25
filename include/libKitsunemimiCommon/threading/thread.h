@@ -24,8 +24,6 @@
 #include <atomic>
 #include <deque>
 
-#define ADD_EVENT Kitsunemimi::addEvent
-
 namespace Kitsunemimi
 {
 class DataBuffer;
@@ -72,16 +70,15 @@ protected:
     void spinLock();
     void spinUnlock();
 
-    // cleanup
-    void stopThread();
-    bool waitForFinish();
-
     // event-queue
     std::atomic_flag m_eventQueue_lock = ATOMIC_FLAG_INIT;
     std::deque<Event*> m_eventQueue;
     Event* getEventFromQueue();
 
     virtual void run() = 0;
+
+private:
+    void stopThread();
 };
 
 } // namespace Kitsunemimi
