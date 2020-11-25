@@ -34,9 +34,7 @@ Barrier::Barrier(const uint32_t numberOfThreads)
 void
 Barrier::triggerBarrier()
 {
-    while (m_spin_lock.test_and_set(std::memory_order_acquire))  {
-        asm("");
-    }
+    while (m_spin_lock.test_and_set(std::memory_order_acquire))  { asm(""); }
 
     m_counter--;
     if(m_counter == 0)
