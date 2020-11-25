@@ -35,6 +35,7 @@ DataItems_Test::map_create_delete_test()
 
     REINIT_TEST();
 
+    // normal test
     DataMap* object = new DataMap();
 
     object->insert("poi", defaultValue.copy());
@@ -43,7 +44,16 @@ DataItems_Test::map_create_delete_test()
     object->insert("xyz", floatValue.copy());
     object->insert("fail", nullptr);
 
+    // copy-assignment
+    DataMap* object2 = new DataMap();
+    *object2 = *object;
+
+    // copy-constructor
+    DataMap* object3 = new DataMap(*object);
+
     delete object;
+    delete object2;
+    delete object3;
 
     CHECK_MEMORY();
 }
@@ -79,6 +89,7 @@ DataItems_Test::array_create_delete_test()
 
     REINIT_TEST();
 
+    // normal test
     DataArray* array = new DataArray();
 
     array->append(defaultValue.copy());
@@ -87,7 +98,16 @@ DataItems_Test::array_create_delete_test()
     array->append(floatValue.copy());
     array->append(nullptr);
 
+    // copy-assignment
+    DataArray* array2 = new DataArray();
+    *array2 = *array;
+
+    // copy-constructor
+    DataArray* array3 = new DataArray(*array);
+
     delete array;
+    delete array2;
+    delete array3;
 
     CHECK_MEMORY();
 }
