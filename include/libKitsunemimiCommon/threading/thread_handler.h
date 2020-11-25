@@ -19,9 +19,6 @@ class Event;
 
 class ThreadHandler
 {
-public:
-    bool addEvent(Event* newEvent);
-
 private:
     friend Kitsunemimi::Thread;
 

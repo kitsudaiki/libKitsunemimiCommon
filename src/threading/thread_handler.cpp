@@ -20,27 +20,6 @@ namespace Kitsunemimi
 ThreadHandler::ThreadHandler() {}
 
 /**
- * @brief add new event to the event-queue of the calling thread
- *
- * @param newEvent new event for the queue
- *
- * @return false, if thread is not registred, else true
- */
-bool
-ThreadHandler::addEvent(Event* newEvent)
-{
-    std::map<std::thread::id, Thread*>::iterator it;
-    it = m_allThreads.find(std::this_thread::get_id());
-    if(it != m_allThreads.end())
-    {
-        it->second->addEventToQueue(newEvent);
-        return true;
-    }
-
-    return false;
-}
-
-/**
  * @brief add thread to thread-handler
  *
  * @param thread pointer to the thread-object

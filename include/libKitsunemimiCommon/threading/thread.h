@@ -32,8 +32,6 @@ class DataBuffer;
 class Event;
 class ThreadHandler;
 
-bool addEvent(Event* newEvent);
-
 class Thread
 {
 public:

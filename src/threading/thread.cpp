@@ -285,12 +285,4 @@ Thread::isActive() const
     return m_active;
 }
 
-/**
- * @brief add event
- */
-bool addEvent(Event* newEvent)
-{
-    return Kitsunemimi::Thread::m_threadHandler->addEvent(newEvent);
-}
-
 } // namespace Kitsunemimi
