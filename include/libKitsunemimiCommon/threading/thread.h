@@ -39,8 +39,7 @@ public:
     virtual ~Thread();
 
     bool startThread();
-    void stopThread();
-    bool waitForFinish();
+    bool scheduleThreadForDeletion();
 
     void continueThread();
     void initBlockThread();
@@ -58,6 +57,7 @@ protected:
     bool m_abort = false;
     bool m_block = false;
     bool m_active = false;
+    bool m_scheduledForDeletion = false;
     int m_coreId = -1;
 
     // lock variables
@@ -73,6 +73,10 @@ protected:
     void mutexUnlock();
     void spinLock();
     void spinUnlock();
+
+    // cleanup
+    void stopThread();
+    bool waitForFinish();
 
     // event-queue
     std::atomic_flag m_eventQueue_lock = ATOMIC_FLAG_INIT;

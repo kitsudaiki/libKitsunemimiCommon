@@ -17,6 +17,7 @@
 #include <libKitsunemimiCommon/threading/event.h>
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
 #include <libKitsunemimiCommon/threading/thread_handler.h>
+#include <libKitsunemimiCommon/threading/cleanup_thread.h>
 
 namespace Kitsunemimi
 {
@@ -138,6 +139,19 @@ Thread::startThread()
     if(m_coreId >= 0) {
         bindThreadToCore(m_coreId);
     }
+
+    return true;
+}
+
+bool
+Thread::scheduleThreadForDeletion()
+{
+    if(m_scheduledForDeletion) {
+        return false;
+    }
+
+    m_scheduledForDeletion = true;
+    CleanupThread::getInstance()->addThreadForCleanup(this);
 
     return true;
 }
