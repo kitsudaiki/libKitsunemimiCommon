@@ -14,10 +14,24 @@
 namespace Kitsunemimi
 {
 
-/**
- * @brief private constructor
- */
+Kitsunemimi::ThreadHandler* ThreadHandler::m_instance = nullptr;
+
 ThreadHandler::ThreadHandler() {}
+
+/**
+ * @brief static methode to get instance of the interface
+ *
+ * @return pointer to the static instance
+ */
+ThreadHandler*
+ThreadHandler::getInstance()
+{
+    if(m_instance == nullptr) {
+        m_instance = new ThreadHandler();
+    }
+
+    return m_instance;
+}
 
 /**
  * @brief add thread to thread-handler

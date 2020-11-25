@@ -19,6 +19,9 @@ class Event;
 
 class ThreadHandler
 {
+public:
+    static ThreadHandler* getInstance();
+
 private:
     friend Kitsunemimi::Thread;
 
@@ -28,6 +31,8 @@ private:
     bool unregisterThread();
 
     std::map<std::thread::id, Thread*> m_allThreads;
+
+    static ThreadHandler* m_instance;
 };
 
 }

@@ -49,8 +49,6 @@ public:
 
     void addEventToQueue(Event* newEvent);
 
-    static Kitsunemimi::ThreadHandler* m_threadHandler;
-
 protected:
     std::thread* m_thread = nullptr;
 

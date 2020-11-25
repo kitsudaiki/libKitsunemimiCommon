@@ -22,8 +22,6 @@
 namespace Kitsunemimi
 {
 
-Kitsunemimi::ThreadHandler* Thread::m_threadHandler = nullptr;
-
 /**
  * @brief constructor
  */
@@ -31,11 +29,7 @@ Thread::Thread(int coreId)
 {
     m_coreId = coreId;
 
-    if(m_threadHandler == nullptr) {
-        m_threadHandler = new Kitsunemimi::ThreadHandler();
-    }
-
-    Kitsunemimi::Thread::m_threadHandler->registerThread(this);
+    ThreadHandler::getInstance()->registerThread(this);
 }
 
 /**
@@ -43,7 +37,7 @@ Thread::Thread(int coreId)
  */
 Thread::~Thread()
 {
-    Kitsunemimi::Thread::m_threadHandler->unregisterThread();
+    ThreadHandler::getInstance()->unregisterThread();
     stopThread();
 }
 

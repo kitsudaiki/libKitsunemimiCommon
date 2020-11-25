@@ -1,9 +1,9 @@
 /**
- *  @file    cleanup_thread.cpp
+ *  @file       thread_handler.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @copyright MIT License
+ *  @copyright  MIT License
  */
 
 #include <libKitsunemimiCommon/threading/cleanup_thread.h>
