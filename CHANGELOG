@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.16.0] - 2020-11-25
+
+### Added
+- Cleanup-Thread, to delete threads in the backgroud, which are scheduled for deletion
+- missing memory-leak tests
+- some missing comments
+
+### Removed
+- Removed some functions to stop a thread  
+
+
 ## [0.15.2] - 2020-10-18
 
 ###  Fixed
