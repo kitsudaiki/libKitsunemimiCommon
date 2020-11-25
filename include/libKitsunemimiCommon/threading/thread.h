@@ -24,15 +24,11 @@
 #include <atomic>
 #include <deque>
 
-#define ADD_EVENT Kitsunemimi::addEvent
-
 namespace Kitsunemimi
 {
 class DataBuffer;
 class Event;
 class ThreadHandler;
-
-bool addEvent(Event* newEvent);
 
 class Thread
 {
@@ -41,8 +37,7 @@ public:
     virtual ~Thread();
 
     bool startThread();
-    void stopThread();
-    bool waitForFinish();
+    bool scheduleThreadForDeletion();
 
     void continueThread();
     void initBlockThread();
@@ -52,14 +47,13 @@ public:
 
     void addEventToQueue(Event* newEvent);
 
-    static Kitsunemimi::ThreadHandler* m_threadHandler;
-
 protected:
     std::thread* m_thread = nullptr;
 
     bool m_abort = false;
     bool m_block = false;
     bool m_active = false;
+    bool m_scheduledForDeletion = false;
     int m_coreId = -1;
 
     // lock variables
@@ -82,6 +76,9 @@ protected:
     Event* getEventFromQueue();
 
     virtual void run() = 0;
+
+private:
+    void stopThread();
 };
 
 } // namespace Kitsunemimi

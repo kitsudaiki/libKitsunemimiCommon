@@ -14,30 +14,23 @@
 namespace Kitsunemimi
 {
 
-/**
- * @brief private constructor
- */
+Kitsunemimi::ThreadHandler* ThreadHandler::m_instance = nullptr;
+
 ThreadHandler::ThreadHandler() {}
 
 /**
- * @brief add new event to the event-queue of the calling thread
+ * @brief static methode to get instance of the interface
  *
- * @param newEvent new event for the queue
- *
- * @return false, if thread is not registred, else true
+ * @return pointer to the static instance
  */
-bool
-ThreadHandler::addEvent(Event* newEvent)
+ThreadHandler*
+ThreadHandler::getInstance()
 {
-    std::map<std::thread::id, Thread*>::iterator it;
-    it = m_allThreads.find(std::this_thread::get_id());
-    if(it != m_allThreads.end())
-    {
-        it->second->addEventToQueue(newEvent);
-        return true;
+    if(m_instance == nullptr) {
+        m_instance = new ThreadHandler();
     }
 
-    return false;
+    return m_instance;
 }
 
 /**

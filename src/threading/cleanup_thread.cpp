@@ -1,9 +1,9 @@
 /**
- *  @file    cleanup_thread.cpp
+ *  @file       thread_handler.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @copyright MIT License
+ *  @copyright  MIT License
  */
 
 #include <libKitsunemimiCommon/threading/cleanup_thread.h>
@@ -27,6 +27,8 @@ Kitsunemimi::CleanupThread* CleanupThread::m_instance = nullptr;
  */
 CleanupThread::CleanupThread()
     : Kitsunemimi::Thread() {}
+
+CleanupThread::~CleanupThread() {}
 
 /**
  * @brief static methode to get instance of the interface

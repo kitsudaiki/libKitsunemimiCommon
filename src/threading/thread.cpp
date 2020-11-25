@@ -17,11 +17,10 @@
 #include <libKitsunemimiCommon/threading/event.h>
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
 #include <libKitsunemimiCommon/threading/thread_handler.h>
+#include <libKitsunemimiCommon/threading/cleanup_thread.h>
 
 namespace Kitsunemimi
 {
-
-Kitsunemimi::ThreadHandler* Thread::m_threadHandler = nullptr;
 
 /**
  * @brief constructor
@@ -30,11 +29,7 @@ Thread::Thread(int coreId)
 {
     m_coreId = coreId;
 
-    if(m_threadHandler == nullptr) {
-        m_threadHandler = new Kitsunemimi::ThreadHandler();
-    }
-
-    Kitsunemimi::Thread::m_threadHandler->registerThread(this);
+    ThreadHandler::getInstance()->registerThread(this);
 }
 
 /**
@@ -42,7 +37,7 @@ Thread::Thread(int coreId)
  */
 Thread::~Thread()
 {
-    Kitsunemimi::Thread::m_threadHandler->unregisterThread();
+    ThreadHandler::getInstance()->unregisterThread();
     stopThread();
 }
 
@@ -142,28 +137,15 @@ Thread::startThread()
     return true;
 }
 
-/**
- * @brief wait until the thread has finished its task
- *
- * @return false if not actire or not joinable, else true
- */
 bool
-Thread::waitForFinish()
+Thread::scheduleThreadForDeletion()
 {
-    // TODO: check that the thread doesn't try to wait for himself,
-    //       because it results into a deadlock
-
-    // precheck
-    if(m_active == false) {
+    if(m_scheduledForDeletion) {
         return false;
     }
 
-    //
-    if(m_thread->joinable()) {
-        m_thread->join();
-    } else {
-        return false;
-    }
+    m_scheduledForDeletion = true;
+    CleanupThread::getInstance()->addThreadForCleanup(this);
 
     return true;
 }
@@ -174,9 +156,6 @@ Thread::waitForFinish()
 void
 Thread::stopThread()
 {
-    // TODO: check that the thread doesn't try to stop itself,
-    //       because it results into a deadlock
-
     // precheck
     if(m_active == false) {
         return;
@@ -184,10 +163,13 @@ Thread::stopThread()
 
     // give thread abort-flag and wait until its end
     m_abort = true;
-    waitForFinish();
+
+    if(m_thread->joinable()) {
+        m_thread->join();
+    }
+
     m_active = false;
 }
-
 
 /**
  * @brief say the thread, he should wait at the next barrier
@@ -283,14 +265,6 @@ bool
 Thread::isActive() const
 {
     return m_active;
-}
-
-/**
- * @brief add event
- */
-bool addEvent(Event* newEvent)
-{
-    return Kitsunemimi::Thread::m_threadHandler->addEvent(newEvent);
 }
 
 } // namespace Kitsunemimi

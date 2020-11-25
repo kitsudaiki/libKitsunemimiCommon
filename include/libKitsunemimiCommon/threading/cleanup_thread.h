@@ -1,9 +1,9 @@
 /**
- *  @file    cleanup_thread.h
+ *  @file       thread_handler.h
  *
- *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
+ *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
- *  @copyright MIT License
+ *  @copyright  MIT License
  */
 
 #ifndef KITSUNEMIMI_CLEANUP_THREAD_H
@@ -29,6 +29,7 @@ protected:
 
 private:
     CleanupThread();
+    ~CleanupThread();
 
     std::queue<Thread*> m_cleanupQueue;
     static CleanupThread* m_instance;
