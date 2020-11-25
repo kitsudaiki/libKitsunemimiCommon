@@ -28,6 +28,9 @@ Kitsunemimi::CleanupThread* CleanupThread::m_instance = nullptr;
 CleanupThread::CleanupThread()
     : Kitsunemimi::Thread() {}
 
+/**
+ * @brief destructor
+ */
 CleanupThread::~CleanupThread() {}
 
 /**
@@ -46,8 +49,8 @@ CleanupThread::getInstance()
 }
 
 /**
- * @brief CleanupThread::addSocketForCleanup
- * @param socket
+ * @brief schedule a thread for delteion
+ * @param thread thread, which should be deleted
  */
 void
 CleanupThread::addThreadForCleanup(Thread* thread)
@@ -58,12 +61,12 @@ CleanupThread::addThreadForCleanup(Thread* thread)
 }
 
 /**
- * @brief CleanupThread::run
+ * @brief loop, which tries to delete all thread
  */
 void
 CleanupThread::run()
 {
-    while(!m_abort)
+    while(m_abort == false)
     {
         sleepThread(100000);
 
