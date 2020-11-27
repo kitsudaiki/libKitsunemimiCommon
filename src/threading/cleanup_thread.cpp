@@ -41,8 +41,10 @@ CleanupThread::~CleanupThread() {}
 CleanupThread*
 CleanupThread::getInstance()
 {
-    if(m_instance == nullptr) {
+    if(m_instance == nullptr)
+    {
         m_instance = new CleanupThread();
+        m_instance->startThread();
     }
 
     return m_instance;
