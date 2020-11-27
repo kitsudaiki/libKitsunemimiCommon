@@ -48,19 +48,7 @@ public:
     void addEventToQueue(Event* newEvent);
 
 protected:
-    std::thread* m_thread = nullptr;
-
     bool m_abort = false;
-    bool m_block = false;
-    bool m_active = false;
-    bool m_scheduledForDeletion = false;
-    int m_coreId = -1;
-
-    // lock variables
-    std::atomic_flag m_spin_lock = ATOMIC_FLAG_INIT;
-    std::mutex m_mutex;
-    std::mutex m_cvMutex;
-    std::condition_variable m_cv;
 
     // lock methods
     void blockThread();
@@ -71,14 +59,29 @@ protected:
     void spinUnlock();
 
     // event-queue
-    std::atomic_flag m_eventQueue_lock = ATOMIC_FLAG_INIT;
-    std::deque<Event*> m_eventQueue;
     Event* getEventFromQueue();
 
     virtual void run() = 0;
 
 private:
     void stopThread();
+
+    // generial variables
+    std::thread* m_thread = nullptr;
+    bool m_block = false;
+    bool m_active = false;
+    bool m_scheduledForDeletion = false;
+    int m_coreId = -1;
+
+    // event-queue-variables
+    std::deque<Event*> m_eventQueue;
+    std::atomic_flag m_eventQueue_lock = ATOMIC_FLAG_INIT;
+
+    // lock variables
+    std::atomic_flag m_spin_lock = ATOMIC_FLAG_INIT;
+    std::mutex m_mutex;
+    std::mutex m_cvMutex;
+    std::condition_variable m_cv;
 };
 
 } // namespace Kitsunemimi
