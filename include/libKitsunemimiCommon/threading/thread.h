@@ -49,6 +49,7 @@ public:
 
 protected:
     bool m_abort = false;
+    bool m_block = false;
 
     // lock methods
     void blockThread();
@@ -68,7 +69,6 @@ private:
 
     // generial variables
     std::thread* m_thread = nullptr;
-    bool m_block = false;
     bool m_active = false;
     bool m_scheduledForDeletion = false;
     int m_coreId = -1;
