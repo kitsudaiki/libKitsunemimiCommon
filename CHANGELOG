@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.16.1] - 2020-11-29
+
+### Fixed
+- the new cleanup-thread will now be started automatically
+
+### Changed
+- changed some variables in the thread-class from protected to private. This is basically a API-breaking change, but the affected variables should have never been called by any other object than the thread-class itself. So its basically more a fix.
+
+
 ## [0.16.0] - 2020-11-25
 
 ### Added
@@ -13,7 +22,7 @@
 
 ## [0.15.2] - 2020-10-18
 
-###  Fixed
+### Fixed
 - fixed events for the event-queue
 
 
