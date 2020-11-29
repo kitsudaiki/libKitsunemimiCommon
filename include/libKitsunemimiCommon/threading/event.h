@@ -30,7 +30,8 @@ public:
 //===================================================================
 // SleepEvent
 //===================================================================
-class SleepEvent : public Event
+class SleepEvent
+        : public Event
 {
 public:
     SleepEvent(const uint64_t milliSeconds);

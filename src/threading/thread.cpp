@@ -83,7 +83,6 @@ Thread::addEventToQueue(Event* newEvent)
     while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
     m_eventQueue.push_back(newEvent);
     m_eventQueue_lock.clear(std::memory_order_release);
-
 }
 
 /**
@@ -108,7 +107,6 @@ Thread::getEventFromQueue()
     m_eventQueue_lock.clear(std::memory_order_release);
 
     return result;
-
 }
 
 /**
