@@ -40,6 +40,8 @@ Thread::~Thread()
     ThreadHandler::getInstance()->unregisterThread();
     stopThread();
     clearEventQueue();
+
+    delete m_thread;
 }
 
 /**
