@@ -19,6 +19,8 @@
 #include <libKitsunemimiCommon/common_items/data_items_test.h>
 #include <libKitsunemimiCommon/common_items/table_item_test.h>
 
+#include <libKitsunemimiCommon/threading/thread_test.h>
+
 int main()
 {
     Kitsunemimi::DataBuffer_Test();
@@ -31,4 +33,6 @@ int main()
 
     Kitsunemimi::DataItems_Test();
     Kitsunemimi::TableItem_test();
+
+    Kitsunemimi::Thread_Test();
 }
