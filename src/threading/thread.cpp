@@ -39,6 +39,7 @@ Thread::~Thread()
 {
     ThreadHandler::getInstance()->unregisterThread();
     stopThread();
+    clearEventQueue();
 }
 
 /**
@@ -80,6 +81,11 @@ Thread::bindThreadToCore(const int coreId)
 void
 Thread::addEventToQueue(Event* newEvent)
 {
+    // precheck
+    if(m_active == false) {
+        return;
+    }
+
     while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
     m_eventQueue.push_back(newEvent);
     m_eventQueue_lock.clear(std::memory_order_release);
@@ -167,6 +173,24 @@ Thread::stopThread()
     }
 
     m_active = false;
+}
+
+/**
+ * @brief delete all event-objects within the event-queue
+ */
+void
+Thread::clearEventQueue()
+{
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+
+    while(m_eventQueue.empty() == false)
+    {
+        Event* obj = m_eventQueue.front();
+        m_eventQueue.pop_front();
+        delete obj;
+    }
+
+    m_eventQueue_lock.clear(std::memory_order_release);
 }
 
 /**
