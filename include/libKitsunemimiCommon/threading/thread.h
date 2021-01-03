@@ -46,6 +46,7 @@ public:
     bool bindThreadToCore(const int coreId);
 
     void addEventToQueue(Event* newEvent);
+    void clearEventQueue();
 
 protected:
     bool m_abort = false;
