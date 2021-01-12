@@ -26,7 +26,7 @@
 
 namespace Kitsunemimi
 {
-class DataBuffer;
+struct DataBuffer;
 class Event;
 class ThreadHandler;
 
