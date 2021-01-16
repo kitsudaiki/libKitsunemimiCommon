@@ -1,4 +1,4 @@
-/**
+﻿/**
  *  @file       object_methods.cpp
  *
  *  @brief      often used methods for object-operations
@@ -9,6 +9,8 @@
  */
 
 #include <libKitsunemimiCommon/common_methods/object_methods.h>
+
+#include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 namespace Kitsunemimi
 {
@@ -42,7 +44,7 @@ hexlify(std::string &outputString,
     outputString = stream.str();
 }
 
-struct Base64Buffer {
+struct Base64Buffer3 {
     uint8_t buffer[3];
 };
 
@@ -84,7 +86,7 @@ convertValueToBase64(const char val)
  */
 inline void
 convertToBase64(char* result,
-                const Base64Buffer& buf,
+                const Base64Buffer3& buf,
                 const uint8_t count)
 {
     // prepare bufferValue
@@ -134,8 +136,8 @@ encodeBase64(std::string &output,
     resultSize *= 4;
     char* result = new char[resultSize];
 
-    // convert input
-    const Base64Buffer* buf = static_cast<const Base64Buffer*>(data);
+    // transform input
+    const Base64Buffer3* buf = static_cast<const Base64Buffer3*>(data);
 
     // convert base part
     for(uint64_t i = 0; i < dataSize / 3; i++) {
@@ -146,7 +148,7 @@ encodeBase64(std::string &output,
     if(dataSize % 3 == 2)
     {
         const uint64_t endPos = dataSize / 3;
-        Base64Buffer tempBuf = buf[endPos];
+        Base64Buffer3 tempBuf = buf[endPos];
         tempBuf.buffer[1] = 0;
         tempBuf.buffer[2] = 0;
         convertToBase64(&result[endPos * 4], tempBuf, 2);
@@ -155,7 +157,7 @@ encodeBase64(std::string &output,
     else if(dataSize % 3 == 1)
     {
         const uint64_t endPos = dataSize / 3;
-        Base64Buffer tempBuf = buf[endPos];
+        Base64Buffer3 tempBuf = buf[endPos];
         tempBuf.buffer[1] = 0;
         convertToBase64(&result[endPos * 4], tempBuf, 1);
         result[resultSize - 2] = '=';
@@ -167,5 +169,134 @@ encodeBase64(std::string &output,
     delete[] result;
 }
 
+
+struct Base64Buffer4 {
+    uint8_t buffer[4];
+};
+
+/**
+ * @brief convert Base64 value into the correct bytes for output
+ *
+ * @param val value to convert
+ *
+ * @return value with the bytes
+ */
+inline uint32_t
+convertValueFromBase64(const uint8_t val)
+{
+    // A - Z
+    if(val >= 65 && val < 91) {
+        return val - 65;
+    }
+
+    // a - z
+    if(val >= 97 && val < 123) {
+        return val - 71;
+    }
+
+    // 0 - 9
+    if(val >= 48 && val < 58) {
+        return val + 4;
+    }
+
+    if(val == '+') {
+        return 62;
+    }
+
+    return 63;
+}
+
+/**
+ * @brief convert one segment of 4 characters of a Base64 segment of 3 bytes
+ *
+ * @param result pointer to the output buffer
+ * @param buf buffer with 4 Bytes to convert
+ * @param count number of bytes in the buffer to convert
+ */
+inline void
+convertFromBase64(Base64Buffer3* result,
+                  const Base64Buffer4& buf,
+                  const uint8_t count)
+{
+    // prepare bufferValue
+    uint32_t temp = 0;
+    temp |= buf.buffer[0];
+    temp = temp << 8;
+    temp |= buf.buffer[1];
+    temp = temp << 8;
+    temp |= buf.buffer[2];
+    temp = temp << 8;
+    temp |= buf.buffer[3];
+
+    uint32_t out = 0;
+
+    out |= convertValueFromBase64((temp & 0xFF000000) >> 24) << 18;
+    out |= convertValueFromBase64((temp & 0xFF0000) >> 16) << 12;
+
+    if(count >= 2) {
+        out |= convertValueFromBase64((temp & 0xFF00) >> 8) << 6;
+    }
+
+    if(count >= 3) {
+        out |= convertValueFromBase64(temp & 0xFF);
+    }
+
+    result->buffer[2] = out & 0xFF;
+    result->buffer[1] = (out & 0xFF00) >> 8;
+    result->buffer[0] = (out & 0xFF0000) >> 16;
+}
+
+/**
+ * @brief decode Base64 string
+ *
+ * @param result buffer for the output of the result
+ * @param input Base64 string to convert
+ *
+ * @return false, if input has invalid length, else true
+ */
+bool
+decodeBase64(DataBuffer &result,
+             const std::string &input)
+{
+    // precheck
+    if(input.size() % 4 != 0) {
+        return false;
+    }
+
+    // prepare buffer for result
+    const uint64_t bufferSize = (input.size() / 4) * 3;
+    allocateBlocks_DataBuffer(result, (bufferSize / 4096) + 1);
+    result.bufferPosition = bufferSize;
+
+    // transform input
+    const void* tempPtr = static_cast<const void*>(input.c_str());
+    const Base64Buffer4* buf = static_cast<const Base64Buffer4*>(tempPtr);
+    Base64Buffer3* output = static_cast<Base64Buffer3*>(result.data);
+
+    // convert base part
+    for(uint64_t i = 0; i < input.size() / 4 - 1; i++) {
+        convertFromBase64(&output[i], buf[i], 3);
+    }
+
+    // convert padding
+    const uint64_t lastPos = input.size() / 4 - 1;
+    if(input.at(input.size() - 1) == '='
+            && input.at(input.size() - 2) == '=')
+    {
+        result.bufferPosition -= 2;
+        convertFromBase64(&output[lastPos], buf[lastPos], 1);
+    }
+    else if(input.at(input.size() - 1) == '=')
+    {
+        result.bufferPosition -= 1;
+        convertFromBase64(&output[lastPos], buf[lastPos], 2);
+    }
+    else
+    {
+        convertFromBase64(&output[lastPos], buf[lastPos], 3);
+    }
+
+    return true;
+}
 
 } // namespace Kitsunemimi

@@ -19,6 +19,7 @@
 
 namespace Kitsunemimi
 {
+struct DataBuffer;
 
 void hexlify(std::string &outputString,
              void* object,
@@ -38,5 +39,9 @@ void encodeBase64(std::string &outputString, T* object) {
     encodeBase64(outputString, object, sizeof(T));
 }
 
+bool decodeBase64(DataBuffer &result,
+                  const std::string &input);
+
 } // namespace Kitsunemimi
+
 #endif // OBJECT_METHODS_H
