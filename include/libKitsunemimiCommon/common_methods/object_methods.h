@@ -25,10 +25,17 @@ void hexlify(std::string &outputString,
              const uint64_t size);
 
 template <typename T>
-void
-hexlify(std::string &outputString, T* object)
-{
+void hexlify(std::string &outputString, T* object) {
     hexlify(outputString, object, sizeof(T));
+}
+
+void encodeBase64(std::string &output,
+                  const void* data,
+                  const uint64_t dataSize);
+
+template <typename T>
+void encodeBase64(std::string &outputString, T* object) {
+    encodeBase64(outputString, object, sizeof(T));
 }
 
 } // namespace Kitsunemimi
