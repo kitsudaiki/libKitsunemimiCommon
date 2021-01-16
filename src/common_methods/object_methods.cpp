@@ -1,4 +1,4 @@
-﻿/**
+/**
  *  @file       object_methods.cpp
  *
  *  @brief      often used methods for object-operations
@@ -117,7 +117,7 @@ convertToBase64(char* result,
 }
 
 /**
- * @brief encodeBase64
+ * @brief encode Base64 string
  *
  * @param output reference for the resulting string
  * @param data data to convert into Base64
@@ -149,7 +149,6 @@ encodeBase64(std::string &output,
     {
         const uint64_t endPos = dataSize / 3;
         Base64Buffer3 tempBuf = buf[endPos];
-        tempBuf.buffer[1] = 0;
         tempBuf.buffer[2] = 0;
         convertToBase64(&result[endPos * 4], tempBuf, 2);
         result[resultSize - 1] = '=';
@@ -159,6 +158,7 @@ encodeBase64(std::string &output,
         const uint64_t endPos = dataSize / 3;
         Base64Buffer3 tempBuf = buf[endPos];
         tempBuf.buffer[1] = 0;
+        tempBuf.buffer[2] = 0;
         convertToBase64(&result[endPos * 4], tempBuf, 1);
         result[resultSize - 2] = '=';
         result[resultSize - 1] = '=';
