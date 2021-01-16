@@ -22,6 +22,9 @@ public:
 
 private:
     void hexlify_test();
+
+    void encodeBase64_test();
+    void decodeBase64_test();
 };
 
 } // namespace Kitsunemimi
