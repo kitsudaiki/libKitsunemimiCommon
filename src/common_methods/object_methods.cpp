@@ -15,6 +15,8 @@
 namespace Kitsunemimi
 {
 
+//==================================================================================================
+
 /**
  * @brief hexlify an object into a string
  *
@@ -38,11 +40,13 @@ hexlify(std::string &outputString,
         if(bytestream[i - 1] < 16) {
             stream << "0";
         }
-        stream << std::hex << (int)bytestream[i - 1];
+        stream << std::hex << bytestream[i - 1];
     }
 
     outputString = stream.str();
 }
+
+//==================================================================================================
 
 struct Base64Buffer3 {
     uint8_t buffer[3];
@@ -169,6 +173,7 @@ encodeBase64(std::string &output,
     delete[] result;
 }
 
+//==================================================================================================
 
 struct Base64Buffer4 {
     uint8_t buffer[4];
@@ -298,5 +303,7 @@ decodeBase64(DataBuffer &result,
 
     return true;
 }
+
+//==================================================================================================
 
 } // namespace Kitsunemimi
