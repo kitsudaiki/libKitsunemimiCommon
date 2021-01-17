@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.1] - 2021-01-17
+
+### Fixed
+- hotfix for the broken hexlify
+
+
 ## [0.17.0] - 2021-01-17
 
 ### Added
