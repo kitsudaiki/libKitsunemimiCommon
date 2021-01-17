@@ -40,7 +40,7 @@ hexlify(std::string &outputString,
         if(bytestream[i - 1] < 16) {
             stream << "0";
         }
-        stream << std::hex << bytestream[i - 1];
+        stream << std::hex << static_cast<int>(bytestream[i - 1]);
     }
 
     outputString = stream.str();

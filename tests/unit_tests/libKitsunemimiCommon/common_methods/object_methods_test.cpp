@@ -17,7 +17,7 @@ namespace Kitsunemimi
 ObjectMethods_Test::ObjectMethods_Test()
     : Kitsunemimi::CompareTestHelper("ObjectMethods_Test")
 {
-    //hexlify_test();
+    hexlify_test();
 
     encodeBase64_test();
     decodeBase64_test();
