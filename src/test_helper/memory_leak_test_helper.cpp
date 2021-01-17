@@ -10,6 +10,50 @@
 
 #include <libKitsunemimiCommon/test_helper/memory_leak_test_helper.h>
 
+
+//==================================================================================================
+// Overrides for new and delete
+//==================================================================================================
+
+/**
+ * Info: I do not override "void operator delete(void* ptr, size_t size)", which is also available
+ *       since c++14, because it not every time used, for example std::map use only the variant
+ *       without the size-parameter. So I don't have the size-value in each delete, which is the
+ *       reason, why I write this additonally in my allocated memory.
+ */
+
+void*
+operator new(size_t size)
+{
+    void* ptr = malloc(size);
+    Kitsunemimi::increaseGlobalMemoryCounter(0);
+    return ptr;
+}
+
+void*
+operator new[](size_t size)
+{
+    void* ptr = malloc(size);
+    Kitsunemimi::increaseGlobalMemoryCounter(0);
+    return ptr;
+}
+
+void
+operator delete(void* ptr) noexcept
+{
+    free(ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(0);
+}
+
+void
+operator delete[](void* ptr) noexcept
+{
+    free(ptr);
+    Kitsunemimi::decreaseGlobalMemoryCounter(0);
+}
+
+//==================================================================================================
+
 namespace Kitsunemimi
 {
 

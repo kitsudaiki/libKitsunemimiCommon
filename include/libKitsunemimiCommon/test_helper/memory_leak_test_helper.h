@@ -16,6 +16,11 @@
 
 #include <libKitsunemimiCommon/memory_counter.h>
 
+void* operator new(size_t size);
+void* operator new[](size_t size);
+void  operator delete(void* ptr)  noexcept;
+void  operator delete[](void* ptr)  noexcept;
+
 namespace Kitsunemimi
 {
 using Kitsunemimi::MemoryCounter;
