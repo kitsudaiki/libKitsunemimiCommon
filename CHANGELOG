@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.17.0] - 2021-01-17
+
+### Added
+- Base64 encode and decode to object-methods
+
+### Changed
+- moved new and delete override into memory-leak-test to avoid possible conflics in other projects
+
+### Fixed
+- removed compiler-warnings
+- fixed possible memory-leak in thread class
+
+
 ## [0.16.1] - 2020-11-29
 
 ### Fixed
