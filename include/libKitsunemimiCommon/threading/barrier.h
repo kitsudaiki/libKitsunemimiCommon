@@ -20,6 +20,7 @@
 #include <pthread.h>
 #include <vector>
 #include <atomic>
+#include <unistd.h>
 
 namespace Kitsunemimi
 {
