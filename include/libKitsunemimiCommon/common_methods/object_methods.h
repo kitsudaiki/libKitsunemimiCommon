@@ -22,7 +22,7 @@ namespace Kitsunemimi
 struct DataBuffer;
 
 void hexlify(std::string &outputString,
-             void* object,
+             const void* object,
              const uint64_t size);
 
 template <typename T>

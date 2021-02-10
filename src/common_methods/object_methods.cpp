@@ -27,10 +27,10 @@ namespace Kitsunemimi
  */
 void
 hexlify(std::string &outputString,
-        void* object,
+        const void* object,
         const uint64_t size)
 {
-    uint8_t* bytestream = static_cast<uint8_t*>(object);
+    const uint8_t* bytestream = static_cast<const uint8_t*>(object);
     std::stringstream stream;
 
     // iterate over all bytes of the object
