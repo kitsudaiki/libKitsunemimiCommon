@@ -25,43 +25,8 @@ public:
     uint64_t itemCapacity = 0;
     uint64_t numberOfItems = 0;
     DataBuffer buffer = DataBuffer(1);
-    bool dynamic = false;
 
     ItemBuffer();
-
-    /**
-     * @brief addNewItem
-     * @param itemBuffer
-     * @param item
-     * @param simple
-     * @return
-     */
-    template<typename T>
-    uint64_t addNewItem(T &item)
-    {
-        assert(itemSize != 0);
-        assert((numberOfItems + 1) * itemSize < buffer.bufferPosition);
-
-        uint64_t position = 0xFFFFFFFFFFFFFFFF;
-        while(lock.test_and_set(std::memory_order_acquire)) { asm(""); }
-
-        if(dynamic == false)
-        {
-            position = numberOfItems;
-            numberOfItems++;
-        }
-        else
-        {
-            position = reserveDynamicItem();
-        }
-
-        T* array = static_cast<T*>(buffer.data);
-        array[position] = item;
-
-        lock.clear(std::memory_order_release);
-
-        return position;
-    }
 
     /**
      * @brief initBuffer
@@ -87,18 +52,47 @@ public:
         return true;
     }
 
+    /**
+     * @brief addNewItem
+     * @param itemBuffer
+     * @param item
+     * @param simple
+     * @return
+     */
+    template<typename T>
+    uint64_t addNewItem(T &item)
+    {
+        assert(itemSize != 0);
+        assert((numberOfItems + 1) * itemSize < buffer.bufferPosition);
+
+        uint64_t position = 0xFFFFFFFFFFFFFFFF;
+        while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+
+        position = reserveDynamicItem();
+        if(position == 0xFFFFFFFFFFFFFFFF) {
+            return position;
+        }
+
+        T* array = static_cast<T*>(buffer.data);
+        array[position] = item;
+
+        m_lock.clear(std::memory_order_release);
+
+        return position;
+    }
+
+    bool deleteItem(const uint64_t itemPos);
     bool deleteAll();
-    bool deleteDynamicItem(const uint64_t itemPos);
 
 private:
     uint64_t* m_allocationList = nullptr;
-    std::atomic_flag lock = ATOMIC_FLAG_INIT;
+    std::atomic_flag m_lock = ATOMIC_FLAG_INIT;
 
-    uint64_t bytePositionOfFirstEmptyBlock = 0xFFFFFFFFFFFFFFFF;
-    uint64_t bytePositionOfLastEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    uint64_t m_bytePositionOfFirstEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    uint64_t m_bytePositionOfLastEmptyBlock = 0xFFFFFFFFFFFFFFFF;
 
-    bool initDataBlocks(const uint64_t numberOfItems,
-                        const uint32_t itemSize);
+    bool initDataBlocks(const uint64_t numberOfItems, const uint32_t itemSize);
+
     uint64_t reuseItemPosition();
     uint64_t reserveDynamicItem();
 };

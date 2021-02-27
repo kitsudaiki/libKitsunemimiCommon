@@ -24,9 +24,7 @@ struct EmptyPlaceHolder
     uint64_t bytePositionOfNextEmptyBlock = 0xFFFFFFFFFFFFFFFF;
 } __attribute__((packed));
 
-ItemBuffer::ItemBuffer()
-{
-}
+ItemBuffer::ItemBuffer() {}
 
 /**
  * @brief ItemBuffer::deleteAll
@@ -35,26 +33,11 @@ ItemBuffer::ItemBuffer()
 bool
 ItemBuffer::deleteAll()
 {
-    while(lock.test_and_set(std::memory_order_acquire)) { asm(""); }
-
-    if(dynamic)
-    {
-        for(uint64_t i = 0; i < itemCapacity; i++)
-        {
-            deleteDynamicItem(i);
-        }
+    while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+    for(uint64_t i = 0; i < itemCapacity; i++) {
+        deleteItem(i);
     }
-    else
-    {
-        uint8_t* byteBuffer = static_cast<uint8_t*>(buffer.data);
-        for(uint64_t i = 0; i < numberOfItems * itemSize; i = i + itemSize)
-        {
-            byteBuffer[i] = DELETED_SECTION;
-        }
-        numberOfItems = 0;
-    }
-
-    lock.clear(std::memory_order_release);
+    m_lock.clear(std::memory_order_release);
 
     return true;
 }
@@ -92,7 +75,7 @@ ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
 * @return false if buffer is invalid or item already deleted, else true
 */
 bool
-ItemBuffer::deleteDynamicItem(const uint64_t itemPos)
+ItemBuffer::deleteItem(const uint64_t itemPos)
 {
     assert(itemPos < itemCapacity);
     assert(numberOfItems != 0);
@@ -114,7 +97,7 @@ ItemBuffer::deleteDynamicItem(const uint64_t itemPos)
     placeHolder->status = DELETED_SECTION;
 
     // modify last place-holder
-    const uint64_t blockPosition = bytePositionOfLastEmptyBlock;
+    const uint64_t blockPosition = m_bytePositionOfLastEmptyBlock;
     if(blockPosition != 0xFFFFFFFFFFFFFFFF)
     {
         EmptyPlaceHolder* lastPlaceHolder = (EmptyPlaceHolder*)&blockBegin[blockPosition];
@@ -122,9 +105,9 @@ ItemBuffer::deleteDynamicItem(const uint64_t itemPos)
     }
 
     // set global values
-    bytePositionOfLastEmptyBlock = currentBytePos;
-    if(bytePositionOfFirstEmptyBlock == 0xFFFFFFFFFFFFFFFF) {
-        bytePositionOfFirstEmptyBlock = currentBytePos;
+    m_bytePositionOfLastEmptyBlock = currentBytePos;
+    if(m_bytePositionOfFirstEmptyBlock == 0xFFFFFFFFFFFFFFFF) {
+        m_bytePositionOfFirstEmptyBlock = currentBytePos;
     }
 
     numberOfItems--;
@@ -143,7 +126,7 @@ uint64_t
 ItemBuffer::reuseItemPosition()
 {
     // get byte-position of free space, if exist
-    const uint64_t selectedPosition = bytePositionOfFirstEmptyBlock;
+    const uint64_t selectedPosition = m_bytePositionOfFirstEmptyBlock;
     if(selectedPosition == 0xFFFFFFFFFFFFFFFF) {
         return 0xFFFFFFFFFFFFFFFF;
     }
@@ -151,11 +134,11 @@ ItemBuffer::reuseItemPosition()
     // set pointer to the next empty space
     uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
     EmptyPlaceHolder* secetedPlaceHolder = (EmptyPlaceHolder*)&blockBegin[selectedPosition];
-    bytePositionOfFirstEmptyBlock = secetedPlaceHolder->bytePositionOfNextEmptyBlock;
+    m_bytePositionOfFirstEmptyBlock = secetedPlaceHolder->bytePositionOfNextEmptyBlock;
 
     // reset pointer, if no more free spaces exist
-    if(bytePositionOfFirstEmptyBlock == 0xFFFFFFFFFFFFFFFF) {
-        bytePositionOfLastEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    if(m_bytePositionOfFirstEmptyBlock == 0xFFFFFFFFFFFFFFFF) {
+        m_bytePositionOfLastEmptyBlock = 0xFFFFFFFFFFFFFFFF;
     }
 
     // convert byte-position to item-position and return this
