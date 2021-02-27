@@ -11,16 +11,9 @@
 namespace Kitsunemimi
 {
 
-enum SectionStatus
-{
-    UNDEFINED_SECTION = 0,
-    ACTIVE_SECTION = 1,
-    DELETED_SECTION = 2,
-};
-
 struct EmptyPlaceHolder
 {
-    uint8_t status = DELETED_SECTION;
+    uint8_t status = ItemBuffer::DELETED_SECTION;
     uint64_t bytePositionOfNextEmptyBlock = 0xFFFFFFFFFFFFFFFF;
 } __attribute__((packed));
 
@@ -30,7 +23,7 @@ ItemBuffer::ItemBuffer() {}
  * @brief ItemBuffer::deleteAll
  * @return
  */
-bool
+void
 ItemBuffer::deleteAll()
 {
     while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
@@ -38,8 +31,6 @@ ItemBuffer::deleteAll()
         deleteItem(i);
     }
     m_lock.clear(std::memory_order_release);
-
-    return true;
 }
 
 /**
@@ -51,9 +42,9 @@ bool
 ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
                            const uint32_t itemSize)
 {
-    assert(itemSize != 0);
-    assert(this->itemCapacity == 0);
-
+    if(itemSize == 0) {
+        return false;
+    }
 
     // update meta-data of the brick
     this->itemSize = itemSize;
@@ -77,15 +68,19 @@ ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
 bool
 ItemBuffer::deleteItem(const uint64_t itemPos)
 {
-    assert(itemPos < itemCapacity);
-    assert(numberOfItems != 0);
+    if(itemPos >= itemCapacity
+            || numberOfItems == 0)
+    {
+        return false;
+    }
 
     // get buffer
     uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
 
     // data of the position
     const uint64_t currentBytePos = itemPos * itemSize;
-    EmptyPlaceHolder* placeHolder = (EmptyPlaceHolder*)&blockBegin[currentBytePos];
+    void* voidBuffer = static_cast<void*>(&blockBegin[currentBytePos]);
+    EmptyPlaceHolder* placeHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
 
     // check that the position is active and not already deleted
     if(placeHolder->status == DELETED_SECTION) {
@@ -100,7 +95,8 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
     const uint64_t blockPosition = m_bytePositionOfLastEmptyBlock;
     if(blockPosition != 0xFFFFFFFFFFFFFFFF)
     {
-        EmptyPlaceHolder* lastPlaceHolder = (EmptyPlaceHolder*)&blockBegin[blockPosition];
+        voidBuffer = static_cast<void*>(&blockBegin[blockPosition]);
+        EmptyPlaceHolder* lastPlaceHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
         lastPlaceHolder->bytePositionOfNextEmptyBlock = currentBytePos;
     }
 
@@ -133,7 +129,8 @@ ItemBuffer::reuseItemPosition()
 
     // set pointer to the next empty space
     uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
-    EmptyPlaceHolder* secetedPlaceHolder = (EmptyPlaceHolder*)&blockBegin[selectedPosition];
+    void* voidBuffer = static_cast<void*>(&blockBegin[selectedPosition]);
+    EmptyPlaceHolder* secetedPlaceHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
     m_bytePositionOfFirstEmptyBlock = secetedPlaceHolder->bytePositionOfNextEmptyBlock;
 
     // reset pointer, if no more free spaces exist

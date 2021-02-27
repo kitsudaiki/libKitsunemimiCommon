@@ -1,4 +1,4 @@
-/**
+﻿/**
  *  @file       item_buffer.h
  *
  *  @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
@@ -21,6 +21,13 @@ inline T* getBuffer(ItemBuffer &itembuffer);
 class ItemBuffer
 {
 public:
+    enum SectionStatus
+    {
+        UNDEFINED_SECTION = 0,
+        ACTIVE_SECTION = 1,
+        DELETED_SECTION = 2,
+    };
+
     uint32_t itemSize = 0;
     uint64_t itemCapacity = 0;
     uint64_t numberOfItems = 0;
@@ -36,7 +43,7 @@ public:
     template<typename T>
     bool initBuffer(const uint64_t numberOfItems)
     {
-        bool ret = initDataBlocks(numberOfItems, sizeof(T));
+        const bool ret = initDataBlocks(numberOfItems, sizeof(T));
         if(ret == false) {
             return false;
         }
@@ -60,12 +67,14 @@ public:
      * @return
      */
     template<typename T>
-    uint64_t addNewItem(T &item)
+    uint64_t addNewItem(const T &item)
     {
-        assert(itemSize != 0);
-        assert((numberOfItems + 1) * itemSize < buffer.bufferPosition);
-
         uint64_t position = 0xFFFFFFFFFFFFFFFF;
+
+        if(numberOfItems >= itemCapacity) {
+            return position;
+        }
+
         while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
 
         position = reserveDynamicItem();
@@ -82,7 +91,7 @@ public:
     }
 
     bool deleteItem(const uint64_t itemPos);
-    bool deleteAll();
+    void deleteAll();
 
 private:
     uint64_t* m_allocationList = nullptr;
