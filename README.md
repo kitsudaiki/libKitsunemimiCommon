@@ -44,6 +44,12 @@ This is for printing tables. Internally it use the data-items for handling the c
 
 This is a simple buffer for binary-data. The primary advantage is the easier resizing when adding new data. Internally it uses alligned memory, because this is necessary for the direct read- and write-operations of the libKitsunemimiPersistence.
 
+#### Item buffer
+
+*include-file:* `libKitsunemimiCommon/buffer/item_buffer.h`
+
+Buffer to store objects based on the data-buffer. It handles deleted objects inside of the buffer in a linked list to fast reallocate deleted objects at any position of the buffer. 
+
 #### Ring buffer
 
 *include-file:* `libKitsunemimiCommon/buffer/ring_buffer.h`

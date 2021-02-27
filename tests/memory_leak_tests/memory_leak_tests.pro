@@ -19,7 +19,8 @@ HEADERS += \
     libKitsunemimiCommon/common_items/data_items_test.h \
     libKitsunemimiCommon/threading/thread_test.h \
     libKitsunemimiCommon/threading/bogus_event.h \
-    libKitsunemimiCommon/threading/bogus_thread.h
+    libKitsunemimiCommon/threading/bogus_thread.h \
+    libKitsunemimiCommon/buffer/item_buffer_test.h
 
 SOURCES += \
     main.cpp \
@@ -33,4 +34,5 @@ SOURCES += \
     libKitsunemimiCommon/common_items/data_items_test.cpp \
     libKitsunemimiCommon/threading/thread_test.cpp \
     libKitsunemimiCommon/threading/bogus_event.cpp \
-    libKitsunemimiCommon/threading/bogus_thread.cpp
+    libKitsunemimiCommon/threading/bogus_thread.cpp \
+    libKitsunemimiCommon/buffer/item_buffer_test.cpp
