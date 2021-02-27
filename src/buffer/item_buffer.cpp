@@ -20,8 +20,7 @@ struct EmptyPlaceHolder
 ItemBuffer::ItemBuffer() {}
 
 /**
- * @brief ItemBuffer::deleteAll
- * @return
+ * @brief delete all items for the buffer
  */
 void
 ItemBuffer::deleteAll()
@@ -34,26 +33,28 @@ ItemBuffer::deleteAll()
 }
 
 /**
- * initialize the node-list of the brick
+ * @brief initialize the item-list
  *
- * @return false if nodes are already initialized, esle true
-*/
+ * @param numberOfItems number of items to allocate
+ * @param itemSize size of a single item
+ *
+ * @return false if values are invalid, else true
+ */
 bool
 ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
                            const uint32_t itemSize)
 {
+    // precheck
     if(itemSize == 0) {
         return false;
     }
 
-    // update meta-data of the brick
+    // update buffer-values
     this->itemSize = itemSize;
     this->itemCapacity = numberOfItems;
-    const uint64_t requiredNumberOfBlocks = ((numberOfItems * itemSize)
-                                             / buffer.blockSize) + 1;
+    const uint64_t requiredNumberOfBlocks = ((numberOfItems * itemSize) / buffer.blockSize) + 1;
 
     // allocate blocks in buffer
-    //data.buffer = DataBuffer(requiredNumberOfBlocks);
     Kitsunemimi::allocateBlocks_DataBuffer(buffer, requiredNumberOfBlocks);
     buffer.bufferPosition = numberOfItems * itemSize;
 
@@ -61,13 +62,16 @@ ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
 }
 
 /**
-* delete a specific item from the buffer by replacing it with a placeholder-item
-*
-* @return false if buffer is invalid or item already deleted, else true
-*/
+ * @brief delete a specific item from the buffer by replacing it with a placeholder-item
+ *
+ * @param itemPos position of the item to delete
+ *
+ * @return false if buffer is invalid or position already deleted, else true
+ */
 bool
 ItemBuffer::deleteItem(const uint64_t itemPos)
 {
+    // precheck
     if(itemPos >= itemCapacity
             || numberOfItems == 0)
     {
@@ -83,13 +87,13 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
     EmptyPlaceHolder* placeHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
 
     // check that the position is active and not already deleted
-    if(placeHolder->status == DELETED_SECTION) {
+    if(placeHolder->status == ItemBuffer::DELETED_SECTION) {
         return false;
     }
 
     // overwrite item with a placeholder and set the position as delted
     placeHolder->bytePositionOfNextEmptyBlock = 0xFFFFFFFFFFFFFFFF;
-    placeHolder->status = DELETED_SECTION;
+    placeHolder->status = ItemBuffer::DELETED_SECTION;
 
     // modify last place-holder
     const uint64_t blockPosition = m_bytePositionOfLastEmptyBlock;
@@ -111,10 +115,8 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
     return true;
 }
 
-//==================================================================================================
-
 /**
- * try to reuse a deleted buffer segment
+ * @brief try to reuse a deleted buffer segment
  *
  * @return item-position in the buffer, else UNINIT_STATE_32 if no empty space in buffer exist
  */
@@ -145,13 +147,11 @@ ItemBuffer::reuseItemPosition()
     return selectedPosition / itemSize;
 }
 
-//==================================================================================================
-
 /**
-* add a new forward-edge-section
-*
-* @return id of the new section, else UNINIT_STATE_32 if allocation failed
-*/
+ * @brief add a new forward-edge-section
+ *
+ * @return id of the new section, else UNINIT_STATE_32 if allocation failed
+ */
 uint64_t
 ItemBuffer::reserveDynamicItem()
 {

@@ -36,18 +36,22 @@ public:
     ItemBuffer();
 
     /**
-     * @brief initBuffer
-     * @param numberOfItems
-     * @return
+     * @brief initialize buffer by allocating memory and init with default-items
+     *
+     * @param numberOfItems number of items to preallocate
+     *
+     * @return true, if successfull, else false
      */
     template<typename T>
     bool initBuffer(const uint64_t numberOfItems)
     {
+        // allocate memory
         const bool ret = initDataBlocks(numberOfItems, sizeof(T));
         if(ret == false) {
             return false;
         }
 
+        // init buffer with default-itemes
         T* items = static_cast<T*>(buffer.data);
         for(uint32_t i = 0; i < numberOfItems; i++)
         {
@@ -60,28 +64,33 @@ public:
     }
 
     /**
-     * @brief addNewItem
-     * @param itemBuffer
-     * @param item
-     * @param simple
-     * @return
+     * @brief add a new items at an empty position inside of the buffer
+     *
+     * @param item new item to write into the buffer
+     *
+     * @return position inside of the buffer, where the new item was added, if successful, or
+     *         2^64-1 if the buffer is already full
      */
     template<typename T>
     uint64_t addNewItem(const T &item)
     {
+        // init invalid default-value
         uint64_t position = 0xFFFFFFFFFFFFFFFF;
 
+        // precheck
         if(numberOfItems >= itemCapacity) {
             return position;
         }
 
         while(m_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
 
+        // get item-position inside of the buffer
         position = reserveDynamicItem();
         if(position == 0xFFFFFFFFFFFFFFFF) {
             return position;
         }
 
+        // write new item at the position
         T* array = static_cast<T*>(buffer.data);
         array[position] = item;
 
@@ -94,7 +103,6 @@ public:
     void deleteAll();
 
 private:
-    uint64_t* m_allocationList = nullptr;
     std::atomic_flag m_lock = ATOMIC_FLAG_INIT;
 
     uint64_t m_bytePositionOfFirstEmptyBlock = 0xFFFFFFFFFFFFFFFF;
@@ -107,9 +115,11 @@ private:
 };
 
 /**
- * @brief getBuffer
- * @param itembuffer
- * @return
+ * @brief get content of an item-buffer as array
+ *
+ * @param itembuffer buffer to convert
+ *
+ * @return casted pointer of the item-buffer-content
  */
 template<typename T>
 inline T*
