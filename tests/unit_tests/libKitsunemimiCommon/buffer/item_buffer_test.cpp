@@ -15,6 +15,7 @@ namespace Kitsunemimi
 
 struct TestStruct
 {
+    uint8_t itemStatus = ItemBuffer::ACTIVE_SECTION;
     uint8_t a = 0;
     uint8_t b = 0;
     uint64_t c = 0;
