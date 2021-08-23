@@ -34,6 +34,8 @@ public:
     uint64_t itemCapacity = 0;
     uint64_t numberOfItems = 0;
     DataBuffer buffer = DataBuffer(1);
+    void* staticData = nullptr;
+    void* itemData = nullptr;
 
     ItemBuffer();
 
@@ -45,16 +47,17 @@ public:
      * @return true, if successfull, else false
      */
     template<typename T>
-    bool initBuffer(const uint64_t numberOfItems)
+    bool initBuffer(const uint64_t numberOfItems,
+                    const uint64_t staticSize = 0)
     {
         // allocate memory
-        const bool ret = initDataBlocks(numberOfItems, sizeof(T));
+        const bool ret = initDataBlocks(numberOfItems, sizeof(T), staticSize);
         if(ret == false) {
             return false;
         }
 
         // init buffer with default-itemes
-        T* items = static_cast<T*>(buffer.data);
+        T* items = static_cast<T*>(itemData);
         for(uint32_t i = 0; i < numberOfItems; i++)
         {
             T newItem;
@@ -93,7 +96,7 @@ public:
         }
 
         // write new item at the position
-        T* array = static_cast<T*>(buffer.data);
+        T* array = static_cast<T*>(itemData);
         array[position] = item;
 
         m_lock.clear(std::memory_order_release);
@@ -110,7 +113,9 @@ private:
     uint64_t m_bytePositionOfFirstEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
     uint64_t m_bytePositionOfLastEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
 
-    bool initDataBlocks(const uint64_t numberOfItems, const uint32_t itemSize);
+    bool initDataBlocks(const uint64_t numberOfItems,
+                        const uint32_t itemSize,
+                        const uint64_t staticSize);
 
     uint64_t reuseItemPosition();
     uint64_t reserveDynamicItem();
@@ -127,7 +132,7 @@ template<typename T>
 inline T*
 getBuffer(ItemBuffer &itembuffer)
 {
-    return static_cast<T*>(itembuffer.buffer.data);
+    return static_cast<T*>(itembuffer.itemData);
 }
 
 }

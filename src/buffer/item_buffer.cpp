@@ -42,7 +42,8 @@ ItemBuffer::deleteAll()
  */
 bool
 ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
-                           const uint32_t itemSize)
+                           const uint32_t itemSize,
+                           const uint64_t staticSize)
 {
     // precheck
     if(itemSize == 0) {
@@ -52,11 +53,15 @@ ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
     // update buffer-values
     this->itemSize = itemSize;
     this->itemCapacity = numberOfItems;
-    const uint64_t requiredNumberOfBlocks = ((numberOfItems * itemSize) / buffer.blockSize) + 1;
+    const uint64_t requiredBytes = (numberOfItems * itemSize) + staticSize;
+    const uint64_t requiredNumberOfBlocks = (requiredBytes / buffer.blockSize) + 1;
 
     // allocate blocks in buffer
     Kitsunemimi::allocateBlocks_DataBuffer(buffer, requiredNumberOfBlocks);
-    buffer.bufferPosition = numberOfItems * itemSize;
+    buffer.bufferPosition = requiredBytes;
+
+    staticData = buffer.data;
+    itemData = static_cast<uint8_t*>(buffer.data) + staticSize;
 
     return true;
 }
@@ -79,7 +84,7 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
     }
 
     // get buffer
-    uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
+    uint8_t* blockBegin = static_cast<uint8_t*>(itemData);
 
     // data of the position
     const uint64_t currentBytePos = itemPos * itemSize;
@@ -130,7 +135,7 @@ ItemBuffer::reuseItemPosition()
     }
 
     // set pointer to the next empty space
-    uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
+    uint8_t* blockBegin = static_cast<uint8_t*>(itemData);
     void* voidBuffer = static_cast<void*>(&blockBegin[selectedPosition]);
     EmptyPlaceHolder* secetedPlaceHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
     m_bytePositionOfFirstEmptyBlock = secetedPlaceHolder->bytePositionOfNextEmptyBlock;

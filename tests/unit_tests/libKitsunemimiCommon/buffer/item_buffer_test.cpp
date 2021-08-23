@@ -39,13 +39,13 @@ ItemBuffer_Test::initBuffer_test()
     ItemBuffer testBuffer;
 
     // init buffer
-    TEST_EQUAL(testBuffer.initBuffer<TestStruct>(42000), true);
+    TEST_EQUAL(testBuffer.initBuffer<TestStruct>(42000, 10000), true);
     TEST_EQUAL(testBuffer.itemSize, sizeof(TestStruct));
     TEST_EQUAL(testBuffer.itemCapacity, 42000);
     TEST_EQUAL(testBuffer.numberOfItems, 42000);
 
     // test override of an already initialized buffer
-    TEST_EQUAL(testBuffer.initBuffer<TestStruct>(43000), true);
+    TEST_EQUAL(testBuffer.initBuffer<TestStruct>(43000, 10000), true);
     TEST_EQUAL(testBuffer.itemSize, sizeof(TestStruct));
     TEST_EQUAL(testBuffer.itemCapacity, 43000);
     TEST_EQUAL(testBuffer.numberOfItems, 43000);
@@ -64,7 +64,7 @@ ItemBuffer_Test::deleteItem_test()
     TEST_EQUAL(testBuffer.deleteItem(42), false);
 
     // init test-buffer
-    testBuffer.initBuffer<TestStruct>(42000);
+    testBuffer.initBuffer<TestStruct>(42000, 10000);
 
     // delete items from test-buffer
     TEST_EQUAL(testBuffer.deleteItem(42), true);
@@ -82,7 +82,7 @@ ItemBuffer_Test::deleteAll_test()
 {
     // prepare item-buffer
     ItemBuffer testBuffer;
-    testBuffer.initBuffer<TestStruct>(42000);
+    testBuffer.initBuffer<TestStruct>(42000, 10000);
 
     // delete all items and check buffer-values
     testBuffer.deleteAll();
@@ -99,7 +99,7 @@ ItemBuffer_Test::addNewItem_test()
 {
     // prepare item-buffer
     ItemBuffer testBuffer;
-    testBuffer.initBuffer<TestStruct>(42000);
+    testBuffer.initBuffer<TestStruct>(42000, 10000);
     testBuffer.deleteItem(42);
     testBuffer.deleteItem(43);
     testBuffer.deleteItem(44);
