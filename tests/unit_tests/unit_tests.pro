@@ -40,3 +40,4 @@ SOURCES += \
     libKitsunemimiCommon/buffer/stack_buffer_test.cpp \
     libKitsunemimiCommon/common_methods/object_methods_test.cpp \
     libKitsunemimiCommon/buffer/item_buffer_test.cpp
+

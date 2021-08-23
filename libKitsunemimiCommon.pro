@@ -8,4 +8,3 @@ run_tests {
 
     tests.depends = src
 }
-

@@ -14,7 +14,7 @@ namespace Kitsunemimi
 struct EmptyPlaceHolder
 {
     uint8_t status = ItemBuffer::DELETED_SECTION;
-    uint64_t bytePositionOfNextEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    uint64_t bytePositionOfNextEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
 } __attribute__((packed));
 
 ItemBuffer::ItemBuffer() {}
@@ -42,7 +42,8 @@ ItemBuffer::deleteAll()
  */
 bool
 ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
-                           const uint32_t itemSize)
+                           const uint32_t itemSize,
+                           const uint64_t staticSize)
 {
     // precheck
     if(itemSize == 0) {
@@ -52,11 +53,15 @@ ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
     // update buffer-values
     this->itemSize = itemSize;
     this->itemCapacity = numberOfItems;
-    const uint64_t requiredNumberOfBlocks = ((numberOfItems * itemSize) / buffer.blockSize) + 1;
+    const uint64_t requiredBytes = (numberOfItems * itemSize) + staticSize;
+    const uint64_t requiredNumberOfBlocks = (requiredBytes / buffer.blockSize) + 1;
 
     // allocate blocks in buffer
     Kitsunemimi::allocateBlocks_DataBuffer(buffer, requiredNumberOfBlocks);
-    buffer.bufferPosition = numberOfItems * itemSize;
+    buffer.bufferPosition = requiredBytes;
+
+    staticData = buffer.data;
+    itemData = static_cast<uint8_t*>(buffer.data) + staticSize;
 
     return true;
 }
@@ -79,7 +84,7 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
     }
 
     // get buffer
-    uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
+    uint8_t* blockBegin = static_cast<uint8_t*>(itemData);
 
     // data of the position
     const uint64_t currentBytePos = itemPos * itemSize;
@@ -92,12 +97,12 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
     }
 
     // overwrite item with a placeholder and set the position as delted
-    placeHolder->bytePositionOfNextEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    placeHolder->bytePositionOfNextEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
     placeHolder->status = ItemBuffer::DELETED_SECTION;
 
     // modify last place-holder
     const uint64_t blockPosition = m_bytePositionOfLastEmptyBlock;
-    if(blockPosition != 0xFFFFFFFFFFFFFFFF)
+    if(blockPosition != ITEM_BUFFER_UNDEFINE_POS)
     {
         voidBuffer = static_cast<void*>(&blockBegin[blockPosition]);
         EmptyPlaceHolder* lastPlaceHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
@@ -106,7 +111,7 @@ ItemBuffer::deleteItem(const uint64_t itemPos)
 
     // set global values
     m_bytePositionOfLastEmptyBlock = currentBytePos;
-    if(m_bytePositionOfFirstEmptyBlock == 0xFFFFFFFFFFFFFFFF) {
+    if(m_bytePositionOfFirstEmptyBlock == ITEM_BUFFER_UNDEFINE_POS) {
         m_bytePositionOfFirstEmptyBlock = currentBytePos;
     }
 
@@ -125,19 +130,19 @@ ItemBuffer::reuseItemPosition()
 {
     // get byte-position of free space, if exist
     const uint64_t selectedPosition = m_bytePositionOfFirstEmptyBlock;
-    if(selectedPosition == 0xFFFFFFFFFFFFFFFF) {
-        return 0xFFFFFFFFFFFFFFFF;
+    if(selectedPosition == ITEM_BUFFER_UNDEFINE_POS) {
+        return ITEM_BUFFER_UNDEFINE_POS;
     }
 
     // set pointer to the next empty space
-    uint8_t* blockBegin = static_cast<uint8_t*>(buffer.data);
+    uint8_t* blockBegin = static_cast<uint8_t*>(itemData);
     void* voidBuffer = static_cast<void*>(&blockBegin[selectedPosition]);
     EmptyPlaceHolder* secetedPlaceHolder = static_cast<EmptyPlaceHolder*>(voidBuffer);
     m_bytePositionOfFirstEmptyBlock = secetedPlaceHolder->bytePositionOfNextEmptyBlock;
 
     // reset pointer, if no more free spaces exist
-    if(m_bytePositionOfFirstEmptyBlock == 0xFFFFFFFFFFFFFFFF) {
-        m_bytePositionOfLastEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    if(m_bytePositionOfFirstEmptyBlock == ITEM_BUFFER_UNDEFINE_POS) {
+        m_bytePositionOfLastEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
     }
 
     // convert byte-position to item-position and return this
@@ -157,7 +162,7 @@ ItemBuffer::reserveDynamicItem()
 {
     // try to reuse item
     const uint64_t reusePos = reuseItemPosition();
-    if(reusePos != 0xFFFFFFFFFFFFFFFF) {
+    if(reusePos != ITEM_BUFFER_UNDEFINE_POS) {
         return reusePos;
     }
 
