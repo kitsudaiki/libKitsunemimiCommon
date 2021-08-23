@@ -11,6 +11,8 @@
 
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
 
+#define ITEM_BUFFER_UNDEFINE_POS 0xFFFFFFFFFFFFFFFF
+
 namespace Kitsunemimi
 {
 
@@ -75,7 +77,7 @@ public:
     uint64_t addNewItem(const T &item)
     {
         // init invalid default-value
-        uint64_t position = 0xFFFFFFFFFFFFFFFF;
+        uint64_t position = ITEM_BUFFER_UNDEFINE_POS;
 
         // precheck
         if(numberOfItems >= itemCapacity) {
@@ -86,7 +88,7 @@ public:
 
         // get item-position inside of the buffer
         position = reserveDynamicItem();
-        if(position == 0xFFFFFFFFFFFFFFFF) {
+        if(position == ITEM_BUFFER_UNDEFINE_POS) {
             return position;
         }
 
@@ -105,8 +107,8 @@ public:
 private:
     std::atomic_flag m_lock = ATOMIC_FLAG_INIT;
 
-    uint64_t m_bytePositionOfFirstEmptyBlock = 0xFFFFFFFFFFFFFFFF;
-    uint64_t m_bytePositionOfLastEmptyBlock = 0xFFFFFFFFFFFFFFFF;
+    uint64_t m_bytePositionOfFirstEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
+    uint64_t m_bytePositionOfLastEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
 
     bool initDataBlocks(const uint64_t numberOfItems, const uint32_t itemSize);
 
