@@ -9,6 +9,7 @@ LIBS += -L../../src -lKitsunemimiCommon
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    libKitsunemimiCommon/progress_bar_test.h \
     libKitsunemimiCommon/state_test.h \
     libKitsunemimiCommon/statemachine_test.h \
     libKitsunemimiCommon/common_methods/string_methods_test.h \
@@ -25,6 +26,7 @@ HEADERS += \
     libKitsunemimiCommon/buffer/item_buffer_test.h
 
 SOURCES += \
+    libKitsunemimiCommon/progress_bar_test.cpp \
     main.cpp \
     libKitsunemimiCommon/state_test.cpp \
     libKitsunemimiCommon/statemachine_test.cpp \

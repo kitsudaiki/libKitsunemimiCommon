@@ -86,6 +86,12 @@ These are little test-helper classes which provides basic functionallity for uni
 
 It's only a simple statemachine in the moment. Basically its only to change the state and check the current state. It doesn't trigger any events after changing the state.
 
+#### Progress-Bar
+
+*include-file:* `libKitsunemimiCommon/progress_bar.h`
+
+Simple progress-bar for cli-output.
+
 #### Common methods
 
 *include-file:* `libKitsunemimiCommon/common_methods/string_methods.h`, `libKitsunemimiCommon/common_methods/vector_methods.h` and `libKitsunemimiCommon/common_methods/object_methods.h`
@@ -670,6 +676,38 @@ const std::string stateName = statemachine.getCurrentStateName();
 
 In the future there also should be triggered events after a state-change. Also failed states should be added ans so on.
 
+### Progress-Bar
+
+```cpp
+
+#include <libKitsunemimiCommon/progress_bar.h>
+
+float progress = 0.0f;
+
+// initalize a new progress-bar
+ProgressBar* progressBar = new ProgressBar();
+
+while(true)
+{
+    // updateProgress return true, if the progress reached 1.0 or more
+    // this function updates the progress-bar on the terminal and alway 
+    // requires absolut values and not a diff to the last value
+    if(progressBar->updateProgress(progress)) {
+        break;
+    }
+
+    usleep(100000);
+    progress += 0.02;
+}
+
+std::cout << std::endl;
+```
+
+Example-output:
+
+```
+[========================================>                                       ] 50 %
+```
 
 ### Common methods
 
