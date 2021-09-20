@@ -20,6 +20,7 @@
 
 #include <libKitsunemimiCommon/state_test.h>
 #include <libKitsunemimiCommon/statemachine_test.h>
+#include <libKitsunemimiCommon/progress_bar_test.h>
 
 #include <libKitsunemimiCommon/common_items/data_items_DataArray_test.h>
 #include <libKitsunemimiCommon/common_items/data_items_DataMap_test.h>
@@ -40,6 +41,7 @@ int main()
 
     Kitsunemimi::State_Test();
     Kitsunemimi::Statemachine_Test();
+    Kitsunemimi::ProgressBar_Test();
 
     Kitsunemimi::DataItems_DataValue_Test();
     Kitsunemimi::DataItems_DataArray_Test();

@@ -9,6 +9,7 @@ INCLUDEPATH += $$PWD \
             ../include
 
 SOURCES += \
+    progress_bar.cpp \
     threading/thread.cpp \
     statemachine.cpp \
     common_items/data_items.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
 
 
 HEADERS += \
+    ../include/libKitsunemimiCommon/progress_bar.h \
     state.h \
     ../include/libKitsunemimiCommon/buffer/ring_buffer.h \
     ../include/libKitsunemimiCommon/common_methods/string_methods.h \
