@@ -19,7 +19,7 @@ namespace Kitsunemimi
  * @param maxBarWidth maximum number of character in weidth for displaying the progress-bar
  */
 ProgressBar::ProgressBar(const uint32_t maxBarWidth)
-    : maxBarWidth(maxBarWidth) {}
+    : m_maxBarWidth(maxBarWidth) {}
 
 /**
  * @brief update the output of the progress-bar with a new progress-state
@@ -32,19 +32,19 @@ bool
 ProgressBar::updateProgress(const float newProgress)
 {
     bool result = false;
-    progress = newProgress;
+    m_progress = newProgress;
 
     // check if 1.0 or more are reached and update result for finish
-    if(progress >= 1.0f)
+    if(m_progress >= 1.0f)
     {
-        progress = 1.0f;
+        m_progress = 1.0f;
         result = true;
     }
 
     // print progress
     std::cout << "[";
-    const uint32_t pos = maxBarWidth * progress;
-    for(uint32_t i = 0; i < maxBarWidth; i++)
+    const uint32_t pos = m_maxBarWidth * m_progress;
+    for(uint32_t i = 0; i < m_maxBarWidth; i++)
     {
         if(i < pos) {
             std::cout << "=";
@@ -54,8 +54,13 @@ ProgressBar::updateProgress(const float newProgress)
             std::cout << " ";
         }
     }
-    std::cout << "] " << uint32_t(progress * 100.0) << " %\r";
+    std::cout << "] " << uint32_t(m_progress * 100.0) << " %\r";
     std::cout.flush();
+
+    // in case that the progress is complete, then finish the line to avoid that it disappears
+    if(m_progress >= 1.0f) {
+        std::cout<<std::endl;
+    }
 
     return result;
 }

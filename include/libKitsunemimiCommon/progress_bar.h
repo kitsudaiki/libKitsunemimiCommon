@@ -27,8 +27,8 @@ public:
     bool updateProgress(const float newProgress);
 
 private:
-    const uint32_t maxBarWidth = 80;
-    float progress = 0.0;
+    const uint32_t m_maxBarWidth = 80;
+    float m_progress = 0.0;
 
     friend ProgressBar_Test;
 };

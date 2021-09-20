@@ -27,17 +27,17 @@ ProgressBar_Test::progress_test()
 {
     ProgressBar* progressBar = new ProgressBar(100);
 
-    TEST_EQUAL(progressBar->maxBarWidth, 100);
-    TEST_EQUAL(progressBar->progress, 0.0f);
+    TEST_EQUAL(progressBar->m_maxBarWidth, 100);
+    TEST_EQUAL(progressBar->m_progress, 0.0f);
 
     TEST_EQUAL(progressBar->updateProgress(0.5f), false);
-    TEST_EQUAL(progressBar->progress, 0.5f);
+    TEST_EQUAL(progressBar->m_progress, 0.5f);
 
     TEST_EQUAL(progressBar->updateProgress(1.0f), true);
-    TEST_EQUAL(progressBar->progress, 1.0f);
+    TEST_EQUAL(progressBar->m_progress, 1.0f);
 
     TEST_EQUAL(progressBar->updateProgress(1.5f), true);
-    TEST_EQUAL(progressBar->progress, 1.0f);
+    TEST_EQUAL(progressBar->m_progress, 1.0f);
 
     delete progressBar;
 }
