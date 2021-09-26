@@ -58,7 +58,7 @@ struct DataBuffer
                const uint16_t blockSize = 4096)
     {
         this->blockSize = blockSize;
-        assert(this->blockSize % 512 == 0);
+        assert(this->blockSize % 8 == 0);
         if(numberOfBlocks < 1) {
             allocateBlocks_DataBuffer(*this, 1);
         }
@@ -170,9 +170,7 @@ alignedMalloc(const uint16_t blockSize,
               const uint64_t numberOfBytes)
 {
     // precheck
-    // have to be a multiple of 512 to be able for direct write operations in
-    // the persistence library
-    if(blockSize % 512 != 0) {
+    if(blockSize % 8 != 0) {
         return nullptr;
     }
 
