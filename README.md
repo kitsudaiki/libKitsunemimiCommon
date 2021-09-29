@@ -94,9 +94,9 @@ Simple progress-bar for cli-output.
 
 #### Common methods
 
-*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h`, `libKitsunemimiCommon/common_methods/vector_methods.h` and `libKitsunemimiCommon/common_methods/object_methods.h`
+*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h` and`libKitsunemimiCommon/common_methods/vector_methods.h`
 
-These contains some commonly used mehtods for strings, vectors and objects, like for example replace substrings within a string or base64 encode and decode.
+These contains some commonly used mehtods for strings, vectors and objects, like for example replace substrings within a string.
 
 ## Common Information aboud my projects
 
@@ -768,50 +768,6 @@ removeEmptyStrings(&testVector);
 
 // after this testVector only contains ["x", "y", "z"]
 
-```
-
-#### object methods
-
-1. hexlify for objects to covert a value or a struct in it hex representation.
-
-Example:
-
-```cpp
-#include <libKitsunemimiCommon/common_methods/object_methods.h>
-
-// convert object into hexlified string
-struct testStruct {
-    int a = 2343466;
-    uint32_t b = 246;
-    uint64_t x = 124;
-};
-testStruct testObject;
-std::string output = "";
-hexlify(output, &testObject);
-// variable output has not the content: "000000000000007c000000f60023c22a" 
-// which presents the hexlified version of the struct
-
-```
-
-2. Base64 encode and decode
-
-```cpp
-#include <libKitsunemimiCommon/common_methods/object_methods.h>
-#include <libKitsunemimiCommon/buffer/data_buffer.h>
-
-// encode:
-std::string output = "";  // string which should contain the resulting base64 string
-std::string input = "asdfasdfasdf123a";
-encodeBase64(output, input.c_str(), input.size());
-// variable output now contains the base64 string "YXNkZmFzZGZhc2RmMTIzYQ=="
-
-
-// decode:
-DataBuffer result;  // buffer which should contain the resulting output
-std::string input = "YXNkZmFzZGZhc2RmMTIzYQ==";
-decodeBase64(result, input);
-std::string resultString = std::string(static_cast<char*>(result.data), result.bufferPosition);
-// variable resultString now contains again the string "asdfasdfasdf123a"
 ```
 
 ## Code-Documentation
