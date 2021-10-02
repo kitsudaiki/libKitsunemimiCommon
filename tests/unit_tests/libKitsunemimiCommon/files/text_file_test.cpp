@@ -8,7 +8,6 @@
 
 #include "text_file_test.h"
 
-#include <boost/filesystem.hpp>
 #include <libKitsunemimiCommon/files/text_file.h>
 
 namespace Kitsunemimi

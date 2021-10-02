@@ -167,14 +167,14 @@ copyPath(const std::filesystem::path &sourcePath,
         return false;
     }
 
-    std::error_code boostError;
+    std::error_code errorCode;
     if(force) {
         std::filesystem::remove_all(targetPath);
     }
-    std::filesystem::copy(sourcePath, targetPath, boostError);
-    if(boostError.value() != 0)
+    std::filesystem::copy(sourcePath, targetPath, errorCode);
+    if(errorCode.value() != 0)
     {
-        errorMessage = boostError.message();
+        errorMessage = errorCode.message();
         return false;
     }
 
