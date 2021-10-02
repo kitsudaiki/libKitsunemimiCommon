@@ -21,11 +21,16 @@
 #include <libKitsunemimiCommon/state_test.h>
 #include <libKitsunemimiCommon/statemachine_test.h>
 #include <libKitsunemimiCommon/progress_bar_test.h>
+#include <libKitsunemimiCommon/logger_test.h>
 
 #include <libKitsunemimiCommon/common_items/data_items_DataArray_test.h>
 #include <libKitsunemimiCommon/common_items/data_items_DataMap_test.h>
 #include <libKitsunemimiCommon/common_items/data_items_DataValue_test.h>
 #include <libKitsunemimiCommon/common_items/table_item_test.h>
+
+#include <libKitsunemimiCommon/files/text_file_test.h>
+#include <libKitsunemimiCommon/files/binary_file_with_directIO_test.h>
+#include <libKitsunemimiCommon/files/binary_file_without_directIO_test.h>
 
 int main()
 {
@@ -42,10 +47,15 @@ int main()
     Kitsunemimi::State_Test();
     Kitsunemimi::Statemachine_Test();
     Kitsunemimi::ProgressBar_Test();
+    Kitsunemimi::Logger_Test();
 
     Kitsunemimi::DataItems_DataValue_Test();
     Kitsunemimi::DataItems_DataArray_Test();
     Kitsunemimi::DataItems_DataMap_Test();
+
+    Kitsunemimi::TextFile_Test();
+    Kitsunemimi::BinaryFile_withDirectIO_Test();
+    Kitsunemimi::BinaryFile_withoutDirectIO_Test();
 
     Kitsunemimi::TableItem_test();
 }
