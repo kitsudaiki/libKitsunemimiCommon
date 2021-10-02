@@ -3,12 +3,13 @@ include(../../defaults.pri)
 QT -= qt core gui
 
 CONFIG   -= app_bundle
-CONFIG += c++14 console
+CONFIG += c++17 console
 
 LIBS += -L../../src -lKitsunemimiCommon
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    libKitsunemimiCommon/common_methods/file_methods_test.h \
     libKitsunemimiCommon/progress_bar_test.h \
     libKitsunemimiCommon/state_test.h \
     libKitsunemimiCommon/statemachine_test.h \
@@ -25,6 +26,7 @@ HEADERS += \
     libKitsunemimiCommon/buffer/item_buffer_test.h
 
 SOURCES += \
+    libKitsunemimiCommon/common_methods/file_methods_test.cpp \
     libKitsunemimiCommon/progress_bar_test.cpp \
     main.cpp \
     libKitsunemimiCommon/state_test.cpp \

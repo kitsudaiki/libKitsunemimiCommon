@@ -16,6 +16,7 @@
 
 #include <libKitsunemimiCommon/common_methods/string_methods_test.h>
 #include <libKitsunemimiCommon/common_methods/vector_methods_test.h>
+#include <libKitsunemimiCommon/common_methods/file_methods_test.h>
 
 #include <libKitsunemimiCommon/state_test.h>
 #include <libKitsunemimiCommon/statemachine_test.h>
@@ -36,6 +37,7 @@ int main()
 
     Kitsunemimi::StringMethods_Test();
     Kitsunemimi::VectorMethods_Test();
+    Kitsunemimi::FileMethods_Test();
 
     Kitsunemimi::State_Test();
     Kitsunemimi::Statemachine_Test();
