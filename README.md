@@ -127,7 +127,7 @@ Here some common information about my projects and my code-styling. It's not com
 
 name | repository | version | task
 --- | --- | --- | ---
-g++ | g++ | >= 6.0 | Compiler for the C++ code.
+g++ | g++ | >= 8.0 | Compiler for the C++ code.
 make | make | >= 4.0 | process the make-file, which is created by qmake to build the programm with g++
 qmake | qt5-qmake | >= 5.0 | This package provides the tool qmake, which is similar to cmake and create the make-file for compilation.
 
