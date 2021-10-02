@@ -94,9 +94,28 @@ Simple progress-bar for cli-output.
 
 #### Common methods
 
-*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h` and`libKitsunemimiCommon/common_methods/vector_methods.h`
+*include-file:* `libKitsunemimiCommon/common_methods/string_methods.h`, `libKitsunemimiCommon/common_methods/vector_methods.h` and `libKitsunemimiCommon/common_methods/file_methods.h`
 
 These contains some commonly used mehtods for strings, vectors and objects, like for example replace substrings within a string.
+
+#### binary-files
+
+*include-file:* `libKitsunemimiCommon/files/binary_file.h`
+
+These are some functions to map the data-buffer of libKitsunemimiCommon to the storage to persist the data of the buffer and restore them. The functions use direct read- and write-oberations to make things faster, but this requires more custom control.
+
+#### text-files
+
+*include-file:* `libKitsunemimiCommon/files/text_file.h`
+
+Methods to read text files, write text files, append new text to an existing text-file, replace a line within an existing text-file identified by a line number and repace content within an existing text-file identified by matching the old content.
+
+#### log-writer
+
+*include-file:* `libKitsunemimiCommon/logger.h`
+
+Its a simple and really easy to use logger to wirte messages with timestamps to a log-file. 
+
 
 ## Common Information aboud my projects
 
@@ -769,6 +788,155 @@ removeEmptyStrings(&testVector);
 // after this testVector only contains ["x", "y", "z"]
 
 ```
+
+### binary-files
+
+**Header-file:** `libKitsunemimiCommon/files/binary_file.h`
+
+This file contains the class for read and write of binary-files. It use the data-buffer of libKitsunemimiCommon as cache for all operations. The operations using posix-method with direct-flag to skip the page-chache of the linux-kernel. This makes operations with big block a bit faster because the data are less often copied. This has the result, that all read and write operations are synchronized.
+
+This results in the requirement, that segments to read from storage or write to storage should be as big as possible or else the latency makes the whole thing very very slow. The class should be run in an extra thread, with handle all operations and makes the whole sync asynchon again.
+
+There are only 4 operations at the moment:
+
+- allocate more memory on the storage to make the file bigger
+- read the current size of the file from the storage (for the case you open an existing file)
+- wirte data from the buffer to the file
+- read data from the file into the buffer
+
+All operations return only a bool-value, which say if it was successful or not.
+
+HINT: The data-buffer will be not be binded anymore in the next version.
+
+Example:
+
+```cpp
+#include <libKitsunemimiCommon/files/binary_file.h>
+
+std::string filePath = "/tmp/testfile.bin";
+Common::DataBuffer buffer(2);
+
+// write somethin into the buffer
+int testvalue = 42;
+buffer.addData(&testvalue);
+
+// create binary file and bind buffer
+BinaryFile binaryFile(m_filePath);
+
+// allocate 4 x 4 KiB (4 blocks)
+binaryFile.allocateStorage(4,       // <-- number blocks 
+                           4096);   // <-- size of a single block
+
+// write data to the storage
+binaryFile.writeSegment(&buffer,   // <-- source-buffer
+                        0,         // <-- startblock of write-oberation within the file
+                        1,         // <-- number of blocks (each 4 KiB) to write
+                        0)         // <-- startblock of the data within the buffer
+
+// read data to the storage
+binaryFile.readSegment(&buffer,    // <-- target-buffer
+                       0,          // <-- startblock of the data within the file
+                       1,          // <-- number of blocks (each 4 KiB) to write
+                       1)          // <-- startblock of write-oberation within the buffer
+
+// close file
+binaryFile.closeFile()
+```
+
+### text-files
+
+**Header-file:** `libKitsunemimiCommon/files/text_file.h`
+
+Every action open and close the text-file. With this I don't need to handle an additional object-instance and operations on a text-file are really rare compared to working on a binary-file, so the addional time consumption for open and close the file has no special meaning for the performance.
+
+All methods return a pair of bool-value as first element and a string-value as second element. The bool-value says, if the call was successful or not. When successful, the string-value contains the result, or if not successful, the string contains an error-message.
+
+Little example:
+
+```cpp
+#include <libKitsunemimiCommon/files/text_file.h>
+
+std::string filePath = "/tmp/textfile.txt";
+
+std::string content = "this is a test\n"
+                      "and this is a second line";
+
+std::pair<bool, std::string> ret;
+std::string errorMessage = "";
+
+// write text to file
+bool writeResult = writeFile(filePath, 
+                             content, 
+                             errorMessage,
+                             false);        // <-- force-flag, 
+                                            //     with false it fails if file already existing
+                                  
+// add new text to the file
+bool appendResult = appendText(filePath,
+                               "\nand a third line",
+                               errorMessage);
+
+// read updated file
+std::pair<bool, std::string> readResult = readFile(filePath, errorMessage);
+// readResult.second would now contans:
+//
+// "this is a test\n"
+// "and this is a second line\n"
+// "and a third line";
+
+```
+
+### log-writer
+
+**Header-file:** `libKitsunemimiCommon/logger.h`
+
+Its a simple class to write log-messages together with a timestamp one after another to a log-file. It only has to be initialized at the beginning of the program and can be used at every point in the same code. When want to add an entry to the log, you don't need to check, if the logger is initialized.
+
+IMPORTANT: Adding entries to the log is thread-save, but initializing and closing the logger is NOT. This is normally no problem, but I only mention it, to be sure that you know this. It is not save to init or close the logger, while other threads with log-calls are running!
+
+
+Initializing at the anytime somewhere in your code.
+
+```cpp
+#include <libKitsunemimiCommon/logger.h>
+
+// initializing logger to write into a file
+bool ret1 = Kitsunemimi::Persistence::initFileLogger("/tmp", "testlog", true);
+// arguments:
+//      first argument: directory-path
+//      second argument: base file name
+//      third argument: true to enable debug-output. if false only output of info, warning and error
+//
+// result:
+//      true, if initializing was successfule, else false
+
+// initializing logger to write log-messages on the console output
+Kitsunemimi::Persistence::initConsoleLogger(true);
+// argument: true to enable debug-output. if false only output of info, warning and error
+
+```
+
+Using the logger somewhere else in your code. You only need to import the header and then call the log-methods. Like already mentioned, there is no check necessary, if the logger is initialized or not. See following example: 
+
+```cpp
+#include <libKitsunemimiCommon/logger.h>
+
+LOG_DEBUG("debug-message");
+LOG_INFO("info-message");
+LOG_WARNING("warning-message");
+LOG_ERROR("error-message");
+
+/**
+The log-file would look like this:
+
+2019-9-7 22:54:1 ERROR: error-message     
+2019-9-7 22:54:1 WARNING: warning-message 
+2019-9-7 22:54:1 DEBUG: debug-message     
+2019-9-7 22:54:1 INFO: info-message  
+*/
+
+```
+
 
 ## Code-Documentation
 

@@ -9,6 +9,10 @@ INCLUDEPATH += $$PWD \
             ../include
 
 SOURCES += \
+    common_methods/file_methods.cpp \
+    files/binary_file.cpp \
+    files/text_file.cpp \
+    logger.cpp \
     progress_bar.cpp \
     threading/thread.cpp \
     statemachine.cpp \
@@ -30,6 +34,10 @@ SOURCES += \
 
 
 HEADERS += \
+    ../include/libKitsunemimiCommon/common_methods/file_methods.h \
+    ../include/libKitsunemimiCommon/files/binary_file.h \
+    ../include/libKitsunemimiCommon/files/text_file.h \
+    ../include/libKitsunemimiCommon/logger.h \
     ../include/libKitsunemimiCommon/progress_bar.h \
     state.h \
     ../include/libKitsunemimiCommon/buffer/ring_buffer.h \
