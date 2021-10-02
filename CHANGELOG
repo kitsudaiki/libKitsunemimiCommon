@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.20.0] - 2021-10-02
+
+### Added
+- added parts of libKitsunemimiPersistence
+    - logger
+    - functions for binary-files
+    - functions for text-files
+
+### Changed
+- moved from c++14 to c++17
+
+
 ## [0.19.0] - 2021-09-26
 
 ### Added
