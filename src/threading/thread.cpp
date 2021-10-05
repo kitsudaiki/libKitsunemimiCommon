@@ -25,10 +25,8 @@ namespace Kitsunemimi
 /**
  * @brief constructor
  */
-Thread::Thread(int coreId)
+Thread::Thread()
 {
-    m_coreId = coreId;
-
     ThreadHandler::getInstance()->registerThread(this);
 }
 
@@ -52,7 +50,7 @@ Thread::~Thread()
  * @return false if precheck of bind failed, else true
  */
 bool
-Thread::bindThreadToCore(const int coreId)
+Thread::bindThreadToCore(const long coreId)
 {
     // precheck
     uint32_t num_cores = std::thread::hardware_concurrency();;
@@ -73,7 +71,21 @@ Thread::bindThreadToCore(const int coreId)
     if(ret != 0) {
         return false;
     }
+
+    m_coreId = coreId;
+
     return true;
+}
+
+/**
+ * @brief get the id of the core where the thread is bound to
+ *
+ * @return -1 if no core defined, else core-id, on which the thread in bound
+ */
+long
+Thread::getCoreId() const
+{
+    return m_coreId;
 }
 
 /**
@@ -134,11 +146,6 @@ Thread::startThread()
     m_abort = false;
     m_thread = new std::thread(&Thread::run, this);
     m_active = true;
-
-    // bind thread to cpu-thread, if required
-    if(m_coreId >= 0) {
-        bindThreadToCore(m_coreId);
-    }
 
     return true;
 }
