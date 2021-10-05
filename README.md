@@ -447,11 +447,14 @@ public:
 
 int main()
 {
-    // create a thread which is binded to cpu-thread with id 1
-    DemoThread testThread(1);
+    // create a thread
+    DemoThread testThread();
 
     // start thread
     testThread.start();
+
+    // bind thread to cpu-core with id 1
+    testThread.bindThreadToCore(1);
 
     // let the thrad pause the next time the next time it start the while-loop from beginning
     testThread.initBlockThread();
