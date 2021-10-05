@@ -33,7 +33,7 @@ class ThreadHandler;
 class Thread
 {
 public:
-    Thread(int coreId = -1);
+    Thread();
     virtual ~Thread();
 
     bool startThread();
@@ -43,7 +43,8 @@ public:
     void initBlockThread();
 
     bool isActive() const;
-    bool bindThreadToCore(const int coreId);
+    bool bindThreadToCore(const long coreId);
+    long getCoreId() const;
 
     void addEventToQueue(Event* newEvent);
     void clearEventQueue();
@@ -72,7 +73,7 @@ private:
     std::thread* m_thread = nullptr;
     bool m_active = false;
     bool m_scheduledForDeletion = false;
-    int m_coreId = -1;
+    long m_coreId = -1;
 
     // event-queue-variables
     std::deque<Event*> m_eventQueue;
