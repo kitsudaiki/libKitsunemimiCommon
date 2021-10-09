@@ -58,11 +58,8 @@ public:
 
         // init buffer with default-itemes
         T* items = static_cast<T*>(itemData);
-        for(uint32_t i = 0; i < numberOfItems; i++)
-        {
-            T newItem;
-            items[i] = newItem;
-        }
+        T newItem;
+        std::fill_n(items, numberOfItems, newItem);
         this->numberOfItems = numberOfItems;
 
         return true;

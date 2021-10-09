@@ -17,9 +17,9 @@
 namespace Kitsunemimi
 {
 
-//===================================================================
+//==================================================================================================
 // AbstractData
-//===================================================================
+//==================================================================================================
 
 DataItem::~DataItem() {}
 
@@ -283,9 +283,9 @@ DataItem::addIndent(std::string* output,
     }
 }
 
-//===================================================================
+//==================================================================================================
 // DataValue
-//===================================================================
+//==================================================================================================
 
 /**
  * @brief DataValue::DataValue
@@ -382,7 +382,7 @@ DataValue::DataValue(const bool value)
  */
 DataValue::DataValue(const DataValue &other)
 {
-    clear();
+    clearDataValue();
 
     // copy meta-data
     m_type = other.m_type;
@@ -410,7 +410,7 @@ DataValue::DataValue(const DataValue &other)
  */
 DataValue::~DataValue()
 {
-    clear();
+    clearDataValue();
 }
 
 /**
@@ -421,7 +421,7 @@ DataValue
 {
     if(this != &other)
     {
-        clear();
+        clearDataValue();
 
         // copy meta-data
         this->m_type = other.m_type;
@@ -531,6 +531,15 @@ DataValue::remove(const uint64_t)
  */
 void
 DataValue::clear()
+{
+    clearDataValue();
+}
+
+/**
+ * @brief reset content to int-type with value 0
+ */
+void
+DataValue::clearDataValue()
 {
     if(m_valueType == STRING_TYPE
             && m_content.stringValue != nullptr)
@@ -728,9 +737,9 @@ DataValue::setValue(const bool &value)
     m_content.boolValue = value;
 }
 
-//===================================================================
+//==================================================================================================
 // DataMap
-//===================================================================
+//==================================================================================================
 
 /**
  * @brief object for key-value-pairs
@@ -748,7 +757,7 @@ DataMap::DataMap(const DataMap &other)
     std::map<std::string, DataItem*> otherMap = other.m_map;
 
     // clear old map
-    clear();
+    clearDataMap();
 
     // copy meta-data
     m_type = other.m_type;
@@ -773,7 +782,7 @@ DataMap::DataMap(const DataMap &other)
  */
 DataMap::~DataMap()
 {
-    clear();
+    clearDataMap();
 }
 
 /**
@@ -787,7 +796,7 @@ DataMap
         std::map<std::string, DataItem*> otherMap = other.m_map;
 
         // clear old map
-        clear();
+        clearDataMap();
 
         // copy meta-data
         this->m_type = other.m_type;
@@ -1076,6 +1085,15 @@ DataMap::remove(const uint64_t index)
 void
 DataMap::clear()
 {
+    clearDataMap();
+}
+
+/**
+ * @brief delete all elements from the map
+ */
+void
+DataMap::clearDataMap()
+{
     std::map<std::string, DataItem*>::iterator it;
     for(it = m_map.begin();
         it != m_map.end();
@@ -1219,9 +1237,9 @@ DataMap::insert(const std::string &key,
     return true;
 }
 
-//===================================================================
+//==================================================================================================
 // DataArray
-//===================================================================
+//==================================================================================================
 
 /**
  * @brief array for items in data-style
@@ -1237,7 +1255,7 @@ DataArray::DataArray()
 DataArray::DataArray(const DataArray &other)
 {
     // clear old array
-    clear();
+    clearDataArray();
 
     // copy meta-data
     m_type = other.m_type;
@@ -1259,7 +1277,7 @@ DataArray::DataArray(const DataArray &other)
  */
 DataArray::~DataArray()
 {
-    clear();
+    clearDataArray();
 }
 
 /**
@@ -1271,7 +1289,7 @@ DataArray
     if(this != &other)
     {
         // clear old array
-        clear();
+        clearDataArray();
 
         // copy meta-data
         this->m_type = other.m_type;
@@ -1401,6 +1419,15 @@ DataArray::remove(const uint64_t index)
  */
 void
 DataArray::clear()
+{
+    clearDataArray();
+}
+
+/**
+ * @brief DataArray::clearDataArray
+ */
+void
+DataArray::clearDataArray()
 {
     for(uint32_t i = 0; i < this->m_array.size(); i++)
     {
