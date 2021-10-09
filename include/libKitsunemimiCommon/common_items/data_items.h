@@ -52,10 +52,10 @@ public:
     };
 
     // getter
-    virtual DataItem* operator[](const std::string key) = 0;
-    virtual DataItem* operator[](const uint64_t index) = 0;
-    virtual DataItem* get(const std::string key) = 0;
-    virtual DataItem* get(const uint64_t index) = 0;
+    virtual DataItem* operator[](const std::string key) const = 0;
+    virtual DataItem* operator[](const uint64_t index) const = 0;
+    virtual DataItem* get(const std::string key) const = 0;
+    virtual DataItem* get(const uint64_t index) const = 0;
     virtual uint64_t size() const = 0;
 
     // delete
@@ -64,10 +64,10 @@ public:
     virtual void clear() = 0;
 
     // output
-    virtual DataItem* copy() = 0;
+    virtual DataItem* copy() const = 0;
     virtual const std::string toString(bool indent = false,
                                        std::string* output = nullptr,
-                                       uint32_t step = 0) = 0;
+                                       uint32_t step = 0) const = 0;
 
     // checker
     dataTypes getType() const;
@@ -98,7 +98,7 @@ protected:
 
     void addIndent(std::string* output,
                    const bool indent,
-                   const uint32_t level);
+                   const uint32_t level) const;
 };
 
 //===================================================================
@@ -131,10 +131,10 @@ public:
     void setValue(const bool &value);
 
     // getter
-    DataItem* operator[](const std::string);
-    DataItem* operator[](const uint64_t);
-    DataItem* get(const std::string);
-    DataItem* get(const uint64_t);
+    DataItem* operator[](const std::string) const;
+    DataItem* operator[](const uint64_t) const;
+    DataItem* get(const std::string) const;
+    DataItem* get(const uint64_t) const;
     uint64_t size() const;
 
     // delete
@@ -143,10 +143,10 @@ public:
     void clear();
 
     // output
-    DataItem* copy();
+    DataItem* copy() const;
     const std::string toString(const bool indent = false,
                                std::string* output = nullptr,
-                               const uint32_t = 0);
+                               const uint32_t = 0) const;
 
     // content
     union DataValueContent
@@ -178,22 +178,22 @@ public:
                 bool force = false);
 
     // getter
-    DataItem* operator[](const std::string key);
-    DataItem* operator[](const uint64_t index);
-    DataItem* get(const std::string key);
-    DataItem* get(const uint64_t index);
+    DataItem* operator[](const std::string key) const;
+    DataItem* operator[](const uint64_t index) const;
+    DataItem* get(const std::string key) const;
+    DataItem* get(const uint64_t index) const;
     uint64_t size() const;
 
-    const std::vector<std::string> getKeys();
-    const std::vector<DataItem*> getValues();
-    bool contains(const std::string &key);
+    const std::vector<std::string> getKeys() const;
+    const std::vector<DataItem*> getValues() const;
+    bool contains(const std::string &key) const;
 
     // get values by keys
     std::string getStringByKey(const std::string &key);
     int getIntByKey(const std::string &key);
     float getFloatByKey(const std::string &key);
     long getLongByKey(const std::string &key);
-    double getDoubleByKey(const std::string &key);
+    double getDoubleByKey(const std::string &key) const;
 
     // delete
     bool remove(const std::string &key);
@@ -201,10 +201,10 @@ public:
     void clear();
 
     // output
-    DataItem* copy();
+    DataItem* copy() const;
     const std::string toString(const bool indent = false,
                                std::string* output = nullptr,
-                               const uint32_t level = 0);
+                               const uint32_t level = 0) const;
 
     // content
     std::map<std::string, DataItem*> m_map;
@@ -226,10 +226,10 @@ public:
     void append(DataItem* item);
 
     // getter
-    DataItem* operator[](const std::string key);
-    DataItem* operator[](const uint64_t index);
-    DataItem* get(const std::string);
-    DataItem* get(const uint64_t index);
+    DataItem* operator[](const std::string key) const;
+    DataItem* operator[](const uint64_t index) const;
+    DataItem* get(const std::string) const;
+    DataItem* get(const uint64_t index) const;
     uint64_t size() const;
 
     // delete
@@ -238,10 +238,10 @@ public:
     void clear();
 
     // output
-    DataItem* copy();
+    DataItem* copy() const;
     const std::string toString(const bool indent = false,
                                std::string* output = nullptr,
-                               const uint32_t level = 0);
+                               const uint32_t level = 0) const;
 
     // content
     std::vector<DataItem*> m_array;

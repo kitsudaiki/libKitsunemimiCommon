@@ -272,7 +272,7 @@ DataItem::getBool()
 void
 DataItem::addIndent(std::string* output,
                     const bool indent,
-                    const uint32_t level)
+                    const uint32_t level) const
 {
     if(indent == true)
     {
@@ -462,7 +462,7 @@ DataValue::getValueType()
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::operator[](const std::string)
+DataValue::operator[](const std::string) const
 {
     return nullptr;
 }
@@ -471,7 +471,7 @@ DataValue::operator[](const std::string)
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::operator[](const uint64_t)
+DataValue::operator[](const uint64_t) const
 {
     return nullptr;
 }
@@ -480,7 +480,7 @@ DataValue::operator[](const uint64_t)
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::get(const std::string)
+DataValue::get(const std::string) const
 {
     return nullptr;
 }
@@ -489,7 +489,7 @@ DataValue::get(const std::string)
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::get(const uint64_t)
+DataValue::get(const uint64_t) const
 {
     return nullptr;
 }
@@ -549,7 +549,7 @@ DataValue::clear()
  * @return pointer to a copy of the value
  */
 DataItem*
-DataValue::copy()
+DataValue::copy() const
 {
     DataValue* tempItem = nullptr;
 
@@ -578,7 +578,7 @@ DataValue::copy()
 const std::string
 DataValue::toString(const bool,
                     std::string* output,
-                    const uint32_t)
+                    const uint32_t) const
 {
     std::string out = "";
     if(output == nullptr) {
@@ -816,7 +816,7 @@ DataMap
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataMap::operator[](const std::string key)
+DataMap::operator[](const std::string key) const
 {
     return get(key);
 }
@@ -827,7 +827,7 @@ DataMap::operator[](const std::string key)
  * @return nullptr if index is to high, else object
  */
 DataItem*
-DataMap::operator[](const uint64_t index)
+DataMap::operator[](const uint64_t index) const
 {
     return get(index);
 }
@@ -838,7 +838,7 @@ DataMap::operator[](const uint64_t index)
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataMap::get(const std::string key)
+DataMap::get(const std::string key) const
 {
     std::map<std::string, DataItem*>::const_iterator it;
     it = m_map.find(key);
@@ -856,7 +856,7 @@ DataMap::get(const std::string key)
  * @return nullptr if index is to high, else object
  */
 DataItem*
-DataMap::get(const uint64_t index)
+DataMap::get(const uint64_t index) const
 {
     if(m_map.size() <= index) {
         return nullptr;
@@ -894,7 +894,7 @@ DataMap::size() const
  * @return string-list with the keys of the map
  */
 const std::vector<std::string>
-DataMap::getKeys()
+DataMap::getKeys() const
 {
     std::vector<std::string> result;
     std::map<std::string, DataItem*>::const_iterator it;
@@ -914,7 +914,7 @@ DataMap::getKeys()
  * @return DataItem-list with the keys of the map
  */
 const std::vector<DataItem*>
-DataMap::getValues()
+DataMap::getValues() const
 {
     std::vector<DataItem*> result;
     std::map<std::string, DataItem*>::const_iterator it;
@@ -934,13 +934,11 @@ DataMap::getValues()
  * @return false if the key doesn't exist, else true
  */
 bool
-DataMap::contains(const std::string &key)
+DataMap::contains(const std::string &key) const
 {
     std::map<std::string, DataItem*>::const_iterator it;
     it = m_map.find(key);
-
-    if(it != m_map.end())
-    {
+    if(it != m_map.end()) {
         return true;
     }
 
@@ -1007,7 +1005,7 @@ DataMap::getLongByKey(const std::string &key)
  * @brief get the double-value behind the key inside the data-map
  */
 double
-DataMap::getDoubleByKey(const std::string &key)
+DataMap::getDoubleByKey(const std::string &key) const
 {
     DataItem* item = get(key);
     if(item == nullptr) {
@@ -1098,7 +1096,7 @@ DataMap::clear()
  * @return pointer to a copy of the object
  */
 DataItem*
-DataMap::copy()
+DataMap::copy() const
 {
     DataMap* tempItem = new DataMap();
     std::map<std::string, DataItem*>::const_iterator it;
@@ -1122,7 +1120,7 @@ DataMap::copy()
 const std::string
 DataMap::toString(const bool indent,
                   std::string* output,
-                  const uint32_t level)
+                  const uint32_t level) const
 {
     std::string out = "";
 
@@ -1299,7 +1297,7 @@ DataArray
  * @return nullptr if index in key is to high, else true
  */
 DataItem*
-DataArray::operator[](const std::string key)
+DataArray::operator[](const std::string key) const
 {
     return get(key);
 }
@@ -1310,7 +1308,7 @@ DataArray::operator[](const std::string key)
  * @return nullptr if index is to high, else true
  */
 DataItem*
-DataArray::operator[](const uint64_t index)
+DataArray::operator[](const uint64_t index) const
 {
     return get(index);
 }
@@ -1321,7 +1319,7 @@ DataArray::operator[](const uint64_t index)
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataArray::get(const std::string)
+DataArray::get(const std::string) const
 {
     return nullptr;
 }
@@ -1332,7 +1330,7 @@ DataArray::get(const std::string)
  * @return nullptr if index is to high, else the object
  */
 DataItem*
-DataArray::get(const uint64_t index)
+DataArray::get(const uint64_t index) const
 {
     if(m_array.size() <= index) {
         return nullptr;
@@ -1421,7 +1419,7 @@ DataArray::clear()
  * @return pointer to a copy of the array
  */
 DataItem*
-DataArray::copy()
+DataArray::copy() const
 {
     DataArray* tempItem = new DataArray();
 
@@ -1443,7 +1441,7 @@ DataArray::copy()
 const std::string
 DataArray::toString(const bool indent,
                     std::string* output,
-                    const uint32_t level)
+                    const uint32_t level) const
 {
     std::string out = "";
 
