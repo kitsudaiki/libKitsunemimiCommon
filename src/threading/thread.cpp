@@ -24,10 +24,15 @@ namespace Kitsunemimi
 
 /**
  * @brief constructor
+ *
+ * @param startAutomatically true to start the thread without additional function-call
  */
-Thread::Thread()
+Thread::Thread(const bool startAutomatically)
 {
     ThreadHandler::getInstance()->registerThread(this);
+    if(startAutomatically) {
+        startThread();
+    }
 }
 
 /**
@@ -100,6 +105,7 @@ Thread::addEventToQueue(Event* newEvent)
         return;
     }
 
+    // add new event to queue
     while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
     m_eventQueue.push_back(newEvent);
     m_eventQueue_lock.clear(std::memory_order_release);
@@ -150,14 +156,25 @@ Thread::startThread()
     return true;
 }
 
+/**
+ * @brief give thread in case of destruction to a cleanup-thread, because a thread can't delete
+ *        itself
+ *
+ * @return false, if already scheduled for deletion, else true
+ */
 bool
 Thread::scheduleThreadForDeletion()
 {
-    if(m_scheduledForDeletion) {
+    // check and set deletion-flag
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+    if(m_scheduledForDeletion)
+    {
+        m_eventQueue_lock.clear(std::memory_order_release);
         return false;
     }
-
     m_scheduledForDeletion = true;
+
+    // give to cleanup-thread for later deletion
     CleanupThread::getInstance()->addThreadForCleanup(this);
 
     return true;

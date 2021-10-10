@@ -20,13 +20,13 @@
 namespace Kitsunemimi
 {
 
-Kitsunemimi::CleanupThread* CleanupThread::m_instance = nullptr;
+Kitsunemimi::CleanupThread* CleanupThread::m_instance = new CleanupThread();
 
 /**
  * constructor
  */
 CleanupThread::CleanupThread()
-    : Kitsunemimi::Thread() {}
+    : Kitsunemimi::Thread(true) {}
 
 /**
  * @brief destructor
@@ -41,12 +41,6 @@ CleanupThread::~CleanupThread() {}
 CleanupThread*
 CleanupThread::getInstance()
 {
-    if(m_instance == nullptr)
-    {
-        m_instance = new CleanupThread();
-        m_instance->startThread();
-    }
-
     return m_instance;
 }
 

@@ -33,7 +33,7 @@ class ThreadHandler;
 class Thread
 {
 public:
-    Thread();
+    Thread(const bool startAutomatically = false);
     virtual ~Thread();
 
     bool startThread();
