@@ -57,9 +57,9 @@ CleanupThread::getInstance()
 void
 CleanupThread::addThreadForCleanup(Thread* thread)
 {
-    mutexLock();
+    m_mutex.lock();
     m_cleanupQueue.push(thread);
-    mutexUnlock();
+    m_mutex.unlock();
 }
 
 /**
@@ -72,14 +72,14 @@ CleanupThread::run()
     {
         sleepThread(100000);
 
-        mutexLock();
+        m_mutex.lock();
         if(m_cleanupQueue.size() > 0)
         {
             Thread* thread = m_cleanupQueue.front();
             m_cleanupQueue.pop();
             delete thread;
         }
-        mutexUnlock();
+        m_mutex.unlock();
     }
 }
 

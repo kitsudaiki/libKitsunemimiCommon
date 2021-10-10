@@ -221,24 +221,6 @@ Thread::continueThread()
 }
 
 /**
- * @brief simple mutex-lock
- */
-void
-Thread::mutexLock()
-{
-    m_mutex.lock();
-}
-
-/**
- * @brief simple mutex-unlock
- */
-void
-Thread::mutexUnlock()
-{
-    m_mutex.unlock();
-}
-
-/**
  * @brief spin-lock
  */
 void

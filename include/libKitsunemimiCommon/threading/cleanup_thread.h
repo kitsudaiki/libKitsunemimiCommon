@@ -32,6 +32,7 @@ private:
     ~CleanupThread();
 
     std::queue<Thread*> m_cleanupQueue;
+    std::mutex m_mutex;
     static CleanupThread* m_instance;
 };
 

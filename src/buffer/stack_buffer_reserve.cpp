@@ -96,7 +96,6 @@ StackBufferReserve::getBuffer()
     if(m_reserve.size() == 0)
     {
         m_lock.clear(std::memory_order_release);
-
         return new DataBuffer(STACK_BUFFER_BLOCK_SIZE/4096, 4096);
     }
 

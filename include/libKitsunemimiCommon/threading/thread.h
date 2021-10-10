@@ -56,8 +56,6 @@ protected:
     // lock methods
     void blockThread();
     void sleepThread(const uint32_t microSeconds);
-    void mutexLock();
-    void mutexUnlock();
     void spinLock();
     void spinUnlock();
 
@@ -81,7 +79,6 @@ private:
 
     // lock variables
     std::atomic_flag m_spin_lock = ATOMIC_FLAG_INIT;
-    std::mutex m_mutex;
     std::mutex m_cvMutex;
     std::condition_variable m_cv;
 };
