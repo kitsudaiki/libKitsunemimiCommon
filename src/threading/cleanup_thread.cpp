@@ -26,7 +26,7 @@ CleanupThread* CleanupThread::m_cleanupThread = new CleanupThread();
  * constructor
  */
 CleanupThread::CleanupThread()
-    : Kitsunemimi::Thread(true) {}
+    : Kitsunemimi::Thread("Kitsunemimi_CleanupThread", true) {}
 
 /**
  * @brief destructor

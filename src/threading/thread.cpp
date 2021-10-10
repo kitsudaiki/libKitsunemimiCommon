@@ -25,11 +25,12 @@ namespace Kitsunemimi
 /**
  * @brief constructor
  *
+ * @param threadName global unique name of the thread for later identification
  * @param startAutomatically true to start the thread without additional function-call
  */
-Thread::Thread(const bool startAutomatically)
+Thread::Thread(const std::string &threadName,
+               const bool startAutomatically)
 {
-    ThreadHandler::getInstance()->registerThread(this);
     if(startAutomatically) {
         startThread();
     }
@@ -40,7 +41,7 @@ Thread::Thread(const bool startAutomatically)
  */
 Thread::~Thread()
 {
-    ThreadHandler::getInstance()->unregisterThread();
+    ThreadHandler::getInstance()->unregisterThread(m_threadName);
     stopThread();
     clearEventQueue();
 
@@ -91,6 +92,17 @@ long
 Thread::getCoreId() const
 {
     return m_coreId;
+}
+
+/**
+ * @brief get name of the thread
+ *
+ * @return name of the thread
+ */
+const std::string
+Thread::getThreadName() const
+{
+    return m_threadName;
 }
 
 /**
@@ -149,9 +161,13 @@ Thread::startThread()
     }
 
     // init new thread
+    if(ThreadHandler::getInstance()->registerThread(this) == false) {
+        return false;
+    }
+
     m_abort = false;
-    m_thread = new std::thread(&Thread::run, this);
     m_active = true;
+    m_thread = new std::thread(&Thread::run, this);
 
     return true;
 }

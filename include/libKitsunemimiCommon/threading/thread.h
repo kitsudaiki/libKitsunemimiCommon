@@ -33,7 +33,8 @@ class ThreadHandler;
 class Thread
 {
 public:
-    Thread(const bool startAutomatically = false);
+    Thread(const std::string &threadName,
+           const bool startAutomatically = false);
     virtual ~Thread();
 
     bool startThread();
@@ -45,6 +46,7 @@ public:
     bool isActive() const;
     bool bindThreadToCore(const long coreId);
     long getCoreId() const;
+    const std::string getThreadName() const;
 
     void addEventToQueue(Event* newEvent);
     void clearEventQueue();
@@ -72,6 +74,7 @@ private:
     bool m_active = false;
     bool m_scheduledForDeletion = false;
     long m_coreId = -1;
+    std::string m_threadName = "";
 
     // event-queue-variables
     std::deque<Event*> m_eventQueue;

@@ -11,7 +11,8 @@
 namespace Kitsunemimi
 {
 
-BogusThread::BogusThread() {}
+BogusThread::BogusThread()
+    : Kitsunemimi::Thread("BogusThread") {}
 
 void BogusThread::run()
 {

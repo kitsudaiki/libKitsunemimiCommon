@@ -142,33 +142,33 @@ DataItems_DataValue_Test::copy_test()
 
     // default-value
     DataValue* defaultValueCopy = dynamic_cast<DataValue*>(defaultValue.copy());
-    TEST_EQUAL(std::string(defaultValue.m_content.stringValue),
-             std::string(defaultValueCopy->m_content.stringValue));
+    TEST_EQUAL(std::string(defaultValue.content.stringValue),
+             std::string(defaultValueCopy->content.stringValue));
 
     // string-value
     DataValue* stringValueCopy = dynamic_cast<DataValue*>(stringValue.copy());
-    TEST_EQUAL(std::string(stringValue.m_content.stringValue),
-             std::string(stringValueCopy->m_content.stringValue));
+    TEST_EQUAL(std::string(stringValue.content.stringValue),
+             std::string(stringValueCopy->content.stringValue));
 
     // int-value
     DataValue* intValueCopy = dynamic_cast<DataValue*>(intValue.copy());
-    TEST_EQUAL(intValue.m_content.longValue, intValueCopy->m_content.longValue);
+    TEST_EQUAL(intValue.content.longValue, intValueCopy->content.longValue);
 
     // float-value
     DataValue* floatValueCopy = dynamic_cast<DataValue*>(floatValue.copy());
-    TEST_EQUAL(floatValue.m_content.doubleValue, floatValueCopy->m_content.doubleValue);
+    TEST_EQUAL(floatValue.content.doubleValue, floatValueCopy->content.doubleValue);
 
     // long-value
     DataValue* longValueCopy = dynamic_cast<DataValue*>(longValue.copy());
-    TEST_EQUAL(longValue.m_content.longValue, longValueCopy->m_content.longValue);
+    TEST_EQUAL(longValue.content.longValue, longValueCopy->content.longValue);
 
     // double-value
     DataValue* doubleValueCopy = dynamic_cast<DataValue*>(doubleValue.copy());
-    TEST_EQUAL(doubleValue.m_content.doubleValue, doubleValueCopy->m_content.doubleValue);
+    TEST_EQUAL(doubleValue.content.doubleValue, doubleValueCopy->content.doubleValue);
 
     // bool-value
     DataValue* boolValueCopy = dynamic_cast<DataValue*>(boolValue.copy());
-    TEST_EQUAL(boolValue.m_content.boolValue, boolValueCopy->m_content.boolValue);
+    TEST_EQUAL(boolValue.content.boolValue, boolValueCopy->content.boolValue);
 
     // cleanup
     delete defaultValueCopy;
@@ -360,32 +360,32 @@ DataItems_DataValue_Test::setValue_test()
     // string-value
     defaultValue.setValue("test");
     TEST_EQUAL(defaultValue.getValueType(), DataItem::STRING_TYPE);
-    TEST_EQUAL(std::string(defaultValue.m_content.stringValue), "test");
+    TEST_EQUAL(std::string(defaultValue.content.stringValue), "test");
 
     // int-value
     defaultValue.setValue(42);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::INT_TYPE);
-    TEST_EQUAL(defaultValue.m_content.longValue, 42);
+    TEST_EQUAL(defaultValue.content.longValue, 42);
 
     // float-value
     defaultValue.setValue(42.5f);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
-    TEST_EQUAL(defaultValue.m_content.doubleValue, 42.5f);
+    TEST_EQUAL(defaultValue.content.doubleValue, 42.5f);
 
     // long-value
     defaultValue.setValue(42l);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::INT_TYPE);
-    TEST_EQUAL(defaultValue.m_content.longValue, 42l);
+    TEST_EQUAL(defaultValue.content.longValue, 42l);
 
     // double-value
     defaultValue.setValue(42.5);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::FLOAT_TYPE);
-    TEST_EQUAL(defaultValue.m_content.doubleValue, 42.5);
+    TEST_EQUAL(defaultValue.content.doubleValue, 42.5);
 
     // bool-value
     defaultValue.setValue(true);
     TEST_EQUAL(defaultValue.getValueType(), DataItem::BOOL_TYPE);
-    TEST_EQUAL(defaultValue.m_content.boolValue, true);
+    TEST_EQUAL(defaultValue.content.boolValue, true);
 }
 
 }  // namespace Kitsunemimi
