@@ -38,6 +38,7 @@ public:
     virtual ~Thread();
 
     bool startThread();
+
     bool scheduleThreadForDeletion();
 
     void continueThread();
@@ -74,7 +75,7 @@ private:
     bool m_active = false;
     bool m_scheduledForDeletion = false;
     long m_coreId = -1;
-    std::string m_threadName = "";
+    const std::string m_threadName = "";
 
     // event-queue-variables
     std::deque<Event*> m_eventQueue;

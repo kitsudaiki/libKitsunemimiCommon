@@ -68,7 +68,7 @@ Stack of multiple data-buffer together with a reserve-class to avoid unnecessary
 
 This class is only a collection of some thread-function like blocking and so on which I often use. This makes the creation of threads more easy for me. Additionally this class provides the ability to bind a new one of this thread to a specific cpu-thread.
 
-#### Threads
+#### Barrier
 
 *include-file:* `libKitsunemimiCommon/threading/barrier.h`
 
@@ -425,8 +425,9 @@ class DemoThread
 {
 
 public:
-    DemoThread();
-
+    DemoThread() : Kitsunemimi::Thread("DemoThread");
+    // each thread is given a name
+    
     void run()
     {
         while(!m_abort)
@@ -451,7 +452,7 @@ int main()
     DemoThread testThread();
 
     // start thread
-    testThread.start();
+    testThread.startThread();
 
     // bind thread to cpu-core with id 1
     testThread.bindThreadToCore(1);
@@ -463,7 +464,7 @@ int main()
     testThread.continueThread();
 
     // stop the thread and wait until he has finished his work
-    testThread.stop();
+    testThread.stopThread();
 
     return 0;
 }

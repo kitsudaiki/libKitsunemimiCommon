@@ -30,6 +30,7 @@ namespace Kitsunemimi
  */
 Thread::Thread(const std::string &threadName,
                const bool startAutomatically)
+    : m_threadName(threadName)
 {
     if(startAutomatically) {
         startThread();
@@ -189,6 +190,7 @@ Thread::scheduleThreadForDeletion()
         return false;
     }
     m_scheduledForDeletion = true;
+    m_eventQueue_lock.clear(std::memory_order_release);
 
     // give to cleanup-thread for later deletion
     CleanupThread::getInstance()->addThreadForCleanup(this);

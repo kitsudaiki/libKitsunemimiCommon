@@ -23,6 +23,8 @@
 #include <libKitsunemimiCommon/progress_bar_test.h>
 #include <libKitsunemimiCommon/logger_test.h>
 
+#include <libKitsunemimiCommon/threading/thread_handler_test.h>
+
 #include <libKitsunemimiCommon/common_items/data_items_DataArray_test.h>
 #include <libKitsunemimiCommon/common_items/data_items_DataMap_test.h>
 #include <libKitsunemimiCommon/common_items/data_items_DataValue_test.h>
@@ -48,6 +50,8 @@ int main()
     Kitsunemimi::Statemachine_Test();
     Kitsunemimi::ProgressBar_Test();
     Kitsunemimi::Logger_Test();
+
+    Kitsunemimi::ThreadHandler_Test();
 
     Kitsunemimi::DataItems_DataValue_Test();
     Kitsunemimi::DataItems_DataArray_Test();
