@@ -99,7 +99,7 @@ extendBuffer_StackBuffer(StackBuffer &stackBuffer)
     }
 
     // set pre-offset inside the new buffer and add it to the new buffer
-    newBlock->bufferPosition += stackBuffer.preOffset;
+    newBlock->usedBufferSize += stackBuffer.preOffset;
     stackBuffer.blocks.push_back(newBlock);
 }
 
@@ -135,7 +135,7 @@ addData_StackBuffer(StackBuffer &stackBuffer,
     {
         // get current buffer from the stack and calculate estimated size after writing the new data
         currentBlock = stackBuffer.blocks.back();
-        const uint64_t estimatedSize = currentBlock->bufferPosition
+        const uint64_t estimatedSize = currentBlock->usedBufferSize
                                        + stackBuffer.postOffset
                                        + dataSize;
 
@@ -149,8 +149,8 @@ addData_StackBuffer(StackBuffer &stackBuffer,
 
     // write data into buffer
     uint8_t* dataPos = static_cast<uint8_t*>(currentBlock->data);
-    memcpy(&dataPos[currentBlock->bufferPosition], data, dataSize);
-    currentBlock->bufferPosition += dataSize;
+    memcpy(&dataPos[currentBlock->usedBufferSize], data, dataSize);
+    currentBlock->usedBufferSize += dataSize;
 
     return true;
 }
@@ -208,7 +208,7 @@ removeFirst_StackBuffer(StackBuffer &stackBuffer)
 
     // move buffer from the stack into the reserve
     DataBuffer* temp = stackBuffer.blocks.front();
-    temp->bufferPosition = 0;
+    temp->usedBufferSize = 0;
     stackBuffer.blocks.pop_front();
 
     // add to local reserve, if there is no one is set or else add to central stack-buffer-reserve
@@ -236,7 +236,7 @@ reset_StackBuffer(StackBuffer &stackBuffer)
         it++)
     {
         DataBuffer* temp = *it;
-        temp->bufferPosition = 0;
+        temp->usedBufferSize = 0;
         *it = nullptr;
 
         // move local reserve to central stack-buffer-reserve

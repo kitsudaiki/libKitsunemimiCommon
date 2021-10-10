@@ -183,7 +183,7 @@ BinaryFile::readCompleteFile(DataBuffer &buffer)
     }
 
     // size buffer-size
-    buffer.bufferPosition = static_cast<uint64_t>(size);
+    buffer.usedBufferSize = static_cast<uint64_t>(size);
 
     return true;
 }
@@ -223,7 +223,7 @@ BinaryFile::writeCompleteFile(DataBuffer &buffer)
 
     // go to the beginning of the file and write data to file
     lseek(m_fileDescriptor, 0, SEEK_SET);
-    const ssize_t ret = write(m_fileDescriptor, buffer.data, buffer.bufferPosition);
+    const ssize_t ret = write(m_fileDescriptor, buffer.data, buffer.usedBufferSize);
     if(ret == -1)
     {
         // TODO: process errno

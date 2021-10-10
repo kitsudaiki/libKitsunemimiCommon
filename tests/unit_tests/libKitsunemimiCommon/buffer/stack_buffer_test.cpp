@@ -95,7 +95,7 @@ StackBuffer_Test::addObject_StackBuffer_test()
 
     // run test
     addObject_StackBuffer(stackBuffer, &testValue);
-    TEST_EQUAL(stackBuffer.blocks.at(0)->bufferPosition, sizeof(testValue));
+    TEST_EQUAL(stackBuffer.blocks.at(0)->usedBufferSize, sizeof(testValue));
 }
 
 /**

@@ -5,6 +5,8 @@ namespace Kitsunemimi
 
 /**
  * @brief constructor
+ *
+ * @param reserveSize maximum number of items in reserver
  */
 StackBufferReserve::StackBufferReserve(const uint32_t reserveSize)
 {
@@ -55,7 +57,7 @@ StackBufferReserve::addBuffer(DataBuffer* buffer)
     else
     {
         // reset buffer and add to reserve
-        buffer->bufferPosition = 0;
+        buffer->usedBufferSize = 0;
         m_reserve.push_back(buffer);
     }
 

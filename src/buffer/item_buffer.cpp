@@ -58,7 +58,7 @@ ItemBuffer::initDataBlocks(const uint64_t numberOfItems,
 
     // allocate blocks in buffer
     Kitsunemimi::allocateBlocks_DataBuffer(buffer, requiredNumberOfBlocks);
-    buffer.bufferPosition = requiredBytes;
+    buffer.usedBufferSize = requiredBytes;
 
     staticData = buffer.data;
     itemData = static_cast<uint8_t*>(buffer.data) + staticSize;
