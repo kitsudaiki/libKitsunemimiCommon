@@ -37,7 +37,7 @@ ThreadHandler::getInstance()
 const std::vector<std::string>
 ThreadHandler::getRegisteredThreads()
 {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     std::vector<std::string> result;
     std::map<std::string, Thread*>::const_iterator it;
@@ -61,7 +61,7 @@ ThreadHandler::getRegisteredThreads()
 Thread*
 ThreadHandler::getThread(const std::string &threadName)
 {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     std::map<std::string, Thread*>::iterator it;
     it = m_allThreads.find(threadName);
@@ -82,7 +82,7 @@ ThreadHandler::getThread(const std::string &threadName)
 bool
 ThreadHandler::registerThread(Thread* thread)
 {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     std::map<std::string, Thread*>::iterator it;
     it = m_allThreads.find(thread->getThreadName());
@@ -103,7 +103,7 @@ ThreadHandler::registerThread(Thread* thread)
 bool
 ThreadHandler::unregisterThread(const std::string &threadName)
 {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     std::map<std::string, Thread*>::iterator it;
     it = m_allThreads.find(threadName);

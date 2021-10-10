@@ -26,25 +26,23 @@ void
 ThreadHandler_Test::all_test()
 {
     std::vector<std::string> keys = ThreadHandler::getInstance()->getRegisteredThreads();
-    TEST_EQUAL(keys.size(), 1);
+    TEST_EQUAL(keys.size(), 0);
 
     DummyThread* testThread = new DummyThread();
 
     keys = ThreadHandler::getInstance()->getRegisteredThreads();
-    TEST_EQUAL(keys.size(), 2);
+    TEST_EQUAL(keys.size(), 1);
     sleep(1);
-    if(keys.size() < 2) {
+    if(keys.size() < 1) {
         return;
     }
 
-    const bool found = keys.at(0) == "DummyThread"
-                       || keys.at(1) == "DummyThread";
-    TEST_EQUAL(found, true);
+    TEST_EQUAL(keys.at(0), "DummyThread");
 
     delete testThread;
 
     keys = ThreadHandler::getInstance()->getRegisteredThreads();
-    TEST_EQUAL(keys.size(), 1);
+    TEST_EQUAL(keys.size(), 0);
 }
 
 //==================================================================================================
