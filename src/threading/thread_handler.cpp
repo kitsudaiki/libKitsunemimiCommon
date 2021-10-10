@@ -14,7 +14,7 @@
 namespace Kitsunemimi
 {
 
-Kitsunemimi::ThreadHandler* ThreadHandler::m_instance = nullptr;
+Kitsunemimi::ThreadHandler* ThreadHandler::m_instance = new ThreadHandler();
 
 ThreadHandler::ThreadHandler() {}
 
@@ -26,22 +26,73 @@ ThreadHandler::ThreadHandler() {}
 ThreadHandler*
 ThreadHandler::getInstance()
 {
-    if(m_instance == nullptr) {
-        m_instance = new ThreadHandler();
+    return m_instance;
+}
+
+/**
+ * @brief get names of all registered threads
+ *
+ * @return list of names of all registred threads
+ */
+const std::vector<std::string>
+ThreadHandler::getRegisteredThreads()
+{
+    std::lock_guard<std::mutex> guard(m_mutex);
+
+    std::vector<std::string> result;
+    std::map<std::string, Thread*>::const_iterator it;
+    for(it = m_allThreads.begin();
+        it != m_allThreads.end();
+        it++)
+    {
+        result.push_back(it->first);
     }
 
-    return m_instance;
+    return result;
+}
+
+/**
+ * @brief get a registered thread by name
+ *
+ * @param threadName name of the requested thread
+ *
+ * @return nullptr if no thread was found, else pointer to the thread
+ */
+Thread*
+ThreadHandler::getThread(const std::string &threadName)
+{
+    std::lock_guard<std::mutex> guard(m_mutex);
+
+    std::map<std::string, Thread*>::iterator it;
+    it = m_allThreads.find(threadName);
+    if(it != m_allThreads.end()) {
+        return it->second;
+    }
+
+    return nullptr;
 }
 
 /**
  * @brief add thread to thread-handler
  *
- * @param thread pointer to the thread-object
+ * @param thread pointer to the thread-
+ *
+ * @return false if name already registered, else true
  */
-void
+bool
 ThreadHandler::registerThread(Thread* thread)
 {
-    m_allThreads.insert(std::make_pair(std::this_thread::get_id(), thread));
+    std::lock_guard<std::mutex> guard(m_mutex);
+
+    std::map<std::string, Thread*>::iterator it;
+    it = m_allThreads.find(thread->getThreadName());
+    if(it != m_allThreads.end()) {
+        return false;
+    }
+
+    m_allThreads.insert(std::make_pair(thread->getThreadName(), thread));
+
+    return true;
 }
 
 /**
@@ -50,10 +101,12 @@ ThreadHandler::registerThread(Thread* thread)
  * @return false, if thread-id doesn't exist, else true
  */
 bool
-ThreadHandler::unregisterThread()
+ThreadHandler::unregisterThread(const std::string &threadName)
 {
-    std::map<std::thread::id, Thread*>::iterator it;
-    it = m_allThreads.find(std::this_thread::get_id());
+    std::lock_guard<std::mutex> guard(m_mutex);
+
+    std::map<std::string, Thread*>::iterator it;
+    it = m_allThreads.find(threadName);
     if(it != m_allThreads.end())
     {
         m_allThreads.erase(it);

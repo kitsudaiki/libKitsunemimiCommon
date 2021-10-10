@@ -33,10 +33,12 @@ class ThreadHandler;
 class Thread
 {
 public:
-    Thread();
+    Thread(const std::string &threadName,
+           const bool startAutomatically = false);
     virtual ~Thread();
 
     bool startThread();
+
     bool scheduleThreadForDeletion();
 
     void continueThread();
@@ -45,6 +47,7 @@ public:
     bool isActive() const;
     bool bindThreadToCore(const long coreId);
     long getCoreId() const;
+    const std::string getThreadName() const;
 
     void addEventToQueue(Event* newEvent);
     void clearEventQueue();
@@ -56,8 +59,6 @@ protected:
     // lock methods
     void blockThread();
     void sleepThread(const uint32_t microSeconds);
-    void mutexLock();
-    void mutexUnlock();
     void spinLock();
     void spinUnlock();
 
@@ -74,6 +75,7 @@ private:
     bool m_active = false;
     bool m_scheduledForDeletion = false;
     long m_coreId = -1;
+    const std::string m_threadName = "";
 
     // event-queue-variables
     std::deque<Event*> m_eventQueue;
@@ -81,7 +83,6 @@ private:
 
     // lock variables
     std::atomic_flag m_spin_lock = ATOMIC_FLAG_INIT;
-    std::mutex m_mutex;
     std::mutex m_cvMutex;
     std::condition_variable m_cv;
 };

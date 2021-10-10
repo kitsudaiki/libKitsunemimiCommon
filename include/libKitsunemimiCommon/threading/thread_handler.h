@@ -10,7 +10,9 @@
 #define THREAD_HANDLER_CPP
 
 #include <map>
-#include <thread>
+#include <string>
+#include <vector>
+#include <mutex>
 
 namespace Kitsunemimi
 {
@@ -22,15 +24,19 @@ class ThreadHandler
 public:
     static ThreadHandler* getInstance();
 
+    const std::vector<std::string> getRegisteredThreads();
+    Thread* getThread(const std::string &threadName);
+
 private:
     friend Kitsunemimi::Thread;
 
     ThreadHandler();
 
-    void registerThread(Thread* thread);
-    bool unregisterThread();
+    bool registerThread(Thread* thread);
+    bool unregisterThread(const std::string &threadName);
 
-    std::map<std::thread::id, Thread*> m_allThreads;
+    std::map<std::string, Thread*> m_allThreads;
+    std::mutex m_mutex;
 
     static ThreadHandler* m_instance;
 };

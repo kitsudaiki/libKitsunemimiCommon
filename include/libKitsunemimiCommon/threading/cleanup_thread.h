@@ -32,7 +32,8 @@ private:
     ~CleanupThread();
 
     std::queue<Thread*> m_cleanupQueue;
-    static CleanupThread* m_instance;
+    std::mutex m_mutex;
+    static CleanupThread* m_cleanupThread;
 };
 
 } // namespace Kitsunemimi

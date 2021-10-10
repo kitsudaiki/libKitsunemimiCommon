@@ -23,7 +23,6 @@
 
 namespace Kitsunemimi
 {
-static Kitsunemimi::StackBufferReserve* m_stackBufferReserve = nullptr;
 
 struct StackBuffer
 {
@@ -34,7 +33,6 @@ struct StackBuffer
 
     std::deque<DataBuffer*> blocks;
     DataBuffer* localReserve = nullptr;
-    StackBufferReserve* stackBufferReserve = nullptr;
 
     /**
      * @brief constructor
@@ -48,11 +46,6 @@ struct StackBuffer
         this->preOffset = preOffset;
         this->postOffset = postOffset;
         this->effectiveBlockSize = blockSize - preOffset - postOffset;
-
-        if(Kitsunemimi::m_stackBufferReserve == nullptr) {
-            Kitsunemimi::m_stackBufferReserve = new StackBufferReserve();
-        }
-        stackBufferReserve = Kitsunemimi::m_stackBufferReserve;
     }
 
     /**
@@ -67,12 +60,12 @@ struct StackBuffer
             it++)
         {
             DataBuffer* temp = *it;
-            stackBufferReserve->addBuffer(temp);
+            StackBufferReserve::getInstance()->addBuffer(temp);
         }
 
         // move local reserve to central stack-buffer-reserve
         if(localReserve != nullptr) {
-            stackBufferReserve->addBuffer(localReserve);
+            StackBufferReserve::getInstance()->addBuffer(localReserve);
         }
     }
 };
@@ -95,11 +88,11 @@ extendBuffer_StackBuffer(StackBuffer &stackBuffer)
     }
     else
     {
-        newBlock = stackBuffer.stackBufferReserve->getBuffer();
+        newBlock = StackBufferReserve::getInstance()->getBuffer();
     }
 
     // set pre-offset inside the new buffer and add it to the new buffer
-    newBlock->bufferPosition += stackBuffer.preOffset;
+    newBlock->usedBufferSize += stackBuffer.preOffset;
     stackBuffer.blocks.push_back(newBlock);
 }
 
@@ -135,7 +128,7 @@ addData_StackBuffer(StackBuffer &stackBuffer,
     {
         // get current buffer from the stack and calculate estimated size after writing the new data
         currentBlock = stackBuffer.blocks.back();
-        const uint64_t estimatedSize = currentBlock->bufferPosition
+        const uint64_t estimatedSize = currentBlock->usedBufferSize
                                        + stackBuffer.postOffset
                                        + dataSize;
 
@@ -149,8 +142,8 @@ addData_StackBuffer(StackBuffer &stackBuffer,
 
     // write data into buffer
     uint8_t* dataPos = static_cast<uint8_t*>(currentBlock->data);
-    memcpy(&dataPos[currentBlock->bufferPosition], data, dataSize);
-    currentBlock->bufferPosition += dataSize;
+    memcpy(&dataPos[currentBlock->usedBufferSize], data, dataSize);
+    currentBlock->usedBufferSize += dataSize;
 
     return true;
 }
@@ -208,14 +201,14 @@ removeFirst_StackBuffer(StackBuffer &stackBuffer)
 
     // move buffer from the stack into the reserve
     DataBuffer* temp = stackBuffer.blocks.front();
-    temp->bufferPosition = 0;
+    temp->usedBufferSize = 0;
     stackBuffer.blocks.pop_front();
 
     // add to local reserve, if there is no one is set or else add to central stack-buffer-reserve
     if(stackBuffer.localReserve == nullptr) {
         stackBuffer.localReserve = temp;
     } else {
-        stackBuffer.stackBufferReserve->addBuffer(temp);
+        StackBufferReserve::getInstance()->addBuffer(temp);
     }
 
     return true;
@@ -236,14 +229,14 @@ reset_StackBuffer(StackBuffer &stackBuffer)
         it++)
     {
         DataBuffer* temp = *it;
-        temp->bufferPosition = 0;
+        temp->usedBufferSize = 0;
         *it = nullptr;
 
         // move local reserve to central stack-buffer-reserve
         if(stackBuffer.localReserve == nullptr) {
             stackBuffer.localReserve = temp;
         } else {
-            stackBuffer.stackBufferReserve->addBuffer(temp);
+            StackBufferReserve::getInstance()->addBuffer(temp);
         }
     }
 

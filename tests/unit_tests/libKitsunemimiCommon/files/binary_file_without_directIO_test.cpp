@@ -121,7 +121,7 @@ BinaryFile_withoutDirectIO_Test::writeSegment_test()
     testStruct.a = 42;
     testStruct.c = 1337;
     addObject_DataBuffer(buffer, &testStruct);
-    buffer.bufferPosition = 2000;
+    buffer.usedBufferSize = 2000;
     addObject_DataBuffer(buffer, &testStruct);
 
     // write-tests
@@ -157,7 +157,7 @@ BinaryFile_withoutDirectIO_Test::readSegment_test()
     addObject_DataBuffer(buffer, &testStruct);
     testStruct.a = 10;
     testStruct.c = 1234;
-    buffer.bufferPosition = 2000;
+    buffer.usedBufferSize = 2000;
     addObject_DataBuffer(buffer, &testStruct);
 
     // write the two blocks of the buffer
@@ -218,7 +218,7 @@ BinaryFile_withoutDirectIO_Test::writeCompleteFile_test()
     addObject_DataBuffer(buffer, &testStruct);
 
     // test with buffer-size unequal a multiple of the block-size
-    buffer.bufferPosition = 2 * buffer.blockSize + 1;
+    buffer.usedBufferSize = 2 * buffer.blockSize + 1;
 
     TEST_EQUAL(binaryFile.writeCompleteFile(buffer), true);
 
@@ -248,8 +248,8 @@ BinaryFile_withoutDirectIO_Test::readCompleteFile_test()
     addObject_DataBuffer(sourceBuffer, &testStruct);
 
     // test with buffer-size unequal a multiple of the block-size
-    sourceBuffer.bufferPosition = 2 * sourceBuffer.blockSize + 1;
-    targetBuffer.bufferPosition = 2 * targetBuffer.blockSize + 1;
+    sourceBuffer.usedBufferSize = 2 * sourceBuffer.blockSize + 1;
+    targetBuffer.usedBufferSize = 2 * targetBuffer.blockSize + 1;
 
     binaryFile.writeCompleteFile(sourceBuffer);
     TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer), true);

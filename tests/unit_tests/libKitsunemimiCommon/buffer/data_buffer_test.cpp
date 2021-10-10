@@ -57,7 +57,7 @@ DataBuffer_Test::constructor_test()
     bool isNullptr = testBuffer.data == nullptr;
     TEST_EQUAL(isNullptr, false);
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
-    TEST_EQUAL(testBuffer.bufferPosition, 0);
+    TEST_EQUAL(testBuffer.usedBufferSize, 0);
     TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 }
 
@@ -77,7 +77,7 @@ DataBuffer_Test::copy_assingment_constructor_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
-    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.usedBufferSize, 10);
     TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // use copy contstructor
@@ -85,7 +85,7 @@ DataBuffer_Test::copy_assingment_constructor_test()
 
     // check metadata of the new buffer
     TEST_EQUAL(bufferCopy.numberOfBlocks, 10);
-    TEST_EQUAL(bufferCopy.bufferPosition, 10);
+    TEST_EQUAL(bufferCopy.usedBufferSize, 10);
     TEST_EQUAL(bufferCopy.totalBufferSize, 10*bufferCopy.blockSize);
 
     // check content of the new buffer
@@ -109,7 +109,7 @@ DataBuffer_Test::copy_assingment_operator_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
-    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.usedBufferSize, 10);
     TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // use copy assignment
@@ -118,7 +118,7 @@ DataBuffer_Test::copy_assingment_operator_test()
 
     // check metadata of the new buffer
     TEST_EQUAL(bufferCopy.numberOfBlocks, 10);
-    TEST_EQUAL(bufferCopy.bufferPosition, 10);
+    TEST_EQUAL(bufferCopy.usedBufferSize, 10);
     TEST_EQUAL(bufferCopy.totalBufferSize, 10*bufferCopy.blockSize);
 
     // check content of the new buffer
@@ -142,7 +142,7 @@ DataBuffer_Test::addObject_DataBuffer_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
-    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.usedBufferSize, 10);
     TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // check content of the buffer
@@ -187,7 +187,7 @@ DataBuffer_Test::reset_DataBuffer_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 1);
-    TEST_EQUAL(testBuffer.bufferPosition, 0);
+    TEST_EQUAL(testBuffer.usedBufferSize, 0);
     TEST_EQUAL(testBuffer.totalBufferSize, 1*testBuffer.blockSize);
 
     // check content of the buffer
@@ -207,7 +207,7 @@ DataBuffer_Test::addData_DataBuffer_test()
     testStruct.b = 42;
 
     // check metadata of the buffer
-    TEST_EQUAL(testBuffer.bufferPosition, 0);
+    TEST_EQUAL(testBuffer.usedBufferSize, 0);
 
     // add data to buffer
     void* testStructPtr = static_cast<void*>(&testStruct);
@@ -215,7 +215,7 @@ DataBuffer_Test::addData_DataBuffer_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
-    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.usedBufferSize, 10);
     TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // check content of the buffer
@@ -239,7 +239,7 @@ DataBuffer_Test::allocateBlocks_DataBuffer_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 10);
-    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.usedBufferSize, 10);
     TEST_EQUAL(testBuffer.totalBufferSize, 10*testBuffer.blockSize);
 
     // check content of the buffer
@@ -251,7 +251,7 @@ DataBuffer_Test::allocateBlocks_DataBuffer_test()
 
     // check metadata of the buffer
     TEST_EQUAL(testBuffer.numberOfBlocks, 11);
-    TEST_EQUAL(testBuffer.bufferPosition, 10);
+    TEST_EQUAL(testBuffer.usedBufferSize, 10);
     TEST_EQUAL(testBuffer.totalBufferSize, 11*testBuffer.blockSize);
 
     // check content of the buffer

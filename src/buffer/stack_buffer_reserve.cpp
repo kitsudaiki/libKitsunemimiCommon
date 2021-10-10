@@ -3,8 +3,12 @@
 namespace Kitsunemimi
 {
 
+StackBufferReserve* StackBufferReserve::m_stackBufferReserve = new StackBufferReserve();
+
 /**
  * @brief constructor
+ *
+ * @param reserveSize maximum number of items in reserver
  */
 StackBufferReserve::StackBufferReserve(const uint32_t reserveSize)
 {
@@ -28,6 +32,17 @@ StackBufferReserve::~StackBufferReserve()
     }
 
     m_lock.clear(std::memory_order_release);
+}
+
+/**
+ * @brief static methode to get instance of the interface
+ *
+ * @return pointer to the static instance
+ */
+StackBufferReserve*
+StackBufferReserve::getInstance()
+{
+    return m_stackBufferReserve;
 }
 
 /**
@@ -55,7 +70,7 @@ StackBufferReserve::addBuffer(DataBuffer* buffer)
     else
     {
         // reset buffer and add to reserve
-        buffer->bufferPosition = 0;
+        buffer->usedBufferSize = 0;
         m_reserve.push_back(buffer);
     }
 
@@ -94,7 +109,6 @@ StackBufferReserve::getBuffer()
     if(m_reserve.size() == 0)
     {
         m_lock.clear(std::memory_order_release);
-
         return new DataBuffer(STACK_BUFFER_BLOCK_SIZE/4096, 4096);
     }
 

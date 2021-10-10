@@ -13,7 +13,7 @@
 namespace Kitsunemimi
 {
 
-Kitsunemimi::Logger* Logger::m_logger = nullptr;
+Kitsunemimi::Logger* Logger::m_logger = new Kitsunemimi::Logger();
 
 /**
  * @brief initialize file logger
@@ -28,10 +28,6 @@ bool initFileLogger(const std::string &directoryPath,
                     const std::string &baseFileName,
                     const bool debugLog)
 {
-    if(Logger::m_logger == nullptr) {
-        Logger::m_logger = new Kitsunemimi::Logger();
-    }
-
     return Logger::m_logger->initFileLogger(directoryPath, baseFileName, debugLog);
 }
 
@@ -44,10 +40,6 @@ bool initFileLogger(const std::string &directoryPath,
  */
 bool initConsoleLogger(const bool debugLog)
 {
-    if(Logger::m_logger == nullptr) {
-        Logger::m_logger = new Kitsunemimi::Logger();
-    }
-
     return Logger::m_logger->initConsoleLogger(debugLog);
 }
 
@@ -62,10 +54,6 @@ bool initConsoleLogger(const bool debugLog)
 bool
 setDebugFlag(const bool debugLog)
 {
-    if(Logger::m_logger == nullptr) {
-        return false;
-    }
-
     return Logger::m_logger->setDebugFlag(debugLog);
 }
 
@@ -75,10 +63,6 @@ setDebugFlag(const bool debugLog)
 bool
 LOG_debug(const std::string message)
 {
-    if(Kitsunemimi::Logger::m_logger == nullptr) {
-        return false;
-    }
-
     return Kitsunemimi::Logger::m_logger->logData(message, "DEBUG", BLUE_COLOR, true);
 }
 
@@ -88,10 +72,6 @@ LOG_debug(const std::string message)
 bool
 LOG_warning(const std::string message)
 {
-    if(Kitsunemimi::Logger::m_logger == nullptr) {
-        return false;
-    }
-
     return Kitsunemimi::Logger::m_logger->logData(message, "WARNING", YELLOW_COLOR);
 }
 
@@ -101,10 +81,6 @@ LOG_warning(const std::string message)
 bool
 LOG_error(const std::string message)
 {
-    if(Kitsunemimi::Logger::m_logger == nullptr) {
-        return false;
-    }
-
     return Kitsunemimi::Logger::m_logger->logData(message, "ERROR", RED_COLOR);
 }
 
@@ -112,32 +88,18 @@ LOG_error(const std::string message)
  * @brief write info-message to logfile
  */
 bool
-LOG_info(const std::string message,
-         const std::string &color)
+LOG_info(const std::string message, const std::string &color)
 {
-    if(Kitsunemimi::Logger::m_logger == nullptr) {
-        return false;
-    }
-
     return Kitsunemimi::Logger::m_logger->logData(message, "INFO", color);
 }
 
 /**
- * @brief closeLogFile
- * @return
+ * @brief close log-file, if one exist
  */
-bool
+void
 closeLogFile()
 {
-    if(Logger::m_logger == nullptr) {
-        return false;
-    }
-
     Logger::m_logger->closeLogFile();
-    delete Logger::m_logger;
-    Logger::m_logger = nullptr;
-
-    return true;
 }
 
 //==================================================================================================
@@ -145,9 +107,7 @@ closeLogFile()
 /**
  * @brief constructor
  */
-Logger::Logger()
-{
-}
+Logger::Logger() {}
 
 /**
  * @brief destructor
@@ -171,6 +131,8 @@ Logger::initFileLogger(const std::string &directoryPath,
                        const std::string &baseFileName,
                        const bool debugLog)
 {
+    std::lock_guard<std::mutex> guard(m_lock);
+
     m_directoryPath = directoryPath;
     m_baseFileName = baseFileName;
     m_fileDebugLog = debugLog;
@@ -182,10 +144,8 @@ Logger::initFileLogger(const std::string &directoryPath,
         return false;
     }
 
-    std::filesystem::path rootPathObj(m_directoryPath);
-
     // check if exist
-    if(std::filesystem::exists(rootPathObj) == false)
+    if(std::filesystem::exists(m_directoryPath) == false)
     {
         std::cout<<"ERROR: failed to initialize logger, because the path \""
                  << m_directoryPath
@@ -195,7 +155,7 @@ Logger::initFileLogger(const std::string &directoryPath,
     }
 
     // check for directory
-    if(std::filesystem::is_directory(rootPathObj) == false)
+    if(std::filesystem::is_directory(m_directoryPath) == false)
     {
         std::cout<<"ERROR: failed to initialize logger, because the path \""
                  << m_directoryPath
@@ -203,8 +163,6 @@ Logger::initFileLogger(const std::string &directoryPath,
                  <<std::endl;
         return false;
     }
-
-    m_lock.lock();
 
     // create new logger-file
     m_filePath = m_directoryPath + "/" + m_baseFileName + ".log";
@@ -217,8 +175,6 @@ Logger::initFileLogger(const std::string &directoryPath,
                  << m_filePath
                  << "\""<<std::endl;
     }
-
-    m_lock.unlock();
 
     return ret;
 }
@@ -261,13 +217,11 @@ Logger::setDebugFlag(const bool debugLog)
 void
 Logger::closeLogFile()
 {
-    m_lock.lock();
+    std::lock_guard<std::mutex> guard(m_lock);
 
     if(m_enableFileLog) {
         m_outputFile.close();
     }
-
-    m_lock.unlock();
 }
 
 /**
@@ -279,7 +233,7 @@ Logger::logData(const std::string &message,
                 const std::string &color,
                 const bool debug)
 {
-    m_lock.lock();
+    std::lock_guard<std::mutex> guard(m_lock);
 
     // write to terminal
     if(m_enableConsoleLog)
@@ -287,7 +241,6 @@ Logger::logData(const std::string &message,
         if(debug
                 && m_consoleDebugLog == false)
         {
-            m_lock.unlock();
             return false;
         }
 
@@ -304,7 +257,6 @@ Logger::logData(const std::string &message,
         if(debug
                 && m_fileDebugLog == false)
         {
-            m_lock.unlock();
             return false;
         }
 
@@ -313,7 +265,6 @@ Logger::logData(const std::string &message,
         m_outputFile.flush();
     }
 
-    m_lock.unlock();
 
     return true;
 }

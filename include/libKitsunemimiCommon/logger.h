@@ -48,7 +48,7 @@ bool LOG_error(const std::string message);
 bool LOG_info(const std::string message,
               const std::string &color = WHITE_COLOR);
 
-bool closeLogFile();
+void closeLogFile();
 
 //==================================================================================================
 

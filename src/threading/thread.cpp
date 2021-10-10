@@ -24,10 +24,17 @@ namespace Kitsunemimi
 
 /**
  * @brief constructor
+ *
+ * @param threadName global unique name of the thread for later identification
+ * @param startAutomatically true to start the thread without additional function-call
  */
-Thread::Thread()
+Thread::Thread(const std::string &threadName,
+               const bool startAutomatically)
+    : m_threadName(threadName)
 {
-    ThreadHandler::getInstance()->registerThread(this);
+    if(startAutomatically) {
+        startThread();
+    }
 }
 
 /**
@@ -35,7 +42,7 @@ Thread::Thread()
  */
 Thread::~Thread()
 {
-    ThreadHandler::getInstance()->unregisterThread();
+    ThreadHandler::getInstance()->unregisterThread(m_threadName);
     stopThread();
     clearEventQueue();
 
@@ -89,6 +96,17 @@ Thread::getCoreId() const
 }
 
 /**
+ * @brief get name of the thread
+ *
+ * @return name of the thread
+ */
+const std::string
+Thread::getThreadName() const
+{
+    return m_threadName;
+}
+
+/**
  * @brief add a new event to the queue
  * @param newEvent new event
  */
@@ -100,6 +118,7 @@ Thread::addEventToQueue(Event* newEvent)
         return;
     }
 
+    // add new event to queue
     while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
     m_eventQueue.push_back(newEvent);
     m_eventQueue_lock.clear(std::memory_order_release);
@@ -143,21 +162,37 @@ Thread::startThread()
     }
 
     // init new thread
+    if(ThreadHandler::getInstance()->registerThread(this) == false) {
+        return false;
+    }
+
     m_abort = false;
-    m_thread = new std::thread(&Thread::run, this);
     m_active = true;
+    m_thread = new std::thread(&Thread::run, this);
 
     return true;
 }
 
+/**
+ * @brief give thread in case of destruction to a cleanup-thread, because a thread can't delete
+ *        itself
+ *
+ * @return false, if already scheduled for deletion, else true
+ */
 bool
 Thread::scheduleThreadForDeletion()
 {
-    if(m_scheduledForDeletion) {
+    // check and set deletion-flag
+    while(m_eventQueue_lock.test_and_set(std::memory_order_acquire)) { asm(""); }
+    if(m_scheduledForDeletion)
+    {
+        m_eventQueue_lock.clear(std::memory_order_release);
         return false;
     }
-
     m_scheduledForDeletion = true;
+    m_eventQueue_lock.clear(std::memory_order_release);
+
+    // give to cleanup-thread for later deletion
     CleanupThread::getInstance()->addThreadForCleanup(this);
 
     return true;
@@ -218,24 +253,6 @@ void
 Thread::continueThread()
 {
     m_cv.notify_one();
-}
-
-/**
- * @brief simple mutex-lock
- */
-void
-Thread::mutexLock()
-{
-    m_mutex.lock();
-}
-
-/**
- * @brief simple mutex-unlock
- */
-void
-Thread::mutexUnlock()
-{
-    m_mutex.unlock();
 }
 
 /**

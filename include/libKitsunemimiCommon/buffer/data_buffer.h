@@ -37,11 +37,11 @@ inline bool alignedFree(void* ptr, const uint64_t numberOfBytes);
 
 struct DataBuffer
 {
-    uint16_t blockSize = 4096;
     uint64_t numberOfBlocks = 0;
-    uint64_t bufferPosition = 0;
+    uint64_t usedBufferSize = 0;
     uint64_t totalBufferSize = 0;
     void* data = nullptr;
+    uint16_t blockSize = 4096;
     uint8_t inUse = 0;
     // padding to expand the size of the struct to a multiple of 8
     uint8_t padding[5];
@@ -77,8 +77,8 @@ struct DataBuffer
         assert(this->numberOfBlocks == other.numberOfBlocks);
 
         this->inUse = other.inUse;
-        this->bufferPosition = other.bufferPosition;
-        memcpy(data, other.data, this->bufferPosition);
+        this->usedBufferSize = other.usedBufferSize;
+        memcpy(data, other.data, this->usedBufferSize);
     }
 
     /**
@@ -120,8 +120,8 @@ struct DataBuffer
             assert(this->numberOfBlocks == other.numberOfBlocks);
 
             this->inUse = other.inUse;
-            this->bufferPosition = other.bufferPosition;
-            memcpy(data, other.data, this->bufferPosition);
+            this->usedBufferSize = other.usedBufferSize;
+            memcpy(data, other.data, this->usedBufferSize);
         }
 
         return *this;
@@ -135,6 +135,11 @@ struct DataBuffer
         clear();
     }
 
+    /**
+     * @brief clear data of buffer
+     *
+     * @return false if buffer is not initialized and used, else true
+     */
     bool clear()
     {
         // deallocate the buffer
@@ -151,8 +156,7 @@ struct DataBuffer
 
         return false;
     }
-
-} __attribute__((packed));
+};
 
 
 
@@ -181,6 +185,7 @@ alignedMalloc(const uint16_t blockSize,
         return nullptr;
     }
 
+    // update memory-counter in case of memory-leak-tests
     Kitsunemimi::increaseGlobalMemoryCounter(numberOfBytes);
 
     // init memory
@@ -207,6 +212,7 @@ alignedFree(void* ptr,
         return false;
     }
 
+    // update memory-counter in case of memory-leak-tests
     Kitsunemimi::decreaseGlobalMemoryCounter(numberOfBytes);
 
     // free data
@@ -229,9 +235,8 @@ allocateBlocks_DataBuffer(DataBuffer &buffer,
                           const uint64_t numberOfBlocks)
 {
     // create the new buffer
-    uint64_t newNumberOfBlocks = numberOfBlocks + buffer.numberOfBlocks;
-    void* newBuffer =  alignedMalloc(buffer.blockSize,
-                                     newNumberOfBlocks * buffer.blockSize);
+    const uint64_t newNumberOfBlocks = numberOfBlocks + buffer.numberOfBlocks;
+    void* newBuffer =  alignedMalloc(buffer.blockSize, newNumberOfBlocks * buffer.blockSize);
     if(newBuffer == nullptr) {
         return false;
     }
@@ -270,13 +275,13 @@ addData_DataBuffer(DataBuffer &buffer,
     // precheck
     if(dataSize == 0
             || data == nullptr
-            || buffer.bufferPosition + dataSize > buffer.totalBufferSize)
+            || buffer.usedBufferSize + dataSize > buffer.totalBufferSize)
     {
         return false;
     }
 
     // check buffer-size and allocate more memory if necessary
-    if(buffer.bufferPosition + dataSize >= buffer.numberOfBlocks * buffer.blockSize)
+    if(buffer.usedBufferSize + dataSize >= buffer.numberOfBlocks * buffer.blockSize)
     {
         const uint64_t newBlockNum = (dataSize / buffer.blockSize) + 1;
         if(allocateBlocks_DataBuffer(buffer, newBlockNum) == false) {
@@ -286,8 +291,8 @@ addData_DataBuffer(DataBuffer &buffer,
 
     // copy the new data into the buffer
     uint8_t* dataByte = static_cast<uint8_t*>(buffer.data);
-    memcpy(&dataByte[buffer.bufferPosition], data, dataSize);
-    buffer.bufferPosition += dataSize;
+    memcpy(&dataByte[buffer.usedBufferSize], data, dataSize);
+    buffer.usedBufferSize += dataSize;
 
     return true;
 }
@@ -332,8 +337,7 @@ reset_DataBuffer(DataBuffer &buffer,
     }
 
     // allocate at least one single block as new buffer-data
-    void* newBuffer = alignedMalloc(buffer.blockSize,
-                                    numberOfBlocks * buffer.blockSize);
+    void* newBuffer = alignedMalloc(buffer.blockSize, numberOfBlocks * buffer.blockSize);
     if(newBuffer == nullptr) {
         return false;
     }
@@ -341,7 +345,7 @@ reset_DataBuffer(DataBuffer &buffer,
     // reset metadata of the buffer
     buffer.data = newBuffer;
     buffer.inUse = 1;
-    buffer.bufferPosition = 0;
+    buffer.usedBufferSize = 0;
     buffer.totalBufferSize = numberOfBlocks * buffer.blockSize;
     buffer.numberOfBlocks = numberOfBlocks;
 

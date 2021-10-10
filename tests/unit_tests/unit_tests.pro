@@ -27,7 +27,8 @@ HEADERS += \
     libKitsunemimiCommon/buffer/ring_buffer_test.h \
     libKitsunemimiCommon/buffer/stack_buffer_reserve_test.h \
     libKitsunemimiCommon/buffer/stack_buffer_test.h \
-    libKitsunemimiCommon/buffer/item_buffer_test.h
+    libKitsunemimiCommon/buffer/item_buffer_test.h \
+    libKitsunemimiCommon/threading/thread_handler_test.h
 
 SOURCES += \
     libKitsunemimiCommon/common_methods/file_methods_test.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
     libKitsunemimiCommon/files/text_file_test.cpp \
     libKitsunemimiCommon/logger_test.cpp \
     libKitsunemimiCommon/progress_bar_test.cpp \
+    libKitsunemimiCommon/threading/thread_handler_test.cpp \
     main.cpp \
     libKitsunemimiCommon/state_test.cpp \
     libKitsunemimiCommon/statemachine_test.cpp \
