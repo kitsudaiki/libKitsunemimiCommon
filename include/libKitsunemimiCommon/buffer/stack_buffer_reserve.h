@@ -20,21 +20,27 @@
 
 namespace Kitsunemimi
 {
+class StackBufferReserve_Test;
 
 class StackBufferReserve
 {
 public:
-    StackBufferReserve(const uint32_t reserveSize = 100);
-    ~StackBufferReserve();
+    static StackBufferReserve* getInstance();
 
     bool addBuffer(DataBuffer* buffer);
     uint64_t getNumberOfBuffers();
     DataBuffer* getBuffer();
 
 private:
+    StackBufferReserve(const uint32_t reserveSize = 100);
+    ~StackBufferReserve();
+
     uint32_t m_reserveSize = 0;
     std::vector<DataBuffer*> m_reserve;
     std::atomic_flag m_lock = ATOMIC_FLAG_INIT;
+
+    static StackBufferReserve* m_stackBufferReserve;
+    friend StackBufferReserve_Test;
 };
 
 }

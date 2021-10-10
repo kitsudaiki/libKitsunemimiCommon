@@ -3,6 +3,8 @@
 namespace Kitsunemimi
 {
 
+StackBufferReserve* StackBufferReserve::m_stackBufferReserve = new StackBufferReserve();
+
 /**
  * @brief constructor
  *
@@ -30,6 +32,17 @@ StackBufferReserve::~StackBufferReserve()
     }
 
     m_lock.clear(std::memory_order_release);
+}
+
+/**
+ * @brief static methode to get instance of the interface
+ *
+ * @return pointer to the static instance
+ */
+StackBufferReserve*
+StackBufferReserve::getInstance()
+{
+    return m_stackBufferReserve;
 }
 
 /**

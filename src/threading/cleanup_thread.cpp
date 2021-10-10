@@ -20,7 +20,7 @@
 namespace Kitsunemimi
 {
 
-Kitsunemimi::CleanupThread* CleanupThread::m_instance = new CleanupThread();
+CleanupThread* CleanupThread::m_cleanupThread = new CleanupThread();
 
 /**
  * constructor
@@ -41,7 +41,7 @@ CleanupThread::~CleanupThread() {}
 CleanupThread*
 CleanupThread::getInstance()
 {
-    return m_instance;
+    return m_cleanupThread;
 }
 
 /**

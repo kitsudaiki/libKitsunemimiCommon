@@ -23,7 +23,6 @@
 
 namespace Kitsunemimi
 {
-static Kitsunemimi::StackBufferReserve* m_stackBufferReserve = nullptr;
 
 struct StackBuffer
 {
@@ -34,7 +33,6 @@ struct StackBuffer
 
     std::deque<DataBuffer*> blocks;
     DataBuffer* localReserve = nullptr;
-    StackBufferReserve* stackBufferReserve = nullptr;
 
     /**
      * @brief constructor
@@ -48,11 +46,6 @@ struct StackBuffer
         this->preOffset = preOffset;
         this->postOffset = postOffset;
         this->effectiveBlockSize = blockSize - preOffset - postOffset;
-
-        if(Kitsunemimi::m_stackBufferReserve == nullptr) {
-            Kitsunemimi::m_stackBufferReserve = new StackBufferReserve();
-        }
-        stackBufferReserve = Kitsunemimi::m_stackBufferReserve;
     }
 
     /**
@@ -67,12 +60,12 @@ struct StackBuffer
             it++)
         {
             DataBuffer* temp = *it;
-            stackBufferReserve->addBuffer(temp);
+            StackBufferReserve::getInstance()->addBuffer(temp);
         }
 
         // move local reserve to central stack-buffer-reserve
         if(localReserve != nullptr) {
-            stackBufferReserve->addBuffer(localReserve);
+            StackBufferReserve::getInstance()->addBuffer(localReserve);
         }
     }
 };
@@ -95,7 +88,7 @@ extendBuffer_StackBuffer(StackBuffer &stackBuffer)
     }
     else
     {
-        newBlock = stackBuffer.stackBufferReserve->getBuffer();
+        newBlock = StackBufferReserve::getInstance()->getBuffer();
     }
 
     // set pre-offset inside the new buffer and add it to the new buffer
@@ -215,7 +208,7 @@ removeFirst_StackBuffer(StackBuffer &stackBuffer)
     if(stackBuffer.localReserve == nullptr) {
         stackBuffer.localReserve = temp;
     } else {
-        stackBuffer.stackBufferReserve->addBuffer(temp);
+        StackBufferReserve::getInstance()->addBuffer(temp);
     }
 
     return true;
@@ -243,7 +236,7 @@ reset_StackBuffer(StackBuffer &stackBuffer)
         if(stackBuffer.localReserve == nullptr) {
             stackBuffer.localReserve = temp;
         } else {
-            stackBuffer.stackBufferReserve->addBuffer(temp);
+            StackBufferReserve::getInstance()->addBuffer(temp);
         }
     }
 

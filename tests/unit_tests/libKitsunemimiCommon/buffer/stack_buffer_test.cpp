@@ -33,10 +33,6 @@ StackBuffer_Test::constructor_test()
     // init
     bool isNullptr = false;
 
-    // test if m_stackBufferReserve is correctly set
-    isNullptr = Kitsunemimi::m_stackBufferReserve == nullptr;
-    TEST_EQUAL(isNullptr, true);
-
     // test constructor
     StackBuffer stackBuffer(10, 20);
     TEST_EQUAL(stackBuffer.preOffset, 10);
@@ -45,7 +41,7 @@ StackBuffer_Test::constructor_test()
     TEST_EQUAL(stackBuffer.blockSize, STACK_BUFFER_BLOCK_SIZE);
 
     // test if m_stackBufferReserve is correctly set after first buffer-creation
-    isNullptr = Kitsunemimi::m_stackBufferReserve == nullptr;
+    isNullptr = StackBufferReserve::getInstance() == nullptr;
     TEST_EQUAL(isNullptr, false);
 }
 
