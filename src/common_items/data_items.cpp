@@ -175,7 +175,7 @@ DataItem::getString() const
     if(m_valueType == STRING_TYPE)
     {
         const DataValue* value = dynamic_cast<const DataValue*>(this);
-        return std::string(value->m_content.stringValue);
+        return std::string(value->content.stringValue);
     }
 
     return std::string("");
@@ -192,7 +192,7 @@ DataItem::getInt()
     if(m_valueType == INT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return static_cast<int>(value->m_content.longValue);
+        return static_cast<int>(value->content.longValue);
     }
 
     return 0;
@@ -209,7 +209,7 @@ DataItem::getFloat()
     if(m_valueType == FLOAT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return static_cast<float>(value->m_content.doubleValue);
+        return static_cast<float>(value->content.doubleValue);
     }
 
     return 0.0f;
@@ -226,7 +226,7 @@ DataItem::getLong()
     if(m_valueType == INT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_content.longValue;
+        return value->content.longValue;
     }
 
     return 0l;
@@ -243,7 +243,7 @@ DataItem::getDouble()
     if(m_valueType == FLOAT_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_content.doubleValue;
+        return value->content.doubleValue;
     }
 
     return 0.0;
@@ -260,7 +260,7 @@ DataItem::getBool()
     if(m_valueType == BOOL_TYPE)
     {
         DataValue* value = dynamic_cast<DataValue*>(this);
-        return value->m_content.boolValue;
+        return value->content.boolValue;
     }
 
     return false;
@@ -295,8 +295,8 @@ DataValue::DataValue()
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    m_content.stringValue = new char[1];
-    m_content.stringValue[0] = '\0';
+    content.stringValue = new char[1];
+    content.stringValue[0] = '\0';
 }
 
 /**
@@ -309,9 +309,9 @@ DataValue::DataValue(const char *text)
 
     const size_t len = strlen(text);
 
-    m_content.stringValue = new char[len+1];
-    strncpy(m_content.stringValue, text, len);
-    m_content.stringValue[len] = '\0';
+    content.stringValue = new char[len+1];
+    strncpy(content.stringValue, text, len);
+    content.stringValue[len] = '\0';
 }
 
 /**
@@ -322,9 +322,9 @@ DataValue::DataValue(const std::string &text)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    m_content.stringValue = new char[text.size()+1];
-    memcpy(m_content.stringValue, text.c_str(), text.size());
-    m_content.stringValue[text.size()] = '\0';
+    content.stringValue = new char[text.size()+1];
+    memcpy(content.stringValue, text.c_str(), text.size());
+    content.stringValue[text.size()] = '\0';
 }
 
 /**
@@ -334,7 +334,7 @@ DataValue::DataValue(const int value)
 {
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
-    m_content.longValue = value;
+    content.longValue = value;
 }
 
 /**
@@ -344,7 +344,7 @@ DataValue::DataValue(const float value)
 {
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
-    m_content.doubleValue = static_cast<double>(value);
+    content.doubleValue = static_cast<double>(value);
 }
 
 /**
@@ -354,7 +354,7 @@ DataValue::DataValue(const long value)
 {
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
-    m_content.longValue = value;
+    content.longValue = value;
 }
 
 /**
@@ -364,7 +364,7 @@ DataValue::DataValue(const double value)
 {
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
-    m_content.doubleValue = value;
+    content.doubleValue = value;
 }
 
 /**
@@ -374,7 +374,7 @@ DataValue::DataValue(const bool value)
 {
     m_type = VALUE_TYPE;
     m_valueType = BOOL_TYPE;
-    m_content.boolValue = value;
+    content.boolValue = value;
 }
 
 /**
@@ -391,17 +391,17 @@ DataValue::DataValue(const DataValue &other)
     // copy content
     if(other.m_valueType == STRING_TYPE)
     {
-        const size_t len = strlen(other.m_content.stringValue);
+        const size_t len = strlen(other.content.stringValue);
 
-        m_content.stringValue = new char[len+1];
-        strncpy(m_content.stringValue, other.m_content.stringValue, len);
-        m_content.stringValue[len] = '\0';
+        content.stringValue = new char[len+1];
+        strncpy(content.stringValue, other.content.stringValue, len);
+        content.stringValue[len] = '\0';
 
-        assert(strlen(other.m_content.stringValue) == strlen(m_content.stringValue));
+        assert(strlen(other.content.stringValue) == strlen(content.stringValue));
     }
     else
     {
-        m_content = other.m_content;
+        content = other.content;
     }
 }
 
@@ -430,17 +430,17 @@ DataValue
         // copy content
         if(other.m_valueType == STRING_TYPE)
         {
-            const size_t len = strlen(other.m_content.stringValue);
+            const size_t len = strlen(other.content.stringValue);
 
-            this->m_content.stringValue = new char[len+1];
-            strncpy(this->m_content.stringValue, other.m_content.stringValue, len);
-            this->m_content.stringValue[len] = '\0';
+            this->content.stringValue = new char[len+1];
+            strncpy(this->content.stringValue, other.content.stringValue, len);
+            this->content.stringValue[len] = '\0';
 
-            assert(strlen(other.m_content.stringValue) == strlen(this->m_content.stringValue));
+            assert(strlen(other.content.stringValue) == strlen(this->content.stringValue));
         }
         else
         {
-            this->m_content = other.m_content;
+            this->content = other.content;
         }
     }
 
@@ -542,14 +542,14 @@ void
 DataValue::clearDataValue()
 {
     if(m_valueType == STRING_TYPE
-            && m_content.stringValue != nullptr)
+            && content.stringValue != nullptr)
     {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
-    m_content.longValue = 0l;
+    content.longValue = 0l;
 }
 
 /**
@@ -563,19 +563,19 @@ DataValue::copy() const
     DataValue* tempItem = nullptr;
 
     if(m_valueType == STRING_TYPE) {
-        tempItem = new DataValue(std::string(m_content.stringValue));
+        tempItem = new DataValue(std::string(content.stringValue));
     }
 
     if(m_valueType == INT_TYPE) {
-        tempItem = new DataValue(m_content.longValue);
+        tempItem = new DataValue(content.longValue);
     }
 
     if(m_valueType == FLOAT_TYPE) {
-        tempItem = new DataValue(m_content.doubleValue);
+        tempItem = new DataValue(content.doubleValue);
     }
 
     if(m_valueType == BOOL_TYPE) {
-        tempItem = new DataValue(m_content.boolValue);
+        tempItem = new DataValue(content.boolValue);
     }
 
     return tempItem;
@@ -596,20 +596,20 @@ DataValue::toString(const bool,
 
     if(m_valueType == STRING_TYPE)
     {
-        output->append(std::string(m_content.stringValue));
+        output->append(std::string(content.stringValue));
     }
 
     if(m_valueType == INT_TYPE) {
-        output->append(std::to_string(m_content.longValue));
+        output->append(std::to_string(content.longValue));
     }
 
     if(m_valueType == FLOAT_TYPE) {
-        output->append(std::to_string(m_content.doubleValue));
+        output->append(std::to_string(content.doubleValue));
     }
 
     if(m_valueType == BOOL_TYPE)
     {
-        if(m_content.boolValue) {
+        if(content.boolValue) {
             output->append("true");
         } else {
             output->append("false");
@@ -626,7 +626,7 @@ void
 DataValue::setValue(const char* value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
@@ -634,9 +634,9 @@ DataValue::setValue(const char* value)
 
     size_t len = strlen(value);
 
-    m_content.stringValue = new char[len+1];
-    strncpy(m_content.stringValue, value, len);
-    m_content.stringValue[len] = '\0';
+    content.stringValue = new char[len+1];
+    strncpy(content.stringValue, value, len);
+    content.stringValue[len] = '\0';
 }
 
 /**
@@ -646,15 +646,15 @@ void
 DataValue::setValue(const std::string &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    m_content.stringValue = new char[value.size()+1];
-    memcpy(m_content.stringValue, value.c_str(), value.size());
-    m_content.stringValue[value.size()] = '\0';
+    content.stringValue = new char[value.size()+1];
+    memcpy(content.stringValue, value.c_str(), value.size());
+    content.stringValue[value.size()] = '\0';
 }
 
 /**
@@ -664,13 +664,13 @@ void
 DataValue::setValue(const int &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
 
-    m_content.longValue = value;
+    content.longValue = value;
 }
 
 /**
@@ -680,13 +680,13 @@ void
 DataValue::setValue(const float &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
 
-    m_content.doubleValue = static_cast<double>(value);
+    content.doubleValue = static_cast<double>(value);
 }
 
 /**
@@ -696,13 +696,13 @@ void
 DataValue::setValue(const long &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = INT_TYPE;
 
-    m_content.longValue = value;
+    content.longValue = value;
 }
 
 /**
@@ -712,13 +712,13 @@ void
 DataValue::setValue(const double &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = FLOAT_TYPE;
 
-    m_content.doubleValue = value;
+    content.doubleValue = value;
 }
 
 /**
@@ -728,13 +728,13 @@ void
 DataValue::setValue(const bool &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete m_content.stringValue;
+        delete content.stringValue;
     }
 
     m_type = VALUE_TYPE;
     m_valueType = BOOL_TYPE;
 
-    m_content.boolValue = value;
+    content.boolValue = value;
 }
 
 //==================================================================================================
@@ -754,7 +754,7 @@ DataMap::DataMap()
  */
 DataMap::DataMap(const DataMap &other)
 {
-    std::map<std::string, DataItem*> otherMap = other.m_map;
+    std::map<std::string, DataItem*> otherMap = other.map;
 
     // clear old map
     clearDataMap();
@@ -770,9 +770,9 @@ DataMap::DataMap(const DataMap &other)
         it++)
     {
         if(it->second != nullptr) {
-            m_map.insert(std::make_pair(it->first, it->second->copy()));
+            map.insert(std::make_pair(it->first, it->second->copy()));
         } else {
-            m_map.insert(std::make_pair(it->first, nullptr));
+            map.insert(std::make_pair(it->first, nullptr));
         }
     }
 }
@@ -793,7 +793,7 @@ DataMap
 {
     if(this != &other)
     {
-        std::map<std::string, DataItem*> otherMap = other.m_map;
+        std::map<std::string, DataItem*> otherMap = other.map;
 
         // clear old map
         clearDataMap();
@@ -809,9 +809,9 @@ DataMap
             it++)
         {
             if(it->second != nullptr) {
-                this->m_map.insert(make_pair(it->first, it->second->copy()));
+                this->map.insert(make_pair(it->first, it->second->copy()));
             } else {
-                this->m_map.insert(std::make_pair(it->first, nullptr));
+                this->map.insert(std::make_pair(it->first, nullptr));
             }
         }
     }
@@ -850,9 +850,9 @@ DataItem*
 DataMap::get(const std::string key) const
 {
     std::map<std::string, DataItem*>::const_iterator it;
-    it = m_map.find(key);
+    it = map.find(key);
 
-    if(it != m_map.end()) {
+    if(it != map.end()) {
         return it->second;
     }
 
@@ -867,14 +867,14 @@ DataMap::get(const std::string key) const
 DataItem*
 DataMap::get(const uint64_t index) const
 {
-    if(m_map.size() <= index) {
+    if(map.size() <= index) {
         return nullptr;
     }
 
     uint32_t counter = 0;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         if(counter == index) {
@@ -894,7 +894,7 @@ DataMap::get(const uint64_t index) const
 uint64_t
 DataMap::size() const
 {
-    return m_map.size();
+    return map.size();
 }
 
 /**
@@ -907,8 +907,8 @@ DataMap::getKeys() const
 {
     std::vector<std::string> result;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         result.push_back(it->first);
@@ -927,8 +927,8 @@ DataMap::getValues() const
 {
     std::vector<DataItem*> result;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         result.push_back(it->second);
@@ -946,8 +946,8 @@ bool
 DataMap::contains(const std::string &key) const
 {
     std::map<std::string, DataItem*>::const_iterator it;
-    it = m_map.find(key);
-    if(it != m_map.end()) {
+    it = map.find(key);
+    if(it != map.end()) {
         return true;
     }
 
@@ -957,7 +957,7 @@ DataMap::contains(const std::string &key) const
 /**
  * @brief get the string-value behind the key inside the data-map
  */
-std::string
+const std::string
 DataMap::getStringByKey(const std::string &key)
 {
     DataItem* item = get(key);
@@ -1033,14 +1033,14 @@ bool
 DataMap::remove(const std::string &key)
 {
     std::map<std::string, DataItem*>::const_iterator it;
-    it = m_map.find(key);
+    it = map.find(key);
 
-    if(it != m_map.end())
+    if(it != map.end())
     {
         if(it->second != nullptr) {
             delete it->second;
         }
-        m_map.erase(it);
+        map.erase(it);
         return true;
     }
 
@@ -1055,14 +1055,14 @@ DataMap::remove(const std::string &key)
 bool
 DataMap::remove(const uint64_t index)
 {
-    if(m_map.size() <= index) {
+    if(map.size() <= index) {
         return false;
     }
 
     uint32_t counter = 0;
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         if(counter == index)
@@ -1070,7 +1070,7 @@ DataMap::remove(const uint64_t index)
             if(it->second != nullptr) {
                 delete it->second;
             }
-            m_map.erase(it);
+            map.erase(it);
             return true;
         }
         counter++;
@@ -1095,8 +1095,8 @@ void
 DataMap::clearDataMap()
 {
     std::map<std::string, DataItem*>::iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         DataItem* tempItem = it->second;
@@ -1105,7 +1105,7 @@ DataMap::clearDataMap()
         }
     }
 
-    m_map.clear();
+    map.clear();
 }
 
 /**
@@ -1118,8 +1118,8 @@ DataMap::copy() const
 {
     DataMap* tempItem = new DataMap();
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         if(it->second == nullptr) {
@@ -1151,8 +1151,8 @@ DataMap::toString(const bool indent,
     output->append("{");
 
     std::map<std::string, DataItem*>::const_iterator it;
-    for(it = m_map.begin();
-        it != m_map.end();
+    for(it = map.begin();
+        it != map.end();
         it++)
     {
         if(firstRun) {
@@ -1213,8 +1213,8 @@ DataMap::insert(const std::string &key,
 {
     // check if key already exist
     std::map<std::string, DataItem*>::iterator it;
-    it = m_map.find(key);
-    if(it != m_map.end()
+    it = map.find(key);
+    if(it != map.end()
             && force == false)
     {
         return false;
@@ -1222,7 +1222,7 @@ DataMap::insert(const std::string &key,
 
     // if already exist and should be overwritten,
     // then delete the old one at first and insert the new one
-    if(it != m_map.end())
+    if(it != map.end())
     {
         if(it->second != nullptr) {
             delete it->second;
@@ -1231,7 +1231,7 @@ DataMap::insert(const std::string &key,
     }
     else
     {
-        m_map.insert(std::make_pair(key, value));
+        map.insert(std::make_pair(key, value));
     }
 
     return true;
@@ -1262,12 +1262,12 @@ DataArray::DataArray(const DataArray &other)
     m_valueType = other.m_valueType;
 
     // copy content
-    for(uint32_t i = 0; i < other.m_array.size(); i++)
+    for(uint32_t i = 0; i < other.array.size(); i++)
     {
-        if(other.m_array[i] != nullptr) {
-            m_array.push_back(other.m_array[i]->copy());
+        if(other.array[i] != nullptr) {
+            array.push_back(other.array[i]->copy());
         } else {
-            m_array.push_back(nullptr);
+            array.push_back(nullptr);
         }
     }
 }
@@ -1296,12 +1296,12 @@ DataArray
         this->m_valueType = other.m_valueType;
 
         // copy content
-        for(uint32_t i = 0; i < other.m_array.size(); i++)
+        for(uint32_t i = 0; i < other.array.size(); i++)
         {
-            if(other.m_array[i] != nullptr) {
-                this->m_array.push_back(other.m_array[i]->copy());
+            if(other.array[i] != nullptr) {
+                this->array.push_back(other.array[i]->copy());
             } else {
-                this->m_array.push_back(nullptr);
+                this->array.push_back(nullptr);
             }
         }
     }
@@ -1350,11 +1350,11 @@ DataArray::get(const std::string) const
 DataItem*
 DataArray::get(const uint64_t index) const
 {
-    if(m_array.size() <= index) {
+    if(array.size() <= index) {
         return nullptr;
     }
 
-    return m_array[index];
+    return array[index];
 }
 
 /**
@@ -1365,7 +1365,7 @@ DataArray::get(const uint64_t index) const
 uint64_t
 DataArray::size() const
 {
-    return m_array.size();
+    return array.size();
 }
 
 /**
@@ -1378,16 +1378,16 @@ DataArray::remove(const std::string &key)
 {
     const uint32_t index = static_cast<uint32_t>(std::stoi(key));
 
-    if(m_array.size() <= index) {
+    if(array.size() <= index) {
         return false;
     }
 
-    DataItem* tempItem = m_array[index];
+    DataItem* tempItem = array[index];
     if(tempItem != nullptr) {
         delete tempItem;
     }
 
-    m_array.erase(m_array.begin() + index);
+    array.erase(array.begin() + index);
 
     return true;
 }
@@ -1400,16 +1400,16 @@ DataArray::remove(const std::string &key)
 bool
 DataArray::remove(const uint64_t index)
 {
-    if(m_array.size() <= index) {
+    if(array.size() <= index) {
         return false;
     }
 
-    DataItem* tempItem = m_array[index];
+    DataItem* tempItem = array[index];
     if(tempItem != nullptr) {
         delete tempItem;
     }
 
-    m_array.erase(m_array.begin() + static_cast<uint32_t>(index));
+    array.erase(array.begin() + static_cast<uint32_t>(index));
 
     return true;
 }
@@ -1429,15 +1429,15 @@ DataArray::clear()
 void
 DataArray::clearDataArray()
 {
-    for(uint32_t i = 0; i < this->m_array.size(); i++)
+    for(uint32_t i = 0; i < this->array.size(); i++)
     {
-        DataItem* tempItem = this->m_array[i];
+        DataItem* tempItem = this->array[i];
         if(tempItem != nullptr) {
             delete tempItem;
         }
     }
 
-    this->m_array.clear();
+    this->array.clear();
 }
 
 /**
@@ -1450,12 +1450,12 @@ DataArray::copy() const
 {
     DataArray* tempItem = new DataArray();
 
-    for(uint32_t i = 0; i < m_array.size(); i++)
+    for(uint32_t i = 0; i < array.size(); i++)
     {
-        if(m_array[i] == nullptr) {
+        if(array[i] == nullptr) {
             tempItem->append(nullptr);
         } else {
-            tempItem->append(m_array[i]->copy());
+            tempItem->append(array[i]->copy());
         }
     }
 
@@ -1481,10 +1481,10 @@ DataArray::toString(const bool indent,
     addIndent(output, indent, level+1);
 
     std::vector<DataItem*>::const_iterator it;
-    for(it = m_array.begin(); it != m_array.end(); it++)
+    for(it = array.begin(); it != array.end(); it++)
     {
         // separate items of the array with comma
-        if(it != m_array.begin())
+        if(it != array.begin())
         {
             output->append(",");
             addIndent(output, indent, level+1);
@@ -1525,7 +1525,7 @@ DataArray::toString(const bool indent,
 void
 DataArray::append(DataItem* item)
 {
-    m_array.push_back(item);
+    array.push_back(item);
 }
 
 }  // namespace Kitsunemimi

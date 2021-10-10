@@ -157,7 +157,7 @@ public:
         bool boolValue;
     };
 
-    DataValueContent m_content;
+    DataValueContent content;
 
 private:
     void clearDataValue();
@@ -192,7 +192,7 @@ public:
     bool contains(const std::string &key) const;
 
     // get values by keys
-    std::string getStringByKey(const std::string &key);
+    const std::string getStringByKey(const std::string &key);
     int getIntByKey(const std::string &key);
     float getFloatByKey(const std::string &key);
     long getLongByKey(const std::string &key);
@@ -210,7 +210,7 @@ public:
                                const uint32_t level = 0) const;
 
     // content
-    std::map<std::string, DataItem*> m_map;
+    std::map<std::string, DataItem*> map;
 
 private:
     void clearDataMap();
@@ -250,7 +250,7 @@ public:
                                const uint32_t level = 0) const;
 
     // content
-    std::vector<DataItem*> m_array;
+    std::vector<DataItem*> array;
 
 private:
     void clearDataArray();
