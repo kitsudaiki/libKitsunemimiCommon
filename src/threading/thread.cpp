@@ -26,16 +26,9 @@ namespace Kitsunemimi
  * @brief constructor
  *
  * @param threadName global unique name of the thread for later identification
- * @param startAutomatically true to start the thread without additional function-call
  */
-Thread::Thread(const std::string &threadName,
-               const bool startAutomatically)
-    : m_threadName(threadName)
-{
-    if(startAutomatically) {
-        startThread();
-    }
-}
+Thread::Thread(const std::string &threadName)
+    : m_threadName(threadName) {}
 
 /**
  * @brief destructor

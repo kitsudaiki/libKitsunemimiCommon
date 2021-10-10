@@ -26,7 +26,7 @@ CleanupThread* CleanupThread::m_cleanupThread = nullptr;
  * constructor
  */
 CleanupThread::CleanupThread()
-    : Kitsunemimi::Thread("Kitsunemimi_CleanupThread", true) {}
+    : Kitsunemimi::Thread("Kitsunemimi_CleanupThread") {}
 
 /**
  * @brief destructor
@@ -41,8 +41,10 @@ CleanupThread::~CleanupThread() {}
 CleanupThread*
 CleanupThread::getInstance()
 {
-    if(m_cleanupThread == nullptr) {
+    if(m_cleanupThread == nullptr)
+    {
         m_cleanupThread = new CleanupThread();
+        m_cleanupThread->startThread();
     }
     return m_cleanupThread;
 }

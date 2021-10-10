@@ -33,8 +33,7 @@ class ThreadHandler;
 class Thread
 {
 public:
-    Thread(const std::string &threadName,
-           const bool startAutomatically = false);
+    Thread(const std::string &threadName);
     virtual ~Thread();
 
     bool startThread();

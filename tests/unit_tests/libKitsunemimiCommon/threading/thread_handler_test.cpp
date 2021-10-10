@@ -29,6 +29,7 @@ ThreadHandler_Test::all_test()
     TEST_EQUAL(keys.size(), 0);
 
     DummyThread* testThread = new DummyThread();
+    testThread->startThread();
 
     keys = ThreadHandler::getInstance()->getRegisteredThreads();
     TEST_EQUAL(keys.size(), 1);
@@ -49,7 +50,7 @@ ThreadHandler_Test::all_test()
 // DummyThread for testing
 //==================================================================================================
 DummyThread::DummyThread()
-    : Kitsunemimi::Thread("DummyThread", true)
+    : Kitsunemimi::Thread("DummyThread")
 {}
 
 void DummyThread::run()
