@@ -274,31 +274,31 @@ TableItem::deleteRow(const uint64_t y)
 /**
  * @brief set the content of a specific cell inside the table
  *
- * @param x x-position of the cell within the table
- * @param y y-position of the cell within the table
+ * @param column x-position of the cell within the table
+ * @param row y-position of the cell within the table
  * @param newValue new cell-value as string
  *
  * @return false if x or y is too hight, esle true
  */
 bool
-TableItem::setCell(const uint32_t x,
-                   const uint32_t y,
+TableItem::setCell(const uint32_t column,
+                   const uint32_t row,
                    const std::string &newValue)
 {
     // precheck
-    if(x >= m_header->size()
-            || y >= m_body->size())
+    if(column >= m_header->size()
+            || row >= m_body->size())
     {
         return false;
     }
 
     // get value at requested position
-    const std::string columnInnerName = m_header->get(x)->get("inner")->getString();
-    DataItem* value = m_body->get(y)->get(columnInnerName);
+    const std::string columnInnerName = m_header->get(column)->get("inner")->getString();
+    DataItem* value = m_body->get(row)->get(columnInnerName);
 
     // set new value
     if(value == nullptr) {
-        m_body->get(y)->toMap()->insert(columnInnerName, new DataValue(newValue));
+        m_body->get(row)->toMap()->insert(columnInnerName, new DataValue(newValue));
     } else {
         value->toValue()->setValue(newValue);
     }
@@ -309,26 +309,26 @@ TableItem::setCell(const uint32_t x,
 /**
  * @brief request the content of a specific cell of the table
  *
- * @param x x-position of the cell within the table
- * @param y y-position of the cell within the table
+ * @param column x-position of the cell within the table
+ * @param row y-position of the cell within the table
  *
  * @return content of the cell as string or empty-string if cell is not set or exist
  *         and also empty string, if x or y is too hight
  */
-std::string
-TableItem::getCell(const uint32_t x,
-                   const uint32_t y)
+const std::string
+TableItem::getCell(const uint32_t column,
+                   const uint32_t row)
 {
     // precheck
-    if(x >= m_header->size()
-            || y >= m_body->size())
+    if(column >= m_header->size()
+            || row >= m_body->size())
     {
         return "";
     }
 
     // get value at requested position
-    const std::string columnInnerName = m_header->get(x)->get("inner")->getString();
-    DataItem* value = m_body->get(y)->get(columnInnerName);
+    const std::string columnInnerName = m_header->get(column)->get("inner")->getString();
+    DataItem* value = m_body->get(row)->get(columnInnerName);
 
     // check value
     if(value == nullptr) {
@@ -342,27 +342,27 @@ TableItem::getCell(const uint32_t x,
 /**
  * @brief delete a spcific cell from the table
  *
- * @param x x-position of the cell within the table
- * @param y y-position of the cell within the table
+ * @param column x-position of the cell within the table
+ * @param row y-position of the cell within the table
  *
  * @return false if cell-content is already deleted or if x or y is too hight, else true
  */
 bool
-TableItem::deleteCell(const uint32_t x,
-                      const uint32_t y)
+TableItem::deleteCell(const uint32_t column,
+                      const uint32_t row)
 {
     // precheck
-    if(x >= m_header->size()
-            || y >= m_body->size())
+    if(column >= m_header->size()
+            || row >= m_body->size())
     {
         return false;
     }
 
     // get column inner name
-    const std::string columnInnerName = m_header->get(x)->get("inner")->getString();
+    const std::string columnInnerName = m_header->get(column)->get("inner")->getString();
 
     // remove value if possible
-    return m_body->get(y)->remove(columnInnerName);
+    return m_body->get(row)->remove(columnInnerName);
 }
 
 /**

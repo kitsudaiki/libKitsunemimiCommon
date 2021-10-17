@@ -52,13 +52,13 @@ public:
     bool deleteRow(const uint64_t y);
 
     // cell
-    bool setCell(const uint32_t x,
-                 const uint32_t y,
+    bool setCell(const uint32_t column,
+                 const uint32_t row,
                  const std::string &newValue);
-    std::string getCell(const uint32_t x,
-                        const uint32_t y);
-    bool deleteCell(const uint32_t x,
-                    const uint32_t y);
+    const std::string getCell(const uint32_t column,
+                              const uint32_t row);
+    bool deleteCell(const uint32_t column,
+                    const uint32_t row);
 
     // size
     uint64_t getNumberOfColums();
