@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.21.0] - 2021-10-23
+
+### Added
+- give threads names for identification in thread-manager
+
+### Changed
+- make thrad-binding to cpu-threads more flexible
+- access to table-cells is now by row/column instead of x/y
+- renamed public accessilbe variables in data-items
+- code-cleanup in many parts of the libray
+
+### Fixed
+- fixes to remove compile-warnings in clang
+
+
 ## [0.20.0] - 2021-10-02
 
 ### Added
