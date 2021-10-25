@@ -52,11 +52,11 @@ ThreadHandler::getRegisteredNames()
 }
 
 /**
- * @brief get a registered thread by name
+ * @brief get all registered thread by a specific name
  *
  * @param threadName name of the requested thread
  *
- * @return nullptr if no thread was found, else pointer to the thread
+ * @return list with all threads, which were registered under the name
  */
 const std::vector<Thread*>
 ThreadHandler::getThreads(const std::string &threadName)
@@ -83,12 +83,15 @@ ThreadHandler::getThreads(const std::string &threadName)
 }
 
 /**
- * @brief ThreadHandler::getNewId
- * @return
+ * @brief request a new id
+ *
+ * @return new id
  */
 uint64_t
-ThreadHandler::getNewId() const
+ThreadHandler::getNewId()
 {
+    std::unique_lock<std::mutex> lock(m_mutex);
+
     m_instance->m_counter++;
     return m_counter;
 }
@@ -96,9 +99,7 @@ ThreadHandler::getNewId() const
 /**
  * @brief add thread to thread-handler
  *
- * @param thread pointer to the thread-
- *
- * @return false if name already registered, else true
+ * @param thread pointer to the new thread to register
  */
 void
 ThreadHandler::registerThread(Thread* thread)
@@ -125,7 +126,10 @@ ThreadHandler::registerThread(Thread* thread)
 /**
  * @brief remove thread from thead-handler
  *
- * @return false, if thread-id doesn't exist, else true
+ * @param threadName name of the group of the thread
+ * @param threadId id of the thread
+ *
+ * @return true, if found and unregistered, else false
  */
 bool
 ThreadHandler::unregisterThread(const std::string &threadName,
