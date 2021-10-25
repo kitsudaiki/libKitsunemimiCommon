@@ -28,14 +28,15 @@ namespace Kitsunemimi
  * @param threadName global unique name of the thread for later identification
  */
 Thread::Thread(const std::string &threadName)
-    : m_threadName(threadName) {}
+    : m_threadName(threadName),
+      m_threadId(ThreadHandler::getInstance()->getNewId()) {}
 
 /**
  * @brief destructor
  */
 Thread::~Thread()
 {
-    ThreadHandler::getInstance()->unregisterThread(m_threadName);
+    ThreadHandler::getInstance()->unregisterThread(m_threadName, m_threadId);
     stopThread();
     clearEventQueue();
 
@@ -100,6 +101,16 @@ Thread::getThreadName() const
 }
 
 /**
+ * @brief Thread::getThreadId
+ * @return
+ */
+uint64_t
+Thread::getThreadId() const
+{
+    return m_threadId;
+}
+
+/**
  * @brief add a new event to the queue
  * @param newEvent new event
  */
@@ -155,10 +166,7 @@ Thread::startThread()
     }
 
     // init new thread
-    if(ThreadHandler::getInstance()->registerThread(this) == false) {
-        return false;
-    }
-
+    ThreadHandler::getInstance()->registerThread(this);
     m_abort = false;
     m_active = true;
     m_thread = new std::thread(&Thread::run, this);

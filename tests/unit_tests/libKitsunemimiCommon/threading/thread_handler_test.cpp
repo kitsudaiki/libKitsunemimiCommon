@@ -25,13 +25,13 @@ ThreadHandler_Test::ThreadHandler_Test()
 void
 ThreadHandler_Test::all_test()
 {
-    std::vector<std::string> keys = ThreadHandler::getInstance()->getRegisteredThreads();
+    std::vector<std::string> keys = ThreadHandler::getInstance()->getRegisteredNames();
     TEST_EQUAL(keys.size(), 0);
 
     DummyThread* testThread = new DummyThread();
     testThread->startThread();
 
-    keys = ThreadHandler::getInstance()->getRegisteredThreads();
+    keys = ThreadHandler::getInstance()->getRegisteredNames();
     TEST_EQUAL(keys.size(), 1);
     sleep(1);
     if(keys.size() < 1) {
@@ -42,7 +42,7 @@ ThreadHandler_Test::all_test()
 
     delete testThread;
 
-    keys = ThreadHandler::getInstance()->getRegisteredThreads();
+    keys = ThreadHandler::getInstance()->getRegisteredNames();
     TEST_EQUAL(keys.size(), 0);
 }
 

@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <thread>
 
 namespace Kitsunemimi
 {
@@ -24,19 +25,21 @@ class ThreadHandler
 public:
     static ThreadHandler* getInstance();
 
-    const std::vector<std::string> getRegisteredThreads();
-    Thread* getThread(const std::string &threadName);
+    const std::vector<std::string> getRegisteredNames();
+    const std::vector<Thread*> getThreads(const std::string &threadName);
+    uint64_t getNewId() const;
 
 private:
     friend Kitsunemimi::Thread;
 
     ThreadHandler();
 
-    bool registerThread(Thread* thread);
-    bool unregisterThread(const std::string &threadName);
+    void registerThread(Thread* thread);
+    bool unregisterThread(const std::string &threadName, const uint64_t threadId);
 
-    std::map<std::string, Thread*> m_allThreads;
+    std::map<std::string, std::map<uint64_t, Thread*>> m_allThreads;
     std::mutex m_mutex;
+    uint64_t m_counter = 0;
 
     static ThreadHandler* m_instance;
 };
