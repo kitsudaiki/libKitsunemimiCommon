@@ -47,6 +47,7 @@ public:
     bool bindThreadToCore(const long coreId);
     long getCoreId() const;
     const std::string getThreadName() const;
+    uint64_t getThreadId() const;
 
     void addEventToQueue(Event* newEvent);
     void clearEventQueue();
@@ -71,10 +72,12 @@ private:
 
     // generial variables
     std::thread* m_thread = nullptr;
+    const std::string m_threadName = "";
+    const uint64_t m_threadId = 0;
+
     bool m_active = false;
     bool m_scheduledForDeletion = false;
     long m_coreId = -1;
-    const std::string m_threadName = "";
 
     // event-queue-variables
     std::deque<Event*> m_eventQueue;

@@ -25,24 +25,38 @@ ThreadHandler_Test::ThreadHandler_Test()
 void
 ThreadHandler_Test::all_test()
 {
-    std::vector<std::string> keys = ThreadHandler::getInstance()->getRegisteredThreads();
+    std::vector<Thread*> threads;
+    std::vector<std::string> keys = ThreadHandler::getInstance()->getRegisteredNames();
     TEST_EQUAL(keys.size(), 0);
 
     DummyThread* testThread = new DummyThread();
     testThread->startThread();
+    DummyThread* testThread2 = new DummyThread();
+    testThread2->startThread();
 
-    keys = ThreadHandler::getInstance()->getRegisteredThreads();
+    keys = ThreadHandler::getInstance()->getRegisteredNames();
     TEST_EQUAL(keys.size(), 1);
-    sleep(1);
     if(keys.size() < 1) {
         return;
     }
 
+    sleep(1);
+
+    // check state of the handler
     TEST_EQUAL(keys.at(0), "DummyThread");
+    threads = ThreadHandler::getInstance()->getThreads("DummyThread");
+    TEST_EQUAL(threads.size(), 2);
 
+    // check after delete first thread
     delete testThread;
+    threads = ThreadHandler::getInstance()->getThreads("DummyThread");
+    TEST_EQUAL(threads.size(), 1);
 
-    keys = ThreadHandler::getInstance()->getRegisteredThreads();
+    // check after delete second thread
+    delete testThread2;
+    threads = ThreadHandler::getInstance()->getThreads("DummyThread");
+    TEST_EQUAL(threads.size(), 0);
+    keys = ThreadHandler::getInstance()->getRegisteredNames();
     TEST_EQUAL(keys.size(), 0);
 }
 
