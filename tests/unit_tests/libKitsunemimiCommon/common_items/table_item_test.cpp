@@ -299,16 +299,6 @@ TableItem_test::toString_test()
 
     // test with a maximum cell width of 9
     TEST_EQUAL(testItem.toString(9), compare);
-
-    const std::string compareVertical =
-            "+-----------+-----------+\n"
-            "| ASDF      | this is a |\n"
-            "|           |  test     |\n"
-            "+-----------+-----------+\n"
-            "| poipoipoi | k         |\n"
-            "+-----------+-----------+\n";
-
-    TEST_EQUAL(testItem.toString(9, true), compareVertical);
 }
 
 /**

@@ -391,14 +391,11 @@ TableItem::getNumberOfRows()
  * @brief converts the table-content into a string
  *
  * @param maxColumnWidth maximum width of a column in number of characters
- * @param showOne output as vertical table with the header on the left and the first row
- *                in the right column
  *
  * @return table as string
  */
 const std::string
-TableItem::toString(const uint32_t maxColumnWidth,
-                    const bool showOne)
+TableItem::toString(const uint32_t maxColumnWidth)
 {
     // init data-handling values
     std::vector<uint64_t> xSizes(getNumberOfColums(), 0);
@@ -409,26 +406,19 @@ TableItem::toString(const uint32_t maxColumnWidth,
     // converts the table into a better format for the output
     // and get the maximum values of the columns and rows
     const std::vector<std::string> innerNames = getInnerName();
-    convertHeaderForOutput(&convertedHeader,
-                           &xSizes,
+    convertHeaderForOutput(convertedHeader,
+                           xSizes,
                            maxColumnWidth);
-    convertBodyForOutput(&convertedBody,
-                         &xSizes,
-                         &ySizes,
+    convertBodyForOutput(convertedBody,
+                         xSizes,
+                         ySizes,
                          innerNames,
                          maxColumnWidth);
 
-    // print as vertical table if required
-    if(showOne)
-    {
-        return printVerticalTable(&convertedHeader,
-                                  &convertedBody);
-    }
-
     // print as normal table
-    return printNormalTable(&convertedBody,
-                            &xSizes,
-                            &ySizes);
+    return printNormalTable(convertedBody,
+                            xSizes,
+                            ySizes);
 }
 
 /**
@@ -441,81 +431,23 @@ TableItem::toString(const uint32_t maxColumnWidth,
  * @return table as string
  */
 const std::string
-TableItem::printNormalTable(TableItem::TableBodyAll *convertedBody,
-                            std::vector<uint64_t> *xSizes,
-                            std::vector<uint64_t> *ySizes)
+TableItem::printNormalTable(TableBodyAll &convertedBody,
+                            std::vector<uint64_t> &xSizes,
+                            std::vector<uint64_t> &ySizes)
 {
-    // create separator-line
-    const std::string normalSeparator = getLimitLine(*xSizes);
-    std::string result = "";
-
-    // print table-header
-    result.append(normalSeparator);
-    result.append(printHeaderLine(*xSizes));
-    result.append(getLimitLine(*xSizes, true));
-
-    // print table body
-    for(uint64_t y = 0; y < getNumberOfRows(); y++)
-    {
-        result.append(printBodyLine(&convertedBody->at(y), *xSizes, ySizes->at(y)));
-        result.append(getLimitLine(*xSizes));
-    }
-
-    return result;
-}
-
-/**
- * @brief if the table has only one row, it can be printed as vertical table, where the left
- *        column contains the header of the table and the right side the content of the first row.
- *        This makes the output better visible.
- *
- * @param convertedHeader content of the header in converted form
- * @param convertedBody content of the body in converted form
- *
- * @return table as string
- */
-const std::string
-TableItem::printVerticalTable(TableRow* convertedHeader,
-                              TableBodyAll* convertedBody)
-{
-    std::vector<uint64_t> xSizes(2, 0);
-    std::vector<uint64_t> ySizes(getNumberOfColums(), 0);
-
-    // in case of a vertical the size-values have be checked again in another order
-    for(uint64_t y = 0; y < getNumberOfColums(); y++)
-    {
-        // calcluate for the header
-        if(xSizes.at(0) < convertedHeader->at(y).at(0).size()) {
-            xSizes[0] = convertedHeader->at(y).at(0).size();
-        }
-        if(ySizes.at(y) < convertedHeader->at(y).size()) {
-            ySizes[y] = convertedHeader->at(y).size();
-        }
-
-        // calculate for the first row of the body
-        if(xSizes.at(1) < convertedBody->at(y).at(0).at(0).size()) {
-            xSizes[1] = convertedBody->at(y).at(0).at(0).size();
-        }
-        if(ySizes.at(y) < convertedBody->at(y).at(0).size()) {
-            ySizes[y] = convertedBody->at(y).at(0).size();
-        }
-    }
-
     // create separator-line
     const std::string normalSeparator = getLimitLine(xSizes);
     std::string result = "";
 
     // print table-header
     result.append(normalSeparator);
+    result.append(printHeaderLine(xSizes));
+    result.append(getLimitLine(xSizes, true));
 
     // print table body
-    for(uint64_t y = 0; y < getNumberOfColums(); y++)
+    for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
-        result.append(printHeaderBodyLine(convertedHeader,
-                                          &convertedBody->at(0),
-                                          xSizes,
-                                          ySizes.at(y),
-                                          y));
+        result.append(printBodyLine(convertedBody.at(y), xSizes, ySizes.at(y)));
         result.append(getLimitLine(xSizes));
     }
 
@@ -549,29 +481,29 @@ TableItem::getInnerName()
  * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
-TableItem::convertCellForOutput(TableCell* convertedCell,
+TableItem::convertCellForOutput(TableCell &convertedCell,
                                 const std::string &cellContent,
-                                uint64_t* width,
+                                uint64_t &width,
                                 const uint32_t maxColumnWidth)
 {
-    splitStringByDelimiter(*convertedCell, cellContent, '\n');
-    for(uint32_t line = 0; line < convertedCell->size(); line++)
+    splitStringByDelimiter(convertedCell, cellContent, '\n');
+    for(uint32_t line = 0; line < convertedCell.size(); line++)
     {
-        if(convertedCell->at(line).size() > maxColumnWidth)
+        if(convertedCell.at(line).size() > maxColumnWidth)
         {
             std::vector<std::string> sub;
-            splitStringByLength(sub, convertedCell->at(line), maxColumnWidth);
+            splitStringByLength(sub, convertedCell.at(line), maxColumnWidth);
 
             // delete old entry and replace it with the splitted content
-            convertedCell->erase(convertedCell->begin() + line);
-            convertedCell->insert(convertedCell->begin() + line,
+            convertedCell.erase(convertedCell.begin() + line);
+            convertedCell.insert(convertedCell.begin() + line,
                                   sub.begin(),
                                   sub.end());
         }
 
         // check for a new maximum of the column-width
-        if(*width < convertedCell->at(line).size()) {
-            *width = convertedCell->at(line).size();
+        if(width < convertedCell.at(line).size()) {
+            width = convertedCell.at(line).size();
         }
     }
 }
@@ -584,11 +516,11 @@ TableItem::convertCellForOutput(TableCell* convertedCell,
  * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
-TableItem::convertHeaderForOutput(TableRow* convertedHeader,
-                                  std::vector<uint64_t>* xSizes,
+TableItem::convertHeaderForOutput(TableRow &convertedHeader,
+                                  std::vector<uint64_t> &xSizes,
                                   const uint32_t maxColumnWidth)
 {
-    for(uint64_t x = 0; x < xSizes->size(); x++)
+    for(uint64_t x = 0; x < xSizes.size(); x++)
     {
         std::string cellContent = "";
 
@@ -600,12 +532,12 @@ TableItem::convertHeaderForOutput(TableRow* convertedHeader,
 
         // split cell content
         TableCell splittedCellContent;
-        convertCellForOutput(&splittedCellContent,
+        convertCellForOutput(splittedCellContent,
                              cellContent,
-                             &(*xSizes)[x],
+                             xSizes[x],
                              maxColumnWidth);
 
-        convertedHeader->push_back(splittedCellContent);
+        convertedHeader.push_back(splittedCellContent);
     }
 }
 
@@ -619,15 +551,15 @@ TableItem::convertHeaderForOutput(TableRow* convertedHeader,
  * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
-TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
-                                std::vector<uint64_t>* xSizes,
-                                std::vector<uint64_t>* ySizes,
+TableItem::convertBodyForOutput(TableBodyAll &convertedBody,
+                                std::vector<uint64_t> &xSizes,
+                                std::vector<uint64_t> &ySizes,
                                 const std::vector<std::string> &columeInnerNames,
                                 const uint32_t maxColumnWidth)
 {
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
-        convertedBody->push_back(TableRow());
+        convertedBody.push_back(TableRow());
 
         for(uint64_t x = 0; x < columeInnerNames.size(); x++)
         {
@@ -641,17 +573,17 @@ TableItem::convertBodyForOutput(TableBodyAll* convertedBody,
 
             // split cell content
             TableCell splittedCellContent;
-            convertCellForOutput(&splittedCellContent,
+            convertCellForOutput(splittedCellContent,
                                  cellContent,
-                                 &(*xSizes)[x],
+                                 xSizes[x],
                                  maxColumnWidth);
 
             // check for a new maximum of the row-height
-            if(ySizes->at(y) < splittedCellContent.size()) {
-                (*ySizes)[y] = splittedCellContent.size();
+            if(ySizes.at(y) < splittedCellContent.size()) {
+                ySizes[y] = splittedCellContent.size();
             }
 
-            convertedBody->at(y).push_back(splittedCellContent);
+            convertedBody.at(y).push_back(splittedCellContent);
         }
     }
 }
@@ -723,7 +655,7 @@ TableItem::printHeaderLine(const std::vector<uint64_t> &xSizes)
  * @return sting with the content of a row for output
  */
 const std::string
-TableItem::printBodyLine(TableRow* rowContent,
+TableItem::printBodyLine(TableRow &rowContent,
                          const std::vector<uint64_t> &xSizes,
                          const uint64_t rowHeight)
 {
@@ -736,8 +668,8 @@ TableItem::printBodyLine(TableRow* rowContent,
         for(uint64_t i = 0; i < xSizes.size(); i++)
         {
             std::string singleCellLine = "";
-            if(rowContent->at(i).size() > line) {
-                singleCellLine = rowContent->at(i).at(line);
+            if(rowContent.at(i).size() > line) {
+                singleCellLine = rowContent.at(i).at(line);
             }
 
             // create string for one line of one cell
@@ -765,8 +697,8 @@ TableItem::printBodyLine(TableRow* rowContent,
  * @return sting with the content of a row for output
  */
 const std::string
-TableItem::printHeaderBodyLine(TableItem::TableRow* headerContent,
-                               TableItem::TableRow* rowContent,
+TableItem::printHeaderBodyLine(TableItem::TableRow &headerContent,
+                               TableItem::TableRow &rowContent,
                                const std::vector<uint64_t> &xSizes,
                                const uint64_t rowHeigh,
                                const uint64_t y)
@@ -780,8 +712,8 @@ TableItem::printHeaderBodyLine(TableItem::TableRow* headerContent,
 
         // get line-content for the left side
         singleCellLine = "";
-        if(headerContent->at(y).size() > line) {
-            singleCellLine = headerContent->at(y).at(line);
+        if(headerContent.at(y).size() > line) {
+            singleCellLine = headerContent.at(y).at(line);
         }
 
         // print left side
@@ -793,8 +725,8 @@ TableItem::printHeaderBodyLine(TableItem::TableRow* headerContent,
 
         // get line-content for the right side
         singleCellLine = "";
-        if(rowContent->at(y).size() > line) {
-            singleCellLine = rowContent->at(y).at(line);
+        if(rowContent.at(y).size() > line) {
+            singleCellLine = rowContent.at(y).at(line);
         }
 
         // print right side
