@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.22.0] - 2021-10-26
+
+### Changed
+- the bool-flag while printing a table-item now doesn't show a single item verticall was changed to print the table without head-line
+- error-messages for the logger are now handle by a struct, which also has a field for a possible solution
+- error-messages are now printed as table
+- the name of threads now doesn't have to be unique anymore, which makes automatic created threads in case of clients much easier
+
+### Fixed
+- logging a table now add a line-break at the beginning to not break the output of the first line
+
+
 ## [0.21.0] - 2021-10-23
 
 ### Added
