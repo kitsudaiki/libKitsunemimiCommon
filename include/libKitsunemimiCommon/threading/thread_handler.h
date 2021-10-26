@@ -27,7 +27,7 @@ public:
 
     const std::vector<std::string> getRegisteredNames();
     const std::vector<Thread*> getThreads(const std::string &threadName);
-    uint64_t getNewId() const;
+    uint64_t getNewId();
 
 private:
     friend Kitsunemimi::Thread;
