@@ -36,10 +36,22 @@ Logger_Test::logger_test()
     ret = initFileLogger("/tmp", "testlog", true);
     TEST_EQUAL(ret, false);
 
+    // create error-container
+    ErrorContainer error1;
+    error1.errorMessage = "error1";
+    error1.possibleSolution = "do nothing";
+    ErrorContainer error2;
+    error2.errorMessage = "error2";
+    error2.possibleSolution = "really nothing";
+    ErrorContainer error3;
+    error3.errorMessage = "error3";
+    error3.possibleSolution = "really absolutely nothing";
+
     // write test-data
-    TEST_EQUAL(LOG_ERROR("error1"), true);
-    TEST_EQUAL(LOG_ERROR("error2"), true);
-    TEST_EQUAL(LOG_ERROR("error3"), true);
+    TEST_EQUAL(LOG_ERROR(error1), true);
+    TEST_EQUAL(LOG_ERROR(error1), true);
+    TEST_EQUAL(LOG_ERROR(error2), true);
+    TEST_EQUAL(LOG_ERROR(error3), true);
 
     TEST_EQUAL(LOG_WARNING("warning1"), true);
     TEST_EQUAL(LOG_WARNING("warning2"), true);
@@ -66,6 +78,8 @@ Logger_Test::logger_test()
     found = logContent.find("ERROR");
     TEST_NOT_EQUAL(found, std::string::npos);
     found = logContent.find("error1");
+    TEST_NOT_EQUAL(found, std::string::npos);
+    found = logContent.find("really nothing");
     TEST_NOT_EQUAL(found, std::string::npos);
 
     // warning

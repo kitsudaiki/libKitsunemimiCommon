@@ -20,6 +20,7 @@
 #include <filesystem>
 
 #include <libKitsunemimiCommon/files/binary_file.h>
+#include <libKitsunemimiCommon/common_items/table_item.h>
 
 #define LOG_DEBUG Kitsunemimi::LOG_debug
 #define LOG_INFO Kitsunemimi::LOG_info
@@ -36,16 +37,33 @@
 namespace Kitsunemimi
 {
 
+struct ErrorContainer
+{
+    std::string errorMessage = "";
+    std::string possibleSolution = "-";
+    bool alreadyPrinted = false;
+
+    const std::string toString()
+    {
+        TableItem output;
+        output.addColumn("key");
+        output.addColumn("value");
+        output.addRow({"Error-Message", errorMessage});
+        output.addRow({"Possible Solution", possibleSolution});
+        return output.toString(200, true);
+    }
+};
+
 bool initFileLogger(const std::string &directoryPath,
                     const std::string &baseFileName,
                     const bool debugLog = false);
 bool initConsoleLogger(const bool debugLog = false);
 bool setDebugFlag(const bool debugLog);
 
-bool LOG_debug(const std::string message);
-bool LOG_warning(const std::string message);
-bool LOG_error(const std::string message);
-bool LOG_info(const std::string message,
+bool LOG_debug(const std::string &message);
+bool LOG_warning(const std::string &message);
+bool LOG_error(ErrorContainer &container);
+bool LOG_info(const std::string &message,
               const std::string &color = WHITE_COLOR);
 
 void closeLogFile();
