@@ -66,7 +66,7 @@ public:
 
     // output
     const std::string toString(const uint32_t maxColumnWidth = 500,
-                               const bool showOne = false);
+                               const bool withoutHeader = false);
 
 private:
     DataArray* m_body = nullptr;
@@ -83,37 +83,35 @@ private:
                                    const bool bigLine = false);
 
     // content-converter for easier output-handline
-    void convertCellForOutput(TableCell* convertedCell,
+    void convertCellForOutput(TableCell &convertedCell,
                               const std::string &cellContent,
-                              uint64_t* width,
+                              uint64_t &width,
                               const uint32_t maxColumnWidth);
-    void convertHeaderForOutput(TableRow* convertedHeader,
-                                std::vector<uint64_t>* xSizes,
+    void convertHeaderForOutput(TableRow &convertedHeader,
+                                std::vector<uint64_t> &xSizes,
                                 const uint32_t maxColumnWidth);
-    void convertBodyForOutput(TableBodyAll* convertedBody,
-                              std::vector<uint64_t>* xSizes,
-                              std::vector<uint64_t>* ySizes,
+    void convertBodyForOutput(TableBodyAll &convertedBody,
+                              std::vector<uint64_t> &xSizes,
+                              std::vector<uint64_t> &ySizes,
                               const std::vector<std::string> &columeInnerNames,
                               const uint32_t maxColumnWidth);
 
     // output of single lines of the output
     const std::string printHeaderLine(const std::vector<uint64_t> &xSizes);
-    const std::string printBodyLine(TableRow* rowContent,
+    const std::string printBodyLine(TableRow &rowContent,
                                     const std::vector<uint64_t> &xSizes,
                                     const uint64_t rowHeigh);
-    const std::string printHeaderBodyLine(TableRow* headerContent,
-                                          TableRow* rowContent,
+    const std::string printHeaderBodyLine(TableRow &headerContent,
+                                          TableRow &rowContent,
                                           const std::vector<uint64_t> &xSizes,
                                           const uint64_t rowHeigh,
                                           const uint64_t y);
 
     // final output of the two different versions
-    const std::string printNormalTable(TableBodyAll* convertedBody,
-                                       std::vector<uint64_t>* xSizes,
-                                       std::vector<uint64_t>* ySizes);
-
-    const std::string printVerticalTable(TableRow* convertedHeader,
-                                         TableBodyAll* convertedBody);
+    const std::string printNormalTable(TableBodyAll &convertedBody,
+                                       std::vector<uint64_t> &xSizes,
+                                       std::vector<uint64_t> &ySizes,
+                                       const bool withoutHeader);
 };
 
 }  // namespace Kitsunemimi
