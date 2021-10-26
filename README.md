@@ -928,6 +928,12 @@ Using the logger somewhere else in your code. You only need to import the header
 LOG_DEBUG("debug-message");
 LOG_INFO("info-message");
 LOG_WARNING("warning-message");
+
+// error-messages are handle by a container, which is printed as table which logging
+//     it also allows an additional field for a possible solution for easier debugging
+Kitsunemimi::ErrorContainer error;
+error.errorMessage = "some error";
+error.possibleSolution = "do nothing";
 LOG_ERROR("error-message");
 
 /**

@@ -61,34 +61,43 @@ setDebugFlag(const bool debugLog)
  * @brief write debug-message to logfile
  */
 bool
-LOG_debug(const std::string message)
+LOG_debug(const std::string &message)
 {
-    return Kitsunemimi::Logger::m_logger->logData(message, "DEBUG", BLUE_COLOR, true);
+    return Logger::m_logger->logData(message, "DEBUG", BLUE_COLOR, true);
 }
 
 /**
  * @brief write warnign-message to logfile
  */
 bool
-LOG_warning(const std::string message)
+LOG_warning(const std::string &message)
 {
-    return Kitsunemimi::Logger::m_logger->logData(message, "WARNING", YELLOW_COLOR);
+    return Logger::m_logger->logData(message, "WARNING", YELLOW_COLOR);
 }
 
 /**
  * @brief write error-message to logfile
  */
 bool
-LOG_error(const std::string message)
+LOG_error(ErrorContainer &container)
 {
-    return Kitsunemimi::Logger::m_logger->logData(message, "ERROR", RED_COLOR);
+    if(container.alreadyPrinted) {
+        return true;
+    }
+
+    const bool ret = Logger::m_logger->logData(container.toString(), "ERROR", RED_COLOR);
+    if(ret) {
+        container.alreadyPrinted = true;
+    }
+
+    return ret;
 }
 
 /**
  * @brief write info-message to logfile
  */
 bool
-LOG_info(const std::string message, const std::string &color)
+LOG_info(const std::string &message, const std::string &color)
 {
     return Kitsunemimi::Logger::m_logger->logData(message, "INFO", color);
 }
@@ -244,10 +253,20 @@ Logger::logData(const std::string &message,
             return false;
         }
 
-        if(preTag == "INFO") {
+        if(preTag == "INFO")
+        {
             std::cout<<color<<message<<WHITE_COLOR<<std::endl;
-        } else {
-            std::cout<<color<<preTag<<": "<<message<<WHITE_COLOR<<std::endl;
+        }
+        else
+        {
+            std::cout<<color<<preTag<<": ";
+            // special handline for tables
+            if(message.size() > 0
+                    && message.at(0) == '+')
+            {
+                std::cout<<"\n";
+            }
+            std::cout<<message<<WHITE_COLOR<<std::endl;
         }
     }
 
@@ -260,7 +279,15 @@ Logger::logData(const std::string &message,
             return false;
         }
 
-        const std::string line(getDatetime() + " " + preTag + ": " + message + "\n");
+        std::string line = getDatetime() + " " + preTag + ": ";
+        // special handline for tables
+        if(message.size() > 0
+                && message.at(0) == '+')
+        {
+            line += "\n";
+        }
+        line += message + "\n";
+
         m_outputFile << line;
         m_outputFile.flush();
     }
