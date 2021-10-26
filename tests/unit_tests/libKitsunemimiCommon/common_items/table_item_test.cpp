@@ -299,6 +299,25 @@ TableItem_test::toString_test()
 
     // test with a maximum cell width of 9
     TEST_EQUAL(testItem.toString(9), compare);
+
+    const std::string compareWithoutHeader =
+            "+-----------+-----------+\n"
+            "| this is a | k         |\n"
+            "|  test     |           |\n"
+            "+-----------+-----------+\n"
+            "| asdf      | qwert     |\n"
+            "+-----------+-----------+\n"
+            "| x         |           |\n"
+            "| y         |           |\n"
+            "| z         |           |\n"
+            "+-----------+-----------+\n"
+            "| y         | abcdefghi |\n"
+            "|           | jklmnopqr |\n"
+            "|           | st        |\n"
+            "+-----------+-----------+\n";
+
+    // test with a maximum cell width of 9
+    TEST_EQUAL(testItem.toString(9, true), compareWithoutHeader);
 }
 
 /**

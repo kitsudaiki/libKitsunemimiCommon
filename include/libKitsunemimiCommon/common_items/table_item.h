@@ -65,7 +65,8 @@ public:
     uint64_t getNumberOfRows();
 
     // output
-    const std::string toString(const uint32_t maxColumnWidth = 500);
+    const std::string toString(const uint32_t maxColumnWidth = 500,
+                               const bool withoutHeader = false);
 
 private:
     DataArray* m_body = nullptr;
@@ -109,7 +110,8 @@ private:
     // final output of the two different versions
     const std::string printNormalTable(TableBodyAll &convertedBody,
                                        std::vector<uint64_t> &xSizes,
-                                       std::vector<uint64_t> &ySizes);
+                                       std::vector<uint64_t> &ySizes,
+                                       const bool withoutHeader);
 };
 
 }  // namespace Kitsunemimi

@@ -391,11 +391,13 @@ TableItem::getNumberOfRows()
  * @brief converts the table-content into a string
  *
  * @param maxColumnWidth maximum width of a column in number of characters
+ * @param withoutHeader if true, the header line of the table will not be printed
  *
  * @return table as string
  */
 const std::string
-TableItem::toString(const uint32_t maxColumnWidth)
+TableItem::toString(const uint32_t maxColumnWidth,
+                    const bool withoutHeader)
 {
     // init data-handling values
     std::vector<uint64_t> xSizes(getNumberOfColums(), 0);
@@ -418,7 +420,8 @@ TableItem::toString(const uint32_t maxColumnWidth)
     // print as normal table
     return printNormalTable(convertedBody,
                             xSizes,
-                            ySizes);
+                            ySizes,
+                            withoutHeader);
 }
 
 /**
@@ -427,13 +430,15 @@ TableItem::toString(const uint32_t maxColumnWidth)
  * @param convertedBody content of the body in converted form
  * @param xSizes target of the x-size values
  * @param ySizes target of the y-size values
+ * @param withoutHeader if true, the header line of the table will not be printed
  *
  * @return table as string
  */
 const std::string
 TableItem::printNormalTable(TableBodyAll &convertedBody,
                             std::vector<uint64_t> &xSizes,
-                            std::vector<uint64_t> &ySizes)
+                            std::vector<uint64_t> &ySizes,
+                            const bool withoutHeader)
 {
     // create separator-line
     const std::string normalSeparator = getLimitLine(xSizes);
@@ -441,8 +446,11 @@ TableItem::printNormalTable(TableBodyAll &convertedBody,
 
     // print table-header
     result.append(normalSeparator);
-    result.append(printHeaderLine(xSizes));
-    result.append(getLimitLine(xSizes, true));
+    if(withoutHeader == false)
+    {
+        result.append(printHeaderLine(xSizes));
+        result.append(getLimitLine(xSizes, true));
+    }
 
     // print table body
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
