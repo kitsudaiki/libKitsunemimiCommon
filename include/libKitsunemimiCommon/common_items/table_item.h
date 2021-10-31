@@ -64,6 +64,10 @@ public:
     uint64_t getNumberOfColums();
     uint64_t getNumberOfRows();
 
+    // getter complete
+    DataArray* getHeader() const;
+    DataArray* getBody() const;
+
     // output
     const std::string toString(const uint32_t maxColumnWidth = 500,
                                const bool withoutHeader = false);

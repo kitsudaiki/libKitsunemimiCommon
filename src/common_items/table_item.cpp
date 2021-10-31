@@ -388,6 +388,28 @@ TableItem::getNumberOfRows()
 }
 
 /**
+ * @brief get table header
+ *
+ * @return copy of table-header
+ */
+DataArray*
+TableItem::getHeader() const
+{
+    return m_header->copy()->toArray();
+}
+
+/**
+ * @brief get table body
+ *
+ * @return copy of table-body
+ */
+DataArray*
+TableItem::getBody() const
+{
+    return m_body->copy()->toArray();
+}
+
+/**
  * @brief converts the table-content into a string
  *
  * @param maxColumnWidth maximum width of a column in number of characters
