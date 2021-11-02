@@ -49,7 +49,9 @@ struct ErrorContainer
         output.addColumn("key");
         output.addColumn("value");
         output.addRow({"Error-Message", errorMessage});
-        output.addRow({"Possible Solution", possibleSolution});
+        if(possibleSolution.size() > 1) {
+            output.addRow({"Possible Solution", possibleSolution});
+        }
         return output.toString(200, true);
     }
 };
