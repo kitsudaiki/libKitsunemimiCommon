@@ -52,6 +52,11 @@ readFile(std::string &readContent,
 
     std::ifstream inFile;
     inFile.open(filePath);
+    if(inFile.is_open() == false)
+    {
+        errorMessage = "missing permission to open file \"" + filePath + "\"";
+        return false;
+    }
 
     std::stringstream strStream;
     strStream << inFile.rdbuf();
@@ -122,6 +127,12 @@ writeFile(const std::string &filePath,
     // create new file and write content
     std::ofstream outputFile;
     outputFile.open(filePath);
+    if(outputFile.is_open() == false)
+    {
+        errorMessage = "missing permission or target-directory to open file \"" + filePath + "\"";
+        return false;
+    }
+
     outputFile << content;
     outputFile.flush();
     outputFile.close();
@@ -155,6 +166,12 @@ appendText(const std::string &filePath,
     // open, write and close file again
     std::ofstream outputFile;
     outputFile.open(filePath, std::ios_base::app);
+    if(outputFile.is_open() == false)
+    {
+        errorMessage = "missing permission or target-directory to open file \"" + filePath + "\"";
+        return false;
+    }
+
     outputFile << newText;
     outputFile.flush();
     outputFile.close();
