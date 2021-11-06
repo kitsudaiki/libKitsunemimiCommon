@@ -447,6 +447,23 @@ TableItem::toString(const uint32_t maxColumnWidth,
 }
 
 /**
+ * @brief converts header and body of the table into one single json-formated string without indent
+ *
+ * @return json-string
+ */
+const std::string
+TableItem::toJsonString()
+{
+    std::string result = "{ header: ";
+    result.append(m_header->toString());
+    result.append(", body: ");
+    result.append(m_body->toString());
+    result.append("}");
+    Kitsunemimi::replaceSubstring(result, "\n", "\\n");
+    return result;
+}
+
+/**
  * @brief output of the content as classic table.
  *
  * @param convertedBody content of the body in converted form
