@@ -138,4 +138,32 @@ trim(std::string& original,
     rtrim(original, chars);
 }
 
+/**
+ * @brief converts string to upper-case
+ *
+ * @param original reference to string, which have to be converted
+ */
+void
+toUpperCase(std::string &original)
+{
+    std::transform(original.begin(),
+                   original.end(),
+                   original.begin(),
+                   [](unsigned char c){ return std::toupper(c); });
+}
+
+/**
+ * @brief converts string to lower-case
+ *
+ * @param original reference to string, which have to be converted
+ */
+void
+toLowerCase(std::string &original)
+{
+    std::transform(original.begin(),
+                   original.end(),
+                   original.begin(),
+                   [](unsigned char c){ return std::tolower(c); });
+}
+
 } // namespace Kitsunemimi
