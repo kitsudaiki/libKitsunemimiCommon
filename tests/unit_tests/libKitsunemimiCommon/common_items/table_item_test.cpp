@@ -7,6 +7,7 @@
  */
 
 #include "table_item_test.h"
+#include <libKitsunemimiCommon/common_items/data_items.h>
 
 namespace Kitsunemimi
 {
@@ -16,6 +17,7 @@ TableItem_test::TableItem_test()
 {
     copy_contructor_test();
     assignment_operator_test();
+    stealContent_test();
 
     // column
     addColumn_Test();
@@ -37,6 +39,7 @@ TableItem_test::TableItem_test()
 
     // output
     toString_test();
+    toJsonString_test();
 }
 
 /**
@@ -73,6 +76,26 @@ void TableItem_test::clearTable_test()
     TableItem testItem = getTestTableItem();
 
     testItem.clearTable();
+
+    TEST_EQUAL(testItem.getNumberOfRows(), 0);
+    TEST_EQUAL(testItem.getNumberOfColums(), 0);
+}
+
+/**
+ * @brief clearTable_test
+ */
+void
+TableItem_test::stealContent_test()
+{
+    TableItem testItem = getTestTableItem();
+
+    DataMap* data = testItem.stealContent();
+
+    TEST_EQUAL(data->contains("header"), true);
+    TEST_EQUAL(data->contains("body"), true);
+
+    TEST_EQUAL(data->get("header")->size(), 2);
+    TEST_EQUAL(data->get("body")->size(), 2);
 
     TEST_EQUAL(testItem.getNumberOfRows(), 0);
     TEST_EQUAL(testItem.getNumberOfColums(), 0);
@@ -318,6 +341,19 @@ TableItem_test::toString_test()
 
     // test with a maximum cell width of 9
     TEST_EQUAL(testItem.toString(9, true), compareWithoutHeader);
+}
+
+/**
+ * @brief toJsonString_test
+ */
+void
+TableItem_test::toJsonString_test()
+{
+    TableItem testItem = getTestTableItem();
+
+    // additional multiline test
+    testItem.addRow(std::vector<std::string>{"x\ny\nz", " "});
+    testItem.addRow(std::vector<std::string>{"y", "abcdefghijklmnopqrst"});
 
     // check json-formated output
     const std::string compareJson = "{ header: [{\"inner\":\"asdf\",\"outer\":\"ASDF\"},"
