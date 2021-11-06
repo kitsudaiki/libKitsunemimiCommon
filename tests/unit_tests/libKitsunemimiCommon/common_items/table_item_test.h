@@ -25,6 +25,7 @@ private:
     void copy_contructor_test();
     void assignment_operator_test();
     void clearTable_test();
+    void stealContent_test();
 
     // column
     void addColumn_Test();
@@ -46,6 +47,7 @@ private:
 
     // output
     void toString_test();
+    void toJsonString_test();
 
     TableItem getTestTableItem();
 };

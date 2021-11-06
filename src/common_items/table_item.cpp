@@ -410,6 +410,24 @@ TableItem::getBody() const
 }
 
 /**
+ * @brief steal content of the table
+ *
+ * @return stolen content
+ */
+DataMap*
+TableItem::stealContent()
+{
+    DataMap* content = new DataMap();
+    content->insert("header", m_header);
+    content->insert("body", m_body);
+
+    m_header = new DataArray();
+    m_body = new DataArray();
+
+    return content;
+}
+
+/**
  * @brief converts the table-content into a string
  *
  * @param maxColumnWidth maximum width of a column in number of characters

@@ -67,6 +67,7 @@ public:
     // getter complete
     DataArray* getHeader() const;
     DataArray* getBody() const;
+    DataMap* stealContent();
 
     // output
     const std::string toString(const uint32_t maxColumnWidth = 500,
