@@ -71,6 +71,7 @@ public:
     // output
     const std::string toString(const uint32_t maxColumnWidth = 500,
                                const bool withoutHeader = false);
+    const std::string toJsonString();
 
 private:
     DataArray* m_body = nullptr;

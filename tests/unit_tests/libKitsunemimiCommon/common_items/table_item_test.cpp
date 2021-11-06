@@ -318,6 +318,15 @@ TableItem_test::toString_test()
 
     // test with a maximum cell width of 9
     TEST_EQUAL(testItem.toString(9, true), compareWithoutHeader);
+
+    // check json-formated output
+    const std::string compareJson = "{ header: [{\"inner\":\"asdf\",\"outer\":\"ASDF\"},"
+                                    "{\"inner\":\"poipoipoi\",\"outer\":\"poipoipoi\"}], "
+                                    "body: [{\"asdf\":\"this is a test\",\"poipoipoi\":\"k\"},"
+                                    "{\"asdf\":\"asdf\",\"poipoipoi\":\"qwert\"},"
+                                    "{\"asdf\":\"x\\ny\\nz\",\"poipoipoi\":\" \"},"
+                                    "{\"asdf\":\"y\",\"poipoipoi\":\"abcdefghijklmnopqrst\"}]}";
+    TEST_EQUAL(testItem.toJsonString(), compareJson);
 }
 
 /**
