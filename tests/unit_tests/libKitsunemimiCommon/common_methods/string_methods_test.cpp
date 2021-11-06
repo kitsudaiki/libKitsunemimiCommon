@@ -20,9 +20,13 @@ StringMethods_Test::StringMethods_Test()
     splitStringByLength_test();
     replaceSubstring_test();
     removeWhitespaces_test();
+
     ltrim_test();
     rtrim_test();
     trim_test();
+
+    toUpperCase_test();
+    toLowerCase_test();
 }
 
 /**
@@ -153,6 +157,38 @@ StringMethods_Test::trim_test()
 
     // check result
     TEST_EQUAL(testString, "this is a test-string");
+}
+
+/**
+ * @brief toUpperCase_test
+ */
+void
+StringMethods_Test::toUpperCase_test()
+{
+    // init
+    std::string testString = "1234 this is A test-string _ !?";
+
+    // run task
+    toUpperCase(testString);
+
+    // check result
+    TEST_EQUAL(testString, "1234 THIS IS A TEST-STRING _ !?");
+}
+
+/**
+ * @brief toLowerCase_test
+ */
+void
+StringMethods_Test::toLowerCase_test()
+{
+    // init
+    std::string testString = "1234 THIS is A TEST-STRING _ !?";
+
+    // run task
+    toLowerCase(testString);
+
+    // check result
+    TEST_EQUAL(testString, "1234 this is a test-string _ !?");
 }
 
 } // namespace Kitsunemimi

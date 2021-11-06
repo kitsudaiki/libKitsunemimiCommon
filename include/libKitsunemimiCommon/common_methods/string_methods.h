@@ -39,6 +39,9 @@ void rtrim(std::string& original,
 void trim(std::string& original,
           const std::string& chars = "\t\n\v\f\r ");
 
+void toUpperCase(std::string &original);
+void toLowerCase(std::string &original);
+
 } // namespace Kitsunemimi
 
 #endif // STRINGMETHODS_H

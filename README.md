@@ -772,6 +772,16 @@ replaceSubstring(testString, "test", "bogus");
 std::string testString = "  \t  \n \r  this is a test-string  \t  \n \r  ";
 trim(testString);
 // variable teststring has not the content: "this is a test-string"
+
+// to upper case string
+std::string testString = "1234 this is A test-string _ !?";
+toUpperCase(testString);
+// variable teststring has not the content: "1234 THIS IS A TEST-STRING _ !?"
+
+// to lower case string
+std::string testString = "1234 THIS is A TEST-STRING _ !?";
+toLowerCase(testString);
+// variable teststring has not the content: "1234 this is a test-string _ !?"
 ```
 
 #### vector methods
