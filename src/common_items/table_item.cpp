@@ -428,6 +428,28 @@ TableItem::stealContent()
 }
 
 /**
+ * @brief get a specific row of the table
+ *
+ * @param row number of requested row
+ * @param copy true to make a copy, false to get only a pointer
+ *
+ * @return copy of the requested row
+ */
+DataMap*
+TableItem::getRow(const uint32_t row, const bool copy) const
+{
+    if(row >= m_body->size()) {
+        return new DataMap();
+    }
+
+    if(copy) {
+        return m_body->get(row)->copy()->toMap();
+    } else {
+        return m_body->get(row)->toMap();
+    }
+}
+
+/**
  * @brief converts the table-content into a string
  *
  * @param maxColumnWidth maximum width of a column in number of characters

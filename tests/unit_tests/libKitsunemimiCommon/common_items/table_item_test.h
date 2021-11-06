@@ -34,6 +34,7 @@ private:
 
     // row
     void addRow_Test();
+    void getRow_Test();
     void deleteRow_Test();
 
     // cell

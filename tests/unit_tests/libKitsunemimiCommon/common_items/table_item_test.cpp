@@ -26,6 +26,7 @@ TableItem_test::TableItem_test()
 
     // row
     addRow_Test();
+    getRow_Test();
     deleteRow_Test();
 
     // cell
@@ -181,6 +182,29 @@ TableItem_test::addRow_Test()
             "+----------------+-----------+\n";
 
     TEST_EQUAL(testItem.toString(), compare);
+}
+
+/**
+ * @brief getRow_Test
+ */
+void
+TableItem_test::getRow_Test()
+{
+    TableItem testItem = getTestTableItem();
+    DataMap* result = nullptr;
+
+    // additional multiline test
+    testItem.addRow(std::vector<std::string>{"x\ny\nz", " "});
+    testItem.addRow(std::vector<std::string>{"y", "abcdefghijklmnopqrst"});
+
+    result = testItem.getRow(42, false);
+    const bool isNullptr = result == nullptr;
+    TEST_EQUAL(isNullptr, false);
+    TEST_EQUAL(result->size(), 0);
+
+    result = testItem.getRow(1, false);
+    const std::string compare = "{\"asdf\":\"asdf\",\"poipoipoi\":\"qwert\"}";
+    TEST_EQUAL(result->toString(), compare);
 }
 
 /**
