@@ -27,12 +27,21 @@
 #define LOG_WARNING Kitsunemimi::LOG_warning
 #define LOG_ERROR Kitsunemimi::LOG_error
 
+#ifndef ALL_WHITE_OUTPUT
 #define YELLOW_COLOR "\033[1;33m"
 #define WHITE_COLOR "\033[0m"
 #define GREEN_COLOR "\033[1;32m"
 #define RED_COLOR "\033[1;31m"
 #define BLUE_COLOR "\033[1;34m"
 #define PINK_COLOR "\033[1;95m"
+#else
+#define YELLOW_COLOR "\033[0m"
+#define WHITE_COLOR "\033[0m"
+#define GREEN_COLOR "\033[0m"
+#define RED_COLOR "\033[0m"
+#define BLUE_COLOR "\033[0m"
+#define PINK_COLOR "\033[0m"
+#endif
 
 namespace Kitsunemimi
 {
