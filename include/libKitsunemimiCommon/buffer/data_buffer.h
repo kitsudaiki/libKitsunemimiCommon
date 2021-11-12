@@ -31,7 +31,7 @@ struct DataBuffer;
 inline bool allocateBlocks_DataBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
 inline bool addData_DataBuffer(DataBuffer &buffer, const void* data, const uint64_t dataSize);
 inline bool reset_DataBuffer(DataBuffer &buffer, const uint64_t numberOfBlocks);
-inline uint8_t* getBlock_DataBuffer(DataBuffer &buffer, const uint32_t blockPosition);
+inline uint8_t* getBlock_DataBuffer(DataBuffer &buffer, const uint64_t blockPosition);
 inline void* alignedMalloc(const uint16_t blockSize, const uint64_t numberOfBytes);
 inline bool alignedFree(void* ptr, const uint64_t numberOfBytes);
 
@@ -54,7 +54,7 @@ struct DataBuffer
      * @param blockSize size of a block in the data-buffer
      *                  (should never be changed after buffer was created)
      */
-    DataBuffer(const uint32_t numberOfBlocks = 1,
+    DataBuffer(const uint64_t numberOfBlocks = 1,
                const uint16_t blockSize = 4096)
     {
         this->blockSize = blockSize;
@@ -158,7 +158,20 @@ struct DataBuffer
     }
 };
 
-
+/**
+ * @brief calculate number of block for a specific number of bytes
+ *
+ * @param numberOfBlocks incoming number of bytes
+ * @param blockSize bytes per block
+ *
+ * @return number of blocks
+ */
+inline uint64_t
+calcBytesToBlocks(const uint64_t numberOfBlocks,
+                  const uint16_t blockSize = 4096)
+{
+    return (numberOfBlocks / blockSize) + 1;
+}
 
 /**
  * @brief allocate a number of aligned bytes
@@ -362,7 +375,7 @@ reset_DataBuffer(DataBuffer &buffer,
  */
 inline uint8_t*
 getBlock_DataBuffer(DataBuffer &buffer,
-                    const uint32_t blockPosition)
+                    const uint64_t blockPosition)
 {
     // precheck
     if(blockPosition >= buffer.numberOfBlocks) {
