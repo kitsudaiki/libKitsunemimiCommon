@@ -869,6 +869,7 @@ Little example:
 
 ```cpp
 #include <libKitsunemimiCommon/files/text_file.h>
+#include <libKitsunemimiCommon/logger.h>
 
 std::string filePath = "/tmp/textfile.txt";
 
@@ -876,22 +877,22 @@ std::string content = "this is a test\n"
                       "and this is a second line";
 
 std::pair<bool, std::string> ret;
-std::string errorMessage = "";
+ErrorContainer error;
 
 // write text to file
 bool writeResult = writeFile(filePath, 
                              content, 
-                             errorMessage,
+                             error,
                              false);        // <-- force-flag, 
                                             //     with false it fails if file already existing
                                   
 // add new text to the file
 bool appendResult = appendText(filePath,
                                "\nand a third line",
-                               errorMessage);
+                               error);
 
 // read updated file
-std::pair<bool, std::string> readResult = readFile(filePath, errorMessage);
+std::pair<bool, std::string> readResult = readFile(filePath, error);
 // readResult.second would now contans:
 //
 // "this is a test\n"
