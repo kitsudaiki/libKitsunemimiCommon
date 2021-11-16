@@ -85,12 +85,12 @@ FileMethods_Test::renameFileOrDir_test()
     runSyncProcess(std::string("touch " + oldFilePath).c_str());
     runSyncProcess(std::string("rm " + newFileName).c_str());
 
-    std::string errorMessage = "";
+    ErrorContainer error;
 
-    result = renameFileOrDir(oldFilePath, newFileName, errorMessage);
+    result = renameFileOrDir(oldFilePath, newFileName, error);
     TEST_EQUAL(result, true);
 
-    result = renameFileOrDir(oldFilePath, newFileName, errorMessage);
+    result = renameFileOrDir(oldFilePath, newFileName, error);
     TEST_EQUAL(result, false);
 
     TEST_EQUAL(std::filesystem::exists(oldFilePath), false);
@@ -114,12 +114,12 @@ FileMethods_Test::copyPath_test()
     runSyncProcess(std::string("touch " + oldFilePath).c_str());
     runSyncProcess(std::string("rm " + newFileName).c_str());
 
-    std::string errorMessage = "";
+    ErrorContainer error;
 
-    result = copyPath(oldFilePath, newFileName, errorMessage);
+    result = copyPath(oldFilePath, newFileName, error);
     TEST_EQUAL(result, true);
 
-    result = copyPath(oldFilePath, newFileName, errorMessage, false);
+    result = copyPath(oldFilePath, newFileName, error, false);
     TEST_EQUAL(result, false);
 
     TEST_EQUAL(std::filesystem::exists(oldFilePath), true);
@@ -142,15 +142,15 @@ FileMethods_Test::createDirectory_test()
     runSyncProcess(std::string("rm -r " + testDirPath).c_str());
     TEST_EQUAL(std::filesystem::exists(testDirPath), false);
 
-    std::string errorMessage = "";
+    ErrorContainer error;
 
-    result = createDirectory(testDirPath, errorMessage);
+    result = createDirectory(testDirPath, error);
     TEST_EQUAL(result, true);
 
     TEST_EQUAL(std::filesystem::exists(testDirPath), true);
 
-    result = createDirectory(testDirPath, errorMessage);
-    TEST_EQUAL(result, false);
+    result = createDirectory(testDirPath, error);
+    TEST_EQUAL(result, true);
 
     runSyncProcess(std::string("rm -r " + testDirPath).c_str());
 }
@@ -169,18 +169,18 @@ FileMethods_Test::deleteFileOrDir_test()
     runSyncProcess(std::string("touch " + testFilePath).c_str());
     runSyncProcess(std::string("mkdir " + testDirPath).c_str());
 
-    std::string errorMessage = "";
+    ErrorContainer error;
 
     TEST_EQUAL(std::filesystem::exists(testFilePath), true);
     TEST_EQUAL(std::filesystem::exists(testDirPath), true);
 
-    result = deleteFileOrDir(testFilePath, errorMessage);
+    result = deleteFileOrDir(testFilePath, error);
     TEST_EQUAL(result, true);
 
-    result = deleteFileOrDir(testDirPath, errorMessage);
+    result = deleteFileOrDir(testDirPath, error);
     TEST_EQUAL(result, true);
 
-    result = deleteFileOrDir(testDirPath, errorMessage);
+    result = deleteFileOrDir(testDirPath, error);
     TEST_EQUAL(result, true);
 
     TEST_EQUAL(std::filesystem::exists(testFilePath), false);

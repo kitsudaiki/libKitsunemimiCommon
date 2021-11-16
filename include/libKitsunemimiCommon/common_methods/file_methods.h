@@ -15,6 +15,8 @@
 #include <string>
 #include <filesystem>
 
+#include <libKitsunemimiCommon/logger.h>
+
 namespace Kitsunemimi
 {
 
@@ -25,15 +27,15 @@ bool listFiles(std::vector<std::string> &fileList,
 
 bool renameFileOrDir(const std::filesystem::path &oldPath,
                      const std::filesystem::path &newPath,
-                     std::string &errorMessage);
+                     ErrorContainer &error);
 bool copyPath(const std::filesystem::path &sourcePath,
               const std::filesystem::path &targetPath,
-              std::string &errorMessage,
+              ErrorContainer &error,
               const bool force=true);
 bool createDirectory(const std::filesystem::path &path,
-                     std::string &errorMessage);
+                     ErrorContainer &error);
 bool deleteFileOrDir(const std::filesystem::path &path,
-                     std::string &errorMessage);
+                     ErrorContainer &error);
 
 }
 
