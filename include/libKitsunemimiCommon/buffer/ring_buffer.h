@@ -145,8 +145,8 @@ addObject_RingBuffer(RingBuffer &ringBuffer, T* data)
  * @return pointer to the beginning of the requested datablock, or nullptr if the requested
  *         block is too big
  */
-inline uint8_t*
-getDataPointer_RingBuffer(RingBuffer &ringBuffer,
+inline const uint8_t*
+getDataPointer_RingBuffer(const RingBuffer &ringBuffer,
                           const uint64_t size)
 {
     if(ringBuffer.usedSize < size) {
@@ -192,12 +192,12 @@ moveForward_RingBuffer(RingBuffer &ringBuffer,
  *         data within the ring-buffer for the requested object
  */
 template <typename T>
-inline T*
-getObject_RingBuffer(RingBuffer &ringBuffer)
+inline const T*
+getObject_RingBuffer(const RingBuffer &ringBuffer)
 {
-    void* data = static_cast<void*>(getDataPointer_RingBuffer(ringBuffer, sizeof(T)));
+    const void* data = static_cast<const void*>(getDataPointer_RingBuffer(ringBuffer, sizeof(T)));
 
-    return static_cast<T*>(data);
+    return static_cast<const T*>(data);
 }
 
 } // namespace Kitsunemimi
