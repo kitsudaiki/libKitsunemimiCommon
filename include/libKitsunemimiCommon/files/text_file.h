@@ -18,36 +18,38 @@
 #include <string>
 #include <fstream>
 
+#include <libKitsunemimiCommon/logger.h>
+
 namespace Kitsunemimi
 {
 
 bool
 readFile(std::string &readContent,
          const std::string &filePath,
-         std::string &errorMessage);
+         ErrorContainer &error);
 
 bool
 writeFile(const std::string &filePath,
           const std::string &content,
-          std::string &errorMessage,
+          ErrorContainer &error,
           const bool force=true);
 
 bool
 appendText(const std::string &filePath,
            const std::string &newText,
-           std::string &errorMessage);
+           ErrorContainer &error);
 
 bool
 replaceLine(const std::string &filePath,
             const uint32_t lineNumber,
             const std::string &newLineContent,
-            std::string &errorMessage);
+            ErrorContainer &error);
 
 bool
 replaceContent(const std::string &filePath,
                const std::string &oldContent,
                const std::string &newContent,
-               std::string &errorMessage);
+               ErrorContainer &error);
 
 } // namespace Kitsunemimi
 

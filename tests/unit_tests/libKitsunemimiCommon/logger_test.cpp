@@ -69,9 +69,9 @@ Logger_Test::logger_test()
     TEST_EQUAL(LOG_INFO("blue-info", BLUE_COLOR), true);
     TEST_EQUAL(LOG_INFO("pink-info", PINK_COLOR), true);
 
-    std::string errorMessage = "";
+    ErrorContainer error;
     std::string logContent = "";
-    ret = readFile(logContent, Logger::m_logger->m_filePath, errorMessage);
+    ret = readFile(logContent, Logger::m_logger->m_filePath, error);
     std::size_t found;
 
     // error

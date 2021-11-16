@@ -79,15 +79,9 @@ listFiles(std::vector<std::string> &fileList,
         return false;
     }
 
-    if(is_directory(pathObj))
-    {
-        getFilesInDir(fileList,
-                      pathObj,
-                      withSubdirs,
-                      exceptions);
-    }
-    else
-    {
+    if(is_directory(pathObj)) {
+        getFilesInDir(fileList, pathObj, withSubdirs, exceptions);
+    } else {
         fileList.push_back(path);
     }
 
@@ -108,8 +102,7 @@ getRelativePath(const std::filesystem::path &oldRootPath,
                 const std::filesystem::path &oldRelativePath,
                 const std::filesystem::path &newRootPath)
 {
-    std::filesystem::path completePath = oldRootPath / oldRelativePath;
-
+    const std::filesystem::path completePath = oldRootPath / oldRelativePath;
     return std::filesystem::relative(completePath, newRootPath);
 }
 
@@ -118,26 +111,35 @@ getRelativePath(const std::filesystem::path &oldRootPath,
  *
  * @param oldPath origial path
  * @param newPath new path after renaming
- * @param errorMessage reference for error-message output
+ * @param error reference for error-message output
  *
  * @return true, if successful, else false
  */
 bool
-renameFileOrDir(const std::filesystem::__cxx11::path &oldPath,
-                const std::filesystem::__cxx11::path &newPath,
-                std::string &errorMessage)
+renameFileOrDir(const std::filesystem::path &oldPath,
+                const std::filesystem::path &newPath,
+                ErrorContainer &error)
 {
+    // check source
     if(std::filesystem::exists(oldPath) == false)
     {
-        errorMessage = "source-path " + oldPath.string() + " doesn't exist.";
+        error.errorMessage = "Source-path \"" + oldPath.string() + "\" doesn't exist.";
         return false;
     }
 
+    // check target
+    if(std::filesystem::exists(newPath))
+    {
+        error.errorMessage = "Target-path \"" + newPath.string() + "\" already exist.";
+        return false;
+    }
+
+    // try to rename
     std::error_code errorCode;
     std::filesystem::rename(oldPath, newPath, errorCode);
     if(errorCode.value() != 0)
     {
-        errorMessage = errorCode.message();
+        error.errorMessage = errorCode.message();
         return false;
     }
 
@@ -149,7 +151,7 @@ renameFileOrDir(const std::filesystem::__cxx11::path &oldPath,
  *
  * @param sourcePath origial path
  * @param targetPath path of the copy
- * @param errorMessage reference for error-message output
+ * @param error reference for error-message output
  * @param force true to delete target, if already exist, if something exist at the target-location
  *              (Default: true)
  *
@@ -158,12 +160,12 @@ renameFileOrDir(const std::filesystem::__cxx11::path &oldPath,
 bool
 copyPath(const std::filesystem::path &sourcePath,
          const std::filesystem::path &targetPath,
-         std::string &errorMessage,
+         ErrorContainer &error,
          const bool force)
 {
     if(std::filesystem::exists(sourcePath) == false)
     {
-        errorMessage = "source-path " + sourcePath.string() + " doesn't exist.";
+        error.errorMessage = "Source-path \"" + sourcePath.string() + "\" doesn't exist.";
         return false;
     }
 
@@ -174,7 +176,7 @@ copyPath(const std::filesystem::path &sourcePath,
     std::filesystem::copy(sourcePath, targetPath, errorCode);
     if(errorCode.value() != 0)
     {
-        errorMessage = errorCode.message();
+        error.errorMessage = errorCode.message();
         return false;
     }
 
@@ -185,27 +187,34 @@ copyPath(const std::filesystem::path &sourcePath,
  * @brief create a directory
  *
  * @param path path to create
- * @param errorMessage reference for error-message output
+ * @param error reference for error-message output
  *
  * @return true, if successful, else false
  */
 bool
 createDirectory(const std::filesystem::path &path,
-                std::string &errorMessage)
+                ErrorContainer &error)
 {
+    // check desired path
     if(std::filesystem::exists(path)
-            && std::filesystem::is_regular_file(path))
+            && std::filesystem::is_directory(path) == false)
     {
-        errorMessage = "under path "
-                       + path.string()
-                       + " a file already exist.";
+        error.errorMessage = "Under path \"" + path.string() + "\" there already exist another"
+                             "object, which is not a directory.";
         return false;
+    }
+
+    // if target-directory already exist, it is basically a success
+    if(std::filesystem::exists(path)
+            && std::filesystem::is_directory(path))
+    {
+        return true;
     }
 
     std::error_code errorCode;
     const bool result = std::filesystem::create_directories(path, errorCode);
     if(result == false) {
-        errorMessage = errorCode.message();
+        error.errorMessage = errorCode.message();
     }
 
     return result;
@@ -215,14 +224,15 @@ createDirectory(const std::filesystem::path &path,
  * @brief delete a path
  *
  * @param path path to delete
- * @param errorMessage reference for error-message output
+ * @param error reference for error-message output
  *
  * @return true, if successful, else false. Also return true, if path is already deleted.
  */
 bool
 deleteFileOrDir(const std::filesystem::path &path,
-                std::string &errorMessage)
+                ErrorContainer &error)
 {
+    // if the object is already deleted, then it is basically a success
     if(std::filesystem::exists(path) == false) {
         return true;
     }
@@ -230,7 +240,7 @@ deleteFileOrDir(const std::filesystem::path &path,
     std::error_code errorCode;
     const bool result = std::filesystem::remove_all(path, errorCode);
     if(result == false) {
-        errorMessage = errorCode.message();
+        error.errorMessage = errorCode.message();
     }
 
     return result;
