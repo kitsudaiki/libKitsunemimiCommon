@@ -123,14 +123,14 @@ renameFileOrDir(const std::filesystem::path &oldPath,
     // check source
     if(std::filesystem::exists(oldPath) == false)
     {
-        error.errorMessage = "Source-path \"" + oldPath.string() + "\" doesn't exist.";
+        error.addMeesage("Source-path \"" + oldPath.string() + "\" doesn't exist.");
         return false;
     }
 
     // check target
     if(std::filesystem::exists(newPath))
     {
-        error.errorMessage = "Target-path \"" + newPath.string() + "\" already exist.";
+        error.addMeesage("Target-path \"" + newPath.string() + "\" already exist.");
         return false;
     }
 
@@ -139,7 +139,7 @@ renameFileOrDir(const std::filesystem::path &oldPath,
     std::filesystem::rename(oldPath, newPath, errorCode);
     if(errorCode.value() != 0)
     {
-        error.errorMessage = errorCode.message();
+        error.addMeesage(errorCode.message());
         return false;
     }
 
@@ -165,7 +165,7 @@ copyPath(const std::filesystem::path &sourcePath,
 {
     if(std::filesystem::exists(sourcePath) == false)
     {
-        error.errorMessage = "Source-path \"" + sourcePath.string() + "\" doesn't exist.";
+        error.addMeesage("Source-path \"" + sourcePath.string() + "\" doesn't exist.");
         return false;
     }
 
@@ -176,7 +176,7 @@ copyPath(const std::filesystem::path &sourcePath,
     std::filesystem::copy(sourcePath, targetPath, errorCode);
     if(errorCode.value() != 0)
     {
-        error.errorMessage = errorCode.message();
+        error.addMeesage(errorCode.message());
         return false;
     }
 
@@ -199,8 +199,8 @@ createDirectory(const std::filesystem::path &path,
     if(std::filesystem::exists(path)
             && std::filesystem::is_directory(path) == false)
     {
-        error.errorMessage = "Under path \"" + path.string() + "\" there already exist another"
-                             "object, which is not a directory.";
+        error.addMeesage("Under path \"" + path.string() + "\" there already exist another"
+                         "object, which is not a directory.");
         return false;
     }
 
@@ -214,7 +214,7 @@ createDirectory(const std::filesystem::path &path,
     std::error_code errorCode;
     const bool result = std::filesystem::create_directories(path, errorCode);
     if(result == false) {
-        error.errorMessage = errorCode.message();
+        error.addMeesage(errorCode.message());
     }
 
     return result;
@@ -240,7 +240,7 @@ deleteFileOrDir(const std::filesystem::path &path,
     std::error_code errorCode;
     const bool result = std::filesystem::remove_all(path, errorCode);
     if(result == false) {
-        error.errorMessage = errorCode.message();
+        error.addMeesage(errorCode.message());
     }
 
     return result;

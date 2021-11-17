@@ -81,13 +81,13 @@ LOG_warning(const std::string &message)
 bool
 LOG_error(ErrorContainer &container)
 {
-    if(container.alreadyPrinted) {
+    if(container._alreadyPrinted) {
         return true;
     }
 
     const bool ret = Logger::m_logger->logData(container.toString(), "ERROR", RED_COLOR);
     if(ret) {
-        container.alreadyPrinted = true;
+        container._alreadyPrinted = true;
     }
 
     return ret;

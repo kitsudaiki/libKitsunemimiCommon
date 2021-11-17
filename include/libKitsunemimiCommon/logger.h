@@ -48,19 +48,47 @@ namespace Kitsunemimi
 
 struct ErrorContainer
 {
-    std::string errorMessage = "";
-    std::string possibleSolution = "-";
-    bool alreadyPrinted = false;
+    bool _alreadyPrinted = false;
+    std::vector<std::string> _errorMessages;
+    std::vector<std::string> _possibleSolution;
+
+    void addMeesage(const std::string &errorMessage)
+    {
+        _errorMessages.push_back(errorMessage);
+        _alreadyPrinted = false;
+    }
+
+    void addSolution(const std::string &possibleSolution)
+    {
+        _possibleSolution.push_back(possibleSolution);
+    }
 
     const std::string toString()
     {
         TableItem output;
         output.addColumn("key");
         output.addColumn("value");
-        output.addRow({"Error-Message", errorMessage});
-        if(possibleSolution.size() > 1) {
-            output.addRow({"Possible Solution", possibleSolution});
+
+        // add error-messages
+        for(int32_t i = _errorMessages.size() - 1; i >= 0; i--) {
+            output.addRow({"Error-Message Nr. " + std::to_string(i), _errorMessages.at(i)});
         }
+
+        // build string with possible solutions
+        std::string solutions = "";
+        for(uint32_t i = 0; i < _possibleSolution.size(); i++)
+        {
+            if(i != 0) {
+                solutions += "\n-----\n";
+            }
+            solutions += _possibleSolution.at(i);
+        }
+
+        // add possible solutions
+        if(solutions.size() > 1) {
+            output.addRow({"Possible Solution", solutions});
+        }
+
         return output.toString(200, true);
     }
 };

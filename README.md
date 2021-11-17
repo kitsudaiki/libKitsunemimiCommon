@@ -943,14 +943,19 @@ LOG_WARNING("warning-message");
 // error-messages are handle by a container, which is printed as table which logging
 //     it also allows an additional field for a possible solution for easier debugging
 Kitsunemimi::ErrorContainer error;
-error.errorMessage = "some error";
-error.possibleSolution = "do nothing";
+error.addMeesage("some error");
+error.addSolution("do nothing");
 LOG_ERROR("error-message");
 
 /**
 The log-file would look like this:
 
-2019-9-7 22:54:1 ERROR: error-message     
+2019-9-7 22:54:1 ERROR: 
++---------------------+------------+
+| Error-Message Nr. 0 | some error |
++---------------------+------------+
+| Possible Solution   | do nothing |
++---------------------+------------+ 
 2019-9-7 22:54:1 WARNING: warning-message 
 2019-9-7 22:54:1 DEBUG: debug-message     
 2019-9-7 22:54:1 INFO: info-message  
