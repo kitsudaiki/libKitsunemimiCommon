@@ -30,14 +30,23 @@ splitStringByDelimiter(std::vector<std::string> &result,
         return;
     }
 
+    // clear list of results, if necessary
+    if(result.size() > 0) {
+        result.clear();
+    }
+
+    // count number of final parts, to allocate memory in vector only one time
+    uint64_t numberOfSubstrings = std::count(inputString.begin(), inputString.end(), delim);
+    numberOfSubstrings += 1;
+    result.reserve(numberOfSubstrings);
+
     // init variables
     std::stringstream inputStream(inputString);
     std::string item;
 
     // split
-    while(std::getline(inputStream, item, delim))
-    {
-        result.push_back(item);
+    while(std::getline(inputStream, item, delim)) {
+        result.emplace_back(item);
     }
 
     return;
@@ -55,12 +64,21 @@ splitStringByLength(std::vector<std::string> &result,
                     const std::string &inputString,
                     const uint64_t splitLength)
 {
-    const uint64_t numberOfSubstrings = inputString.length() / splitLength;
+
+    // clear list of results, if necessary
+    if(result.size() > 0) {
+        result.clear();
+    }
+
+    // calculate number of splits
+    const uint64_t numberOfSubstrings = (inputString.length() / splitLength) + 1;
+
+    // allocate memory, to make things faster
+    result.reserve(numberOfSubstrings);
 
     // split string
-    // number of string +1 to handle leftovers
-    for(uint64_t i = 0; i < numberOfSubstrings + 1; i++) {
-        result.push_back(inputString.substr(i * splitLength, splitLength));
+    for(uint64_t i = 0; i < numberOfSubstrings; i++) {
+        result.emplace_back(inputString.substr(i * splitLength, splitLength));
     }
 
     return;
