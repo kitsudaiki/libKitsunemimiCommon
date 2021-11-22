@@ -219,6 +219,7 @@ BinaryFile_withDirectIO_Test::writeCompleteFile_test()
     buffer.usedBufferSize = 2 * buffer.blockSize;
 
     TEST_EQUAL(binaryFile.writeCompleteFile(buffer), true);
+    TEST_EQUAL(std::filesystem::file_size(m_filePath), 2 * buffer.blockSize);
 
     // cleanup
     TEST_EQUAL(binaryFile.closeFile(), true);
