@@ -217,10 +217,8 @@ BinaryFile_withoutDirectIO_Test::writeCompleteFile_test()
     testStruct.c = 1234;
     addObject_DataBuffer(buffer, &testStruct);
 
-    // test with buffer-size unequal a multiple of the block-size
-    buffer.usedBufferSize = 2 * buffer.blockSize + 1;
-
     TEST_EQUAL(binaryFile.writeCompleteFile(buffer), true);
+    TEST_EQUAL(std::filesystem::file_size(m_filePath), 2 * sizeof(TestStruct));
 
     // cleanup
     TEST_EQUAL(binaryFile.closeFile(), true);

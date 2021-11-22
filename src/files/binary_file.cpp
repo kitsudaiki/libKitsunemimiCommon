@@ -206,17 +206,16 @@ BinaryFile::writeCompleteFile(DataBuffer &buffer)
     }
 
     // resize file to the size of the buffer
-    int64_t sizeDiff = (buffer.numberOfBlocks * buffer.blockSize) - m_totalFileSize;
+    int64_t sizeDiff = buffer.usedBufferSize - m_totalFileSize;
     if(sizeDiff > 0)
     {
         // round diff up to full block-size
-        if(sizeDiff % buffer.blockSize != 0) {
-            sizeDiff += buffer.blockSize - (sizeDiff % buffer.blockSize);
+        if(sizeDiff % m_blockSize != 0) {
+            sizeDiff += m_blockSize - (sizeDiff % m_blockSize);
         }
 
         // allocate additional memory
-        const bool success = allocateStorage(sizeDiff);
-        if(success == false) {
+        if(allocateStorage(sizeDiff) == false) {
             return false;
         }
     }
