@@ -192,10 +192,10 @@ public:
     bool contains(const std::string &key) const;
 
     // get values by keys
-    const std::string getStringByKey(const std::string &key);
-    int getIntByKey(const std::string &key);
-    float getFloatByKey(const std::string &key);
-    long getLongByKey(const std::string &key);
+    const std::string getStringByKey(const std::string &key) const;
+    int getIntByKey(const std::string &key) const;
+    float getFloatByKey(const std::string &key) const;
+    long getLongByKey(const std::string &key) const;
     double getDoubleByKey(const std::string &key) const;
 
     // delete

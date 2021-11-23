@@ -958,7 +958,7 @@ DataMap::contains(const std::string &key) const
  * @brief get the string-value behind the key inside the data-map
  */
 const std::string
-DataMap::getStringByKey(const std::string &key)
+DataMap::getStringByKey(const std::string &key) const
 {
     DataItem* item = get(key);
     if(item == nullptr) {
@@ -972,7 +972,7 @@ DataMap::getStringByKey(const std::string &key)
  * @brief get the int-value behind the key inside the data-map
  */
 int
-DataMap::getIntByKey(const std::string &key)
+DataMap::getIntByKey(const std::string &key) const
 {
     DataItem* item = get(key);
     if(item == nullptr) {
@@ -986,7 +986,7 @@ DataMap::getIntByKey(const std::string &key)
  * @brief get the float-value behind the key inside the data-map
  */
 float
-DataMap::getFloatByKey(const std::string &key)
+DataMap::getFloatByKey(const std::string &key) const
 {
     DataItem* item = get(key);
     if(item == nullptr) {
@@ -1000,7 +1000,7 @@ DataMap::getFloatByKey(const std::string &key)
  * @brief get the long-value behind the key inside the data-map
  */
 long
-DataMap::getLongByKey(const std::string &key)
+DataMap::getLongByKey(const std::string &key) const
 {
     DataItem* item = get(key);
     if(item == nullptr) {
