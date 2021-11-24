@@ -174,17 +174,13 @@ TableItem::deleteColumn(const uint64_t x)
         return false;
     }
 
-    // get internal header-name
-    const std::string name = m_header->get(x)->get("inner")->getString();
-
     // remove colume from header
     m_header->remove(x);
 
     // remove data of the column
     const uint64_t size = m_body->size();
-
     for(uint64_t y = 0; y < size; y++) {
-        m_body->get(y)->toMap()->remove(name);
+        m_body->get(y)->remove(x);
     }
 
     return true;
@@ -468,14 +464,12 @@ TableItem::toString(const uint32_t maxColumnWidth,
 
     // converts the table into a better format for the output
     // and get the maximum values of the columns and rows
-    const std::vector<std::string> innerNames = getInnerName();
     convertHeaderForOutput(convertedHeader,
                            xSizes,
                            maxColumnWidth);
     convertBodyForOutput(convertedBody,
                          xSizes,
                          ySizes,
-                         innerNames,
                          maxColumnWidth);
 
     // print as normal table
@@ -634,21 +628,19 @@ TableItem::convertHeaderForOutput(TableRow &convertedHeader,
  * @param convertedBody target of the result of the convert
  * @param xSizes target of the x-size values
  * @param ySizes target of the y-size values
- * @param columeInnerNames internal name of the columns, which should be in the result
  * @param maxColumnWidth maximum with of a single column in number of characters
  */
 void
 TableItem::convertBodyForOutput(TableBodyAll &convertedBody,
                                 std::vector<uint64_t> &xSizes,
                                 std::vector<uint64_t> &ySizes,
-                                const std::vector<std::string> &columeInnerNames,
                                 const uint32_t maxColumnWidth)
 {
     for(uint64_t y = 0; y < getNumberOfRows(); y++)
     {
         convertedBody.push_back(TableRow());
 
-        for(uint64_t x = 0; x < columeInnerNames.size(); x++)
+        for(uint64_t x = 0; x < getNumberOfColums(); x++)
         {
             std::string cellContent = "";
 

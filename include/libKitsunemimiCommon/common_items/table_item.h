@@ -99,7 +99,6 @@ private:
     void convertBodyForOutput(TableBodyAll &convertedBody,
                               std::vector<uint64_t> &xSizes,
                               std::vector<uint64_t> &ySizes,
-                              const std::vector<std::string> &columeInnerNames,
                               const uint32_t maxColumnWidth);
 
     // output of single lines of the output
