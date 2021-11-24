@@ -382,6 +382,22 @@ TableItem::getHeader() const
 }
 
 /**
+ * @brief get table header, but only the inner names
+ *
+ * @return copy of table-header
+ */
+DataArray*
+TableItem::getInnerHeader() const
+{
+    DataArray* newArray = new DataArray();
+    for(uint32_t i = 0; i < m_header->size(); i++) {
+        newArray->append(m_header->get(i)->get("inner")->copy());
+    }
+
+    return newArray;
+}
+
+/**
  * @brief get table body
  *
  * @return copy of table-body

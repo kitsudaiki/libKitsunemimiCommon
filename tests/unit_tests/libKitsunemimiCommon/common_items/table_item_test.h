@@ -47,6 +47,7 @@ private:
     void getNumberOfRows_Test();
 
     // output
+    void getInnerHeader_test();
     void toString_test();
     void toJsonString_test();
 

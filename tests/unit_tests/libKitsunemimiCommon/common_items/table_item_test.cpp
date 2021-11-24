@@ -39,6 +39,7 @@ TableItem_test::TableItem_test()
     getNumberOfRows_Test();
 
     // output
+    getInnerHeader_test();
     toString_test();
     toJsonString_test();
 }
@@ -311,6 +312,20 @@ TableItem_test::getNumberOfRows_Test()
     TEST_EQUAL(testItem.getNumberOfRows(), 2);
     testItem.deleteRow(0);
     TEST_EQUAL(testItem.getNumberOfRows(), 1);
+}
+
+/**
+ * @brief TgetInnerHeader_test
+ */
+void
+TableItem_test::getInnerHeader_test()
+{
+    TableItem testItem = getTestTableItem();
+
+    DataArray* innerHader = testItem.getInnerHeader();
+    TEST_EQUAL(innerHader->size(), 2);
+    TEST_EQUAL(innerHader->get(0)->toValue()->getString(), "asdf");
+    TEST_EQUAL(innerHader->get(1)->toValue()->getString(), "poipoipoi");
 }
 
 /**

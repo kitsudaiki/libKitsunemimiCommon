@@ -64,6 +64,7 @@ public:
 
     // getter complete
     DataArray* getHeader() const;
+    DataArray* getInnerHeader() const;
     DataArray* getBody() const;
     DataMap* stealContent();
     DataArray* getRow(const uint32_t row, const bool copy) const;
