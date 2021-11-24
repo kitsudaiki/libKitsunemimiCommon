@@ -191,7 +191,7 @@ void
 TableItem_test::getRow_Test()
 {
     TableItem testItem = getTestTableItem();
-    DataMap* result = nullptr;
+    DataArray* result = nullptr;
 
     // additional multiline test
     testItem.addRow(std::vector<std::string>{"x\ny\nz", " "});
@@ -203,7 +203,7 @@ TableItem_test::getRow_Test()
     TEST_EQUAL(result->size(), 0);
 
     result = testItem.getRow(1, false);
-    const std::string compare = "{\"asdf\":\"asdf\",\"poipoipoi\":\"qwert\"}";
+    const std::string compare = "[\"asdf\",\"qwert\"]";
     TEST_EQUAL(result->toString(), compare);
 }
 
@@ -382,10 +382,10 @@ TableItem_test::toJsonString_test()
     // check json-formated output
     const std::string compareJson = "{ header: [{\"inner\":\"asdf\",\"outer\":\"ASDF\"},"
                                     "{\"inner\":\"poipoipoi\",\"outer\":\"poipoipoi\"}], "
-                                    "body: [{\"asdf\":\"this is a test\",\"poipoipoi\":\"k\"},"
-                                    "{\"asdf\":\"asdf\",\"poipoipoi\":\"qwert\"},"
-                                    "{\"asdf\":\"x\\ny\\nz\",\"poipoipoi\":\" \"},"
-                                    "{\"asdf\":\"y\",\"poipoipoi\":\"abcdefghijklmnopqrst\"}]}";
+                                    "body: [[\"this is a test\",\"k\"],"
+                                    "[\"asdf\",\"qwert\"],"
+                                    "[\"x\\ny\\nz\",\" \"],"
+                                    "[\"y\",\"abcdefghijklmnopqrst\"]]}";
     TEST_EQUAL(testItem.toJsonString(), compareJson);
 }
 

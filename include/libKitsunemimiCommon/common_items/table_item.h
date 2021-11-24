@@ -42,10 +42,8 @@ public:
                    const std::string &shownName = "");
     bool renameColume(const std::string &internalName,
                       const std::string &newShownName);
-    bool deleteColumn(const uint64_t x,
-                      const bool withBody = false);
-    bool deleteColumn(const std::string &internalName,
-                      const bool withBody = false);
+    bool deleteColumn(const uint64_t x);
+    bool deleteColumn(const std::string &internalName);
 
     // row
     bool addRow(const std::vector<std::string> rowContent);
@@ -68,7 +66,7 @@ public:
     DataArray* getHeader() const;
     DataArray* getBody() const;
     DataMap* stealContent();
-    DataMap* getRow(const uint32_t row, const bool copy) const;
+    DataArray* getRow(const uint32_t row, const bool copy) const;
 
     // output
     const std::string toString(const uint32_t maxColumnWidth = 500,
