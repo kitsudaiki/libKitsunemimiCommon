@@ -1247,6 +1247,7 @@ DataMap::insert(const std::string &key,
 DataArray::DataArray()
 {
     m_type = ARRAY_TYPE;
+    array.reserve(5);
 }
 
 /**
@@ -1254,6 +1255,8 @@ DataArray::DataArray()
  */
 DataArray::DataArray(const DataArray &other)
 {
+    array.reserve(5);
+
     // clear old array
     clearDataArray();
 
