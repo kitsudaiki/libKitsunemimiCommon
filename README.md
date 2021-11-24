@@ -312,14 +312,14 @@ DataArray body;
 content of the body in form of:
 
 [
-    {
-        "column1": "this is a test",
-        "column2": "k"
-    },
-    {
-        "column1": "asdf",
-        "column2": "qwert"
-    }
+    [
+        "this is a test",
+        "k"
+    ],
+    [
+        "asdf",
+        "qwert"
+    ]
 ]
 **/
 

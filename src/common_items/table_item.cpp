@@ -163,14 +163,11 @@ TableItem::renameColume(const std::string &internalName,
  * @brief delelete a colume from the table
  *
  * @param x column-position
- * @param withBody true for delete all column-related data from the body of the table too,
- *                 false for delete column only from the header
  *
  * @return false if column-position is too high, else true
  */
 bool
-TableItem::deleteColumn(const uint64_t x,
-                        const bool withBody)
+TableItem::deleteColumn(const uint64_t x)
 {
     // precheck
     if(x >= m_header->size()) {
@@ -184,13 +181,10 @@ TableItem::deleteColumn(const uint64_t x,
     m_header->remove(x);
 
     // remove data of the column
-    if(withBody)
-    {
-        const uint64_t size = m_body->size();
+    const uint64_t size = m_body->size();
 
-        for(uint64_t y = 0; y < size; y++) {
-            m_body->get(y)->toMap()->remove(name);
-        }
+    for(uint64_t y = 0; y < size; y++) {
+        m_body->get(y)->toMap()->remove(name);
     }
 
     return true;
@@ -200,14 +194,11 @@ TableItem::deleteColumn(const uint64_t x,
  * @brief delelete a colume from the table
  *
  * @param internalName internal name of the column
- * @param withBody true for delete all column-related data from the body of the table too,
- *                 false for delete column only from the header
  *
  * @return false if internal name doesn't exist, else true
  */
 bool
-TableItem::deleteColumn(const std::string &internalName,
-                        const bool withBody)
+TableItem::deleteColumn(const std::string &internalName)
 {
     const uint64_t size = m_header->size();
 
@@ -215,7 +206,7 @@ TableItem::deleteColumn(const std::string &internalName,
     for(uint64_t x = 0; x < size; x++)
     {
         if(m_header->get(x)->get("inner")->getString() == internalName) {
-            return deleteColumn(x, withBody);
+            return deleteColumn(x);
         }
     }
 
@@ -232,7 +223,7 @@ TableItem::deleteColumn(const std::string &internalName,
 bool
 TableItem::addRow(const std::vector<std::string> rowContent)
 {
-    DataMap* obj = new DataMap();
+    DataArray* obj = new DataArray();
 
     // check and cut size
     uint64_t size = rowContent.size();
@@ -241,10 +232,8 @@ TableItem::addRow(const std::vector<std::string> rowContent)
     }
 
     // add new row content to the table
-    for(uint64_t x = 0; x < size; x++)
-    {
-        obj->insert(m_header->get(x)->get("inner")->getString(),
-                    new DataValue(rowContent.at(x)));
+    for(uint64_t x = 0; x < size; x++) {
+        obj->append(new DataValue(rowContent.at(x)));
     }
 
     m_body->append(obj);
@@ -293,12 +282,11 @@ TableItem::setCell(const uint32_t column,
     }
 
     // get value at requested position
-    const std::string columnInnerName = m_header->get(column)->get("inner")->getString();
-    DataItem* value = m_body->get(row)->get(columnInnerName);
+    DataItem* value = m_body->get(row)->get(column);
 
     // set new value
     if(value == nullptr) {
-        m_body->get(row)->toMap()->insert(columnInnerName, new DataValue(newValue));
+        m_body->get(row)->toArray()->array[column] = new DataValue(newValue);
     } else {
         value->toValue()->setValue(newValue);
     }
@@ -327,10 +315,7 @@ TableItem::getCell(const uint32_t column,
     }
 
     // get value at requested position
-    const std::string columnInnerName = m_header->get(column)->get("inner")->getString();
-    DataItem* value = m_body->get(row)->get(columnInnerName);
-
-    // check value
+    DataItem* value = m_body->get(row)->get(column);
     if(value == nullptr) {
         return "";
     }
@@ -358,11 +343,9 @@ TableItem::deleteCell(const uint32_t column,
         return false;
     }
 
-    // get column inner name
-    const std::string columnInnerName = m_header->get(column)->get("inner")->getString();
-
     // remove value if possible
-    return m_body->get(row)->remove(columnInnerName);
+    m_body->get(row)->toArray()->array[column] = nullptr;
+    return true;
 }
 
 /**
@@ -435,17 +418,17 @@ TableItem::stealContent()
  *
  * @return copy of the requested row
  */
-DataMap*
+DataArray*
 TableItem::getRow(const uint32_t row, const bool copy) const
 {
     if(row >= m_body->size()) {
-        return new DataMap();
+        return new DataArray();
     }
 
     if(copy) {
-        return m_body->get(row)->copy()->toMap();
+        return m_body->get(row)->copy()->toArray();
     } else {
-        return m_body->get(row)->toMap();
+        return m_body->get(row)->toArray();
     }
 }
 
@@ -550,6 +533,7 @@ const std::vector<std::string>
 TableItem::getInnerName()
 {
     std::vector<std::string> result;
+    result.reserve(m_header->size());
 
     for(uint64_t x = 0; x < getNumberOfColums(); x++) {
         result.push_back(m_header->get(x)->get("inner")->getString());
@@ -653,7 +637,7 @@ TableItem::convertBodyForOutput(TableBodyAll &convertedBody,
             std::string cellContent = "";
 
             // get cell content or use empty string, if cell not exist
-            DataItem* value = m_body->get(y)->get(columeInnerNames.at(x));
+            DataItem* value = m_body->get(y)->get(x);
             if(value != nullptr) {
                 cellContent = value->toValue()->getString();
             }
