@@ -193,6 +193,7 @@ public:
 
     // get values by keys
     const std::string getStringByKey(const std::string &key) const;
+    bool getBoolByKey(const std::string &key) const;
     int getIntByKey(const std::string &key) const;
     float getFloatByKey(const std::string &key) const;
     long getLongByKey(const std::string &key) const;

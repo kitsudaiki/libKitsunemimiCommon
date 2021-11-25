@@ -969,6 +969,20 @@ DataMap::getStringByKey(const std::string &key) const
 }
 
 /**
+ * @brief get the bool-value behind the key inside the data-map
+ */
+bool
+DataMap::getBoolByKey(const std::string &key) const
+{
+    DataItem* item = get(key);
+    if(item == nullptr) {
+        return false;
+    }
+
+    return item->getBool();
+}
+
+/**
  * @brief get the int-value behind the key inside the data-map
  */
 int
