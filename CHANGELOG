@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.24.0] - 2021-11-26
+
+## Added
+- add getter for inner table-header
+
+### Changed
+- inner rework of the table-item
+- improve speed of string-split-operations
+
+## Fixed
+- fix writeCompleteFile-function to write the correct size
+- made some more getter in data-items const
+
+
 ## [0.23.0] - 2021-11-17
 
 ### Added
