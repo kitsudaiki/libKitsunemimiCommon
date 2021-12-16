@@ -210,15 +210,46 @@ TableItem::deleteColumn(const std::string &internalName)
 }
 
 /**
+ * @brief TableItem::addRow
+ *
+ * @param rowContent new table-row
+ * @param copy true to make a copy of the new row-content (DEFAULT: false)
+ *
+ * @return false, if the new row has not the correct length to fit into the table, else true
+ */
+bool
+TableItem::addRow(DataArray* rowContent, const bool copy)
+{
+    // check if the new row has the correct length
+    if(rowContent->size() != getNumberOfColums()) {
+        return false;
+    }
+
+    // add new row
+    if(copy) {
+        m_body->append(rowContent->copy());
+    } else {
+        m_body->append(rowContent);
+    }
+
+    return true;
+}
+
+/**
  * @brief add a new row to the table
  *
  * @param rowContent vector of string for the content of the new row
  *
- * @return should return true everytime
+ * @return false, if the new row has not the correct length to fit into the table, else true
  */
 bool
 TableItem::addRow(const std::vector<std::string> rowContent)
 {
+    // check if the new row has the correct length
+    if(rowContent.size() != getNumberOfColums()) {
+        return false;
+    }
+
     DataArray* obj = new DataArray();
 
     // check and cut size
@@ -317,7 +348,7 @@ TableItem::getCell(const uint32_t column,
     }
 
     // return value-content as string
-    return value->getString();
+    return value->toString();
 }
 
 /**
@@ -647,7 +678,7 @@ TableItem::convertBodyForOutput(TableBodyAll &convertedBody,
             // get cell content or use empty string, if cell not exist
             DataItem* value = m_body->get(y)->get(x);
             if(value != nullptr) {
-                cellContent = value->toValue()->getString();
+                cellContent = value->toValue()->toString();
             }
 
             // split cell content

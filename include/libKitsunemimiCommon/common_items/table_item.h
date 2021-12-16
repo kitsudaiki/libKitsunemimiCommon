@@ -46,6 +46,7 @@ public:
     bool deleteColumn(const std::string &internalName);
 
     // row
+    bool addRow(DataArray* rowContent, const bool copy = false);
     bool addRow(const std::vector<std::string> rowContent);
     bool deleteRow(const uint64_t y);
 
