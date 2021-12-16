@@ -171,7 +171,14 @@ TableItem_test::addRow_Test()
     testItem.addColumn("poipoipoi");
 
     TEST_EQUAL(testItem.addRow(std::vector<std::string>{"this is a test", "k"}), true);
-    TEST_EQUAL(testItem.addRow(std::vector<std::string>{"asdf", "qwert"}), true);
+    TEST_EQUAL(testItem.addRow(std::vector<std::string>{"asdf"}), false);
+
+    DataArray* newRow = new DataArray();
+    newRow->append(new DataValue("asdf"));
+    TEST_EQUAL(testItem.addRow(newRow), false);
+    newRow->append(new DataValue(42));
+    TEST_EQUAL(testItem.addRow(newRow), true);
+
 
     const std::string compare =
             "+----------------+-----------+\n"
@@ -179,7 +186,7 @@ TableItem_test::addRow_Test()
             "+================+===========+\n"
             "| this is a test | k         |\n"
             "+----------------+-----------+\n"
-            "| asdf           | qwert     |\n"
+            "| asdf           | 42        |\n"
             "+----------------+-----------+\n";
 
     TEST_EQUAL(testItem.toString(), compare);
