@@ -44,6 +44,43 @@ Thread::~Thread()
 }
 
 /**
+ * @brief bind thread to a list of core-ids
+ *
+ * @param coreIds list with core-ids to bind to
+ *
+ * @return false if precheck of bind failed, else true
+ */
+bool
+Thread::bindThreadToCores(const std::vector<uint64_t> coreIds)
+{
+    // precheck
+    const uint64_t num_cores = std::thread::hardware_concurrency();
+    for(const uint64_t coreId : coreIds)
+    {
+        if(coreId >= num_cores) {
+            return false;
+        }
+    }
+
+    // bind thread
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    for(const uint64_t coreId : coreIds) {
+        CPU_SET(coreId, &cpuset);
+    }
+    if(pthread_setaffinity_np(m_thread->native_handle(),
+                              sizeof(cpu_set_t),
+                              &cpuset) != 0)
+    {
+        return false;
+    }
+
+    m_coreIds = coreIds;
+
+    return true;
+}
+
+/**
  * @brief bind the thread to a specific cpu-thread
  *
  * @param coreId id of the cpu-thread where bind
@@ -51,13 +88,11 @@ Thread::~Thread()
  * @return false if precheck of bind failed, else true
  */
 bool
-Thread::bindThreadToCore(const long coreId)
+Thread::bindThreadToCore(const uint64_t coreId)
 {
     // precheck
-    uint32_t num_cores = std::thread::hardware_concurrency();;
-    if(coreId < 0
-            || static_cast<uint32_t>(coreId) >= num_cores)
-    {
+    const uint64_t num_cores = std::thread::hardware_concurrency();
+    if(coreId >= num_cores) {
         return false;
     }
 
@@ -65,15 +100,15 @@ Thread::bindThreadToCore(const long coreId)
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
     CPU_SET(coreId, &cpuset);
-    const int ret = pthread_setaffinity_np(m_thread->native_handle(),
-                                           sizeof(cpu_set_t),
-                                           &cpuset);
-
-    if(ret != 0) {
+    if(pthread_setaffinity_np(m_thread->native_handle(),
+                              sizeof(cpu_set_t),
+                              &cpuset) != 0)
+    {
         return false;
     }
 
-    m_coreId = coreId;
+    m_coreIds.clear();
+    m_coreIds.push_back(coreId);
 
     return true;
 }
@@ -83,10 +118,10 @@ Thread::bindThreadToCore(const long coreId)
  *
  * @return -1 if no core defined, else core-id, on which the thread in bound
  */
-long
-Thread::getCoreId() const
+const std::vector<uint64_t>
+Thread::getCoreIds() const
 {
-    return m_coreId;
+    return m_coreIds;
 }
 
 /**
