@@ -44,8 +44,9 @@ public:
     void initBlockThread();
 
     bool isActive() const;
-    bool bindThreadToCore(const long coreId);
-    long getCoreId() const;
+    bool bindThreadToCores(const std::vector<uint64_t> coreIds);
+    bool bindThreadToCore(const uint64_t coreId);
+    const std::vector<uint64_t> getCoreIds() const;
     const std::string getThreadName() const;
     uint64_t getThreadId() const;
 
@@ -77,7 +78,7 @@ private:
 
     bool m_active = false;
     bool m_scheduledForDeletion = false;
-    long m_coreId = -1;
+    std::vector<uint64_t> m_coreIds;
 
     // event-queue-variables
     std::deque<Event*> m_eventQueue;
