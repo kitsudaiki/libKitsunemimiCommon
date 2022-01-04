@@ -544,7 +544,7 @@ DataValue::clearDataValue()
     if(m_valueType == STRING_TYPE
             && content.stringValue != nullptr)
     {
-        delete content.stringValue;
+        delete[] content.stringValue;
     }
 
     m_type = VALUE_TYPE;
