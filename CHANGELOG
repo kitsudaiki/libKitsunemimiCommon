@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.25.1] - 2022-01-09
+
+### Fixed
+- fixed valgrind memory warning in data-items
+
+
 ## [0.25.0] - 2021-12-30
 
 ### Added
