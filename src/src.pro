@@ -3,7 +3,7 @@ QT       -= qt core gui
 TARGET = KitsunemimiCommon
 TEMPLATE = lib
 CONFIG += c++17
-VERSION = 0.25.0
+VERSION = 0.25.1
 
 INCLUDEPATH += $$PWD \
             ../include
