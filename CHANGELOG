@@ -2,21 +2,21 @@
 
 ## [0.25.0] - 2021-12-30
 
-## Added
+### Added
 - support other types in table beside string-objects
 - support list of core-ids instead of only a single code-id for thread-binding
 
 
 ## [0.24.0] - 2021-11-26
 
-## Added
+### Added
 - add getter for inner table-header
 
 ### Changed
 - inner rework of the table-item
 - improve speed of string-split-operations
 
-## Fixed
+### Fixed
 - fix writeCompleteFile-function to write the correct size
 - made some more getter in data-items const
 

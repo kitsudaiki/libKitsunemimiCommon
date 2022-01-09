@@ -44,7 +44,7 @@ public:
      *
      * @param numberOfItems number of items to preallocate
      *
-     * @return true, if successfull, else false
+     * @return true, if successful, else false
      */
     template<typename T>
     bool initBuffer(const uint64_t numberOfItems,
