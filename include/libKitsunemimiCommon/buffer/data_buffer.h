@@ -161,16 +161,16 @@ struct DataBuffer
 /**
  * @brief calculate number of block for a specific number of bytes
  *
- * @param numberOfBlocks incoming number of bytes
+ * @param numberOfBytes incoming number of bytes
  * @param blockSize bytes per block
  *
  * @return number of blocks
  */
 inline uint64_t
-calcBytesToBlocks(const uint64_t numberOfBlocks,
+calcBytesToBlocks(const uint64_t numberOfBytes,
                   const uint16_t blockSize = 4096)
 {
-    return (numberOfBlocks / blockSize) + 1;
+    return (numberOfBytes / blockSize) + 1;
 }
 
 /**
