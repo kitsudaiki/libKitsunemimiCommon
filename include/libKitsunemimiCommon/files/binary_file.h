@@ -48,6 +48,10 @@ public:
                       const uint64_t startBlockInFile,
                       const uint64_t numberOfBlocks,
                       const uint64_t startBlockInBuffer = 0);
+    bool writeDataIntoFile(const void *data,
+                           const uint64_t startBytePosition,
+                           const uint64_t numberOfBytes);
+
     bool closeFile();
 
     // public variables to avoid stupid getter

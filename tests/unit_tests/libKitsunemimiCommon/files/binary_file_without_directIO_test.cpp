@@ -30,6 +30,7 @@ BinaryFile_withoutDirectIO_Test::BinaryFile_withoutDirectIO_Test()
     readSegment_test();
     writeCompleteFile_test();
     readCompleteFile_test();
+    writeDataIntoFile_test();
     closeTest();
 }
 
@@ -250,6 +251,47 @@ BinaryFile_withoutDirectIO_Test::readCompleteFile_test()
     targetBuffer.usedBufferSize = 2 * targetBuffer.blockSize + 1;
 
     binaryFile.writeCompleteFile(sourceBuffer);
+    TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer), true);
+
+    // check if source and target-buffer are
+    int ret = memcmp(sourceBuffer.data,
+                     targetBuffer.data,
+                     2 * sourceBuffer.blockSize + 1);
+    TEST_EQUAL(ret, 0);
+
+    // cleanup
+    TEST_EQUAL(binaryFile.closeFile(), true);
+    deleteFile();
+}
+
+/**
+ * @brief writeDataIntoFile_test
+ */
+void
+BinaryFile_withoutDirectIO_Test::writeDataIntoFile_test()
+{
+    DataBuffer targetBuffer(5);
+
+    // init buffer and file
+    DataBuffer sourceBuffer(5);
+    BinaryFile binaryFile(m_filePath, false);
+    binaryFile.allocateStorage(4, 4096);
+
+    // prepare test-buffer
+    TestStruct testStruct;
+    testStruct.a = 42;
+    testStruct.c = 1337;
+    addObject_DataBuffer(sourceBuffer, &testStruct);
+    sourceBuffer.usedBufferSize = 2000;
+    addObject_DataBuffer(sourceBuffer, &testStruct);
+
+    // write-tests
+    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000), true);
+
+    // negative tests
+    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 42000, 1000), false);
+    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 2000, 42000), false);
+
     TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer), true);
 
     // check if source and target-buffer are
