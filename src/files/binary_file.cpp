@@ -279,6 +279,53 @@ BinaryFile::readSegment(DataBuffer &buffer,
     return true;
 }
 
+
+/**
+ * @brief write a data to a a spicific position of the file, but only for for files, which were
+ *        not created with the directIO-flag
+ *
+ * @return true, if successful, else false
+ */
+bool
+BinaryFile::writeDataIntoFile(const void* data,
+                              const uint64_t startBytePosition,
+                              const uint64_t numberOfBytes)
+{
+    // only supported of non-directIO-files
+    if(m_directIO) {
+        return false;
+    }
+
+    // precheck
+    if(numberOfBytes == 0
+            || startBytePosition + numberOfBytes > m_totalFileSize
+            || m_fileDescriptor < 0)
+    {
+        return false;
+    }
+
+    // go to the requested position and write the block
+    const long retSeek = lseek(m_fileDescriptor,
+                               static_cast<long>(startBytePosition),
+                               SEEK_SET);
+    if(retSeek < 0) {
+        return false;
+    }
+
+    // write data to file
+    const ssize_t ret = write(m_fileDescriptor, static_cast<const uint8_t*>(data), numberOfBytes);
+    if(ret == -1)
+    {
+        // TODO: process errno
+        return false;
+    }
+
+    // sync file
+    fdatasync(m_fileDescriptor);
+
+    return true;
+}
+
 /**
  * @brief write a block of the file
  *
