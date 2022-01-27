@@ -255,8 +255,8 @@ BinaryFile::readSegment(DataBuffer &buffer,
 
     // precheck
     if(numberOfBlocks == 0
-            || startBytesInFile + numberOfBytes > m_totalFileSize
-            || startBytesInBuffer + numberOfBytes > buffer.numberOfBlocks * buffer.blockSize
+            || startBytesInFile + numberOfBytes >= m_totalFileSize
+            || startBytesInBuffer + numberOfBytes >= buffer.numberOfBlocks * buffer.blockSize
             || m_fileDescriptor < 0)
     {
         return false;
@@ -279,9 +279,8 @@ BinaryFile::readSegment(DataBuffer &buffer,
     return true;
 }
 
-
 /**
- * @brief write a data to a a spicific position of the file, but only for for files, which were
+ * @brief write data to a spicific position of the file, but only for for files, which were
  *        not created with the directIO-flag
  *
  * @return true, if successful, else false
@@ -298,7 +297,7 @@ BinaryFile::writeDataIntoFile(const void* data,
 
     // precheck
     if(numberOfBytes == 0
-            || startBytePosition + numberOfBytes > m_totalFileSize
+            || startBytePosition + numberOfBytes >= m_totalFileSize
             || m_fileDescriptor < 0)
     {
         return false;
@@ -322,6 +321,44 @@ BinaryFile::writeDataIntoFile(const void* data,
 
     // sync file
     fdatasync(m_fileDescriptor);
+
+    return true;
+}
+
+/**
+ * @brief read data from a spicific position of the file, but only for for files, which were
+ *        not created with the directIO-flag
+ *
+ * @return true, if successful, else false
+ */
+bool
+BinaryFile::readDataFromFile(void* data,
+                             const uint64_t startBytePosition,
+                             const uint64_t numberOfBytes)
+{
+    // only supported of non-directIO-files
+    if(m_directIO) {
+        return false;
+    }
+
+    // precheck
+    if(numberOfBytes == 0
+            || startBytePosition + numberOfBytes >= m_totalFileSize
+            || m_fileDescriptor < 0)
+    {
+        return false;
+    }
+
+    // go to the requested position and read the block
+    lseek(m_fileDescriptor,
+          static_cast<long>(startBytePosition),
+          SEEK_SET);
+    const ssize_t ret = read(m_fileDescriptor, static_cast<uint8_t*>(data), numberOfBytes);
+    if(ret == -1)
+    {
+        // TODO: process errno
+        return false;
+    }
 
     return true;
 }

@@ -31,6 +31,7 @@ BinaryFile_withDirectIO_Test::BinaryFile_withDirectIO_Test()
     writeCompleteFile_test();
     readCompleteFile_test();
     writeDataIntoFile_test();
+    readDataFromFile_test();
     closeTest();
 }
 
@@ -284,6 +285,25 @@ BinaryFile_withDirectIO_Test::writeDataIntoFile_test()
 
     // for direct-io-files, this write-method is not allowed
     TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000), false);
+
+    // cleanup
+    binaryFile.closeFile();
+    deleteFile();
+}
+
+/**
+ * @brief readDataFromFile_test
+ */
+void
+BinaryFile_withDirectIO_Test::readDataFromFile_test()
+{
+    // init buffer and file
+    DataBuffer targetBuffer(5);
+    BinaryFile binaryFile(m_filePath, true);
+    binaryFile.allocateStorage(4, 4096);
+
+    // for direct-io-files, this write-method is not allowed
+    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 0, 4000), false);
 
     // cleanup
     binaryFile.closeFile();

@@ -31,6 +31,7 @@ private:
     void writeCompleteFile_test();
     void readCompleteFile_test();
     void writeDataIntoFile_test();
+    void readDataFromFile_test();
     void closeTest();
 
     std::string m_filePath = "";
