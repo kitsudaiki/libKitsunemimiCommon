@@ -255,8 +255,8 @@ BinaryFile::readSegment(DataBuffer &buffer,
 
     // precheck
     if(numberOfBlocks == 0
-            || startBytesInFile + numberOfBytes >= m_totalFileSize
-            || startBytesInBuffer + numberOfBytes >= buffer.numberOfBlocks * buffer.blockSize
+            || startBytesInFile + numberOfBytes > m_totalFileSize
+            || startBytesInBuffer + numberOfBytes > buffer.numberOfBlocks * buffer.blockSize
             || m_fileDescriptor < 0)
     {
         return false;
@@ -297,7 +297,7 @@ BinaryFile::writeDataIntoFile(const void* data,
 
     // precheck
     if(numberOfBytes == 0
-            || startBytePosition + numberOfBytes >= m_totalFileSize
+            || startBytePosition + numberOfBytes > m_totalFileSize
             || m_fileDescriptor < 0)
     {
         return false;
@@ -343,7 +343,7 @@ BinaryFile::readDataFromFile(void* data,
 
     // precheck
     if(numberOfBytes == 0
-            || startBytePosition + numberOfBytes >= m_totalFileSize
+            || startBytePosition + numberOfBytes > m_totalFileSize
             || m_fileDescriptor < 0)
     {
         return false;
