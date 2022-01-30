@@ -302,16 +302,24 @@ DataValue::DataValue()
 /**
  * @brief data-value for char-arrays
  */
-DataValue::DataValue(const char *text)
+DataValue::DataValue(const char* text)
 {
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    const size_t len = strlen(text);
+    if(text == nullptr)
+    {
+        content.stringValue = new char[1];
+        content.stringValue[0] = '\0';
+    }
+    else
+    {
+        const size_t len = strlen(text);
 
-    content.stringValue = new char[len + 1];
-    strncpy(content.stringValue, text, len);
-    content.stringValue[len] = '\0';
+        content.stringValue = new char[len + 1];
+        memcpy(content.stringValue, text, len);
+        content.stringValue[len] = '\0';
+    }
 }
 
 /**
@@ -632,11 +640,19 @@ DataValue::setValue(const char* value)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    size_t len = strlen(value);
+    if(value == nullptr)
+    {
+        content.stringValue = new char[1];
+        content.stringValue[0] = '\0';
+    }
+    else
+    {
+        const size_t len = strlen(value);
 
-    content.stringValue = new char[len + 1];
-    strncpy(content.stringValue, value, len);
-    content.stringValue[len] = '\0';
+        content.stringValue = new char[len + 1];
+        memcpy(content.stringValue, value, len);
+        content.stringValue[len] = '\0';
+    }
 }
 
 /**
