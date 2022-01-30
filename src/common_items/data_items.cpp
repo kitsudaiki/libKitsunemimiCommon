@@ -302,16 +302,24 @@ DataValue::DataValue()
 /**
  * @brief data-value for char-arrays
  */
-DataValue::DataValue(const char *text)
+DataValue::DataValue(const char* text)
 {
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    const size_t len = strlen(text);
+    if(text == nullptr)
+    {
+        content.stringValue = new char[1];
+        content.stringValue[0] = '\0';
+    }
+    else
+    {
+        const size_t len = strlen(text);
 
-    content.stringValue = new char[len+1];
-    strncpy(content.stringValue, text, len);
-    content.stringValue[len] = '\0';
+        content.stringValue = new char[len + 1];
+        memcpy(content.stringValue, text, len);
+        content.stringValue[len] = '\0';
+    }
 }
 
 /**
@@ -322,7 +330,7 @@ DataValue::DataValue(const std::string &text)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    content.stringValue = new char[text.size()+1];
+    content.stringValue = new char[text.size() + 1];
     memcpy(content.stringValue, text.c_str(), text.size());
     content.stringValue[text.size()] = '\0';
 }
@@ -393,7 +401,7 @@ DataValue::DataValue(const DataValue &other)
     {
         const size_t len = strlen(other.content.stringValue);
 
-        content.stringValue = new char[len+1];
+        content.stringValue = new char[len + 1];
         strncpy(content.stringValue, other.content.stringValue, len);
         content.stringValue[len] = '\0';
 
@@ -432,7 +440,7 @@ DataValue
         {
             const size_t len = strlen(other.content.stringValue);
 
-            this->content.stringValue = new char[len+1];
+            this->content.stringValue = new char[len + 1];
             strncpy(this->content.stringValue, other.content.stringValue, len);
             this->content.stringValue[len] = '\0';
 
@@ -632,11 +640,19 @@ DataValue::setValue(const char* value)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    size_t len = strlen(value);
+    if(value == nullptr)
+    {
+        content.stringValue = new char[1];
+        content.stringValue[0] = '\0';
+    }
+    else
+    {
+        const size_t len = strlen(value);
 
-    content.stringValue = new char[len+1];
-    strncpy(content.stringValue, value, len);
-    content.stringValue[len] = '\0';
+        content.stringValue = new char[len + 1];
+        memcpy(content.stringValue, value, len);
+        content.stringValue[len] = '\0';
+    }
 }
 
 /**
@@ -652,7 +668,7 @@ DataValue::setValue(const std::string &value)
     m_type = VALUE_TYPE;
     m_valueType = STRING_TYPE;
 
-    content.stringValue = new char[value.size()+1];
+    content.stringValue = new char[value.size() + 1];
     memcpy(content.stringValue, value.c_str(), value.size());
     content.stringValue[value.size()] = '\0';
 }
@@ -1175,7 +1191,7 @@ DataMap::toString(const bool indent,
         firstRun = true;
 
         // add key
-        addIndent(output, indent, level+1);
+        addIndent(output, indent, level + 1);
         output->append("\"");
         output->append(it->first);
         output->append("\"");
@@ -1199,7 +1215,7 @@ DataMap::toString(const bool indent,
             }
 
             // convert value of item into stirng
-            it->second->toString(indent, output, level+1);
+            it->second->toString(indent, output, level + 1);
 
             // if value is string-item, then set quotes
             if(it->second->isStringValue()) {
@@ -1495,7 +1511,7 @@ DataArray::toString(const bool indent,
 
     // begin array
     output->append("[");
-    addIndent(output, indent, level+1);
+    addIndent(output, indent, level + 1);
 
     std::vector<DataItem*>::const_iterator it;
     for(it = array.begin(); it != array.end(); it++)
@@ -1504,7 +1520,7 @@ DataArray::toString(const bool indent,
         if(it != array.begin())
         {
             output->append(",");
-            addIndent(output, indent, level+1);
+            addIndent(output, indent, level + 1);
         }
 
         // add value
@@ -1520,7 +1536,7 @@ DataArray::toString(const bool indent,
             }
 
             // convert value of item into stirng
-            (*it)->toString(indent, output, level+1);
+            (*it)->toString(indent, output, level + 1);
 
             // if value is string-item, then set quotes
             if((*it)->isStringValue()) {
