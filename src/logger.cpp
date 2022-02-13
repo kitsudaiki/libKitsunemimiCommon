@@ -152,7 +152,7 @@ Logger::initFileLogger(const std::string &directoryPath,
     m_baseFileName = baseFileName;
     m_fileDebugLog = debugLog;
 
-    setErrorCallback(&defaultErrorCallback);
+    setErrorLogCallback(&defaultErrorCallback);
 
     // check if already init
     if(m_enableFileLog)
@@ -232,7 +232,7 @@ Logger::setDebugFlag(const bool debugLog)
  * @brief set callback for error-messages
  */
 void
-Logger::setErrorCallback(void (*handleError)(const std::string &))
+Logger::setErrorLogCallback(void (*handleError)(const std::string &))
 {
     m_handleError = handleError;
 }
@@ -344,9 +344,9 @@ Logger::getDatetime()
  * @brief set callback for error-messages
  */
 void
-setErrorCallback(void (*handleError)(const std::string &))
+setErrorLogCallback(void (*handleError)(const std::string &))
 {
-    Logger::m_logger->setErrorCallback(handleError);
+    Logger::m_logger->setErrorLogCallback(handleError);
 }
 
 } // namespace Kitsunemimi

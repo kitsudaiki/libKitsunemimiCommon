@@ -107,7 +107,7 @@ bool LOG_info(const std::string &message,
 
 void closeLogFile();
 
-void setErrorCallback(void (*handleError)(const std::string &));
+void setErrorLogCallback(void (*handleError)(const std::string &));
 
 //==================================================================================================
 
@@ -122,7 +122,7 @@ public:
                         const bool debugLog);
     bool initConsoleLogger(const bool debugLog);
     bool setDebugFlag(const bool debugLog);
-    void setErrorCallback(void (*handleError)(const std::string &));
+    void setErrorLogCallback(void (*handleError)(const std::string &));
 
     void closeLogFile();
 
