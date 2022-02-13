@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.25.3] - 2022-02-13
+
+### Added
+- callback to logger, which is called for each error-message
+
 
 ## [0.25.2] - 2022-01-30
 
