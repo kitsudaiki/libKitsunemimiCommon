@@ -107,6 +107,8 @@ bool LOG_info(const std::string &message,
 
 void closeLogFile();
 
+void setErrorCallback(void (*handleError)(const std::string &));
+
 //==================================================================================================
 
 class Logger
@@ -120,6 +122,7 @@ public:
                         const bool debugLog);
     bool initConsoleLogger(const bool debugLog);
     bool setDebugFlag(const bool debugLog);
+    void setErrorCallback(void (*handleError)(const std::string &));
 
     void closeLogFile();
 
@@ -130,6 +133,7 @@ public:
 
     std::string m_filePath = "";
     bool m_debugLog = false;
+    void (*m_handleError)(const std::string &);
 
     static Kitsunemimi::Logger* m_logger;
 

@@ -43,7 +43,6 @@ bool initConsoleLogger(const bool debugLog)
     return Logger::m_logger->initConsoleLogger(debugLog);
 }
 
-
 /**
  * @brief set debug-flag after the logger was already created
  *
@@ -56,6 +55,11 @@ setDebugFlag(const bool debugLog)
 {
     return Logger::m_logger->setDebugFlag(debugLog);
 }
+
+/**
+ * @brief defaultErrorCallback
+ */
+void defaultErrorCallback(const std::string &) {}
 
 /**
  * @brief write debug-message to logfile
@@ -85,7 +89,9 @@ LOG_error(ErrorContainer &container)
         return true;
     }
 
-    const bool ret = Logger::m_logger->logData(container.toString(), "ERROR", RED_COLOR);
+    const std::string errorMessage = container.toString();
+    const bool ret = Logger::m_logger->logData(errorMessage, "ERROR", RED_COLOR);
+    Logger::m_logger->m_handleError(errorMessage);
     if(ret) {
         container._alreadyPrinted = true;
     }
@@ -145,6 +151,8 @@ Logger::initFileLogger(const std::string &directoryPath,
     m_directoryPath = directoryPath;
     m_baseFileName = baseFileName;
     m_fileDebugLog = debugLog;
+
+    setErrorCallback(&defaultErrorCallback);
 
     // check if already init
     if(m_enableFileLog)
@@ -218,6 +226,15 @@ Logger::setDebugFlag(const bool debugLog)
     m_fileDebugLog = debugLog;
 
     return true;
+}
+
+/**
+ * @brief set callback for error-messages
+ */
+void
+Logger::setErrorCallback(void (*handleError)(const std::string &))
+{
+    m_handleError = handleError;
 }
 
 /**
@@ -321,6 +338,15 @@ Logger::getDatetime()
             + std::to_string(ltm->tm_sec);
 
     return datatime;
+}
+
+/**
+ * @brief set callback for error-messages
+ */
+void
+setErrorCallback(void (*handleError)(const std::string &))
+{
+    Logger::m_logger->setErrorCallback(handleError);
 }
 
 } // namespace Kitsunemimi
