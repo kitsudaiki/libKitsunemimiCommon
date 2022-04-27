@@ -30,8 +30,8 @@ SOURCES += \
     threading/thread_handler.cpp \
     test_helper/memory_leak_test_helper.cpp \
     threading/cleanup_thread.cpp \
-    buffer/item_buffer.cpp
-
+    buffer/item_buffer.cpp \
+    threading/event_queue.cpp
 
 HEADERS += \
     ../include/libKitsunemimiCommon/common_methods/file_methods.h \
@@ -59,4 +59,5 @@ HEADERS += \
     ../include/libKitsunemimiCommon/threading/thread_handler.h \
     ../include/libKitsunemimiCommon/test_helper/memory_leak_test_helper.h \
     ../include/libKitsunemimiCommon/threading/cleanup_thread.h \
-    ../include/libKitsunemimiCommon/buffer/item_buffer.h
+    ../include/libKitsunemimiCommon/buffer/item_buffer.h \
+    ../include/libKitsunemimiCommon/threading/event_queue.h
