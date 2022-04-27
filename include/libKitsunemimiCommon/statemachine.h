@@ -22,6 +22,7 @@
 namespace Kitsunemimi
 {
 struct State;
+class Event;
 
 class Statemachine
 {
@@ -40,6 +41,9 @@ public:
                               const uint32_t initialChildStateId);
     bool addChildState(const uint32_t stateId,
                        const uint32_t childStateId);
+
+    bool addEventToState(const uint32_t stateId,
+                         Event* event);
 
     // runtime
     bool goToNextState(const uint32_t nextStateId,

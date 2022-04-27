@@ -124,7 +124,7 @@ Statemachine::addTransition(const uint32_t stateId,
  * @brief set initial child state
  *
  * @param stateId source-state of the transition
- * @param initialChildStateId
+ * @param initialChildStateId id of the initial child-state
  *
  * @return false, if id doesn't exist, else true
  */
@@ -150,7 +150,7 @@ Statemachine::setInitialChildState(const uint32_t stateId,
  * @brief add one state as child state for another one
  *
  * @param stateId source-state of the transition
- * @param childStateId
+ * @param childStateId id of the child-state
  *
  * @return false, if id doesn't exist, else true
  */
@@ -168,6 +168,32 @@ Statemachine::addChildState(const uint32_t stateId,
     }
 
     sourceState->addChildState(childState);
+
+    return true;
+}
+
+/**
+ * @brief add a new event to a specific state, which should be triggered,
+ *        when ever the state is entered
+ *
+ * @param stateId source-state of the transition
+ * @param event event to trigger, when the state fill be entered
+ *
+ * @return false, if stateId doesn't exist or event is nullptr, else true
+ */
+bool
+Statemachine::addEventToState(const uint32_t stateId,
+                              Event* event)
+{
+    State* sourceState = getState(stateId);
+
+    if(sourceState == nullptr
+            || event == nullptr)
+    {
+        return false;
+    }
+
+    sourceState->addEvent(event);
 
     return true;
 }
@@ -205,6 +231,14 @@ Statemachine::goToNextState(const uint32_t nextStateId,
     }
 
     m_state_lock.clear(std::memory_order_release);
+
+    // process all events after enter the new state. This has to be done here at the end,
+    // to release the spin-lock first. It is possible, that the event-processint take some time
+    // and it would be really bad, when the spin-lock runs the whole time and block even requests
+    // for the current state for the entire time.
+    if(result == true) {
+        m_currentState->processEvents();
+    }
 
     return result;
 }
