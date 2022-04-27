@@ -11,6 +11,7 @@
  */
 
 #include <libKitsunemimiCommon/statemachine.h>
+#include <libKitsunemimiCommon/threading/event_queue.h>
 #include <state.h>
 
 namespace Kitsunemimi
@@ -19,7 +20,10 @@ namespace Kitsunemimi
 /**
  * @brief constructor
  */
-Statemachine::Statemachine() {}
+Statemachine::Statemachine(EventQueue* eventQueue)
+{
+    m_eventQueue = eventQueue;
+}
 
 /**
  * @brief destructor
@@ -224,6 +228,15 @@ Statemachine::goToNextState(const uint32_t nextStateId,
             if(nextState != nullptr)
             {
                 m_currentState = nextState;
+
+                // add event of state to event-queue, if one was defined
+                if(m_eventQueue != nullptr)
+                {
+                    for(uint64_t i = 0; i < m_currentState->events.size(); i++) {
+                        m_eventQueue->addEventToQueue(m_currentState->events.at(i));
+                    }
+                }
+
                 result = true;
                 break;
             }
@@ -236,7 +249,9 @@ Statemachine::goToNextState(const uint32_t nextStateId,
     // to release the spin-lock first. It is possible, that the event-processint take some time
     // and it would be really bad, when the spin-lock runs the whole time and block even requests
     // for the current state for the entire time.
-    if(result == true) {
+    if(result == true
+            && m_eventQueue == nullptr)
+    {
         m_currentState->processEvents();
     }
 

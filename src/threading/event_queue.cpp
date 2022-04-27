@@ -16,10 +16,15 @@ namespace Kitsunemimi
 
 /**
  * @brief constructor
+ *
+ * @param deleteEventObj set to true, to delete the event-object after it was processed
  */
-EventQueue::EventQueue(const std::string &threadName)
+EventQueue::EventQueue(const std::string &threadName,
+                       const bool deleteEventObj)
     : Thread(threadName)
-{}
+{
+    m_deleteEventObj = deleteEventObj;
+}
 
 /**
  * @brief run event-processing thread
@@ -38,9 +43,10 @@ EventQueue::EventQueue::run()
         }
         else
         {
-            LOG_DEBUG("process messaging event");
             event->processEvent();
-            delete event;
+            if(m_deleteEventObj) {
+                delete event;
+            }
         }
     }
 }

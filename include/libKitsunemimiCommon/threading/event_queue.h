@@ -19,11 +19,13 @@ class EventQueue
 {
 
 public:
-    EventQueue(const std::string &threadName);
+    EventQueue(const std::string &threadName, const bool deleteEventObj);
 
 protected:
     void run();
 
+private:
+    bool m_deleteEventObj = false;
 };
 
 }  // namespace Kitsunemimi
