@@ -14,8 +14,11 @@
 #define STATE_H
 
 #include <map>
+#include <stdint.h>
+#include <string>
 #include <vector>
 #include <utility>
+#include <libKitsunemimiCommon/threading/event.h>
 
 namespace Kitsunemimi
 {
@@ -27,6 +30,7 @@ struct State
     uint32_t id = 0;
     State* parent = nullptr;
     State* initialChild = nullptr;
+    std::vector<Event*> events;
 
     /**
      * @brief constructor
@@ -107,6 +111,28 @@ struct State
     addChildState(State* child)
     {
         child->parent = this;
+    }
+
+    /**
+     * @brief add new event to the state
+     *
+     * @param event new event, which should be triggered, when enter the state
+     */
+    void
+    addEvent(Event* event)
+    {
+        events.push_back(event);
+    }
+
+    /**
+     * @brief process all events in this state
+     */
+    void
+    processEvents()
+    {
+        for(uint64_t i = 0; i < events.size(); i++) {
+            events.at(i)->processEvent();
+        }
     }
 };
 

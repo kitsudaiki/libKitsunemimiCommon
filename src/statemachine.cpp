@@ -11,6 +11,7 @@
  */
 
 #include <libKitsunemimiCommon/statemachine.h>
+#include <libKitsunemimiCommon/threading/event_queue.h>
 #include <state.h>
 
 namespace Kitsunemimi
@@ -19,7 +20,10 @@ namespace Kitsunemimi
 /**
  * @brief constructor
  */
-Statemachine::Statemachine() {}
+Statemachine::Statemachine(EventQueue* eventQueue)
+{
+    m_eventQueue = eventQueue;
+}
 
 /**
  * @brief destructor
@@ -32,6 +36,11 @@ Statemachine::~Statemachine()
     for(it = m_allStates.begin(); it != m_allStates.end(); it++)
     {
         State* tempObj = it->second;
+        for(uint64_t i = 0; i < tempObj->events.size(); i++)
+        {
+            Event* event = tempObj->events[i];
+            delete event;
+        }
         delete tempObj;
         it->second = nullptr;
     }
@@ -124,7 +133,7 @@ Statemachine::addTransition(const uint32_t stateId,
  * @brief set initial child state
  *
  * @param stateId source-state of the transition
- * @param initialChildStateId
+ * @param initialChildStateId id of the initial child-state
  *
  * @return false, if id doesn't exist, else true
  */
@@ -150,7 +159,7 @@ Statemachine::setInitialChildState(const uint32_t stateId,
  * @brief add one state as child state for another one
  *
  * @param stateId source-state of the transition
- * @param childStateId
+ * @param childStateId id of the child-state
  *
  * @return false, if id doesn't exist, else true
  */
@@ -168,6 +177,32 @@ Statemachine::addChildState(const uint32_t stateId,
     }
 
     sourceState->addChildState(childState);
+
+    return true;
+}
+
+/**
+ * @brief add a new event to a specific state, which should be triggered,
+ *        when ever the state is entered
+ *
+ * @param stateId source-state of the transition
+ * @param event event to trigger, when the state fill be entered
+ *
+ * @return false, if stateId doesn't exist or event is nullptr, else true
+ */
+bool
+Statemachine::addEventToState(const uint32_t stateId,
+                              Event* event)
+{
+    State* sourceState = getState(stateId);
+
+    if(sourceState == nullptr
+            || event == nullptr)
+    {
+        return false;
+    }
+
+    sourceState->addEvent(event);
 
     return true;
 }
@@ -198,6 +233,15 @@ Statemachine::goToNextState(const uint32_t nextStateId,
             if(nextState != nullptr)
             {
                 m_currentState = nextState;
+
+                // add event of state to event-queue, if one was defined
+                if(m_eventQueue != nullptr)
+                {
+                    for(uint64_t i = 0; i < m_currentState->events.size(); i++) {
+                        m_eventQueue->addEventToQueue(m_currentState->events.at(i));
+                    }
+                }
+
                 result = true;
                 break;
             }
@@ -205,6 +249,16 @@ Statemachine::goToNextState(const uint32_t nextStateId,
     }
 
     m_state_lock.clear(std::memory_order_release);
+
+    // process all events after enter the new state. This has to be done here at the end,
+    // to release the spin-lock first. It is possible, that the event-processint take some time
+    // and it would be really bad, when the spin-lock runs the whole time and block even requests
+    // for the current state for the entire time.
+    if(result == true
+            && m_eventQueue == nullptr)
+    {
+        m_currentState->processEvents();
+    }
 
     return result;
 }

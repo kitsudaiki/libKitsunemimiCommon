@@ -9,6 +9,7 @@
 #include "statemachine_test.h"
 
 #include <libKitsunemimiCommon/statemachine.h>
+#include <libKitsunemimiCommon/threading/event.h>
 
 namespace Kitsunemimi
 {
@@ -30,6 +31,8 @@ Statemachine_Test::create_delete_test()
     Statemachine* testMachine = new Statemachine();
     testMachine->createNewState(1);
     testMachine->createNewState(2);
+    testMachine->addEventToState(1, new SleepEvent(10000));
+    testMachine->addEventToState(2, new SleepEvent(10000));
     delete testMachine;
 
     CHECK_MEMORY();

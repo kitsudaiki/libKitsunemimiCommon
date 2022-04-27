@@ -22,11 +22,13 @@
 namespace Kitsunemimi
 {
 struct State;
+class Event;
+class EventQueue;
 
 class Statemachine
 {
 public:
-    Statemachine();
+    Statemachine(EventQueue* eventQueue = nullptr);
     ~Statemachine();
 
     // init
@@ -41,6 +43,9 @@ public:
     bool addChildState(const uint32_t stateId,
                        const uint32_t childStateId);
 
+    bool addEventToState(const uint32_t stateId,
+                         Event* event);
+
     // runtime
     bool goToNextState(const uint32_t nextStateId,
                        const uint32_t requiredPreState = 0);
@@ -51,6 +56,7 @@ public:
 private:
     std::map<uint32_t, State*> m_allStates;
     State* m_currentState = nullptr;
+    EventQueue* m_eventQueue = nullptr;
     std::atomic_flag m_state_lock = ATOMIC_FLAG_INIT;
 
     State* getState(const uint32_t stateId);
