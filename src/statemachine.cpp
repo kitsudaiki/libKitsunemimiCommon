@@ -36,6 +36,11 @@ Statemachine::~Statemachine()
     for(it = m_allStates.begin(); it != m_allStates.end(); it++)
     {
         State* tempObj = it->second;
+        for(uint64_t i = 0; i < tempObj->events.size(); i++)
+        {
+            Event* event = tempObj->events[i];
+            delete event;
+        }
         delete tempObj;
         it->second = nullptr;
     }

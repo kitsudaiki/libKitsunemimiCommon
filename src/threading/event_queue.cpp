@@ -27,6 +27,25 @@ EventQueue::EventQueue(const std::string &threadName,
 }
 
 /**
+ * @brief destructor
+ */
+EventQueue::~EventQueue()
+{
+    // Workaround. When the events in the queue are not allowed to be deleted, because they are
+    // deleted somewhere else, the list has to be cleared before calling the destructor
+    // of the parent thread-class.
+    if(m_deleteEventObj == false)
+    {
+        Event* event = nullptr;
+        do
+        {
+            event = getEventFromQueue();
+        }
+        while(event != nullptr);
+    }
+}
+
+/**
  * @brief run event-processing thread
  */
 void

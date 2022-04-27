@@ -20,6 +20,7 @@ class EventQueue
 
 public:
     EventQueue(const std::string &threadName, const bool deleteEventObj);
+    ~EventQueue();
 
 protected:
     void run();
