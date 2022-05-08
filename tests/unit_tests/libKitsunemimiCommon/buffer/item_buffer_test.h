@@ -25,6 +25,7 @@ private:
     void deleteItem_test();
     void deleteAll_test();
     void addNewItem_test();
+    void backup_restore_test();
 };
 
 }
