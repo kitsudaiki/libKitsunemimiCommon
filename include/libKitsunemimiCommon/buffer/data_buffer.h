@@ -35,6 +35,25 @@ inline uint8_t* getBlock_DataBuffer(DataBuffer &buffer, const uint64_t blockPosi
 inline void* alignedMalloc(const uint16_t blockSize, const uint64_t numberOfBytes);
 inline bool alignedFree(void* ptr, const uint64_t numberOfBytes);
 
+/**
+ * @brief calculate number of block for a specific number of bytes
+ *
+ * @param numberOfBytes incoming number of bytes
+ * @param blockSize bytes per block
+ *
+ * @return number of blocks
+ */
+inline uint64_t
+calcBytesToBlocks(const uint64_t numberOfBytes,
+                  const uint16_t blockSize = 4096)
+{
+    if(numberOfBytes % blockSize == 0) {
+        return (numberOfBytes / blockSize);
+    }
+
+    return (numberOfBytes / blockSize) + 1;
+}
+
 struct DataBuffer
 {
     uint64_t numberOfBlocks = 0;
@@ -95,7 +114,7 @@ struct DataBuffer
                 && size > 0)
         {
             this->data = data;
-            numberOfBlocks = (size / blockSize) + 1;
+            numberOfBlocks =  calcBytesToBlocks(size);
             totalBufferSize = blockSize * numberOfBlocks;
 
             if(size % blockSize != 0) {
@@ -157,21 +176,6 @@ struct DataBuffer
         return false;
     }
 };
-
-/**
- * @brief calculate number of block for a specific number of bytes
- *
- * @param numberOfBytes incoming number of bytes
- * @param blockSize bytes per block
- *
- * @return number of blocks
- */
-inline uint64_t
-calcBytesToBlocks(const uint64_t numberOfBytes,
-                  const uint16_t blockSize = 4096)
-{
-    return (numberOfBytes / blockSize) + 1;
-}
 
 /**
  * @brief allocate a number of aligned bytes
