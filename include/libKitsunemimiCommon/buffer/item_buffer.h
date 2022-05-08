@@ -18,7 +18,7 @@ namespace Kitsunemimi
 
 class ItemBuffer;
 template<typename T>
-inline T* getBuffer(ItemBuffer &itembuffer);
+inline T* getItemData(ItemBuffer &itembuffer);
 
 class ItemBuffer
 {
@@ -30,14 +30,23 @@ public:
         DELETED_SECTION = 2,
     };
 
-    uint32_t itemSize = 0;
-    uint64_t itemCapacity = 0;
-    uint64_t numberOfItems = 0;
-    DataBuffer buffer = DataBuffer(1);
+    struct MetaData
+    {
+        uint32_t itemSize = 0;
+        uint64_t itemCapacity = 0;
+        uint64_t staticSize = 0;
+        uint64_t numberOfItems = 0;
+        uint64_t bytePositionOfFirstEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
+        uint64_t bytePositionOfLastEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
+    };
+
     void* staticData = nullptr;
     void* itemData = nullptr;
+    MetaData* metaData = nullptr;
+    DataBuffer buffer = DataBuffer(1);
 
     ItemBuffer();
+    ~ItemBuffer();
 
     /**
      * @brief initialize buffer by allocating memory and init with default-items
@@ -60,10 +69,13 @@ public:
         T* items = static_cast<T*>(itemData);
         T newItem;
         std::fill_n(items, numberOfItems, newItem);
-        this->numberOfItems = numberOfItems;
+        metaData->numberOfItems = numberOfItems;
 
         return true;
     }
+
+    bool initBuffer(const uint64_t staticSize);
+    bool initBuffer(const void* data, const uint64_t dataSize);
 
     /**
      * @brief add a new items at an empty position inside of the buffer
@@ -76,11 +88,16 @@ public:
     template<typename T>
     uint64_t addNewItem(const T &item)
     {
+        // precheck
+        if(metaData->itemSize == 0) {
+            return ITEM_BUFFER_UNDEFINE_POS;
+        }
+
         // init invalid default-value
         uint64_t position = ITEM_BUFFER_UNDEFINE_POS;
 
         // precheck
-        if(numberOfItems >= itemCapacity) {
+        if(metaData->numberOfItems >= metaData->itemCapacity) {
             return position;
         }
 
@@ -107,9 +124,6 @@ public:
 private:
     std::atomic_flag m_lock = ATOMIC_FLAG_INIT;
 
-    uint64_t m_bytePositionOfFirstEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
-    uint64_t m_bytePositionOfLastEmptyBlock = ITEM_BUFFER_UNDEFINE_POS;
-
     bool initDataBlocks(const uint64_t numberOfItems,
                         const uint32_t itemSize,
                         const uint64_t staticSize);
@@ -121,13 +135,13 @@ private:
 /**
  * @brief get content of an item-buffer as array
  *
- * @param itembuffer buffer to convert
+ * @param itembuffer pointer to items of buffer
  *
  * @return casted pointer of the item-buffer-content
  */
 template<typename T>
 inline T*
-getBuffer(ItemBuffer &itembuffer)
+getItemData(ItemBuffer &itembuffer)
 {
     return static_cast<T*>(itembuffer.itemData);
 }
