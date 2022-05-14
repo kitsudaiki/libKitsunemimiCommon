@@ -17,6 +17,7 @@ SOURCES += \
     threading/thread.cpp \
     statemachine.cpp \
     common_items/data_items.cpp \
+    common_items/data_items2.cpp \
     common_items/table_item.cpp \
     threading/barrier.cpp \
     process_execution.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     ../include/libKitsunemimiCommon/common_methods/string_methods.h \
     ../include/libKitsunemimiCommon/common_methods/vector_methods.h \
     ../include/libKitsunemimiCommon/common_items/data_items.h \
+    ../include/libKitsunemimiCommon/common_items/data_items2.h \
     ../include/libKitsunemimiCommon/statemachine.h \
     ../include/libKitsunemimiCommon/threading/thread.h \
     ../include/libKitsunemimiCommon/common_items/table_item.h \
