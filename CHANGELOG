@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.26.0] - 2022-06-26
+
+### Changed
+- Header of item-buffer was restructured to be stored in the buffer itself too
+
+### Added
+- States of statemachine can now be connected to events, which are triggered, when entering the state
+- Event-Queue to be also able to execute the Events of states by a separate thread
+- item-buffer can now be completely backuped and restored
+
+### Fixed
+- added missing include in state-class
+
+
 ## [0.25.3] - 2022-02-13
 
 ### Added
