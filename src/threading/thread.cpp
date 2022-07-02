@@ -53,15 +53,6 @@ Thread::~Thread()
 bool
 Thread::bindThreadToCores(const std::vector<uint64_t> coreIds)
 {
-    // precheck
-    const uint64_t num_cores = std::thread::hardware_concurrency();
-    for(const uint64_t coreId : coreIds)
-    {
-        if(coreId >= num_cores) {
-            return false;
-        }
-    }
-
     // bind thread
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -90,12 +81,6 @@ Thread::bindThreadToCores(const std::vector<uint64_t> coreIds)
 bool
 Thread::bindThreadToCore(const uint64_t coreId)
 {
-    // precheck
-    const uint64_t num_cores = std::thread::hardware_concurrency();
-    if(coreId >= num_cores) {
-        return false;
-    }
-
     // bind thread
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
