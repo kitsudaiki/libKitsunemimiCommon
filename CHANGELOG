@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.26.1] - 2022-07-02
+
+### Fixed
+- removed broken precheck of thread-binding-functions
+
+
 ## [0.26.0] - 2022-06-26
 
 ### Changed
