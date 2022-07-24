@@ -57,7 +57,8 @@ setDebugFlag(const bool debugLog)
 }
 
 /**
- * @brief defaultErrorCallback
+ * @brief default-error-callback, which is triggered by each LOG_ERROR. There is a default required
+ *        to be set to avoid seg-faults.
  */
 void defaultErrorCallback(const std::string &) {}
 
@@ -122,7 +123,10 @@ closeLogFile()
 /**
  * @brief constructor
  */
-Logger::Logger() {}
+Logger::Logger()
+{
+    setErrorLogCallback(defaultErrorCallback);
+}
 
 /**
  * @brief destructor
@@ -151,8 +155,6 @@ Logger::initFileLogger(const std::string &directoryPath,
     m_directoryPath = directoryPath;
     m_baseFileName = baseFileName;
     m_fileDebugLog = debugLog;
-
-    setErrorLogCallback(&defaultErrorCallback);
 
     // check if already init
     if(m_enableFileLog)
