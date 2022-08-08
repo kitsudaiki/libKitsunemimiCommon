@@ -8,7 +8,7 @@
 
 #include "file_methods_test.h"
 
-#include <libKitsunemimiCommon/common_methods/file_methods.h>
+#include <libKitsunemimiCommon/methods/file_methods.h>
 #include <libKitsunemimiCommon/process_execution.h>
 
 using Kitsunemimi::runSyncProcess;

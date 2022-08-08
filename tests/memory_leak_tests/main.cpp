@@ -17,8 +17,8 @@
 #include <libKitsunemimiCommon/state_test.h>
 #include <libKitsunemimiCommon/statemachine_test.h>
 
-#include <libKitsunemimiCommon/common_items/data_items_test.h>
-#include <libKitsunemimiCommon/common_items/table_item_test.h>
+#include <libKitsunemimiCommon/items/data_items_test.h>
+#include <libKitsunemimiCommon/items/table_item_test.h>
 
 #include <libKitsunemimiCommon/threading/thread_test.h>
 

@@ -10,7 +10,7 @@
 #define TABLE_ITEM_TEST_H
 
 #include <libKitsunemimiCommon/test_helper/compare_test_helper.h>
-#include <libKitsunemimiCommon/common_items/table_item.h>
+#include <libKitsunemimiCommon/items/table_item.h>
 
 namespace Kitsunemimi
 {

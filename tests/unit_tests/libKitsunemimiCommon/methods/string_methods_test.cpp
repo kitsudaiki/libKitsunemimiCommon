@@ -8,7 +8,7 @@
 
 #include "string_methods_test.h"
 
-#include <libKitsunemimiCommon/common_methods/string_methods.h>
+#include <libKitsunemimiCommon/methods/string_methods.h>
 
 namespace Kitsunemimi
 {

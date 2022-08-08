@@ -20,7 +20,7 @@
 #include <filesystem>
 
 #include <libKitsunemimiCommon/files/binary_file.h>
-#include <libKitsunemimiCommon/common_items/table_item.h>
+#include <libKitsunemimiCommon/items/table_item.h>
 
 #define LOG_DEBUG Kitsunemimi::LOG_debug
 #define LOG_INFO Kitsunemimi::LOG_info
