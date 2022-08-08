@@ -22,6 +22,7 @@
 #include <assert.h>
 
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
+#include <libKitsunemimiCommon/logger.h>
 
 namespace Kitsunemimi
 {
@@ -33,22 +34,25 @@ public:
     ~BinaryFileDirect();
 
     bool allocateStorage(const uint64_t numberOfBlocks,
-                         const uint32_t blockSize);
-    bool updateFileSize();
+                         const uint32_t blockSize,
+                         ErrorContainer &error);
+    bool updateFileSize(ErrorContainer &error);
 
-    bool readCompleteFile(DataBuffer &buffer);
-    bool writeCompleteFile(DataBuffer &buffer);
+    bool readCompleteFile(DataBuffer &buffer, ErrorContainer &error);
+    bool writeCompleteFile(DataBuffer &buffer, ErrorContainer &error);
 
     bool readSegment(DataBuffer &buffer,
                      const uint64_t startBlockInFile,
                      const uint64_t numberOfBlocks,
-                     const uint64_t startBlockInBuffer = 0);
+                     const uint64_t startBlockInBuffer,
+                     ErrorContainer &error);
     bool writeSegment(DataBuffer &buffer,
                       const uint64_t startBlockInFile,
                       const uint64_t numberOfBlocks,
-                      const uint64_t startBlockInBuffer = 0);
+                      const uint64_t startBlockInBuffer,
+                      ErrorContainer &error);
 
-    bool closeFile();
+    bool closeFile(ErrorContainer &error);
 
     // public variables to avoid stupid getter
     uint64_t m_totalFileSize = 0;
@@ -58,8 +62,8 @@ private:
     int m_fileDescriptor = -1;
     uint16_t m_blockSize = 512;
 
-    bool initFile();
-    bool allocateStorage(const uint64_t numberOfBytes);
+    bool initFile(ErrorContainer &error);
+    bool allocateStorage(const uint64_t numberOfBytes, ErrorContainer &error);
 };
 
 } // namespace Kitsunemimi

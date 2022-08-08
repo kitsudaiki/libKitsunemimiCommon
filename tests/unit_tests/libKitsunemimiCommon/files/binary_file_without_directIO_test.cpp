@@ -49,13 +49,15 @@ BinaryFile_withoutDirectIO_Test::initTest()
 void
 BinaryFile_withoutDirectIO_Test::closeFile_test()
 {
+    ErrorContainer error;
+
     // init buffer and file
     DataBuffer buffer;
     BinaryFile binaryFile(m_filePath);
 
     // test close
-    TEST_EQUAL(binaryFile.closeFile(), true);
-    TEST_EQUAL(binaryFile.closeFile(), false);
+    TEST_EQUAL(binaryFile.closeFile(error), true);
+    TEST_EQUAL(binaryFile.closeFile(error), true);
 
     deleteFile();
 }
@@ -66,14 +68,16 @@ BinaryFile_withoutDirectIO_Test::closeFile_test()
 void
 BinaryFile_withoutDirectIO_Test::updateFileSize_test()
 {
+    ErrorContainer error;
+
     // init buffer and file
     DataBuffer buffer(5);
     BinaryFile binaryFile(m_filePath);
-    binaryFile.allocateStorage(4, 4000);
-    binaryFile.closeFile();
+    binaryFile.allocateStorage(4*4000, error);
+    binaryFile.closeFile(error);
 
     BinaryFile binaryFileNew(m_filePath);
-    TEST_EQUAL(binaryFileNew.updateFileSize(), true);
+    TEST_EQUAL(binaryFileNew.updateFileSize(error), true);
     TEST_EQUAL(binaryFileNew.m_totalFileSize, 4*4096);
 
     TEST_EQUAL(binaryFileNew.m_totalFileSize, binaryFileNew.m_totalFileSize);
@@ -85,22 +89,24 @@ BinaryFile_withoutDirectIO_Test::updateFileSize_test()
 void
 BinaryFile_withoutDirectIO_Test::allocateStorage_test()
 {
+    ErrorContainer error;
+
     // init buffer and file
     DataBuffer buffer;
     BinaryFile binaryFile(m_filePath);
 
     // test allocation
-    TEST_EQUAL(binaryFile.allocateStorage(4, 4000), true);
-    TEST_EQUAL(binaryFile.allocateStorage(4, 4000), true);
-    TEST_EQUAL(binaryFile.allocateStorage(0, 4000), false);
+    TEST_EQUAL(binaryFile.allocateStorage(4*4000, error), true);
+    TEST_EQUAL(binaryFile.allocateStorage(4*4000, error), true);
+    TEST_EQUAL(binaryFile.allocateStorage(0, error), true);
 
     // check meta-data
     TEST_EQUAL(binaryFile.m_totalFileSize, 8*4000);
 
-    binaryFile.closeFile();
+    binaryFile.closeFile(error);
 
     // negative test
-    TEST_EQUAL(binaryFile.allocateStorage(4, 4000), false);
+    TEST_EQUAL(binaryFile.allocateStorage(4*4000, error), false);
 
     deleteFile();
 }
@@ -111,6 +117,8 @@ BinaryFile_withoutDirectIO_Test::allocateStorage_test()
 void
 BinaryFile_withoutDirectIO_Test::writeCompleteFile_test()
 {
+    ErrorContainer error;
+
     // init buffer and file
     DataBuffer buffer(5);
     BinaryFile binaryFile(m_filePath);
@@ -124,11 +132,11 @@ BinaryFile_withoutDirectIO_Test::writeCompleteFile_test()
     testStruct.c = 1234;
     addObject_DataBuffer(buffer, &testStruct);
 
-    TEST_EQUAL(binaryFile.writeCompleteFile(buffer), true);
+    TEST_EQUAL(binaryFile.writeCompleteFile(buffer, error), true);
     TEST_EQUAL(std::filesystem::file_size(m_filePath), 2 * sizeof(TestStruct));
 
     // cleanup
-    TEST_EQUAL(binaryFile.closeFile(), true);
+    TEST_EQUAL(binaryFile.closeFile(error), true);
     deleteFile();
 }
 
@@ -138,6 +146,8 @@ BinaryFile_withoutDirectIO_Test::writeCompleteFile_test()
 void
 BinaryFile_withoutDirectIO_Test::readCompleteFile_test()
 {
+    ErrorContainer error;
+
     // init buffer and file
     DataBuffer sourceBuffer(5);
     DataBuffer targetBuffer(5);
@@ -156,8 +166,8 @@ BinaryFile_withoutDirectIO_Test::readCompleteFile_test()
     sourceBuffer.usedBufferSize = 2 * sourceBuffer.blockSize + 1;
     targetBuffer.usedBufferSize = 2 * targetBuffer.blockSize + 1;
 
-    binaryFile.writeCompleteFile(sourceBuffer);
-    TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer), true);
+    binaryFile.writeCompleteFile(sourceBuffer, error);
+    TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer, error), true);
 
     // check if source and target-buffer are
     int ret = memcmp(sourceBuffer.data,
@@ -166,7 +176,7 @@ BinaryFile_withoutDirectIO_Test::readCompleteFile_test()
     TEST_EQUAL(ret, 0);
 
     // cleanup
-    TEST_EQUAL(binaryFile.closeFile(), true);
+    TEST_EQUAL(binaryFile.closeFile(error), true);
     deleteFile();
 }
 
@@ -176,12 +186,14 @@ BinaryFile_withoutDirectIO_Test::readCompleteFile_test()
 void
 BinaryFile_withoutDirectIO_Test::writeDataIntoFile_test()
 {
+    ErrorContainer error;
+
     DataBuffer targetBuffer(5);
 
     // init buffer and file
     DataBuffer sourceBuffer(5);
     BinaryFile binaryFile(m_filePath);
-    binaryFile.allocateStorage(4, 4096);
+    binaryFile.allocateStorage(4*4096, error);
 
     // prepare test-buffer
     TestStruct testStruct;
@@ -192,13 +204,13 @@ BinaryFile_withoutDirectIO_Test::writeDataIntoFile_test()
     addObject_DataBuffer(sourceBuffer, &testStruct);
 
     // write-tests
-    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000), true);
+    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000, error), true);
 
     // negative tests
-    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 42000, 1000), false);
-    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 2000, 42000), false);
+    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 42000, 1000, error), false);
+    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 2000, 42000, error), false);
 
-    TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer), true);
+    TEST_EQUAL(binaryFile.readCompleteFile(targetBuffer, error), true);
 
     // check if source and target-buffer are
     int ret = memcmp(sourceBuffer.data,
@@ -207,7 +219,7 @@ BinaryFile_withoutDirectIO_Test::writeDataIntoFile_test()
     TEST_EQUAL(ret, 0);
 
     // cleanup
-    TEST_EQUAL(binaryFile.closeFile(), true);
+    TEST_EQUAL(binaryFile.closeFile(error), true);
     deleteFile();
 }
 
@@ -217,12 +229,14 @@ BinaryFile_withoutDirectIO_Test::writeDataIntoFile_test()
 void
 BinaryFile_withoutDirectIO_Test::readDataFromFile_test()
 {
+    ErrorContainer error;
+
     DataBuffer targetBuffer(5);
 
     // init buffer and file
     DataBuffer sourceBuffer(5);
     BinaryFile binaryFile(m_filePath);
-    binaryFile.allocateStorage(4, 4096);
+    binaryFile.allocateStorage(4*4096, error);
 
     // prepare test-buffer
     TestStruct testStruct;
@@ -233,12 +247,12 @@ BinaryFile_withoutDirectIO_Test::readDataFromFile_test()
     addObject_DataBuffer(sourceBuffer, &testStruct);
 
     // write-tests
-    binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000);
-    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 0, 4000), true);
+    binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000, error);
+    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 0, 4000, error), true);
 
     // negative tests
-    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 42000, 1000), false);
-    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 2000, 42000), false);
+    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 42000, 1000, error), false);
+    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 2000, 42000, error), false);
 
     // check if source and target-buffer are
     int ret = memcmp(sourceBuffer.data,
@@ -247,7 +261,7 @@ BinaryFile_withoutDirectIO_Test::readDataFromFile_test()
     TEST_EQUAL(ret, 0);
 
     // cleanup
-    TEST_EQUAL(binaryFile.closeFile(), true);
+    TEST_EQUAL(binaryFile.closeFile(error), true);
     deleteFile();
 }
 

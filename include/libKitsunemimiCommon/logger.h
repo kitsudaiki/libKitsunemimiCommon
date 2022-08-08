@@ -19,7 +19,6 @@
 #include <mutex>
 #include <filesystem>
 
-#include <libKitsunemimiCommon/files/binary_file.h>
 #include <libKitsunemimiCommon/items/table_item.h>
 
 #define LOG_DEBUG Kitsunemimi::LOG_debug
