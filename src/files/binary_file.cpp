@@ -216,9 +216,11 @@ BinaryFile::writeCompleteFile(DataBuffer &buffer, ErrorContainer &error)
 }
 
 /**
- * @brief write data to a spicific position of the file, but only for for files, which were
- *        not created with the directIO-flag
+ * @brief write data to a spicific position of the file, but only for for files
  *
+ * @param data pointer to the buffer where the data coming from
+ * @param startBytePosition position in file where to start to write
+ * @param numberOfBytes number of bytes to write to file
  * @param error reference for error-output
  *
  * @return true, if successful, else false
@@ -274,9 +276,11 @@ BinaryFile::writeDataIntoFile(const void* data,
 }
 
 /**
- * @brief read data from a spicific position of the file, but only for for files, which were
- *        not created with the directIO-flag
+ * @brief read data from a spicific position of the file, but only for for files
  *
+ * @param data pointer to the buffer where the data of the file should written into
+ * @param startBytePosition position in file where to start to read
+ * @param numberOfBytes number of bytes to read from file
  * @param error reference for error-output
  *
  * @return true, if successful, else false

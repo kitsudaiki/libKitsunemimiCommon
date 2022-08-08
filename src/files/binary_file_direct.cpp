@@ -268,9 +268,12 @@ BinaryFileDirect::writeCompleteFile(DataBuffer &buffer,
 }
 
 /**
- * @brief read a readSegment of the file
+ * @brief read a segment of the file to a data-buffer
  *
- *
+ * @param buffer data-buffer-reference where the data should be written to
+ * @param startBlockInFile block-number within the file where to start to read
+ * @param numberOfBlocks number of blocks to read from file
+ * @param startBlockInBuffer block-number within the buffer where the data should written to
  * @param error reference for error-output
  *
  * @return true, if successful, else false
@@ -333,9 +336,12 @@ BinaryFileDirect::readSegment(DataBuffer &buffer,
 }
 
 /**
- * @brief write a block of the file
+ * @brief write a segment to the file
  *
- *
+ * @param buffer data-buffer-reference where the data coming from
+ * @param startBlockInFile block-number within the file where to start to write
+ * @param numberOfBlocks number of blocks to write to file
+ * @param startBlockInBuffer block-number within the buffer where the data should read from
  * @param error reference for error-output
  *
  * @return true, if successful, else false
