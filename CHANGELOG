@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.27.0] - 2022-08-08
+
+### Added
+- added error-output to binary-files classes
+
+### Changed
+- split bianary-files class into one which use direct-IO and one which doesn't
+- use github-actions as ci-pipeline
+
+### Fixed
+- add missing default-callback to console-logging
+- added some missing comments in binary-files class
+
+
 ## [0.26.1] - 2022-07-02
 
 ### Fixed
