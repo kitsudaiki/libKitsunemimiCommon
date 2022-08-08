@@ -7,6 +7,7 @@
 
 ### Changed
 - split bianary-files class into one which use direct-IO and one which doesn't
+- remove `common_` from items- and method-directory names
 - use github-actions as ci-pipeline
 
 ### Fixed
