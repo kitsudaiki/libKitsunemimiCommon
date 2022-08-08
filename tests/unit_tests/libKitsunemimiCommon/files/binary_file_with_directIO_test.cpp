@@ -8,7 +8,7 @@
 
 #include "binary_file_with_directIO_test.h"
 
-#include <libKitsunemimiCommon/files/binary_file.h>
+#include <libKitsunemimiCommon/files/binary_file_direct.h>
 
 namespace Kitsunemimi
 {
@@ -30,8 +30,6 @@ BinaryFile_withDirectIO_Test::BinaryFile_withDirectIO_Test()
     readSegment_test();
     writeCompleteFile_test();
     readCompleteFile_test();
-    writeDataIntoFile_test();
-    readDataFromFile_test();
     closeTest();
 }
 
@@ -53,7 +51,7 @@ BinaryFile_withDirectIO_Test::closeFile_test()
 {
     // init buffer and file
     DataBuffer buffer;
-    BinaryFile binaryFile(m_filePath, true);
+    BinaryFileDirect binaryFile(m_filePath);
 
     // test close
     TEST_EQUAL(binaryFile.closeFile(), true);
@@ -70,11 +68,11 @@ BinaryFile_withDirectIO_Test::updateFileSize_test()
 {
     // init buffer and file
     DataBuffer buffer(5);
-    BinaryFile binaryFile(m_filePath, true);
+    BinaryFileDirect binaryFile(m_filePath);
     binaryFile.allocateStorage(4, 4096);
     binaryFile.closeFile();
 
-    BinaryFile binaryFileNew(m_filePath);
+    BinaryFileDirect binaryFileNew(m_filePath);
     TEST_EQUAL(binaryFileNew.updateFileSize(), true);
     TEST_EQUAL(binaryFileNew.m_totalFileSize, 4*4096);
 
@@ -89,7 +87,7 @@ BinaryFile_withDirectIO_Test::allocateStorage_test()
 {
     // init buffer and file
     DataBuffer buffer;
-    BinaryFile binaryFile(m_filePath, true);
+    BinaryFileDirect binaryFile(m_filePath);
 
     // test allocation
     TEST_EQUAL(binaryFile.allocateStorage(4, 4096), true);
@@ -115,7 +113,7 @@ BinaryFile_withDirectIO_Test::writeSegment_test()
 {
     // init buffer and file
     DataBuffer buffer(5);
-    BinaryFile binaryFile(m_filePath, true);
+    BinaryFileDirect binaryFile(m_filePath);
     binaryFile.allocateStorage(4, 4096);
 
     // prepare test-buffer
@@ -149,7 +147,7 @@ BinaryFile_withDirectIO_Test::readSegment_test()
 {
     // init buffer and file
     DataBuffer buffer(5);
-    BinaryFile binaryFile(m_filePath, true);
+    BinaryFileDirect binaryFile(m_filePath);
     binaryFile.allocateStorage(4, 4096);
 
     // prepare test-buffer
@@ -208,7 +206,7 @@ BinaryFile_withDirectIO_Test::writeCompleteFile_test()
 {
     // init buffer and file
     DataBuffer buffer(5);
-    BinaryFile binaryFile(m_filePath, true);
+    BinaryFileDirect binaryFile(m_filePath);
 
     // prepare test-buffer
     TestStruct testStruct;
@@ -237,7 +235,7 @@ BinaryFile_withDirectIO_Test::readCompleteFile_test()
     // init buffer and file
     DataBuffer sourceBuffer(5);
     DataBuffer targetBuffer(5);
-    BinaryFile binaryFile(m_filePath, false);
+    BinaryFileDirect binaryFile(m_filePath);
 
     // prepare test-buffer
     TestStruct testStruct;
@@ -261,52 +259,6 @@ BinaryFile_withDirectIO_Test::readCompleteFile_test()
 
     // cleanup
     TEST_EQUAL(binaryFile.closeFile(), true);
-    deleteFile();
-}
-
-/**
- * @brief writeDataIntoFile_test
- */
-void
-BinaryFile_withDirectIO_Test::writeDataIntoFile_test()
-{
-    // init buffer and file
-    DataBuffer sourceBuffer(5);
-    BinaryFile binaryFile(m_filePath, true);
-    binaryFile.allocateStorage(4, 4096);
-
-    // prepare test-buffer
-    TestStruct testStruct;
-    testStruct.a = 42;
-    testStruct.c = 1337;
-    addObject_DataBuffer(sourceBuffer, &testStruct);
-    sourceBuffer.usedBufferSize = 2000;
-    addObject_DataBuffer(sourceBuffer, &testStruct);
-
-    // for direct-io-files, this write-method is not allowed
-    TEST_EQUAL(binaryFile.writeDataIntoFile(sourceBuffer.data, 0, 4000), false);
-
-    // cleanup
-    binaryFile.closeFile();
-    deleteFile();
-}
-
-/**
- * @brief readDataFromFile_test
- */
-void
-BinaryFile_withDirectIO_Test::readDataFromFile_test()
-{
-    // init buffer and file
-    DataBuffer targetBuffer(5);
-    BinaryFile binaryFile(m_filePath, true);
-    binaryFile.allocateStorage(4, 4096);
-
-    // for direct-io-files, this write-method is not allowed
-    TEST_EQUAL(binaryFile.readDataFromFile(targetBuffer.data, 0, 4000), false);
-
-    // cleanup
-    binaryFile.closeFile();
     deleteFile();
 }
 

@@ -1,5 +1,5 @@
 ﻿/**
- *  @file    binary_file.h
+ *  @file    binary_file_direct.h
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
@@ -8,8 +8,8 @@
  *  @brief class for binary-file-handling
  */
 
-#ifndef BINARY_FILE_H
-#define BINARY_FILE_H
+#ifndef BINARY_FILE_DIRECT_H
+#define BINARY_FILE_DIRECT_H
 
 #include <deque>
 #include <sstream>
@@ -26,11 +26,11 @@
 namespace Kitsunemimi
 {
 
-class BinaryFile
+class BinaryFileDirect
 {
 public:
-    BinaryFile(const std::string &filePath);
-    ~BinaryFile();
+    BinaryFileDirect(const std::string &filePath);
+    ~BinaryFileDirect();
 
     bool allocateStorage(const uint64_t numberOfBlocks,
                          const uint32_t blockSize);
@@ -39,12 +39,14 @@ public:
     bool readCompleteFile(DataBuffer &buffer);
     bool writeCompleteFile(DataBuffer &buffer);
 
-    bool writeDataIntoFile(const void* data,
-                           const uint64_t startBytePosition,
-                           const uint64_t numberOfBytes);
-    bool readDataFromFile(void *data,
-                          const uint64_t startBytePosition,
-                          const uint64_t numberOfBytes);
+    bool readSegment(DataBuffer &buffer,
+                     const uint64_t startBlockInFile,
+                     const uint64_t numberOfBlocks,
+                     const uint64_t startBlockInBuffer = 0);
+    bool writeSegment(DataBuffer &buffer,
+                      const uint64_t startBlockInFile,
+                      const uint64_t numberOfBlocks,
+                      const uint64_t startBlockInBuffer = 0);
 
     bool closeFile();
 
@@ -62,4 +64,4 @@ private:
 
 } // namespace Kitsunemimi
 
-#endif // BINARY_FILE_H
+#endif // BINARY_FILE_DIRECT_H

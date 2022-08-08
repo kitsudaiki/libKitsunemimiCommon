@@ -9,6 +9,7 @@ INCLUDEPATH += $$PWD \
             ../include
 
 SOURCES += \
+    files/binary_file_direct.cpp \
     methods/file_methods.cpp \
     files/binary_file.cpp \
     files/text_file.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
     threading/event_queue.cpp
 
 HEADERS += \
+    ../include/libKitsunemimiCommon/files/binary_file_direct.h \
     ../include/libKitsunemimiCommon/methods/file_methods.h \
     ../include/libKitsunemimiCommon/files/binary_file.h \
     ../include/libKitsunemimiCommon/files/text_file.h \
