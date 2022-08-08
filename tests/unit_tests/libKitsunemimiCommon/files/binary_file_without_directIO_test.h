@@ -26,8 +26,6 @@ private:
     void closeFile_test();
     void updateFileSize_test();
     void allocateStorage_test();
-    void writeSegment_test();
-    void readSegment_test();
     void writeCompleteFile_test();
     void readCompleteFile_test();
     void writeDataIntoFile_test();

@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <assert.h>
 
+#include <libKitsunemimiCommon/logger.h>
 #include <libKitsunemimiCommon/buffer/data_buffer.h>
 
 namespace Kitsunemimi
@@ -29,33 +30,25 @@ namespace Kitsunemimi
 class BinaryFile
 {
 public:
-    BinaryFile(const std::string &filePath,
-               const bool directIO = false);
+    BinaryFile(const std::string &filePath);
     ~BinaryFile();
 
-    bool allocateStorage(const uint64_t numberOfBlocks,
-                         const uint32_t blockSize);
-    bool updateFileSize();
+    bool allocateStorage(const uint64_t numberOfBytes, ErrorContainer &error);
+    bool updateFileSize(ErrorContainer &error);
 
-    bool readCompleteFile(DataBuffer &buffer);
-    bool writeCompleteFile(DataBuffer &buffer);
+    bool readCompleteFile(DataBuffer &buffer, ErrorContainer &error);
+    bool writeCompleteFile(DataBuffer &buffer, ErrorContainer &error);
 
-    bool readSegment(DataBuffer &buffer,
-                     const uint64_t startBlockInFile,
-                     const uint64_t numberOfBlocks,
-                     const uint64_t startBlockInBuffer = 0);
-    bool writeSegment(DataBuffer &buffer,
-                      const uint64_t startBlockInFile,
-                      const uint64_t numberOfBlocks,
-                      const uint64_t startBlockInBuffer = 0);
     bool writeDataIntoFile(const void* data,
                            const uint64_t startBytePosition,
-                           const uint64_t numberOfBytes);
+                           const uint64_t numberOfBytes,
+                           ErrorContainer &error);
     bool readDataFromFile(void *data,
                           const uint64_t startBytePosition,
-                          const uint64_t numberOfBytes);
+                          const uint64_t numberOfBytes,
+                          ErrorContainer &error);
 
-    bool closeFile();
+    bool closeFile(ErrorContainer &error);
 
     // public variables to avoid stupid getter
     uint64_t m_totalFileSize = 0;
@@ -63,11 +56,8 @@ public:
 
 private:
     int m_fileDescriptor = -1;
-    bool m_directIO = true;
-    uint16_t m_blockSize = 512;
 
-    bool initFile();
-    bool allocateStorage(const uint64_t numberOfBytes);
+    bool initFile(ErrorContainer &error);
 };
 
 } // namespace Kitsunemimi

@@ -1,5 +1,5 @@
 /**
- *  @file    binary_file.cpp
+ *  @file    binary_file_direct.cpp
  *
  *  @author  Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
@@ -8,7 +8,7 @@
  *  @brief class for binary-file-handling
  */
 
-#include <libKitsunemimiCommon/files/binary_file.h>
+#include <libKitsunemimiCommon/files/binary_file_direct.h>
 
 using Kitsunemimi::DataBuffer;
 
@@ -20,7 +20,7 @@ namespace Kitsunemimi
  *
  * @param filePath file-path of the binary-file
  */
-BinaryFile::BinaryFile(const std::string &filePath)
+BinaryFileDirect::BinaryFileDirect(const std::string &filePath)
 {
     m_filePath = filePath;
 
@@ -33,7 +33,7 @@ BinaryFile::BinaryFile(const std::string &filePath)
 /**
  * @brief destructor
  */
-BinaryFile::~BinaryFile()
+BinaryFileDirect::~BinaryFileDirect()
 {
     ErrorContainer error;
     if(closeFile(error) == false) {
@@ -49,11 +49,12 @@ BinaryFile::~BinaryFile()
  * @return true is successful, else false
  */
 bool
-BinaryFile::initFile(Kitsunemimi::ErrorContainer &error)
+BinaryFileDirect::initFile(ErrorContainer &error)
 {
     m_fileDescriptor = open(m_filePath.c_str(),
-                            O_CREAT | O_RDWR | O_LARGEFILE,
+                            O_CREAT | O_DIRECT | O_RDWR | O_LARGEFILE,
                             0666);
+    m_blockSize = 512;
 
     // check if file is open
     if(m_fileDescriptor == -1)
@@ -68,18 +69,42 @@ BinaryFile::initFile(Kitsunemimi::ErrorContainer &error)
 /**
  * @brief allocate new storage at the end of the file
  *
- * @param numberOfBytes number of bytes to allocate additionally to allready allocated
  * @param error reference for error-output
  *
  * @return true is successful, else false
  */
 bool
-BinaryFile::allocateStorage(const uint64_t numberOfBytes, ErrorContainer &error)
+BinaryFileDirect::allocateStorage(const uint64_t numberOfBlocks,
+                                  const uint32_t blockSize,
+                                  ErrorContainer &error)
 {
-    if(numberOfBytes == 0) {
+    if(numberOfBlocks == 0) {
         return true;
     }
 
+    // precheck
+    if(blockSize % m_blockSize != 0
+            || m_fileDescriptor < 0)
+    {
+        error.addMeesage("Failed to read segment of binary file for path '"
+                         + m_filePath
+                         + "', because the precheck failed. Either the buffer is incompatible "
+                           "or the file is not open.");
+        return false;
+    }
+
+    return allocateStorage(numberOfBlocks * blockSize, error);
+}
+
+/**
+ * @brief allocate new storage at the end of the file
+ *
+ * @return true is successful, else false
+ */
+bool
+BinaryFileDirect::allocateStorage(const uint64_t numberOfBytes,
+                                  ErrorContainer &error)
+{
     // set first to the start of the file and allocate the new size at the end of the file
     lseek(m_fileDescriptor, 0, SEEK_SET);
     const long ret = posix_fallocate(m_fileDescriptor,
@@ -108,7 +133,7 @@ BinaryFile::allocateStorage(const uint64_t numberOfBytes, ErrorContainer &error)
  * @return false, if file not open, else true
  */
 bool
-BinaryFile::updateFileSize(ErrorContainer &error)
+BinaryFileDirect::updateFileSize(ErrorContainer &error)
 {
     if(m_fileDescriptor == -1)
     {
@@ -138,7 +163,8 @@ BinaryFile::updateFileSize(ErrorContainer &error)
  * @return true, if successful, else false
  */
 bool
-BinaryFile::readCompleteFile(DataBuffer &buffer, ErrorContainer &error)
+BinaryFileDirect::readCompleteFile(DataBuffer &buffer,
+                                   ErrorContainer &error)
 {
     // go to the end of the file to get the size of the file
     const long size = lseek(m_fileDescriptor, 0, SEEK_END);
@@ -147,6 +173,16 @@ BinaryFile::readCompleteFile(DataBuffer &buffer, ErrorContainer &error)
         error.addMeesage("Failed to find the end of the binary file for path '"
                          + m_filePath
                          + "'.");
+        return false;
+    }
+
+    // check if size of the file is not compatible with direct-io
+    if(buffer.blockSize % 512 != 0)
+    {
+        error.addMeesage("Failed to read the binary file for path '"
+                         + m_filePath
+                         + "', because the buffer has a incompatible blocksize, "
+                           "which is not a multiple of 512.");
         return false;
     }
 
@@ -184,12 +220,28 @@ BinaryFile::readCompleteFile(DataBuffer &buffer, ErrorContainer &error)
  * @return true, if successful, else false
  */
 bool
-BinaryFile::writeCompleteFile(DataBuffer &buffer, ErrorContainer &error)
+BinaryFileDirect::writeCompleteFile(DataBuffer &buffer,
+                                    ErrorContainer &error)
 {
+    // check if size of the buffer is not compatible with direct-io
+    if(buffer.blockSize % 512 != 0)
+    {
+        error.addMeesage("Failed to write to binary file for path '"
+                         + m_filePath
+                         + "', because the buffer has a incompatible blocksize, "
+                           "which is not a multiple of 512.");
+        return false;
+    }
+
     // resize file to the size of the buffer
     int64_t sizeDiff = buffer.usedBufferSize - m_totalFileSize;
     if(sizeDiff > 0)
     {
+        // round diff up to full block-size
+        if(sizeDiff % m_blockSize != 0) {
+            sizeDiff += m_blockSize - (sizeDiff % m_blockSize);
+        }
+
         // allocate additional memory
         if(allocateStorage(sizeDiff, error) == false)
         {
@@ -216,30 +268,107 @@ BinaryFile::writeCompleteFile(DataBuffer &buffer, ErrorContainer &error)
 }
 
 /**
- * @brief write data to a spicific position of the file, but only for for files
+ * @brief read a segment of the file to a data-buffer
  *
- * @param data pointer to the buffer where the data coming from
- * @param startBytePosition position in file where to start to write
- * @param numberOfBytes number of bytes to write to file
+ * @param buffer data-buffer-reference where the data should be written to
+ * @param startBlockInFile block-number within the file where to start to read
+ * @param numberOfBlocks number of blocks to read from file
+ * @param startBlockInBuffer block-number within the buffer where the data should written to
  * @param error reference for error-output
  *
  * @return true, if successful, else false
  */
 bool
-BinaryFile::writeDataIntoFile(const void* data,
-                              const uint64_t startBytePosition,
-                              const uint64_t numberOfBytes,
+BinaryFileDirect::readSegment(DataBuffer &buffer,
+                              const uint64_t startBlockInFile,
+                              const uint64_t numberOfBlocks,
+                              const uint64_t startBlockInBuffer,
                               ErrorContainer &error)
 {
-    if(numberOfBytes == 0) {
+    if(numberOfBlocks == 0) {
         return true;
     }
 
+    // prepare blocksize for mode
+    const uint16_t blockSize = buffer.blockSize;
+    const uint64_t numberOfBytes = numberOfBlocks * blockSize;
+    const uint64_t startBytesInFile = startBlockInFile * blockSize;
+    const uint64_t startBytesInBuffer = startBlockInBuffer * blockSize;
+
     // precheck
-    if(startBytePosition + numberOfBytes > m_totalFileSize
+    if(startBytesInFile + numberOfBytes > m_totalFileSize
+            || startBytesInBuffer + numberOfBytes > buffer.numberOfBlocks * buffer.blockSize
             || m_fileDescriptor < 0)
     {
-        error.addMeesage("Failed to write data to binary file for path '"
+        error.addMeesage("Failed to read segment of binary file for path '"
+                         + m_filePath
+                         + "', because the precheck failed. Either the buffer is incompatible "
+                           "or the file is not open.");
+        return false;
+    }
+
+    // go to the requested position and read the block
+    const long retSeek = lseek(m_fileDescriptor,
+                               static_cast<long>(startBytesInFile),
+                               SEEK_SET);
+    if(retSeek < 0)
+    {
+        error.addMeesage("Failed to go to the requested read position in binary file for path '"
+                         + m_filePath
+                         + "'");
+        return false;
+    }
+
+    const ssize_t ret = read(m_fileDescriptor,
+                             static_cast<uint8_t*>(buffer.data) + (startBytesInBuffer),
+                             numberOfBytes);
+
+    if(ret == -1)
+    {
+        // TODO: process errno
+        error.addMeesage("Failed to read segment of binary file for path '"
+                         + m_filePath
+                         + "'");
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * @brief write a segment to the file
+ *
+ * @param buffer data-buffer-reference where the data coming from
+ * @param startBlockInFile block-number within the file where to start to write
+ * @param numberOfBlocks number of blocks to write to file
+ * @param startBlockInBuffer block-number within the buffer where the data should read from
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
+ */
+bool
+BinaryFileDirect::writeSegment(DataBuffer &buffer,
+                               const uint64_t startBlockInFile,
+                               const uint64_t numberOfBlocks,
+                               const uint64_t startBlockInBuffer,
+                               ErrorContainer &error)
+{
+    if(numberOfBlocks == 0) {
+        return true;
+    }
+
+    // prepare blocksize for mode
+    const uint16_t blockSize = buffer.blockSize;
+    const uint64_t numberOfBytes = numberOfBlocks * blockSize;
+    const uint64_t startBytesInFile = startBlockInFile * blockSize;
+    const uint64_t startBytesInBuffer = startBlockInBuffer * blockSize;
+
+    // precheck
+    if(startBytesInFile + numberOfBytes > m_totalFileSize
+            || startBytesInBuffer + numberOfBytes > buffer.numberOfBlocks * buffer.blockSize
+            || m_fileDescriptor < 0)
+    {
+        error.addMeesage("Failed to write segment to binary file for path '"
                          + m_filePath
                          + "', because the precheck failed. Either the buffer is incompatible "
                            "or the file is not open.");
@@ -248,7 +377,7 @@ BinaryFile::writeDataIntoFile(const void* data,
 
     // go to the requested position and write the block
     const long retSeek = lseek(m_fileDescriptor,
-                               static_cast<long>(startBytePosition),
+                               static_cast<long>(startBytesInFile),
                                SEEK_SET);
     if(retSeek < 0)
     {
@@ -259,11 +388,14 @@ BinaryFile::writeDataIntoFile(const void* data,
     }
 
     // write data to file
-    const ssize_t ret = write(m_fileDescriptor, static_cast<const uint8_t*>(data), numberOfBytes);
+    const ssize_t ret = write(m_fileDescriptor,
+                              static_cast<uint8_t*>(buffer.data) + startBytesInBuffer,
+                              numberOfBytes);
+
     if(ret == -1)
     {
         // TODO: process errno
-        error.addMeesage("Failed to write data to binary file for path '"
+        error.addMeesage("Failed to write segment to binary file for path '"
                          + m_filePath
                          + "'");
         return false;
@@ -276,62 +408,6 @@ BinaryFile::writeDataIntoFile(const void* data,
 }
 
 /**
- * @brief read data from a spicific position of the file, but only for for files
- *
- * @param data pointer to the buffer where the data of the file should written into
- * @param startBytePosition position in file where to start to read
- * @param numberOfBytes number of bytes to read from file
- * @param error reference for error-output
- *
- * @return true, if successful, else false
- */
-bool
-BinaryFile::readDataFromFile(void* data,
-                             const uint64_t startBytePosition,
-                             const uint64_t numberOfBytes,
-                             ErrorContainer &error)
-{
-    if(numberOfBytes == 0) {
-        return true;
-    }
-
-    // precheck
-    if(startBytePosition + numberOfBytes > m_totalFileSize
-            || m_fileDescriptor < 0)
-    {
-        error.addMeesage("Failed to read data of binary file for path '"
-                         + m_filePath
-                         + "', because the precheck failed. Either the buffer is incompatible "
-                           "or the file is not open.");
-        return false;
-    }
-
-    // go to the requested position and read the block
-    const long retSeek = lseek(m_fileDescriptor,
-                               static_cast<long>(startBytePosition),
-                               SEEK_SET);
-    if(retSeek < 0)
-    {
-        error.addMeesage("Failed to go to the requested read position in binary file for path '"
-                         + m_filePath
-                         + "'");
-        return false;
-    }
-
-    const ssize_t ret = read(m_fileDescriptor, static_cast<uint8_t*>(data), numberOfBytes);
-    if(ret == -1)
-    {
-        // TODO: process errno
-        error.addMeesage("Failed to read data of binary file for path '"
-                         + m_filePath
-                         + "'");
-        return false;
-    }
-
-    return true;
-}
-
-/**
  * @brief close the cluser-file
  *
  * @param error reference for error-output
@@ -339,7 +415,7 @@ BinaryFile::readDataFromFile(void* data,
  * @return true, if file-descriptor is valid, else false
  */
 bool
-BinaryFile::closeFile(ErrorContainer &error)
+BinaryFileDirect::closeFile(ErrorContainer &error)
 {
     // precheck
     if(m_fileDescriptor == -1) {
