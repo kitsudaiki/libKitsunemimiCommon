@@ -9,7 +9,7 @@
  */
 
 #include <libKitsunemimiCommon/process_execution.h>
-#include <libKitsunemimiCommon/common_methods/string_methods.h>
+#include <libKitsunemimiCommon/methods/string_methods.h>
 
 namespace Kitsunemimi
 {

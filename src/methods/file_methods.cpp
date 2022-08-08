@@ -6,7 +6,7 @@
  *  @copyright  MIT License
  */
 
-#include <libKitsunemimiCommon/common_methods/file_methods.h>
+#include <libKitsunemimiCommon/methods/file_methods.h>
 
 namespace Kitsunemimi
 {

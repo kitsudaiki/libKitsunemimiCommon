@@ -8,7 +8,7 @@
 
 #include "vector_methods_test.h"
 
-#include <libKitsunemimiCommon/common_methods/vector_methods.h>
+#include <libKitsunemimiCommon/methods/vector_methods.h>
 
 namespace Kitsunemimi
 {

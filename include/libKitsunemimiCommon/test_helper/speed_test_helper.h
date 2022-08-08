@@ -19,7 +19,7 @@
 #include <iomanip>
 #include <math.h>
 
-#include <libKitsunemimiCommon/common_items/table_item.h>
+#include <libKitsunemimiCommon/items/table_item.h>
 
 namespace Kitsunemimi
 {

@@ -14,9 +14,9 @@
 #include <libKitsunemimiCommon/buffer/stack_buffer_reserve_test.h>
 #include <libKitsunemimiCommon/buffer/stack_buffer_test.h>
 
-#include <libKitsunemimiCommon/common_methods/string_methods_test.h>
-#include <libKitsunemimiCommon/common_methods/vector_methods_test.h>
-#include <libKitsunemimiCommon/common_methods/file_methods_test.h>
+#include <libKitsunemimiCommon/methods/string_methods_test.h>
+#include <libKitsunemimiCommon/methods/vector_methods_test.h>
+#include <libKitsunemimiCommon/methods/file_methods_test.h>
 
 #include <libKitsunemimiCommon/state_test.h>
 #include <libKitsunemimiCommon/statemachine_test.h>
@@ -25,10 +25,10 @@
 
 #include <libKitsunemimiCommon/threading/thread_handler_test.h>
 
-#include <libKitsunemimiCommon/common_items/data_items_DataArray_test.h>
-#include <libKitsunemimiCommon/common_items/data_items_DataMap_test.h>
-#include <libKitsunemimiCommon/common_items/data_items_DataValue_test.h>
-#include <libKitsunemimiCommon/common_items/table_item_test.h>
+#include <libKitsunemimiCommon/items/data_items_DataArray_test.h>
+#include <libKitsunemimiCommon/items/data_items_DataMap_test.h>
+#include <libKitsunemimiCommon/items/data_items_DataValue_test.h>
+#include <libKitsunemimiCommon/items/table_item_test.h>
 
 #include <libKitsunemimiCommon/files/text_file_test.h>
 #include <libKitsunemimiCommon/files/binary_file_with_directIO_test.h>
