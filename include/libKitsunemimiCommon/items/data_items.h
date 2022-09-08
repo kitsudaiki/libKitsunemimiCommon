@@ -52,9 +52,9 @@ public:
     };
 
     // getter
-    virtual DataItem* operator[](const std::string key) const = 0;
+    virtual DataItem* operator[](const std::string &key) const = 0;
     virtual DataItem* operator[](const uint64_t index) const = 0;
-    virtual DataItem* get(const std::string key) const = 0;
+    virtual DataItem* get(const std::string &key) const = 0;
     virtual DataItem* get(const uint64_t index) const = 0;
     virtual uint64_t size() const = 0;
 
@@ -131,9 +131,9 @@ public:
     void setValue(const bool &value);
 
     // getter
-    DataItem* operator[](const std::string) const;
+    DataItem* operator[](const std::string &) const;
     DataItem* operator[](const uint64_t) const;
-    DataItem* get(const std::string) const;
+    DataItem* get(const std::string &) const;
     DataItem* get(const uint64_t) const;
     uint64_t size() const;
 
@@ -181,9 +181,9 @@ public:
                 bool force = false);
 
     // getter
-    DataItem* operator[](const std::string key) const;
+    DataItem* operator[](const std::string &key) const;
     DataItem* operator[](const uint64_t index) const;
-    DataItem* get(const std::string key) const;
+    DataItem* get(const std::string &key) const;
     DataItem* get(const uint64_t index) const;
     uint64_t size() const;
 
@@ -233,9 +233,9 @@ public:
     void append(DataItem* item);
 
     // getter
-    DataItem* operator[](const std::string key) const;
+    DataItem* operator[](const std::string &key) const;
     DataItem* operator[](const uint64_t index) const;
-    DataItem* get(const std::string) const;
+    DataItem* get(const std::string &) const;
     DataItem* get(const uint64_t index) const;
     uint64_t size() const;
 
