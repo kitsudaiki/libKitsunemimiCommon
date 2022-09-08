@@ -470,7 +470,7 @@ DataValue::getValueType()
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::operator[](const std::string) const
+DataValue::operator[](const std::string &) const
 {
     return nullptr;
 }
@@ -488,7 +488,7 @@ DataValue::operator[](const uint64_t) const
  * @brief fake-method which exist here only for the inheritance and returns everytime nullptr
  */
 DataItem*
-DataValue::get(const std::string) const
+DataValue::get(const std::string &) const
 {
     return nullptr;
 }
@@ -841,7 +841,7 @@ DataMap
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataMap::operator[](const std::string key) const
+DataMap::operator[](const std::string &key) const
 {
     return get(key);
 }
@@ -863,7 +863,7 @@ DataMap::operator[](const uint64_t index) const
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataMap::get(const std::string key) const
+DataMap::get(const std::string &key) const
 {
     std::map<std::string, DataItem*>::const_iterator it;
     it = map.find(key);
@@ -1348,7 +1348,7 @@ DataArray
  * @return nullptr if index in key is to high, else true
  */
 DataItem*
-DataArray::operator[](const std::string key) const
+DataArray::operator[](const std::string &key) const
 {
     return get(key);
 }
@@ -1370,7 +1370,7 @@ DataArray::operator[](const uint64_t index) const
  * @return nullptr if index in key is to high, else object
  */
 DataItem*
-DataArray::get(const std::string) const
+DataArray::get(const std::string &) const
 {
     return nullptr;
 }
