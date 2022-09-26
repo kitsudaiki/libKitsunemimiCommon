@@ -678,7 +678,7 @@ TableItem::convertBodyForOutput(TableBodyAll &convertedBody,
             // get cell content or use empty string, if cell not exist
             DataItem* value = m_body->get(y)->get(x);
             if(value != nullptr) {
-                cellContent = value->toValue()->toString();
+                cellContent = value->toString();
             }
 
             // split cell content
