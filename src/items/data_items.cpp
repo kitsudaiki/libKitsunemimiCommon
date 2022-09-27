@@ -634,7 +634,7 @@ void
 DataValue::setValue(const char* value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete content.stringValue;
+        delete[] content.stringValue;
     }
 
     m_type = VALUE_TYPE;
@@ -662,7 +662,7 @@ void
 DataValue::setValue(const std::string &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete content.stringValue;
+        delete[] content.stringValue;
     }
 
     m_type = VALUE_TYPE;
@@ -680,7 +680,7 @@ void
 DataValue::setValue(const int &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete content.stringValue;
+        delete[] content.stringValue;
     }
 
     m_type = VALUE_TYPE;
@@ -728,7 +728,7 @@ void
 DataValue::setValue(const double &value)
 {
     if(m_valueType == STRING_TYPE) {
-        delete content.stringValue;
+        delete[] content.stringValue;
     }
 
     m_type = VALUE_TYPE;

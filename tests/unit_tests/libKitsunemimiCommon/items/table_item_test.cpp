@@ -101,6 +101,8 @@ TableItem_test::stealContent_test()
 
     TEST_EQUAL(testItem.getNumberOfRows(), 0);
     TEST_EQUAL(testItem.getNumberOfColums(), 0);
+
+    delete data;
 }
 
 /**
@@ -207,8 +209,7 @@ TableItem_test::getRow_Test()
 
     result = testItem.getRow(42, false);
     const bool isNullptr = result == nullptr;
-    TEST_EQUAL(isNullptr, false);
-    TEST_EQUAL(result->size(), 0);
+    TEST_EQUAL(isNullptr, true);
 
     result = testItem.getRow(1, false);
     const std::string compare = "[\"asdf\",\"qwert\"]";
@@ -333,6 +334,8 @@ TableItem_test::getInnerHeader_test()
     TEST_EQUAL(innerHader->size(), 2);
     TEST_EQUAL(innerHader->get(0)->toValue()->getString(), "asdf");
     TEST_EQUAL(innerHader->get(1)->toValue()->getString(), "poipoipoi");
+
+    delete innerHader;
 }
 
 /**
@@ -425,7 +428,6 @@ TableItem_test::getTestTableItem()
 
     testItem.addRow(std::vector<std::string>{"this is a test", "k"});
     testItem.addRow(std::vector<std::string>{"asdf", "qwert"});
-
     return testItem;
 }
 

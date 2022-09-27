@@ -171,6 +171,7 @@ DataItems_DataValue_Test::copy_test()
     TEST_EQUAL(boolValue.content.boolValue, boolValueCopy->content.boolValue);
 
     // cleanup
+    delete boolValueCopy;
     delete defaultValueCopy;
     delete stringValueCopy;
     delete intValueCopy;
