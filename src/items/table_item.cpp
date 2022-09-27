@@ -250,16 +250,9 @@ TableItem::addRow(const std::vector<std::string> rowContent)
         return false;
     }
 
-    DataArray* obj = new DataArray();
-
-    // check and cut size
-    uint64_t size = rowContent.size();
-    if(m_header->size() < size) {
-        size = m_header->size();
-    }
-
     // add new row content to the table
-    for(uint64_t x = 0; x < size; x++) {
+    DataArray* obj = new DataArray();
+    for(uint64_t x = 0; x < rowContent.size(); x++) {
         obj->append(new DataValue(rowContent.at(x)));
     }
 
@@ -371,7 +364,9 @@ TableItem::deleteCell(const uint32_t column,
     }
 
     // remove value if possible
+    delete m_body->get(row)->toArray()->array[column];
     m_body->get(row)->toArray()->array[column] = nullptr;
+
     return true;
 }
 
@@ -464,8 +459,9 @@ TableItem::stealContent()
 DataArray*
 TableItem::getRow(const uint32_t row, const bool copy) const
 {
+    // check if out of range
     if(row >= m_body->size()) {
-        return new DataArray();
+        return nullptr;
     }
 
     if(copy) {
