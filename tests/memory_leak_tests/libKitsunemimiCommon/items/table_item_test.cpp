@@ -76,6 +76,7 @@ TableItem_test::add_delete_row_test()
     REINIT_TEST();
 
     testItem.addRow(std::vector<std::string>{"this is a test", "k"});
+    testItem.deleteCell(0, 0);
     testItem.deleteRow(0);
 
     CHECK_MEMORY();
