@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.27.1] - 2022-10-04
+
+### Fixed
+- fixed missing references in data-items, which had produced unnecessary copy-calls
+- fixed value-type limitation in table-items, so now a table-cell can also contain an entire map or array
+- fixed memory-leak, when deleting a single cell from a table-item
+
+
 ## [0.27.0] - 2022-08-08
 
 ### Added
