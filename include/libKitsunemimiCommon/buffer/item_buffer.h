@@ -67,7 +67,7 @@ public:
 
         // init buffer with default-itemes
         T* items = static_cast<T*>(itemData);
-        T newItem;
+        T newItem = T();
         std::fill_n(items, numberOfItems, newItem);
         metaData->numberOfItems = numberOfItems;
 
